@@ -2,9 +2,10 @@
   "name": "aolarhapsody-monorepo",
   "private": true,
   "scripts": {
-    "dev": "pnpm --filter frontend dev",
-    "build": "pnpm --filter frontend build",
-    "start:backend": "pnpm --filter backend start",
+    "dev:front": "pnpm --filter frontend dev",
+    "dev:backend": "pnpm --filter backend dev",
+    "build:front": "pnpm --filter frontend build",
+    "build:backend": "pnpm --filter backend build",
     "prepare": "husky install"
   },
   "devDependencies": {
