@@ -9,6 +9,19 @@ export interface Pet {
   rawData: (string | number)[];
 }
 
+export interface Weather {
+  id: string;
+  name: string;
+  type: number;
+  serverDescription: string;
+  description: string;
+  legendSoul?: {
+    baseDescription: string;
+    serials: string[];
+    maxLevel: number;
+  };
+}
+
 // =================================
 // 核心逻辑
 // =================================
@@ -18,11 +31,12 @@ export interface Pet {
  */
 let fullPetDataCache: Pet[] = [];
 let expMapCache: Record<string, number[]> = {};
+let weatherMapCache: Record<string, Weather> = {};
 
 /**
  * 解析并缓存所有亚比数据
  */
-export function parseAndCacheFullPetData(rawData: { pmDataMap: unknown, pmExpMap: Record<string, (string | number)[]> }): boolean {
+export function parseAndCacheFullPetData(rawData: { pmDataMap: unknown, pmExpMap: Record<string, (string | number)[]>, pmWeatherMap: Record<string, (string | number)[]> }): boolean {
   if (!rawData) {
     console.error('亚比数据为空，无法解析完整数据');
     return false;
@@ -59,6 +73,34 @@ export function parseAndCacheFullPetData(rawData: { pmDataMap: unknown, pmExpMap
       console.warn('未找到或格式不正确的经验表 (pmExpMap)');
     }
 
+    // 解析场地效果
+    if (rawData.pmWeatherMap && typeof rawData.pmWeatherMap === 'object') {
+      weatherMapCache = Object.entries(rawData.pmWeatherMap).reduce((acc, [key, value]) => {
+        if (Array.isArray(value) && value.length >= 5) {
+          const weatherData: Weather = {
+            id: String(value[0]),
+            name: String(value[1]),
+            type: Number(value[2]),
+            serverDescription: String(value[3]),
+            description: String(value[4]),
+          };
+
+          // 处理传奇魂相关逻辑
+          if (value.length >= 8 && value[6] && value[7]) {
+            const serials = String(value[7]).split(',');
+            weatherData.legendSoul = {
+              baseDescription: String(value[6]),
+              serials: serials,
+              maxLevel: serials.length - 1,
+            };
+          }
+          acc[key] = weatherData;
+        }
+        return acc;
+      }, {} as Record<string, Weather>);
+      console.log(`成功解析并缓存了 ${Object.keys(weatherMapCache).length} 个场地效果`);
+    }
+
     return true;
   } catch (error) {
     console.error('解析亚比数据时出错:', error);
@@ -67,7 +109,7 @@ export function parseAndCacheFullPetData(rawData: { pmDataMap: unknown, pmExpMap
 }
 
 /**
- * 获取简化的亚比列表（用于图鉴）
+ * 获取简化的亚比列表
  */
 export function getPetList(): { id: string | number; name: string }[] {
     return fullPetDataCache.map(pet => ({
@@ -130,6 +172,23 @@ export function calculateExp(
   const requiredExp = Math.max(0, targetExp - totalCurrentExp);
   
   return { success: true, requiredExp };
+}
+
+/**
+ * 获取所有场地效果
+ */
+export function getAllWeathers(): { id: string; name: string }[] {
+  return Object.values(weatherMapCache).map(weather => ({
+    id: weather.id,
+    name: weather.name,
+  }));
+}
+
+/**
+ * 根据ID获取场地效果
+ */
+export function getWeatherById(id: string): Weather | null {
+  return weatherMapCache[id] || null;
 }
 
 /**

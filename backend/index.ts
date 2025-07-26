@@ -1,6 +1,6 @@
 import express, { Express, Request, Response } from 'express';
 import { fetchAndProcessAllAttributes, fetchAttributeRelations } from './skill-parser';
-import { initPetDataModule, getPetList, getPetFullDataById, searchPets, calculateExp } from './pet-parser';
+import { initPetDataModule, getPetList, getPetFullDataById, searchPets, calculateExp, getAllWeathers, getWeatherById } from './pet-parser';
 import cors from 'cors';
 
 const app: Express = express();
@@ -134,6 +134,41 @@ app.post('/api/exp/calculate', (req: Request, res: Response) => {
     res.status(400).json({
       success: false,
       error: result.message,
+      timestamp: new Date().toISOString(),
+    });
+  }
+});
+
+// =================================
+// 场地效果API
+// =================================
+
+// 获取所有场地效果
+app.get('/api/weathers', (req: Request, res: Response) => {
+  const weathers = getAllWeathers();
+  res.json({
+    success: true,
+    data: weathers,
+    count: weathers.length,
+    timestamp: new Date().toISOString(),
+  });
+});
+
+// 根据ID获取单个场地效果
+app.get('/api/weather/:id', (req: Request, res: Response) => {
+  const { id } = req.params;
+  const weather = getWeatherById(id);
+
+  if (weather) {
+    res.json({
+      success: true,
+      data: weather,
+      timestamp: new Date().toISOString(),
+    });
+  } else {
+    res.status(404).json({
+      success: false,
+      error: `未找到ID为 ${id} 的场地效果`,
       timestamp: new Date().toISOString(),
     });
   }
