@@ -107,18 +107,19 @@ app.get('/api/pet/:id', (req: Request, res: Response) => {
 // 经验计算API (使用POST)
 // =================================
 app.post('/api/exp/calculate', (req: Request, res: Response) => {
-  const { petId, currentExp, targetLevel } = req.body;
+  const { petId, currentLevel, currentExp, targetLevel } = req.body;
 
-  if (petId === undefined || currentExp === undefined || targetLevel === undefined) {
+  if (petId === undefined || currentLevel === undefined || currentExp === undefined || targetLevel === undefined) {
     return res.status(400).json({
       success: false,
-      error: '请求体中缺少必要的参数: petId, currentExp, targetLevel',
+      error: '请求体中缺少必要的参数: petId, currentLevel, currentExp, targetLevel',
       timestamp: new Date().toISOString(),
     });
   }
 
   const result = calculateExp(
     String(petId),
+    Number(currentLevel),
     Number(currentExp),
     Number(targetLevel)
   );
@@ -137,8 +138,6 @@ app.post('/api/exp/calculate', (req: Request, res: Response) => {
     });
   }
 });
-
-
 
 // =================================
 // 服务器启动

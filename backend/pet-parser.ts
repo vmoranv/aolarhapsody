@@ -111,6 +111,7 @@ export function searchPets(keyword: string): { id: string | number; name: string
  */
 export function calculateExp(
   petId: string,
+  currentLevel: number,
   currentExp: number,
   targetLevel: number
 ): { success: boolean; requiredExp?: number; message?: string } {
@@ -118,8 +119,15 @@ export function calculateExp(
   // 经验成长类型在index:21
   const expType = String(pet!.rawData[21]);
   const expTable = expMapCache[expType] || expMapCache['0'];
+  
+  // 计算当前等级的总经验值
+  const currentLevelTotalExp = expTable[currentLevel - 1];
+  // 计算当前总经验值
+  const totalCurrentExp = currentLevelTotalExp + currentExp;
+  // 目标等级所需经验值
   const targetExp = expTable[targetLevel - 1];
-  const requiredExp = Math.max(0, targetExp - currentExp);
+  // 计算还需要的经验值
+  const requiredExp = Math.max(0, targetExp - totalCurrentExp);
   
   return { success: true, requiredExp };
 }
