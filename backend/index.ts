@@ -1,5 +1,6 @@
 import express, { Express, Request, Response } from 'express';
 import { fetchAndProcessAllAttributes, fetchAttributeRelations } from './skill-parser';
+import { initPetDataModule, getPetList, getPetFullDataById, searchPets, calculateExp } from './pet-parser';
 import cors from 'cors';
 
 const app: Express = express();
@@ -7,11 +8,15 @@ const port = 3000;
 
 // Enable CORS for all routes
 app.use(cors());
+app.use(express.json()); // 添加此行以解析JSON请求体
 
 app.get('/', (req: Request, res: Response) => {
   res.send('Hello World!');
 });
 
+// =================================
+// 技能属性相关API
+// =================================
 app.get('/api/skill-attributes', async (req: Request, res: Response) => {
   const data = await fetchAndProcessAllAttributes();
   res.json(data);
@@ -34,9 +39,9 @@ app.get('/api/attribute-relations/:id', async (req: Request, res: Response) => {
     });
   }
 
-  // 特殊处理ID为1的情况，移除最后的7个描述性元素
+  // 特殊处理ID为1的情况，移除最后的5个描述性元素
   if (id === '1') {
-    relationsData = relationsData.slice(0, -7);
+    relationsData = relationsData.slice(0, -5);
   }
 
   const relationMap: { [key: number]: string } = {};
@@ -51,6 +56,105 @@ app.get('/api/attribute-relations/:id', async (req: Request, res: Response) => {
   });
 });
 
-app.listen(port, () => {
-  console.log(`Backend server listening on port ${port}`);
+// =================================
+// 亚比图鉴相关API
+// =================================
+
+// 获取所有亚比的简要列表
+app.get('/api/pets', (req: Request, res: Response) => {
+  const petList = getPetList();
+  res.json({
+    success: true,
+    data: petList,
+    count: petList.length,
+    timestamp: new Date().toISOString(),
+  });
 });
+
+// 根据关键词搜索亚比
+app.get('/api/pets/search', (req: Request, res: Response) => {
+  const keyword = req.query.keyword as string;
+  const results = searchPets(keyword);
+  res.json({
+    success: true,
+    data: results,
+    count: results.length,
+    timestamp: new Date().toISOString(),
+  });
+});
+
+// 获取单个亚比的详细信息
+app.get('/api/pet/:id', (req: Request, res: Response) => {
+  const { id } = req.params;
+  const petData = getPetFullDataById(id);
+
+  if (petData) {
+    res.json({
+      success: true,
+      data: petData.rawData, // 直接返回原始数组数据
+      timestamp: new Date().toISOString(),
+    });
+  } else {
+    res.status(404).json({
+      success: false,
+      error: `未找到ID为 ${id} 的亚比`,
+      timestamp: new Date().toISOString(),
+    });
+  }
+});
+
+// =================================
+// 经验计算API (使用POST)
+// =================================
+app.post('/api/exp/calculate', (req: Request, res: Response) => {
+  const { petId, currentExp, targetLevel } = req.body;
+
+  if (petId === undefined || currentExp === undefined || targetLevel === undefined) {
+    return res.status(400).json({
+      success: false,
+      error: '请求体中缺少必要的参数: petId, currentExp, targetLevel',
+      timestamp: new Date().toISOString(),
+    });
+  }
+
+  const result = calculateExp(
+    String(petId),
+    Number(currentExp),
+    Number(targetLevel)
+  );
+
+  if (result.success) {
+    res.json({
+      success: true,
+      data: { requiredExp: result.requiredExp },
+      timestamp: new Date().toISOString(),
+    });
+  } else {
+    res.status(400).json({
+      success: false,
+      error: result.message,
+      timestamp: new Date().toISOString(),
+    });
+  }
+});
+
+
+
+// =================================
+// 服务器启动
+// =================================
+async function startServer() {
+  console.log('正在初始化亚比数据模块...');
+  const success = await initPetDataModule();
+  if (success) {
+    console.log('亚比数据模块初始化成功。');
+  } else {
+    console.error('亚比数据模块初始化失败！服务将以无亚比数据的状态启动。');
+  }
+
+  app.listen(port, () => {
+    console.log(`Backend server listening on port ${port}`);
+  });
+}
+
+startServer();

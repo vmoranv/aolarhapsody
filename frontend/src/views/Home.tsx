@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getAttributeIconUrl } from '../utils/attribute-helper';
+import { getPetImageUrls } from '../utils/pet-helper';
 
 // 与后端 ProcessedAttribute 类型匹配
 type Attribute = {
@@ -48,6 +49,13 @@ const Home = () => {
     };
 
     fetchAttributes();
+
+    // --- 调试代码：打印图片URL ---
+    console.log('--- 调试图片URL生成 ---');
+    console.log('亚比ID为 1 的图片URL:', getPetImageUrls(1));
+    console.log('亚比ID为 4399 的图片URL:', getPetImageUrls(4399));
+    console.log('----------------------');
+    // --- 调试代码结束 ---
   }, []);
 
   if (loading) {
