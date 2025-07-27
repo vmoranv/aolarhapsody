@@ -1,6 +1,16 @@
 import express, { Express, Request, Response } from 'express';
-import { fetchAndProcessAllAttributes, fetchAttributeRelations } from './skill-parser';
-import { initPetDataModule, getPetList, getPetFullDataById, searchPets, calculateExp, getAllWeathers, getWeatherById } from './pet-parser';
+import {
+  initPetDataModule,
+  getPetList,
+  getPetFullDataById,
+  searchPets,
+  calculateExp,
+  getAllWeathers,
+  getWeatherById,
+  getSkillById,
+  getAttributeRelations,
+  fetchAndGetAllSkillAttributes
+} from './pet-parser';
 import cors from 'cors';
 
 const app: Express = express();
@@ -18,19 +28,28 @@ app.get('/', (req: Request, res: Response) => {
 // 技能属性相关API
 // =================================
 app.get('/api/skill-attributes', async (req: Request, res: Response) => {
-  const data = await fetchAndProcessAllAttributes();
-  res.json(data);
+  try {
+    const data = await fetchAndGetAllSkillAttributes();
+    res.json({
+      success: true,
+      data: data,
+      count: data.length,
+      timestamp: new Date().toISOString(),
+    });
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    res.status(500).json({
+      success: false,
+      error: errorMessage,
+      timestamp: new Date().toISOString(),
+    });
+  }
 });
 
-app.get('/api/attribute-relations/:id', async (req: Request, res: Response) => {
+app.get('/api/attribute-relations/:id', (req: Request, res: Response) => {
   const { id } = req.params;
-  const relationsResponse = await fetchAttributeRelations();
-
-  if (!relationsResponse.success || !relationsResponse.data) {
-    return res.status(500).json(relationsResponse);
-  }
-
-  let relationsData = relationsResponse.data[id];
+  const relations = getAttributeRelations();
+  let relationsData = relations[id];
   if (!relationsData) {
     return res.status(404).json({
       success: false,
@@ -169,6 +188,30 @@ app.get('/api/weather/:id', (req: Request, res: Response) => {
     res.status(404).json({
       success: false,
       error: `未找到ID为 ${id} 的场地效果`,
+      timestamp: new Date().toISOString(),
+    });
+  }
+});
+
+// =================================
+// 技能API
+// =================================
+
+// 根据ID获取单个技能
+app.get('/api/skill/:id', (req: Request, res: Response) => {
+  const { id } = req.params;
+  const skill = getSkillById(id);
+
+  if (skill) {
+    res.json({
+      success: true,
+      data: skill,
+      timestamp: new Date().toISOString(),
+    });
+  } else {
+    res.status(404).json({
+      success: false,
+      error: `未找到ID为 ${id} 的技能`,
       timestamp: new Date().toISOString(),
     });
   }

@@ -22,6 +22,47 @@ export interface Weather {
   };
 }
 
+export interface Skill {
+  id: number;
+  enName: string;
+  cnName: string;
+  newCnName: string;
+  oldEffectDesc: string;
+  newEffectDesc: string;
+  clientDesc: string;
+  power: number;
+  hitRate: number;
+  allPP: number;
+  PRI: number;
+  attributeType: number;
+  attackType: number;
+  hitTaget: number;
+  critRate: number;
+  damageType: number;
+  execType: string;
+  handler: string;
+  param: string;
+  aoyiType: number;
+  isCompletePMSkill: boolean;
+  skillMovie1: string;
+  skillMovie2: string;
+  singlePower: string;
+  doublePower: string;
+  skillType: number;
+  costSoulNum: number;
+  maxCostSoulNum: number;
+  configSkillSerials: string;
+  legendFiledEffectChange: number;
+  legendFiledEffectDesc: string;
+  isDegeneratorSpiritPassive: boolean;
+  simpleSkillDec: string;
+  beAttackMvType: number;
+  cd: number;
+}
+
+export type SkillAttribute = [number, string];
+export type ProcessedAttribute = { id: number; name: string; isSuper: boolean };
+
 // =================================
 // 核心逻辑
 // =================================
@@ -32,11 +73,21 @@ export interface Weather {
 let fullPetDataCache: Pet[] = [];
 let expMapCache: Record<string, number[]> = {};
 let weatherMapCache: Record<string, Weather> = {};
+const skillMapCache: Record<string, Skill> = {};
+let attributeRelationsCache: Record<string, string[]> = {};
+const skillAttributesCache: ProcessedAttribute[] = [];
 
 /**
  * 解析并缓存所有亚比数据
  */
-export function parseAndCacheFullPetData(rawData: { pmDataMap: unknown, pmExpMap: Record<string, (string | number)[]>, pmWeatherMap: Record<string, (string | number)[]> }): boolean {
+export function parseAndCacheFullPetData(rawData: {
+  pmDataMap: unknown,
+  pmExpMap: Record<string, (string | number)[]>,
+  pmWeatherMap: Record<string, (string | number)[]>,
+  pmSkillMap: Record<string, (string | number)[]>,
+  pmSkillMap1: Record<string, (string | number)[]>,
+  pmAttDefTableMap: Record<string, string[]>
+}): boolean {
   if (!rawData) {
     console.error('亚比数据为空，无法解析完整数据');
     return false;
@@ -45,7 +96,6 @@ export function parseAndCacheFullPetData(rawData: { pmDataMap: unknown, pmExpMap
   try {
     // 解析亚比数据
     const processFullData = (dataMap: unknown): Pet[] => {
-      if (!dataMap || typeof dataMap !== 'object') return [];
       return Object.values(dataMap as Record<string, (string | number)[]>)
         .filter(pet => Array.isArray(pet) && pet.length >= 1 && pet[0])
         .map((pet: (string | number)[]): Pet => ({
@@ -101,6 +151,71 @@ export function parseAndCacheFullPetData(rawData: { pmDataMap: unknown, pmExpMap
       console.log(`成功解析并缓存了 ${Object.keys(weatherMapCache).length} 个场地效果`);
     }
 
+    // 解析技能数据
+    const combinedSkillMap = { ...(rawData.pmSkillMap || {}), ...(rawData.pmSkillMap1 || {}) };
+    if (Object.keys(combinedSkillMap).length > 0) {
+      Object.assign(skillMapCache, Object.entries(combinedSkillMap).reduce((acc, [key, value]) => {
+        if (Array.isArray(value) && value.length >= 30) {
+          const getPars = (index: number) => String(value[index] || '');
+          const getSkillType = () => {
+            const str = getPars(29);
+            return str.length > 0 ? parseInt(str) : 0; // 默认值为0
+          };
+          const soulArr = getPars(30).split("#");
+
+          acc[key] = {
+            id: Number(getPars(0)),
+            enName: getPars(1),
+            cnName: getPars(2),
+            newCnName: getPars(3),
+            oldEffectDesc: getPars(4).replace(/<br>/g, '\n'),
+            newEffectDesc: getPars(5),
+            clientDesc: getPars(6).replace(/<br>/g, '\n'),
+            power: Number(getPars(7)),
+            hitRate: Number(getPars(8)),
+            allPP: Number(getPars(9)),
+            PRI: Number(getPars(10)),
+            attributeType: Number(getPars(11)),
+            attackType: Number(getPars(12)),
+            hitTaget: Number(getPars(13)),
+            critRate: Number(getPars(14)),
+            damageType: Number(getPars(15)),
+            execType: getPars(16),
+            handler: getPars(17),
+            param: getPars(18),
+            aoyiType: getPars(19) === "" ? -1 : parseInt(getPars(19)),
+            isCompletePMSkill: getPars(20) !== "",
+            skillMovie1: getPars(22),
+            skillMovie2: getPars(23),
+            singlePower: getPars(27),
+            doublePower: getPars(28),
+            skillType: getSkillType(),
+            costSoulNum: parseInt(soulArr[0]) || 0,
+            maxCostSoulNum: parseInt(soulArr[soulArr.length - 1]) || 0,
+            configSkillSerials: getPars(31),
+            legendFiledEffectChange: parseInt(getPars(32)) || 0,
+            legendFiledEffectDesc: getPars(33),
+            isDegeneratorSpiritPassive: getPars(34) === "1",
+            simpleSkillDec: getPars(38),
+            beAttackMvType: getPars(39) === "" ? Number(getPars(12)) : parseInt(getPars(39)),
+            cd: parseInt(getPars(42)) || 0,
+          };
+        }
+        return acc;
+      }, {} as Record<string, Skill>));
+      console.log(`成功解析并缓存了 ${Object.keys(skillMapCache).length} 个技能`);
+    } else {
+      console.warn('未找到技能数据 (pmSkillMap, pmSkillMap1)');
+    }
+
+    // 解析克制关系
+    if (rawData.pmAttDefTableMap) {
+      attributeRelationsCache = rawData.pmAttDefTableMap;
+      console.log(`成功解析并缓存了克制关系表`);
+    } else {
+      console.warn('未找到克制关系表 (pmAttDefTableMap)');
+    }
+
     return true;
   } catch (error) {
     console.error('解析亚比数据时出错:', error);
@@ -122,8 +237,6 @@ export function getPetList(): { id: string | number; name: string }[] {
  * 根据ID获取亚比完整数据
  */
 export function getPetFullDataById(id: string | number): Pet | null {
-  if (!id) return null;
-  
   const processedId = id.toString().replace('_0', '');
   return fullPetDataCache.find(pet => 
     pet.id.toString().replace('_0', '') === processedId
@@ -134,8 +247,6 @@ export function getPetFullDataById(id: string | number): Pet | null {
  * 搜索亚比
  */
 export function searchPets(keyword: string): { id: string | number; name: string }[] {
-  if (!keyword) return getPetList();
-  
   const searchStr = keyword.toLowerCase();
   return fullPetDataCache
     .filter(pet => {
@@ -189,6 +300,225 @@ export function getAllWeathers(): { id: string; name: string }[] {
  */
 export function getWeatherById(id: string): Weather | null {
   return weatherMapCache[id] || null;
+}
+
+/**
+ * 根据ID获取技能
+ */
+export function getSkillById(id: string): Skill | null {
+  return skillMapCache[id] || null;
+}
+
+/**
+ * 获取克制关系
+ */
+export function getAttributeRelations(): Record<string, string[]> {
+  return attributeRelationsCache;
+}
+
+// =================================================================
+// 技能属性解析逻辑 (原 skill-parser.ts)
+// =================================================================
+
+const EXCLUDED_ATTRIBUTE_IDS = [3, 6, 17];
+
+function isSuperAttribute(id: number): boolean {
+  return id > 22;
+}
+
+function processAllAttributes(attributeMap: SkillAttribute[]): ProcessedAttribute[] {
+  return attributeMap
+    .filter(attr => !EXCLUDED_ATTRIBUTE_IDS.includes(attr[0]))
+    .map(attr => ({
+      id: attr[0],
+      name: attr[1],
+      isSuper: isSuperAttribute(attr[0]),
+    }));
+}
+
+/**
+ * 安全解析 JavaScript 数组字符串
+ * 避免使用 eval() 和 Function 构造函数
+ */
+function safeParseJavaScriptArray(arrayStr: string): SkillAttribute[] {
+  try {
+    // 首先尝试 JSON.parse
+    return JSON.parse(arrayStr) as SkillAttribute[];
+  } catch {
+    // JSON.parse 失败时，手动解析数组
+    return parseArrayString(arrayStr);
+  }
+}
+
+/**
+ * 手动解析数组字符串
+ * 专门用于解析 [[number, string], ...] 格式的数组
+ */
+function parseArrayString(str: string): SkillAttribute[] {
+  // 移除外层的方括号
+  const content = str.trim().replace(/^\[/, '').replace(/\]$/, '');
+  if (!content.trim()) {
+    return [];
+  }
+
+  const result: SkillAttribute[] = [];
+  let current = '';
+  let bracketCount = 0;
+  let inString = false;
+  let stringChar = '';
+
+  for (let i = 0; i < content.length; i++) {
+    const char = content[i];
+
+    if (!inString && (char === '"' || char === "'")) {
+      inString = true;
+      stringChar = char;
+      current += char;
+    } else if (inString && char === stringChar && content[i - 1] !== '\\') {
+      inString = false;
+      stringChar = '';
+      current += char;
+    } else if (!inString && char === '[') {
+      bracketCount++;
+      current += char;
+    } else if (!inString && char === ']') {
+      bracketCount--;
+      current += char;
+      
+      if (bracketCount === 0) {
+        // 解析单个数组元素
+        const element = parseArrayElement(current.trim());
+        if (element) {
+          result.push(element);
+        }
+        current = '';
+      }
+    } else if (!inString && char === ',' && bracketCount === 0) {
+      // 跳过顶级逗号
+      continue;
+    } else {
+      current += char;
+    }
+  }
+
+  return result;
+}
+
+/**
+ * 解析单个数组元素 [number, string]
+ */
+function parseArrayElement(elementStr: string): SkillAttribute | null {
+  try {
+    // 移除方括号
+    const content = elementStr.trim().replace(/^\[/, '').replace(/\]$/, '');
+    const parts = content.split(',').map(part => part.trim());
+    
+    if (parts.length !== 2) {
+      return null;
+    }
+
+    // 解析数字
+    const id = parseInt(parts[0], 10);
+    if (isNaN(id)) {
+      return null;
+    }
+
+    // 解析字符串，移除引号
+    let name = parts[1];
+    if ((name.startsWith('"') && name.endsWith('"')) ||
+        (name.startsWith("'") && name.endsWith("'"))) {
+      name = name.slice(1, -1);
+    }
+
+    return [id, name];
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * 解析PMAttributeMap._skillAttributeData的函数
+ */
+function extractSkillAttributeData(jsContent: string): SkillAttribute[] {
+  try {
+    const patterns = [
+      /PMAttributeMap\._skillAttributeData\s*=\s*(\[[\s\S]*?\]);/,
+      /PMAttributeMap\._skillAttributeData\s*=\s*(\[[\s\S]*?\])\s*[;}]/,
+      /_skillAttributeData\s*=\s*(\[[\s\S]*?\]);/,
+    ];
+
+    let match: RegExpMatchArray | null = null;
+    for (const pattern of patterns) {
+      match = jsContent.match(pattern);
+      if (match) {
+        break;
+      }
+    }
+
+    if (!match) {
+      throw new Error('未找到PMAttributeMap._skillAttributeData数据');
+  }
+
+    const arrayStr = match[1]
+      .replace(/\/\*[\s\S]*?\*\//g, '')
+      .replace(/\/\/.*$/gm, '')
+      .replace(/\s+/g, ' ')
+      .trim();
+
+    const skillAttributeData = safeParseJavaScriptArray(arrayStr);
+
+    if (!Array.isArray(skillAttributeData)) {
+      throw new Error('解析结果不是数组');
+    }
+
+    for (const item of skillAttributeData) {
+      if (
+        !Array.isArray(item) ||
+        item.length !== 2 ||
+        typeof item[0] !== 'number' ||
+        typeof item[1] !== 'string'
+      ) {
+        throw new Error('数组元素格式不正确');
+      }
+    }
+    
+    return skillAttributeData;
+  } catch (error) {
+    throw new Error(`解析失败: ${(error as Error).message}`);
+  }
+}
+
+export async function fetchAndGetAllSkillAttributes(): Promise<ProcessedAttribute[]> {
+  if (skillAttributesCache.length > 0) {
+    console.log('技能属性数据已缓存,直接返回');
+    return skillAttributesCache;
+  }
+
+  try {
+    console.log('首次获取, 开始获取技能属性JavaScript文件...');
+    const url = 'http://aola.100bt.com/h5/js/gamemain.js';
+    const response = await axios.get(url, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36',
+      },
+    });
+
+    if (response.status !== 200) {
+      throw new Error(`HTTP错误: ${response.status} ${response.statusText}`);
+    }
+
+    const jsContent = response.data;
+    const rawData = extractSkillAttributeData(jsContent);
+    const processedData = processAllAttributes(rawData);
+    
+    skillAttributesCache.push(...processedData); // 缓存结果
+    console.log(`成功解析并缓存了 ${processedData.length} 个技能属性`);
+    
+    return processedData;
+  } catch (error) {
+    console.error('获取或处理技能属性数据时出错:', error);
+    throw error; // 向上抛出错误，让调用者处理
+  }
 }
 
 /**
