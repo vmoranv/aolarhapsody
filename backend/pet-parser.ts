@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { fetchAndParseDictionary } from './game-data-parser';
 
 // =================================
 // 类型定义
@@ -317,7 +318,7 @@ export function getAttributeRelations(): Record<string, string[]> {
 }
 
 // =================================================================
-// 技能属性解析逻辑 (原 skill-parser.ts)
+// 技能属性解析逻辑
 // =================================================================
 
 const EXCLUDED_ATTRIBUTE_IDS = [3, 6, 17];
@@ -336,158 +337,6 @@ function processAllAttributes(attributeMap: SkillAttribute[]): ProcessedAttribut
     }));
 }
 
-/**
- * 安全解析 JavaScript 数组字符串
- * 避免使用 eval() 和 Function 构造函数
- */
-function safeParseJavaScriptArray(arrayStr: string): SkillAttribute[] {
-  try {
-    // 首先尝试 JSON.parse
-    return JSON.parse(arrayStr) as SkillAttribute[];
-  } catch {
-    // JSON.parse 失败时，手动解析数组
-    return parseArrayString(arrayStr);
-  }
-}
-
-/**
- * 手动解析数组字符串
- * 专门用于解析 [[number, string], ...] 格式的数组
- */
-function parseArrayString(str: string): SkillAttribute[] {
-  // 移除外层的方括号
-  const content = str.trim().replace(/^\[/, '').replace(/\]$/, '');
-  if (!content.trim()) {
-    return [];
-  }
-
-  const result: SkillAttribute[] = [];
-  let current = '';
-  let bracketCount = 0;
-  let inString = false;
-  let stringChar = '';
-
-  for (let i = 0; i < content.length; i++) {
-    const char = content[i];
-
-    if (!inString && (char === '"' || char === "'")) {
-      inString = true;
-      stringChar = char;
-      current += char;
-    } else if (inString && char === stringChar && content[i - 1] !== '\\') {
-      inString = false;
-      stringChar = '';
-      current += char;
-    } else if (!inString && char === '[') {
-      bracketCount++;
-      current += char;
-    } else if (!inString && char === ']') {
-      bracketCount--;
-      current += char;
-      
-      if (bracketCount === 0) {
-        // 解析单个数组元素
-        const element = parseArrayElement(current.trim());
-        if (element) {
-          result.push(element);
-        }
-        current = '';
-      }
-    } else if (!inString && char === ',' && bracketCount === 0) {
-      // 跳过顶级逗号
-      continue;
-    } else {
-      current += char;
-    }
-  }
-
-  return result;
-}
-
-/**
- * 解析单个数组元素 [number, string]
- */
-function parseArrayElement(elementStr: string): SkillAttribute | null {
-  try {
-    // 移除方括号
-    const content = elementStr.trim().replace(/^\[/, '').replace(/\]$/, '');
-    const parts = content.split(',').map(part => part.trim());
-    
-    if (parts.length !== 2) {
-      return null;
-    }
-
-    // 解析数字
-    const id = parseInt(parts[0], 10);
-    if (isNaN(id)) {
-      return null;
-    }
-
-    // 解析字符串，移除引号
-    let name = parts[1];
-    if ((name.startsWith('"') && name.endsWith('"')) ||
-        (name.startsWith("'") && name.endsWith("'"))) {
-      name = name.slice(1, -1);
-    }
-
-    return [id, name];
-  } catch {
-    return null;
-  }
-}
-
-/**
- * 解析PMAttributeMap._skillAttributeData的函数
- */
-function extractSkillAttributeData(jsContent: string): SkillAttribute[] {
-  try {
-    const patterns = [
-      /PMAttributeMap\._skillAttributeData\s*=\s*(\[[\s\S]*?\]);/,
-      /PMAttributeMap\._skillAttributeData\s*=\s*(\[[\s\S]*?\])\s*[;}]/,
-      /_skillAttributeData\s*=\s*(\[[\s\S]*?\]);/,
-    ];
-
-    let match: RegExpMatchArray | null = null;
-    for (const pattern of patterns) {
-      match = jsContent.match(pattern);
-      if (match) {
-        break;
-      }
-    }
-
-    if (!match) {
-      throw new Error('未找到PMAttributeMap._skillAttributeData数据');
-  }
-
-    const arrayStr = match[1]
-      .replace(/\/\*[\s\S]*?\*\//g, '')
-      .replace(/\/\/.*$/gm, '')
-      .replace(/\s+/g, ' ')
-      .trim();
-
-    const skillAttributeData = safeParseJavaScriptArray(arrayStr);
-
-    if (!Array.isArray(skillAttributeData)) {
-      throw new Error('解析结果不是数组');
-    }
-
-    for (const item of skillAttributeData) {
-      if (
-        !Array.isArray(item) ||
-        item.length !== 2 ||
-        typeof item[0] !== 'number' ||
-        typeof item[1] !== 'string'
-      ) {
-        throw new Error('数组元素格式不正确');
-      }
-    }
-    
-    return skillAttributeData;
-  } catch (error) {
-    throw new Error(`解析失败: ${(error as Error).message}`);
-  }
-}
-
 export async function fetchAndGetAllSkillAttributes(): Promise<ProcessedAttribute[]> {
   if (skillAttributesCache.length > 0) {
     console.log('技能属性数据已缓存,直接返回');
@@ -495,20 +344,20 @@ export async function fetchAndGetAllSkillAttributes(): Promise<ProcessedAttribut
   }
 
   try {
-    console.log('首次获取, 开始获取技能属性JavaScript文件...');
+    console.log('首次获取, 开始获取技能属性数据...');
     const url = 'http://aola.100bt.com/h5/js/gamemain.js';
-    const response = await axios.get(url, {
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36',
-      },
-    });
+    const rawData = await fetchAndParseDictionary(url, 'PMAttributeMap._skillAttributeData') as SkillAttribute[];
 
-    if (response.status !== 200) {
-      throw new Error(`HTTP错误: ${response.status} ${response.statusText}`);
+    // 验证解析后的数据结构
+    if (!Array.isArray(rawData)) {
+      throw new Error('解析结果不是数组');
+    }
+    for (const item of rawData) {
+      if (!Array.isArray(item) || item.length !== 2 || typeof item[0] !== 'number' || typeof item[1] !== 'string') {
+        throw new Error('数组元素格式不正确');
+      }
     }
 
-    const jsContent = response.data;
-    const rawData = extractSkillAttributeData(jsContent);
     const processedData = processAllAttributes(rawData);
     
     skillAttributesCache.push(...processedData); // 缓存结果
