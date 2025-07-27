@@ -6,22 +6,11 @@ import axios from 'axios';
  * @returns 解析后的对象或数组。
  */
 function safeParse(content: string) {
-  // 这是一个简化的实现，对于复杂的JS对象可能不够健壮。
-  // 实际应用中可能需要一个更完整的JS解析器。
-  // 这里我们假设数据是JSON-P的变体，或者可以被转换为JSON。
   try {
-    // 尝试作为JSON直接解析
     return JSON.parse(content);
-  } catch {
-    // 如果直接解析失败，尝试使用Function构造函数
-    // 注意：这可能存在安全风险，因为它能执行任意代码。
-    // 在受信任的环境中使用是可接受的。
-    try {
-      return new Function(`return ${content}`)();
-    } catch (error) {
-      console.error("解析数据失败:", error);
-      throw new Error("无法将字符串解析为JavaScript对象。");
-    }
+  } catch (error) {
+    console.error("将字符串解析为JSON时出错:", error);
+    throw new Error("无法将字符串解析为JSON。请确保数据是有效的JSON格式。");
   }
 }
 

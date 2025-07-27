@@ -387,8 +387,7 @@ export async function initPetDataModule(): Promise<boolean> {
       throw new Error(`HTTP错误: ${response.status} ${response.statusText}`);
     }
     
-    const success = parseAndCacheFullPetData(response.data);
-    return success;
+    return parseAndCacheFullPetData(response.data);
   } catch (error) {
     console.error('初始化亚比数据处理模块失败:', error);
     return false;
