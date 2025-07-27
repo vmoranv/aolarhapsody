@@ -61,3 +61,27 @@ export async function fetchAndParseDictionary(url: string, dictionaryKey: string
     throw error;
   }
 }
+
+/**
+ * 从给定的URL获取并解析一个JSON文件。
+ * @param url - JSON文件的URL。
+ * @returns 解析后的JSON数据。
+ */
+export async function fetchAndParseJSON(url: string): Promise<unknown> {
+  try {
+    const response = await axios.get(url, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36',
+      },
+    });
+
+    if (response.status !== 200) {
+      throw new Error(`HTTP错误: ${response.status} ${response.statusText}`);
+    }
+
+    return response.data;
+  } catch (error) {
+    console.error(`获取或解析JSON时出错:`, error);
+    throw error;
+  }
+}

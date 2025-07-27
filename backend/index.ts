@@ -10,7 +10,14 @@ import {
   getSkillById,
   getAttributeRelations,
   fetchAndGetAllSkillAttributes
-} from './pet-parser';
+} from './pmdatalist';
+import {
+  parseAndCacheAstralSpirits,
+  getAllAstralSpirits,
+  getAstralSpiritById,
+  getAllAstralSpiritSuits,
+  getAstralSpiritSuitById
+} from './astralspirit';
 import cors from 'cors';
 
 const app: Express = express();
@@ -218,15 +225,84 @@ app.get('/api/skill/:id', (req: Request, res: Response) => {
 });
 
 // =================================
+// 星灵API
+// =================================
+app.get('/api/astral-spirits', (req: Request, res: Response) => {
+  const spirits = getAllAstralSpirits();
+  res.json({
+    success: true,
+    data: spirits,
+    count: spirits.length,
+    timestamp: new Date().toISOString(),
+  });
+});
+
+app.get('/api/astral-spirit/:id', (req: Request, res: Response) => {
+  const { id } = req.params;
+  const spirit = getAstralSpiritById(id);
+
+  if (spirit) {
+    res.json({
+      success: true,
+      data: spirit,
+      timestamp: new Date().toISOString(),
+    });
+  } else {
+    res.status(404).json({
+      success: false,
+      error: `未找到ID为 ${id} 的星灵`,
+      timestamp: new Date().toISOString(),
+    });
+  }
+});
+
+app.get('/api/astral-spirit-suits', (req: Request, res: Response) => {
+  const suits = getAllAstralSpiritSuits();
+  res.json({
+    success: true,
+    data: suits,
+    count: suits.length,
+    timestamp: new Date().toISOString(),
+  });
+});
+
+app.get('/api/astral-spirit-suit/:id', (req: Request, res: Response) => {
+  const { id } = req.params;
+  const suit = getAstralSpiritSuitById(id);
+
+  if (suit) {
+    res.json({
+      success: true,
+      data: suit,
+      timestamp: new Date().toISOString(),
+    });
+  } else {
+    res.status(404).json({
+      success: false,
+      error: `未找到ID为 ${id} 的星灵套装`,
+      timestamp: new Date().toISOString(),
+    });
+  }
+});
+
+// =================================
 // 服务器启动
 // =================================
 async function startServer() {
   console.log('正在初始化亚比数据模块...');
-  const success = await initPetDataModule();
-  if (success) {
+  const petDataSuccess = await initPetDataModule();
+  if (petDataSuccess) {
     console.log('亚比数据模块初始化成功。');
   } else {
     console.error('亚比数据模块初始化失败！服务将以无亚比数据的状态启动。');
+  }
+
+  console.log('正在初始化星灵数据模块...');
+  const astralSpiritSuccess = await parseAndCacheAstralSpirits();
+  if (astralSpiritSuccess) {
+    console.log('星灵数据模块初始化成功。');
+  } else {
+    console.error('星灵数据模块初始化失败！');
   }
 
   app.listen(port, () => {

@@ -1,0 +1,154 @@
+import { fetchAndParseJSON } from './game-data-parser';
+
+export interface AstralSpirit {
+  id: number;
+  name: string;
+  subtype: number;
+  price: number;
+  rmb: number;
+  dailyQuantity: number;
+  sale: boolean;
+  vip: boolean;
+  trade: boolean;
+  maxQuantity: number;
+  hp: number;
+  attack: number;
+  defend: number;
+  sAttack: number;
+  sDefend: number;
+  speed: number;
+  hpInc: number;
+  attackInc: number;
+  defendInc: number;
+  sAttackInc: number;
+  sDefendInc: number;
+  speedInc: number;
+  suitId: number;
+  strengthType: number;
+  limitDate: string;
+}
+
+export interface AstralSpiritSuit {
+  id: number;
+  name: string;
+  surIds: number[];
+  activeNeed: number;
+  suitEffectDes: string;
+  oneShenhuaSuitEffectDes: string;
+  threeShenHuaSuitEffectDes: string;
+}
+
+const astralSpiritCache: Record<string, AstralSpirit> = {};
+const astralSpiritSuitCache: Record<string, AstralSpiritSuit> = {};
+
+/**
+ * 解析并缓存星灵数据
+ */
+export async function parseAndCacheAstralSpirits(): Promise<boolean> {
+  try {
+    const url = 'https://aola.100bt.com/h5/data/astralspiritdata.json';
+    console.log('开始获取星灵数据JSON文件...');
+    const response = await fetchAndParseJSON(url) as {
+      data: Record<string, (string | number | boolean)[]>,
+      suit: Record<string, (string | number | number[])[]>
+    };
+
+    if (!response) {
+      console.error('星灵数据为空或格式不正确');
+      return false;
+    }
+
+    // 解析星灵
+    if (response.data) {
+      Object.entries(response.data).forEach(([key, value]) => {
+        if (Array.isArray(value) && value.length >= 25) {
+          astralSpiritCache[key] = {
+            id: Number(value[0]),
+            name: String(value[1]),
+            subtype: Number(value[2]),
+            price: Number(value[3]),
+            rmb: Number(value[4]),
+            dailyQuantity: Number(value[5]),
+            sale: Boolean(value[6]),
+            vip: Boolean(value[7]),
+            trade: Boolean(value[8]),
+            maxQuantity: Number(value[9]),
+            hp: Number(value[10]),
+            attack: Number(value[11]),
+            defend: Number(value[12]),
+            sAttack: Number(value[13]),
+            sDefend: Number(value[14]),
+            speed: Number(value[15]),
+            hpInc: Number(value[16]),
+            attackInc: Number(value[17]),
+            defendInc: Number(value[18]),
+            sAttackInc: Number(value[19]),
+            sDefendInc: Number(value[20]),
+            speedInc: Number(value[21]),
+            suitId: Number(value[22]),
+            strengthType: Number(value[23]),
+            limitDate: String(value[24]),
+          };
+        }
+      });
+      console.log(`成功解析并缓存了 ${Object.keys(astralSpiritCache).length} 个星灵`);
+    }
+
+    // 解析套装
+    if (response.suit) {
+      Object.entries(response.suit).forEach(([key, value]) => {
+        if (Array.isArray(value) && value.length >= 6) {
+          astralSpiritSuitCache[key] = {
+            id: Number(value[0]),
+            name: String(value[1]),
+            surIds: value[2] as number[],
+            activeNeed: Number(value[3]),
+            suitEffectDes: String(value[4]),
+            oneShenhuaSuitEffectDes: String(value[5]),
+            threeShenHuaSuitEffectDes: String(value[6]),
+          };
+        }
+      });
+      console.log(`成功解析并缓存了 ${Object.keys(astralSpiritSuitCache).length} 个星灵套装`);
+    }
+
+    return true;
+  } catch (error) {
+    console.error('解析星灵数据时出错:', error);
+    return false;
+  }
+}
+
+/**
+ * 获取所有星灵的简要列表
+ */
+export function getAllAstralSpirits(): { id: number; name: string }[] {
+  return Object.values(astralSpiritCache).map(spirit => ({
+    id: spirit.id,
+    name: spirit.name,
+  }));
+}
+
+/**
+ * 根据ID获取单个星灵的完整信息
+ */
+export function getAstralSpiritById(id: string): AstralSpirit | null {
+  return astralSpiritCache[id] || null;
+}
+
+/**
+ * 获取所有星灵套装的简要列表
+ */
+export function getAllAstralSpiritSuits(): { id: number; name: string }[] {
+  return Object.values(astralSpiritSuitCache).map(suit => ({
+    id: suit.id,
+    name: suit.name,
+  }));
+}
+
+/**
+ * 根据ID获取单个星灵套装的完整信息
+ */
+export function getAstralSpiritSuitById(id: string): AstralSpiritSuit | null {
+  return astralSpiritSuitCache[id] || null;
+}
