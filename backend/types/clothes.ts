@@ -23,3 +23,8 @@ export interface ClothesAffectBody {
   clothesId: number;
   bodyPartType: number;
 }
+
+export interface ClothesPart {
+  id: number;
+  description: string;
+}

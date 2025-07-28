@@ -3,16 +3,22 @@ import cors from 'cors';
 import { initPetDataModule } from './pmdatalist';
 import { parseAndCacheAstralSpirits } from './astralspirit';
 import { parseAndCacheClothes } from './clothes';
+import { parseAndCacheHeadFrames } from './headframe';
+import { parseAndCacheIcons } from './icondata';
 
 import pmRoutes from './routes/pm';
 import astralSpiritRoutes from './routes/astralspirit';
 import clothesRoutes from './routes/clothes';
+import headFrameRoutes from './routes/headframe';
+import headIconRoutes from './routes/headicon';
 
 import { AstralSpirit, AstralSpiritSuit } from './types/astralspirit';
 import { Pet, Weather, Skill, SkillAttribute, ProcessedAttribute } from './types/pmdatalist';
-import { Clothes, ClothesSuit, ClothesAffectBody } from './types/clothes';
+import { Clothes, ClothesSuit, ClothesAffectBody, ClothesPart } from './types/clothes';
+import { HeadFrame } from './types/headframe';
+import { PetIcon, HeadIcon } from './types/icondata';
 
-export type { AstralSpirit, AstralSpiritSuit, Pet, Weather, Skill, SkillAttribute, ProcessedAttribute, Clothes, ClothesSuit, ClothesAffectBody };
+export type { AstralSpirit, AstralSpiritSuit, Pet, Weather, Skill, SkillAttribute, ProcessedAttribute, Clothes, ClothesSuit, ClothesAffectBody, ClothesPart, HeadFrame, PetIcon, HeadIcon };
 
 const app: Express = express();
 const port = 3000;
@@ -29,6 +35,8 @@ app.get('/', (req: Request, res: Response) => {
 app.use('/api', pmRoutes);
 app.use('/api', astralSpiritRoutes);
 app.use('/api', clothesRoutes);
+app.use('/api', headFrameRoutes);
+app.use('/api', headIconRoutes);
 
 // =================================
 // 服务器启动
@@ -56,6 +64,22 @@ async function startServer() {
     console.log('服装数据模块初始化成功。');
   } else {
     console.error('服装数据模块初始化失败！');
+  }
+
+  console.log('正在初始化头像框数据模块...');
+  const headFrameSuccess = await parseAndCacheHeadFrames();
+  if (headFrameSuccess) {
+    console.log('头像框数据模块初始化成功。');
+  } else {
+    console.error('头像框数据模块初始化失败！');
+  }
+
+  console.log('正在初始化图标数据模块...');
+  const iconSuccess = await parseAndCacheIcons();
+  if (iconSuccess) {
+    console.log('图标数据模块初始化成功。');
+  } else {
+    console.error('图标数据模块初始化失败！');
   }
 
   app.listen(port, () => {

@@ -1,76 +1,99 @@
 import { fetchAndParseJSON } from './game-data-parser';
-import { Clothes, ClothesSuit, ClothesAffectBody } from './types/clothes';
+import { Clothes, ClothesSuit, ClothesAffectBody, ClothesPart } from './types/clothes';
 
 const clothesCache: Record<string, Clothes> = {};
 const clothesSuitCache: Record<string, ClothesSuit> = {};
 const clothesAffectBodyCache: Record<string, ClothesAffectBody> = {};
+const clothesPartCache: Record<string, ClothesPart> = {};
 
 /**
  * 解析并缓存服装数据
  */
 export async function parseAndCacheClothes(): Promise<boolean> {
   try {
-    const url = 'https://aola.100bt.com/h5/data/clothesdata.json';
-    console.log('开始获取服装数据JSON文件...');
-    const response = await fetchAndParseJSON(url) as {
-      data: Record<string, (string | number | boolean)[]>,
-      suit: Record<string, (string | number | number[])[]>,
-      CLOTHES_AFFECT_BODY: Record<string, (string | number)[]>
-    };
+    const clothesDataUrl = 'https://aola.100bt.com/h5/data/clothesdata.json';
+    const clothesPartUrl = 'https://aola.100bt.com/h5/data/clothespartdata_des.json';
+    console.log('开始获取服装和部件数据JSON文件...');
 
-    if (!response) {
+    const [clothesResponse, clothesPartResponse] = await Promise.all([
+      fetchAndParseJSON(clothesDataUrl) as Promise<{
+        data: Record<string, (string | number | boolean)[]>;
+        suit: Record<string, (string | number | number[])[]>;
+        CLOTHES_AFFECT_BODY: Record<string, (string | number)[]>;
+      }>,
+      fetchAndParseJSON(clothesPartUrl) as Promise<{
+        data: Record<string, string[]>;
+      }>,
+    ]);
+
+    if (clothesResponse) {
+      // 解析服装
+      if (clothesResponse.data) {
+        Object.entries(clothesResponse.data).forEach(([key, value]) => {
+          if (Array.isArray(value) && value.length >= 12) {
+            clothesCache[key] = {
+              id: Number(value[0]),
+              name: String(value[1]),
+              vip: Boolean(value[2]),
+              sale: Number(value[3]),
+              trade: Boolean(value[4]),
+              maxQuantity: Number(value[5]),
+              price: Number(value[6]),
+              rmb: Number(value[7]),
+              type: Number(value[8]),
+              recallRmb: Number(value[9]),
+              classify: Number(value[10]),
+              val: Number(value[11]),
+            };
+          }
+        });
+        console.log(`成功解析并缓存了 ${Object.keys(clothesCache).length} 件服装`);
+      }
+
+      // 解析套装
+      if (clothesResponse.suit) {
+        Object.entries(clothesResponse.suit).forEach(([key, value]) => {
+          if (Array.isArray(value) && value.length >= 3) {
+            clothesSuitCache[key] = {
+              id: Number(value[0]),
+              name: String(value[1]),
+              clothesList: value[2] as number[],
+            };
+          }
+        });
+        console.log(`成功解析并缓存了 ${Object.keys(clothesSuitCache).length} 个服装套装`);
+      }
+
+      // 解析身体部位影响
+      if (clothesResponse.CLOTHES_AFFECT_BODY) {
+        Object.entries(clothesResponse.CLOTHES_AFFECT_BODY).forEach(([key, value]) => {
+          if (Array.isArray(value) && value.length >= 2) {
+            clothesAffectBodyCache[key] = {
+              clothesId: Number(value[0]),
+              bodyPartType: Number(value[1]),
+            };
+          }
+        });
+        console.log(`成功解析并缓存了 ${Object.keys(clothesAffectBodyCache).length} 个身体部位影响`);
+      }
+    } else {
       console.error('服装数据为空或格式不正确');
-      return false;
     }
 
-    // 解析服装
-    if (response.data) {
-      Object.entries(response.data).forEach(([key, value]) => {
-        if (Array.isArray(value) && value.length >= 12) {
-          clothesCache[key] = {
-            id: Number(value[0]),
-            name: String(value[1]),
-            vip: Boolean(value[2]),
-            sale: Number(value[3]),
-            trade: Boolean(value[4]),
-            maxQuantity: Number(value[5]),
-            price: Number(value[6]),
-            rmb: Number(value[7]),
-            type: Number(value[8]),
-            recallRmb: Number(value[9]),
-            classify: Number(value[10]),
-            val: Number(value[11]),
-          };
-        }
-      });
-      console.log(`成功解析并缓存了 ${Object.keys(clothesCache).length} 件服装`);
-    }
-
-    // 解析套装
-    if (response.suit) {
-      Object.entries(response.suit).forEach(([key, value]) => {
-        if (Array.isArray(value) && value.length >= 3) {
-          clothesSuitCache[key] = {
-            id: Number(value[0]),
-            name: String(value[1]),
-            clothesList: value[2] as number[],
-          };
-        }
-      });
-      console.log(`成功解析并缓存了 ${Object.keys(clothesSuitCache).length} 个服装套装`);
-    }
-
-    // 解析身体部位影响
-    if (response.CLOTHES_AFFECT_BODY) {
-      Object.entries(response.CLOTHES_AFFECT_BODY).forEach(([key, value]) => {
-        if (Array.isArray(value) && value.length >= 2) {
-          clothesAffectBodyCache[key] = {
-            clothesId: Number(value[0]),
-            bodyPartType: Number(value[1]),
-          };
-        }
-      });
-      console.log(`成功解析并缓存了 ${Object.keys(clothesAffectBodyCache).length} 个身体部位影响`);
+    if (clothesPartResponse) {
+      if (clothesPartResponse.data) {
+        Object.entries(clothesPartResponse.data).forEach(([key, value]) => {
+          if (Array.isArray(value) && value.length >= 1) {
+            clothesPartCache[key] = {
+              id: Number(key),
+              description: String(value[0]),
+            };
+          }
+        });
+        console.log(`成功解析并缓存了 ${Object.keys(clothesPartCache).length} 个服装部件`);
+      }
+    } else {
+      console.error('服装部件数据为空或格式不正确');
     }
 
     return true;
@@ -119,4 +142,18 @@ export function getClothesSuitById(id: string): ClothesSuit | null {
  */
 export function getAllClothesAffectBody(): ClothesAffectBody[] {
     return Object.values(clothesAffectBodyCache);
+}
+
+/**
+ * 获取所有服装部件
+ */
+export function getAllClothesParts(): ClothesPart[] {
+  return Object.values(clothesPartCache);
+}
+
+/**
+ * 根据ID获取单个服装部件
+ */
+export function getClothesPartById(id: string): ClothesPart | null {
+  return clothesPartCache[id] || null;
 }
