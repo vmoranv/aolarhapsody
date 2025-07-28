@@ -1,0 +1,122 @@
+import { fetchAndParseJSON } from './game-data-parser';
+import { Clothes, ClothesSuit, ClothesAffectBody } from './types/clothes';
+
+const clothesCache: Record<string, Clothes> = {};
+const clothesSuitCache: Record<string, ClothesSuit> = {};
+const clothesAffectBodyCache: Record<string, ClothesAffectBody> = {};
+
+/**
+ * 解析并缓存服装数据
+ */
+export async function parseAndCacheClothes(): Promise<boolean> {
+  try {
+    const url = 'https://aola.100bt.com/h5/data/clothesdata.json';
+    console.log('开始获取服装数据JSON文件...');
+    const response = await fetchAndParseJSON(url) as {
+      data: Record<string, (string | number | boolean)[]>,
+      suit: Record<string, (string | number | number[])[]>,
+      CLOTHES_AFFECT_BODY: Record<string, (string | number)[]>
+    };
+
+    if (!response) {
+      console.error('服装数据为空或格式不正确');
+      return false;
+    }
+
+    // 解析服装
+    if (response.data) {
+      Object.entries(response.data).forEach(([key, value]) => {
+        if (Array.isArray(value) && value.length >= 12) {
+          clothesCache[key] = {
+            id: Number(value[0]),
+            name: String(value[1]),
+            vip: Boolean(value[2]),
+            sale: Number(value[3]),
+            trade: Boolean(value[4]),
+            maxQuantity: Number(value[5]),
+            price: Number(value[6]),
+            rmb: Number(value[7]),
+            type: Number(value[8]),
+            recallRmb: Number(value[9]),
+            classify: Number(value[10]),
+            val: Number(value[11]),
+          };
+        }
+      });
+      console.log(`成功解析并缓存了 ${Object.keys(clothesCache).length} 件服装`);
+    }
+
+    // 解析套装
+    if (response.suit) {
+      Object.entries(response.suit).forEach(([key, value]) => {
+        if (Array.isArray(value) && value.length >= 3) {
+          clothesSuitCache[key] = {
+            id: Number(value[0]),
+            name: String(value[1]),
+            clothesList: value[2] as number[],
+          };
+        }
+      });
+      console.log(`成功解析并缓存了 ${Object.keys(clothesSuitCache).length} 个服装套装`);
+    }
+
+    // 解析身体部位影响
+    if (response.CLOTHES_AFFECT_BODY) {
+      Object.entries(response.CLOTHES_AFFECT_BODY).forEach(([key, value]) => {
+        if (Array.isArray(value) && value.length >= 2) {
+          clothesAffectBodyCache[key] = {
+            clothesId: Number(value[0]),
+            bodyPartType: Number(value[1]),
+          };
+        }
+      });
+      console.log(`成功解析并缓存了 ${Object.keys(clothesAffectBodyCache).length} 个身体部位影响`);
+    }
+
+    return true;
+  } catch (error) {
+    console.error('解析服装数据时出错:', error);
+    return false;
+  }
+}
+
+/**
+ * 获取所有服装的简要列表
+ */
+export function getAllClothes(): { id: number; name: string }[] {
+  return Object.values(clothesCache).map(clothes => ({
+    id: clothes.id,
+    name: clothes.name,
+  }));
+}
+
+/**
+ * 根据ID获取单件服装的完整信息
+ */
+export function getClothesById(id: string): Clothes | null {
+  return clothesCache[id] || null;
+}
+
+/**
+ * 获取所有服装套装的简要列表
+ */
+export function getAllClothesSuits(): { id: number; name: string }[] {
+  return Object.values(clothesSuitCache).map(suit => ({
+    id: suit.id,
+    name: suit.name,
+  }));
+}
+
+/**
+ * 根据ID获取单个服装套装的完整信息
+ */
+export function getClothesSuitById(id: string): ClothesSuit | null {
+  return clothesSuitCache[id] || null;
+}
+
+/**
+ * 获取所有身体部位影响
+ */
+export function getAllClothesAffectBody(): ClothesAffectBody[] {
+    return Object.values(clothesAffectBodyCache);
+}
