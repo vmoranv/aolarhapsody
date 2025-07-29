@@ -1,0 +1,29 @@
+{
+  "name": "@aolarhapsody/turbo-run",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "ar-turbo": "./bin/turbo-run.mjs"
+  },
+  "main": "./dist/index.mjs",
+  "module": "./dist/index.mjs",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs"
+    }
+  },
+  "scripts": {
+    "build": "pnpm unbuild",
+    "stub": "pnpm unbuild --stub"
+  },
+  "dependencies": {
+    "@clack/prompts": "^0.11.0",
+    "cac": "^6.7.14",
+    "execa": "^8.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^24.1.0",
+    "unbuild": "^3.6.0"
+  }
+}

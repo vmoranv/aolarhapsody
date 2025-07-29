@@ -1,0 +1,25 @@
+import type { CAC } from 'cac';
+import { execa } from 'execa';
+
+export function defineLintCommand(cli: CAC) {
+  cli
+    .command('lint', 'Lint all files')
+    .option('--format', 'Format files with Prettier')
+    .action(async (options: { format?: boolean }) => {
+      const { format } = options;
+      try {
+        if (format) {
+          await execa('pnpm', ['format'], { stdio: 'inherit' });
+        } else {
+          await execa('pnpm', ['lint'], { stdio: 'inherit' });
+        }
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          console.error(`Error during linting: ${error.message}`);
+        } else {
+          console.error('An unknown error occurred during linting.');
+        }
+        process.exit(1);
+      }
+    });
+}

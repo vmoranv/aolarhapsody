@@ -2,18 +2,38 @@
   "name": "aolarhapsody-monorepo",
   "private": true,
   "scripts": {
-    "dev:front": "pnpm --filter frontend dev",
-    "dev:backend": "pnpm --filter backend dev",
-    "build:front": "pnpm --filter frontend build",
-    "build:backend": "pnpm --filter backend build",
-    "prepare": "husky install"
+    "build": "cross-env NODE_OPTIONS=--max-old-space-size=8192 ar-turbo build",
+    "build:front": "ar-turbo build --filter=frontend",
+    "build:backend": "ar-turbo build --filter=backend",
+    "check": "ash lint && pnpm lint:cspell",
+    "clean": "node ./scripts/clean.mjs",
+    "commit": "czg",
+    "dev": "ar-turbo dev",
+    "dev:front": "ar-turbo dev --filter=frontend",
+    "dev:backend": "ar-turbo dev --filter=backend",
+    "format": "ash lint --format",
+    "lint": "ash lint",
+    "lint:cspell": "cspell lint \"**/*.ts\" \"**/README.md\" \".changeset/*.md\" --no-progress",
+    "lint:publint": "ash publint",
+    "postinstall": "lefthook install",
+    "preinstall": "npx only-allow pnpm",
+    "reinstall": "pnpm clean --del-lock && pnpm install"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",
+    "cross-env": "^10.0.0",
+    "cspell": "^9.2.0",
+    "czg": "^1.12.0",
     "eslint": "^9.31.0",
-    "husky": "^8.0.0",
-    "lint-staged": "^16.1.2",
-    "prettier": "^3.6.2"
+    "eslint-plugin-vue": "^10.3.0",
+    "globals": "^16.3.0",
+    "lefthook": "^1.12.2",
+    "only-allow": "^1.2.1",
+    "prettier": "^3.6.2",
+    "publint": "^0.3.12",
+    "rimraf": "^6.0.1",
+    "stylelint": "^16.22.0",
+    "typescript-eslint": "^8.38.0"
   }
 }

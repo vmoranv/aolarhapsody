@@ -1,0 +1,28 @@
+{
+  "name": "@aolarhapsody/scripts-helper",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "ash": "./bin/ash.mjs"
+  },
+  "main": "./dist/index.mjs",
+  "module": "./dist/index.mjs",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs"
+    }
+  },
+  "scripts": {
+    "build": "pnpm unbuild",
+    "stub": "pnpm unbuild --stub"
+  },
+  "dependencies": {
+    "cac": "^6.7.14",
+    "execa": "^8.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^24.1.0",
+    "unbuild": "^3.6.0"
+  }
+}

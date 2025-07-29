@@ -1,0 +1,35 @@
+{
+  "$schema": "https://raw.githubusercontent.com/streetsidesoftware/cspell/main/cspell.schema.json",
+  "version": "0.2",
+  "language": "en,en-US",
+  "allowCompoundWords": true,
+  "words": [
+    "aolarhapsody",
+    "commitlint",
+    "stylelint",
+    "lefthook",
+    "pnpm",
+    "vite",
+    "vue",
+    "tsx",
+    "monorepo",
+    "vitejs",
+    "vueuse",
+    "pinia",
+    "unplugin",
+    "iconify",
+    "naiveui",
+    "tailwindcss"
+  ],
+  "ignorePaths": [
+    "**/node_modules/**",
+    "**/dist/**",
+    "**/*-dist/**",
+    "**/icons/**",
+    "pnpm-lock.yaml",
+    "**/*.log",
+    "**/*.test.ts",
+    "**/*.spec.ts",
+    "**/__tests__/**"
+  ]
+}
