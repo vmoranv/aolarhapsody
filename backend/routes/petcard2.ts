@@ -3,7 +3,11 @@ import { getAllPetCard2s, getPetCard2ById } from '../dataparse/petcard2';
 
 const router = Router();
 
-// Route to get all pet card 2s (simplified)
+/**
+ * @route GET /petcard2s
+ * @description 获取所有特性晶石的简化列表。
+ * @returns {object} 200 - 成功获取特性晶石列表。
+ */
 router.get('/petcard2s', (req: Request, res: Response) => {
   const cards = getAllPetCard2s();
   const simplifiedCards = cards.map(card => ({
@@ -18,7 +22,13 @@ router.get('/petcard2s', (req: Request, res: Response) => {
   });
 });
 
-// Route to get a single pet card 2 by ID
+/**
+ * @route GET /petcard2s/:id
+ * @description 通过ID获取单个特性晶石的详细信息。
+ * @param {number} id - 特性晶石的唯一ID。
+ * @returns {object} 200 - 成功获取特性晶石信息。
+ * @returns {object} 404 - 未找到指定ID的特性晶石。
+ */
 router.get('/petcard2s/:id', (req: Request, res: Response) => {
   const id = parseInt(req.params.id, 10);
   const card = getPetCard2ById(id);

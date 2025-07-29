@@ -8,7 +8,11 @@ import {
 
 const router = Router();
 
-// Route to get all evolution stones (simplified)
+/**
+ * @route GET /evolutionstones
+ * @description 获取所有进化石（简化版）。
+ * @returns {object} 200 - 包含所有进化石的简化信息的数组。
+ */
 router.get('/evolutionstones', (req: Request, res: Response) => {
   const stones = getAllEvolutionStones();
   const simplifiedStones = stones.map(stone => ({
@@ -24,7 +28,13 @@ router.get('/evolutionstones', (req: Request, res: Response) => {
   });
 });
 
-// Route to get a single evolution stone by ID
+/**
+ * @route GET /evolutionstones/:id
+ * @description 根据ID获取单个进化石。
+ * @param {number} id - 进化石ID。
+ * @returns {object} 200 - 进化石对象。
+ * @returns {object} 404 - 如果未找到进化石。
+ */
 router.get('/evolutionstones/:id', (req: Request, res: Response) => {
   const id = parseInt(req.params.id, 10);
   const stone = getEvolutionStoneById(id);
@@ -43,7 +53,11 @@ router.get('/evolutionstones/:id', (req: Request, res: Response) => {
   }
 });
 
-// Route to get all skill stones (simplified)
+/**
+ * @route GET /skillstones
+ * @description 获取所有技能石（简化版）。
+ * @returns {object} 200 - 包含所有技能石的简化信息的数组。
+ */
 router.get('/skillstones', (req: Request, res: Response) => {
   const stones = getAllSkillStones();
   const simplifiedStones = stones.map(stone => ({
@@ -59,7 +73,13 @@ router.get('/skillstones', (req: Request, res: Response) => {
   });
 });
 
-// Route to get a single skill stone by ID
+/**
+ * @route GET /skillstones/:id
+ * @description 根据ID获取单个技能石。
+ * @param {number} id - 技能石ID。
+ * @returns {object} 200 - 技能石对象。
+ * @returns {object} 404 - 如果未找到技能石。
+ */
 router.get('/skillstones/:id', (req: Request, res: Response) => {
   const id = parseInt(req.params.id, 10);
   const stone = getSkillStoneById(id);

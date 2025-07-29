@@ -45,7 +45,8 @@ export async function initGalaxyFleetMarkModule(): Promise<boolean> {
 }
 
 /**
- * 获取所有银河舰队徽章的简要列表
+ * 获取所有已缓存的银河舰队徽章的简要列表。
+ * @returns {{ id: number; name: string }[]} 包含徽章ID和名称的对象数组。
  */
 export function getAllGalaxyFleetMarks(): { id: number; name: string }[] {
   return Object.values(galaxyFleetMarkCache).map(mark => ({
@@ -55,7 +56,9 @@ export function getAllGalaxyFleetMarks(): { id: number; name: string }[] {
 }
 
 /**
- * 根据ID获取单个银河舰队徽章的完整信息
+ * 根据ID获取单个银河舰队徽章的完整信息。
+ * @param {string} id - 徽章的ID。
+ * @returns {GalaxyFleetMark | null} 对应的徽章对象，如果未找到则返回null。
  */
 export function getGalaxyFleetMarkById(id: string): GalaxyFleetMark | null {
   return galaxyFleetMarkCache[id] || null;

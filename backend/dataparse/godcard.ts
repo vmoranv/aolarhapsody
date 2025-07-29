@@ -70,28 +70,34 @@ export async function initGodCardModule(): Promise<boolean> {
 }
 
 /**
- * 获取所有神兵
+ * 获取所有已缓存的神兵。
+ * @returns {GodCard[]} 神兵对象数组。
  */
 export function getAllGodCards(): GodCard[] {
   return Object.values(godCardCache);
 }
 
 /**
- * 根据ID获取单个神兵
+ * 根据ID获取单个神兵。
+ * @param {string} id - 神兵的ID。
+ * @returns {GodCard | null} 对应的神兵对象，如果未找到则返回null。
  */
 export function getGodCardById(id: string): GodCard | null {
   return godCardCache[id] || null;
 }
 
 /**
- * 获取所有神兵套装
+ * 获取所有已缓存的神兵套装。
+ * @returns {GodCardSuit[]} 神兵套装对象数组。
  */
 export function getAllGodCardSuits(): GodCardSuit[] {
   return Object.values(godCardSuitCache);
 }
 
 /**
- * 根据ID获取单个神兵套装
+ * 根据ID获取单个神兵套装。
+ * @param {string} id - 神兵套装的ID。
+ * @returns {GodCardSuit | null} 对应的神兵套装对象，如果未找到则返回null。
  */
 export function getGodCardSuitById(id: string): GodCardSuit | null {
   return godCardSuitCache[id] || null;

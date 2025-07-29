@@ -14,6 +14,12 @@ const router = Router();
 // =================================
 // 服装API
 // =================================
+
+/**
+ * @route GET /clothes
+ * @description 获取所有服装。
+ * @returns {object} 200 - 包含所有服装的数组。
+ */
 router.get('/clothes', (req: Request, res: Response) => {
   const clothes = getAllClothes();
   res.json({
@@ -24,6 +30,11 @@ router.get('/clothes', (req: Request, res: Response) => {
   });
 });
 
+/**
+ * @route GET /clothes/parts
+ * @description 获取所有服装部件。
+ * @returns {object} 200 - 包含所有服装部件的数组。
+ */
 router.get('/clothes/parts', (req: Request, res: Response) => {
   const parts = getAllClothesParts();
   res.json({
@@ -34,6 +45,13 @@ router.get('/clothes/parts', (req: Request, res: Response) => {
   });
 });
 
+/**
+ * @route GET /clothes/parts/:id
+ * @description 根据ID获取单个服装部件。
+ * @param {string} id - 服装部件ID。
+ * @returns {object} 200 - 服装部件对象。
+ * @returns {object} 404 - 如果未找到服装部件。
+ */
 router.get('/clothes/parts/:id', (req: Request, res: Response) => {
   const { id } = req.params;
   const part = getClothesPartById(id);
@@ -53,6 +71,13 @@ router.get('/clothes/parts/:id', (req: Request, res: Response) => {
   }
 });
 
+/**
+ * @route GET /clothes/:id
+ * @description 根据ID获取单件服装。
+ * @param {string} id - 服装ID。
+ * @returns {object} 200 - 服装对象。
+ * @returns {object} 404 - 如果未找到服装。
+ */
 router.get('/clothes/:id', (req: Request, res: Response) => {
   const { id } = req.params;
   const clothes = getClothesById(id);
@@ -72,6 +97,11 @@ router.get('/clothes/:id', (req: Request, res: Response) => {
   }
 });
 
+/**
+ * @route GET /clothes-suits
+ * @description 获取所有服装套装。
+ * @returns {object} 200 - 包含所有服装套装的数组。
+ */
 router.get('/clothes-suits', (req: Request, res: Response) => {
   const suits = getAllClothesSuits();
   res.json({
@@ -82,6 +112,13 @@ router.get('/clothes-suits', (req: Request, res: Response) => {
   });
 });
 
+/**
+ * @route GET /clothes-suit/:id
+ * @description 根据ID获取单个服装套装。
+ * @param {string} id - 服装套装ID。
+ * @returns {object} 200 - 服装套装对象。
+ * @returns {object} 404 - 如果未找到服装套装。
+ */
 router.get('/clothes-suit/:id', (req: Request, res: Response) => {
   const { id } = req.params;
   const suit = getClothesSuitById(id);
@@ -101,6 +138,11 @@ router.get('/clothes-suit/:id', (req: Request, res: Response) => {
   }
 });
 
+/**
+ * @route GET /clothes-affect-body
+ * @description 获取所有影响身体的服装。
+ * @returns {object} 200 - 包含所有影响身体的服装的数组。
+ */
 router.get('/clothes-affect-body', (req: Request, res: Response) => {
     const affectBody = getAllClothesAffectBody();
     res.json({

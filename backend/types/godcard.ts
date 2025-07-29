@@ -1,27 +1,55 @@
+/**
+ * 表示神兵卡。
+ */
 export interface GodCard {
+  /** 卡片ID。 */
   cardId: number;
+  /** 名称。 */
   name: string;
+  /** 品质。 */
   quality: number;
+  /** 生命值。 */
   hp: number;
+  /** 速度。 */
   speed: number;
+  /** 攻击力。 */
   attack: number;
+  /** 防御力。 */
   defend: number;
+  /** 特殊攻击力。 */
   sAttack: number;
+  /** 特殊防御力。 */
   sDefend: number;
+  /** 描述。 */
   desc: string;
+  /** 限制的种族ID。 */
   limitRaceId: number[];
+  /** 视图ID。 */
   viewId: number;
+  /** 等级。 */
   level: number;
+  /** 升级ID。 */
   levelUpId: number;
+  /** 合成类型。 */
   synthesisType: number;
+  /** 限制扩展附加。 */
   limitExtAppend: null;
+  /** 原始卡片ID。 */
   originCardId: number;
 }
 
+/**
+ * 表示神兵卡套装。
+ */
 export interface GodCardSuit {
+  /** 套装ID。 */
   id: number;
-  suitType: number; // Mapped from index 1 in the example, which is '套装名称' (suit name) but the value is 0. The constructor calls it suitType.
-  name: string; // Mapped from index 2 in the example, which is '套装触发条件描述' (trigger condition).
+  /** 套装类型。 */
+  suitType: number;
+  /** 套装名称。 */
+  name: string;
+  /** 组成套装的神兵卡ID列表。 */
   godCardidList: number[];
-  dec: string; // Mapped from index 4 in the example, which is '套装效果描述' (suit effect description).
+  /** 套装效果描述。 */
+  dec: string;
 }

@@ -1,6 +1,9 @@
 import { fetchAndParseData } from './game-data-parser';
 import { TaskData, TaskDefine, TaskStarter, TaskBitTitle, TaskSubTitle, TaskAreaConfig, TaskNpcName } from '../types/task';
 
+/**
+ * 原始任务数据负载接口。
+ */
 interface RawTaskPayload {
   defines: Record<string, [string, string, string | undefined]>;
   starters: Record<string, [string, string, string, string, string, string, string, string]>;
@@ -14,7 +17,8 @@ interface RawTaskPayload {
 let cachedTasks: TaskData | null = null;
 
 /**
- * 初始化任务数据模块
+ * 初始化任务数据模块。
+ * @returns {Promise<boolean>} 如果初始化成功，则返回true，否则返回false。
  */
 export async function initTaskModule(): Promise<boolean> {
   try {
@@ -90,14 +94,28 @@ export async function initTaskModule(): Promise<boolean> {
   }
 }
 
+/**
+ * 获取所有任务数据。
+ * @returns {TaskData | null} 缓存的任务数据。
+ */
 export function getTaskData() {
   return cachedTasks;
 }
 
+/**
+ * 根据ID获取任务定义。
+ * @param {number} id - 任务ID。
+ * @returns {TaskDefine | undefined} 找到的任务定义，否则为undefined。
+ */
 export function getTaskDefineById(id: number) {
   return cachedTasks?.defines.find(d => d.taskId === id);
 }
 
+/**
+ * 根据ID获取任务启动器。
+ * @param {number} id - 任务ID。
+ * @returns {TaskStarter | undefined} 找到的任务启动器，否则为undefined。
+ */
 export function getTaskStarterById(id: number) {
   return cachedTasks?.starters.find(s => s.taskId === id);
 }

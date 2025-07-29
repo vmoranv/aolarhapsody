@@ -3,6 +3,12 @@ import { getTaskData, getTaskDefineById, getTaskStarterById } from '../dataparse
 
 const router = express.Router();
 
+/**
+ * @route GET /tasks
+ * @description 获取所有任务数据。返回所有任务相关的数据集合。
+ * @returns {object} 200 - 成功获取任务数据。
+ * @returns {object} 404 - 未找到任务数据。
+ */
 router.get('/tasks', (req: Request, res: Response) => {
   const allTasks = getTaskData();
   if (allTasks) {
@@ -20,6 +26,13 @@ router.get('/tasks', (req: Request, res: Response) => {
   }
 });
 
+/**
+ * @route GET /tasks/defines/:id
+ * @description 通过ID获取任务定义。
+ * @param {number} id - 任务定义的唯一ID。
+ * @returns {object} 200 - 成功获取任务定义。
+ * @returns {object} 404 - 未找到指定ID的任务定义。
+ */
 router.get('/tasks/defines/:id', (req: Request, res: Response) => {
   const id = parseInt(req.params.id, 10);
   const taskDefine = getTaskDefineById(id);
@@ -39,6 +52,13 @@ router.get('/tasks/defines/:id', (req: Request, res: Response) => {
   }
 });
 
+/**
+ * @route GET /tasks/starters/:id
+ * @description 通过ID获取任务触发器。
+ * @param {number} id - 任务触发器的唯一ID。
+ * @returns {object} 200 - 成功获取任务触发器。
+ * @returns {object} 404 - 未找到指定ID的任务触发器。
+ */
 router.get('/tasks/starters/:id', (req: Request, res: Response) => {
   const id = parseInt(req.params.id, 10);
   const taskStarter = getTaskStarterById(id);

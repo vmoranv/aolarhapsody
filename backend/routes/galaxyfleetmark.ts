@@ -9,6 +9,12 @@ const router = Router();
 // =================================
 // 舰队头衔API
 // =================================
+
+/**
+ * @route GET /galaxyfleetmarks
+ * @description 获取所有银河舰队徽章。
+ * @returns {object} 200 - 成功获取银河舰队徽章列表。
+ */
 router.get('/galaxyfleetmarks', (req: Request, res: Response) => {
   const marks = getAllGalaxyFleetMarks();
   res.json({
@@ -19,6 +25,13 @@ router.get('/galaxyfleetmarks', (req: Request, res: Response) => {
   });
 });
 
+/**
+ * @route GET /galaxyfleetmarks/:id
+ * @description 通过ID获取单个银河舰队徽章的详细信息。
+ * @param {string} id.path.required - 银河舰队徽章的唯一ID。
+ * @returns {object} 200 - 成功获取银河舰队徽章信息。
+ * @returns {object} 404 - 未找到指定ID的银河舰队徽章。
+ */
 router.get('/galaxyfleetmarks/:id', (req: Request, res: Response) => {
   const { id } = req.params;
   const mark = getGalaxyFleetMarkById(id);

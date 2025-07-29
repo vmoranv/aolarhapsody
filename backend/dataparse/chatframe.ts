@@ -45,14 +45,17 @@ export async function initChatFrameModule(): Promise<boolean> {
 }
 
 /**
- * 获取所有聊天框
+ * 获取所有已缓存的聊天框。
+ * @returns {ChatFrame[]} 聊天框对象数组。
  */
 export function getAllChatFrames(): ChatFrame[] {
   return Object.values(chatFrameCache);
 }
 
 /**
- * 根据ID获取单个聊天框
+ * 根据ID获取单个聊天框。
+ * @param {string} id - 聊天框的ID。
+ * @returns {ChatFrame | null} 对应的聊天框对象，如果未找到则返回null。
  */
 export function getChatFrameById(id: string): ChatFrame | null {
   return chatFrameCache[id] || null;

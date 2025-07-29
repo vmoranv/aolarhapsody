@@ -6,7 +6,8 @@ import { Pet, Weather, Skill, SkillAttribute, ProcessedAttribute } from '../type
 // =================================
 
 /**
- * 存储完整亚比数据的缓存
+ * 存储完整亚比数据的缓存。
+ * @type {Pet[]}
  */
 let fullPetDataCache: Pet[] = [];
 let expMapCache: Record<string, number[]> = {};
@@ -16,7 +17,9 @@ let attributeRelationsCache: Record<string, string[]> = {};
 const skillAttributesCache: ProcessedAttribute[] = [];
 
 /**
- * 解析并缓存所有亚比数据
+ * 解析并缓存所有亚比数据。
+ * @param rawData - 包含亚比、经验、天气、技能和属性相克关系的原始数据对象。
+ * @returns {boolean} 如果解析和缓存成功则返回true，否则返回false。
  */
 export function parseAndCacheFullPetData(rawData: {
   pmDataMap: unknown,
@@ -162,7 +165,8 @@ export function parseAndCacheFullPetData(rawData: {
 }
 
 /**
- * 获取简化的亚比列表
+ * 获取简化的亚比列表。
+ * @returns {{ id: string | number; name: string }[]} 一个包含亚比ID和名称的对象数组。
  */
 export function getPetList(): { id: string | number; name: string }[] {
     return fullPetDataCache.map(pet => ({
@@ -172,7 +176,9 @@ export function getPetList(): { id: string | number; name: string }[] {
 }
 
 /**
- * 根据ID获取亚比完整数据
+ * 根据ID获取亚比的完整数据。
+ * @param id - 亚比的ID。
+ * @returns {Pet | null} 如果找到则返回亚比对象，否则返回null。
  */
 export function getPetFullDataById(id: string | number): Pet | null {
   const processedId = id.toString().replace('_0', '');
@@ -182,7 +188,9 @@ export function getPetFullDataById(id: string | number): Pet | null {
 }
 
 /**
- * 搜索亚比
+ * 根据关键字搜索亚比。
+ * @param keyword - 搜索关键字。
+ * @returns {{ id: string | number; name: string }[]} 匹配搜索条件的亚比列表。
  */
 export function searchPets(keyword: string): { id: string | number; name: string }[] {
   const searchStr = keyword.toLowerCase();
@@ -198,7 +206,12 @@ export function searchPets(keyword: string): { id: string | number; name: string
 }
 
 /**
- * 计算所需经验
+ * 计算从当前等级和经验升到目标等级所需的经验值。
+ * @param petId - 亚比的ID。
+ * @param currentLevel - 当前等级。
+ * @param currentExp - 当前等级下的经验值。
+ * @param targetLevel - 目标等级。
+ * @returns {{ success: boolean; requiredExp?: number; message?: string }} 一个包含操作是否成功、所需经验值和可选消息的对象。
  */
 export function calculateExp(
   petId: string,
@@ -224,7 +237,8 @@ export function calculateExp(
 }
 
 /**
- * 获取所有场地效果
+ * 获取所有场地效果的简化列表。
+ * @returns {{ id: string; name: string }[]} 一个包含场地效果ID和名称的对象数组。
  */
 export function getAllWeathers(): { id: string; name: string }[] {
   return Object.values(weatherMapCache).map(weather => ({
@@ -234,21 +248,26 @@ export function getAllWeathers(): { id: string; name: string }[] {
 }
 
 /**
- * 根据ID获取场地效果
+ * 根据ID获取场地效果。
+ * @param id - 场地效果的ID。
+ * @returns {Weather | null} 如果找到则返回场地效果对象，否则返回null。
  */
 export function getWeatherById(id: string): Weather | null {
   return weatherMapCache[id] || null;
 }
 
 /**
- * 根据ID获取技能
+ * 根据ID获取技能。
+ * @param id - 技能的ID。
+ * @returns {Skill | null} 如果找到则返回技能对象，否则返回null。
  */
 export function getSkillById(id: string): Skill | null {
   return skillMapCache[id] || null;
 }
 
 /**
- * 获取克制关系
+ * 获取属性克制关系。
+ * @returns {Record<string, string[]>} 一个表示属性克制关系的对象。
  */
 export function getAttributeRelations(): Record<string, string[]> {
   return attributeRelationsCache;
@@ -308,7 +327,8 @@ export async function fetchAndGetAllSkillAttributes(): Promise<ProcessedAttribut
 }
 
 /**
- * 初始化亚比数据处理模块
+ * 初始化亚比数据处理模块。
+ * @returns {Promise<boolean>} 如果初始化成功则返回true，否则返回false。
  */
 export async function initPetDataModule(): Promise<boolean> {
   try {

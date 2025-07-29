@@ -41,14 +41,17 @@ export async function initSummonerModule(): Promise<boolean> {
 }
 
 /**
- * 获取所有召唤师技能
+ * 获取所有已缓存的召唤师技能。
+ * @returns {SummonerSkillDataConfig[]} 召唤师技能对象数组。
  */
 export function getAllSummonerSkills(): SummonerSkillDataConfig[] {
   return Object.values(summonerSkillCache);
 }
 
 /**
- * 根据ID获取单个召唤师技能
+ * 根据ID获取单个召唤师技能。
+ * @param {string} id - 召唤师技能的ID。
+ * @returns {SummonerSkillDataConfig | null} 对应的召唤师技能对象，如果未找到则返回null。
  */
 export function getSummonerSkillById(id: string): SummonerSkillDataConfig | null {
   return summonerSkillCache[id] || null;

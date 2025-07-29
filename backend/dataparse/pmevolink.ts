@@ -40,14 +40,17 @@ export async function initSpEvoModule(): Promise<boolean> {
 }
 
 /**
- * 获取所有特殊进化链接
+ * 获取所有已缓存的特殊进化链接。
+ * @returns {SpEvo[]} 特殊进化链接对象数组。
  */
 export function getAllSpEvoLinks(): SpEvo[] {
   return Object.values(spEvoCache);
 }
 
 /**
- * 根据进化前ID获取单个特殊进化链接
+ * 根据进化前的亚比ID获取单个特殊进化链接。
+ * @param {string} id - 进化前亚比的ID。
+ * @returns {SpEvo | null} 对应的特殊进化链接对象，如果未找到则返回null。
  */
 export function getSpEvoLinkByBeforeId(id: string): SpEvo | null {
   return spEvoCache[id] || null;

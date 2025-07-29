@@ -72,21 +72,24 @@ export async function initMiracleModule(): Promise<boolean> {
 }
 
 /**
- * 获取所有奇迹觉醒数据
+ * 获取所有已缓存的奇迹觉醒数据。
+ * @returns {MiraclePetAwakeData[]} 奇迹觉醒数据对象数组。
  */
 export function getAllAwakeData(): MiraclePetAwakeData[] {
   return Object.values(awakeDataCache);
 }
 
 /**
- * 获取所有奇迹宠物信息数据
+ * 获取所有已缓存的奇迹宠物信息数据。
+ * @returns {MiraclePetInfo[]} 奇迹宠物信息对象数组。
  */
 export function getAllPetInfoData(): MiraclePetInfo[] {
   return Object.values(petInfoDataCache);
 }
 
 /**
- * 获取所有奇迹突破数据
+ * 获取所有已缓存的奇迹突破数据。
+ * @returns {MiraclePetBreakData[]} 奇迹突破数据对象数组。
  */
 export function getAllBreakData(): MiraclePetBreakData[] {
   return Object.values(breakDataCache);

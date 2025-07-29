@@ -40,14 +40,17 @@ export async function initCrystalKeyModule(): Promise<boolean> {
 }
 
 /**
- * 获取所有晶钥
+ * 获取所有已缓存的晶钥。
+ * @returns {CrystalKey[]} 晶钥对象数组。
  */
 export function getAllCrystalKeys(): CrystalKey[] {
   return Object.values(crystalKeyCache);
 }
 
 /**
- * 根据ID获取单个晶钥
+ * 根据ID获取单个晶钥。
+ * @param {string} id - 晶钥的ID。
+ * @returns {CrystalKey | null} 对应的晶钥对象，如果未找到则返回null。
  */
 export function getCrystalKeyById(id: string): CrystalKey | null {
   return crystalKeyCache[id] || null;

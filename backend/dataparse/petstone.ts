@@ -55,18 +55,36 @@ export async function initPetStoneModule(): Promise<boolean> {
   }
 }
 
+/**
+ * 获取所有已缓存的进化石
+ * @returns {EvolutionStone[]} 进化石对象数组
+ */
 export function getAllEvolutionStones(): EvolutionStone[] {
   return Object.values(cachedEvolutionStones);
 }
 
+/**
+ * 根据ID获取特定的进化石
+ * @param {number} id - 进化石的ID
+ * @returns {EvolutionStone | undefined} 对应的进化石对象，如果未找到则返回undefined
+ */
 export function getEvolutionStoneById(id: number): EvolutionStone | undefined {
   return cachedEvolutionStones[id];
 }
 
+/**
+ * 获取所有已缓存的技能石
+ * @returns {SkillStone[]} 技能石对象数组
+ */
 export function getAllSkillStones(): SkillStone[] {
   return Object.values(cachedSkillStones);
 }
 
+/**
+ * 根据ID获取特定的技能石
+ * @param {number} id - 技能石的ID
+ * @returns {SkillStone | undefined} 对应的技能石对象，如果未找到则返回undefined
+ */
 export function getSkillStoneById(id: number): SkillStone | undefined {
   return cachedSkillStones[id];
 }

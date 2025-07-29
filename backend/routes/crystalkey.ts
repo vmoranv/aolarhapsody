@@ -9,6 +9,12 @@ const router = Router();
 // =================================
 // 晶钥API
 // =================================
+
+/**
+ * @route GET /crystalkeys
+ * @description 获取所有晶钥的简化列表。
+ * @returns {object} 200 - 成功获取晶钥列表。
+ */
 router.get('/crystalkeys', (req: Request, res: Response) => {
   const keys = getAllCrystalKeys();
   const simplifiedKeys = keys.map(key => ({
@@ -23,6 +29,13 @@ router.get('/crystalkeys', (req: Request, res: Response) => {
   });
 });
 
+/**
+ * @route GET /crystalkeys/:id
+ * @description 通过ID获取单个晶钥的详细信息。
+ * @param {string} id.path.required - 晶钥的唯一ID。
+ * @returns {object} 200 - 成功获取晶钥信息。
+ * @returns {object} 404 - 未找到指定ID的晶钥。
+ */
 router.get('/crystalkeys/:id', (req: Request, res: Response) => {
   const { id } = req.params;
   const key = getCrystalKeyById(id);

@@ -1,6 +1,9 @@
 import { fetchAndParseData } from './game-data-parser';
 import { Tote, ToteData, ToteEntryData, ToteValueData } from '../types/tote';
 
+/**
+ * 原始魂器数据负载接口。
+ */
 interface RawTotePayload {
   data: Record<string, [string, string, string, string, string, string, string, string]>;
   entry: Record<string, [string, string, string]>;
@@ -10,7 +13,8 @@ interface RawTotePayload {
 let cachedTotes: Tote | null = null;
 
 /**
- * 初始化魂器数据模块
+ * 初始化魂器数据模块。
+ * @returns {Promise<boolean>} 如果初始化成功，则返回true，否则返回false。
  */
 export async function initToteModule(): Promise<boolean> {
   try {
@@ -68,18 +72,37 @@ export async function initToteModule(): Promise<boolean> {
   }
 }
 
+/**
+ * 获取所有魂器数据。
+ * @returns {Tote | null} 缓存的魂器数据。
+ */
 export function getToteData() {
   return cachedTotes;
 }
 
+/**
+ * 根据ID获取魂器数据。
+ * @param {number} id - 魂器ID。
+ * @returns {ToteData | undefined} 找到的魂器数据，否则为undefined。
+ */
 export function getToteDataById(id: number) {
   return cachedTotes?.data.find(d => d.id === id);
 }
 
+/**
+ * 根据ID获取魂器词条数据。
+ * @param {number} id - 词条ID。
+ * @returns {ToteEntryData | undefined} 找到的魂器词条数据，否则为undefined。
+ */
 export function getToteEntryById(id: number) {
   return cachedTotes?.entry.find(e => e.id === id);
 }
 
+/**
+ * 根据ID获取魂器值数据。
+ * @param {number} id - 值ID。
+ * @returns {ToteValueData | undefined} 找到的魂器值数据，否则为undefined。
+ */
 export function getToteValueById(id: number) {
   return cachedTotes?.value.find(v => v.id === id);
 }

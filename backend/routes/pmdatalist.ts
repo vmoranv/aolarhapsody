@@ -16,6 +16,13 @@ const router = Router();
 // =================================
 // 技能属性相关API
 // =================================
+
+/**
+ * @route GET /skill-attributes
+ * @description 获取所有技能属性。
+ * @returns {object} 200 - 成功获取技能属性列表。
+ * @returns {object} 500 - 服务器内部错误。
+ */
 router.get('/skill-attributes', async (req: Request, res: Response) => {
   try {
     const data = await fetchAndGetAllSkillAttributes();
@@ -35,6 +42,13 @@ router.get('/skill-attributes', async (req: Request, res: Response) => {
   }
 });
 
+/**
+ * @route GET /attribute-relations/:id
+ * @description 获取指定ID的属性克制关系。
+ * @param {string} id - 属性的ID。
+ * @returns {object} 200 - 成功获取属性克制关系。
+ * @returns {object} 404 - 未找到指定ID的克制关系。
+ */
 router.get('/attribute-relations/:id', (req: Request, res: Response) => {
   const { id } = req.params;
   const relations = getAttributeRelations();
@@ -68,7 +82,11 @@ router.get('/attribute-relations/:id', (req: Request, res: Response) => {
 // 亚比图鉴相关API
 // =================================
 
-// 获取所有亚比的简要列表
+/**
+ * @route GET /pets
+ * @description 获取所有亚比的简要列表。
+ * @returns {object} 200 - 成功获取亚比列表。
+ */
 router.get('/pets', (req: Request, res: Response) => {
   const petList = getPetList();
   res.json({
@@ -79,7 +97,12 @@ router.get('/pets', (req: Request, res: Response) => {
   });
 });
 
-// 根据关键词搜索亚比
+/**
+ * @route GET /pets/search
+ * @description 根据关键词搜索亚比。
+ * @param {string} keyword - 用于搜索的关键词。
+ * @returns {object} 200 - 成功返回搜索结果。
+ */
 router.get('/pets/search', (req: Request, res: Response) => {
   const keyword = req.query.keyword as string;
   const results = searchPets(keyword);

@@ -46,14 +46,17 @@ export async function initInscriptionModule(): Promise<boolean> {
 }
 
 /**
- * 获取所有铭文
+ * 获取所有已缓存的铭文。
+ * @returns {Inscription[]} 铭文对象数组。
  */
 export function getAllInscriptions(): Inscription[] {
   return Object.values(inscriptionCache);
 }
 
 /**
- * 根据ID获取单个铭文
+ * 根据ID获取单个铭文。
+ * @param {string} id - 铭文的ID。
+ * @returns {Inscription | null} 对应的铭文对象，如果未找到则返回null。
  */
 export function getInscriptionById(id: string): Inscription | null {
   return inscriptionCache[id] || null;

@@ -1,5 +1,8 @@
+// 导入必要的模块
 import express, { Express, Request, Response } from 'express';
 import cors from 'cors';
+
+// 导入数据初始化模块
 import { initPetDataModule } from './dataparse/pmdatalist';
 import { initAstralSpiritDataModule } from './dataparse/astralspirit';
 import { initClothesModule } from './dataparse/clothes';
@@ -25,6 +28,7 @@ import { initTaskModule } from './dataparse/task';
 import { initTitleModule } from './dataparse/title';
 import { initToteModule } from './dataparse/tote';
 
+// 导入路由模块
 import pmRoutes from './routes/pmdatalist';
 import astralSpiritRoutes from './routes/astralspirit';
 import clothesRoutes from './routes/clothes';
@@ -50,6 +54,7 @@ import taskRoutes from './routes/task';
 import titleRoutes from './routes/title';
 import toteRoutes from './routes/tote';
 
+// 导入类型定义
 import { AstralSpirit, AstralSpiritSuit } from './types/astralspirit';
 import { Pet, Weather, Skill, SkillAttribute, ProcessedAttribute } from './types/pmdatalist';
 import { Clothes, ClothesSuit, ClothesAffectBody, ClothesPart } from './types/clothes';
@@ -75,20 +80,24 @@ import { TaskData, TaskDefine, TaskStarter, TaskBitTitle, TaskSubTitle, TaskArea
 import { Title, TitleConfig } from './types/title';
 import { Tote, ToteData, ToteEntryData, ToteValueData } from './types/tote';
 
+// 导出所有类型
 export type { AstralSpirit, AstralSpiritSuit, Pet, Weather, Skill, SkillAttribute, ProcessedAttribute, Clothes, ClothesSuit, ClothesAffectBody, ClothesPart, HeadFrame, PetIcon, HeadIcon, GalaxyFleetMark, SpEvo, ChatFrame, CrystalKey, GodCard, GodCardSuit, HKData, HKBuff, Item, Inscription, MiraclePetAwakeData, MiraclePetInfo, MiraclePetBreakData, SummonerSkillDataConfig, EvolutionStone, SkillStone, PetCard2, PetCard, PetCardSuit, PetDictionaryDataItem, PetTalk, PetTerritoryFight, TaskData, TaskDefine, TaskStarter, TaskBitTitle, TaskSubTitle, TaskAreaConfig, TaskNpcName, Title, TitleConfig, Tote, ToteData, ToteEntryData, ToteValueData };
 
+// 创建Express应用
 const app: Express = express();
 const port = 3000;
 
-// Enable CORS for all routes
+// 为所有路由启用CORS
 app.use(cors());
+// 解析JSON请求体
 app.use(express.json());
 
+// 根路由端点
 app.get('/', (req: Request, res: Response) => {
-  res.send('Hello World!');
+  res.send('你好，世界！');
 });
 
-// Use routes
+// 使用路由
 app.use('/api', pmRoutes);
 app.use('/api', astralSpiritRoutes);
 app.use('/api', clothesRoutes);
@@ -118,6 +127,7 @@ app.use('/api', toteRoutes);
 // 服务器启动
 // =================================
 async function startServer() {
+  // 初始化所有数据模块
   console.log('正在初始化亚比数据模块...');
   const petDataSuccess = await initPetDataModule();
   if (petDataSuccess) {

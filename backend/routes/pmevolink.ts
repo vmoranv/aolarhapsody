@@ -9,6 +9,12 @@ const router = Router();
 // =================================
 // 特殊进化API
 // =================================
+
+/**
+ * @route GET /spevo
+ * @description 获取所有特殊进化链接。
+ * @returns {object} 200 - 成功获取特殊进化链接列表。
+ */
 router.get('/spevo', (req: Request, res: Response) => {
   const links = getAllSpEvoLinks();
   res.json({
@@ -19,6 +25,13 @@ router.get('/spevo', (req: Request, res: Response) => {
   });
 });
 
+/**
+ * @route GET /spevo/:id
+ * @description 通过前置ID获取单个特殊进化链接。
+ * @param {string} id - 进化前的亚比ID。
+ * @returns {object} 200 - 成功获取特殊进化链接信息。
+ * @returns {object} 404 - 未找到指定前置ID的特殊进化链接。
+ */
 router.get('/spevo/:id', (req: Request, res: Response) => {
   const { id } = req.params;
   const link = getSpEvoLinkByBeforeId(id);

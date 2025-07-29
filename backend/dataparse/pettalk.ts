@@ -43,10 +43,19 @@ export async function initPetTalkModule(): Promise<boolean> {
   }
 }
 
+/**
+ * 获取所有已缓存的亚比语音
+ * @returns {PetTalk[]} 亚比语音对象数组
+ */
 export function getAllPetTalks(): PetTalk[] {
   return Object.values(cachedPetTalks);
 }
 
+/**
+ * 根据种族ID获取特定的亚比语音
+ * @param {number} id - 亚比的种族ID
+ * @returns {PetTalk | undefined} 对应的亚比语音对象，如果未找到则返回undefined
+ */
 export function getPetTalksByRaceId(id: number): PetTalk | undefined {
   return cachedPetTalks[id];
 }

@@ -11,6 +11,12 @@ const router = Router();
 // =================================
 // 魂卡API
 // =================================
+
+/**
+ * @route GET /hkdata
+ * @description 获取所有魂卡的简化列表。
+ * @returns {object} 200 - 成功获取魂卡列表。
+ */
 router.get('/hkdata', (req: Request, res: Response) => {
   const data = getAllHkData();
   const simplifiedData = data.map(item => ({
@@ -25,6 +31,13 @@ router.get('/hkdata', (req: Request, res: Response) => {
   });
 });
 
+/**
+ * @route GET /hkdata/:id
+ * @description 通过ID获取单个魂卡的详细信息。
+ * @param {string} id.path.required - 魂卡的唯一ID。
+ * @returns {object} 200 - 成功获取魂卡信息。
+ * @returns {object} 404 - 未找到指定ID的魂卡。
+ */
 router.get('/hkdata/:id', (req: Request, res: Response) => {
   const { id } = req.params;
   const item = getHkDataById(id);
@@ -47,6 +60,12 @@ router.get('/hkdata/:id', (req: Request, res: Response) => {
 // =================================
 // 魂卡Buff API
 // =================================
+
+/**
+ * @route GET /hkbuffs
+ * @description 获取所有魂卡Buff。
+ * @returns {object} 200 - 成功获取魂卡Buff列表。
+ */
 router.get('/hkbuffs', (req: Request, res: Response) => {
   const buffs = getAllHkBuffs();
   res.json({
@@ -57,6 +76,13 @@ router.get('/hkbuffs', (req: Request, res: Response) => {
   });
 });
 
+/**
+ * @route GET /hkbuffs/:id
+ * @description 通过ID获取单个魂卡Buff的详细信息。
+ * @param {string} id.path.required - 魂卡Buff的唯一ID。
+ * @returns {object} 200 - 成功获取魂卡Buff信息。
+ * @returns {object} 404 - 未找到指定ID的魂卡Buff。
+ */
 router.get('/hkbuffs/:id', (req: Request, res: Response) => {
   const { id } = req.params;
   const buff = getHkBuffById(id);

@@ -45,7 +45,8 @@ export async function initHeadFrameModule(): Promise<boolean> {
 }
 
 /**
- * 获取所有头像框的简要列表
+ * 获取所有已缓存头像框的简要列表。
+ * @returns {{ id: number; name: string }[]} 包含头像框ID和名称的对象数组。
  */
 export function getAllHeadFrames(): { id: number; name: string }[] {
   return Object.values(headFrameCache).map(frame => ({
@@ -55,7 +56,9 @@ export function getAllHeadFrames(): { id: number; name: string }[] {
 }
 
 /**
- * 根据ID获取单个头像框的完整信息
+ * 根据ID获取单个头像框的完整信息。
+ * @param {string} id - 头像框的ID。
+ * @returns {HeadFrame | null} 对应的头像框对象，如果未找到则返回null。
  */
 export function getHeadFrameById(id: string): HeadFrame | null {
   return headFrameCache[id] || null;

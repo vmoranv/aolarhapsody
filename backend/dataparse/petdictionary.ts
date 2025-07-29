@@ -57,10 +57,19 @@ export async function initPetDictionaryModule(): Promise<boolean> {
   }
 }
 
+/**
+ * 获取所有已缓存的亚比图鉴数据
+ * @returns {PetDictionaryDataItem[]} 亚比图鉴条目对象数组
+ */
 export function getAllPetDictionaryData(): PetDictionaryDataItem[] {
   return Object.values(cachedPetDictionaryData);
 }
 
+/**
+ * 根据宠物ID获取特定的亚比图鉴数据
+ * @param {number} id - 宠物的ID
+ * @returns {PetDictionaryDataItem | undefined} 对应的亚比图鉴条目对象，如果未找到则返回undefined
+ */
 export function getPetDictionaryDataById(id: number): PetDictionaryDataItem | undefined {
   return cachedPetDictionaryData[id];
 }

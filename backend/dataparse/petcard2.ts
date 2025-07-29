@@ -51,10 +51,19 @@ export async function initPetCard2Module(): Promise<boolean> {
   }
 }
 
+/**
+ * 获取所有已缓存的特性晶石
+ * @returns {PetCard2[]} 特性晶石对象数组
+ */
 export function getAllPetCard2s(): PetCard2[] {
   return Object.values(cachedPetCard2s);
 }
 
+/**
+ * 根据ID获取特定的特性晶石
+ * @param {number} id - 特性晶石的ID
+ * @returns {PetCard2 | undefined} 对应的特性晶石对象，如果未找到则返回undefined
+ */
 export function getPetCard2ById(id: number): PetCard2 | undefined {
   return cachedPetCard2s[id];
 }

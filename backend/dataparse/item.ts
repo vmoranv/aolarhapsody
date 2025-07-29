@@ -56,21 +56,25 @@ export async function initItemModule(): Promise<boolean> {
 }
 
 /**
- * 获取所有道具
+ * 获取所有已缓存的道具。
+ * @returns {Item[]} 道具对象数组。
  */
 export function getAllItems(): Item[] {
   return Object.values(itemCache);
 }
 
 /**
- * 根据ID获取单个道具
+ * 根据ID获取单个道具。
+ * @param {string} id - 道具的ID。
+ * @returns {Item | null} 对应的道具对象，如果未找到则返回null。
  */
 export function getItemById(id: string): Item | null {
   return itemCache[id] || null;
 }
 
 /**
- * 获取所有宠物相关道具ID
+ * 获取所有与宠物相关的道具ID。
+ * @returns {number[]} 宠物相关道具ID的数组。
  */
 export function getPetItemIds(): number[] {
   return petItemIds;

@@ -83,7 +83,8 @@ export async function initAstralSpiritDataModule(): Promise<boolean> {
 }
 
 /**
- * 获取所有星灵的简要列表
+ * 获取所有已缓存星灵的简要列表。
+ * @returns {{ id: number; name: string }[]} 包含星灵ID和名称的对象数组。
  */
 export function getAllAstralSpirits(): { id: number; name: string }[] {
   return Object.values(astralSpiritCache).map(spirit => ({
@@ -93,14 +94,17 @@ export function getAllAstralSpirits(): { id: number; name: string }[] {
 }
 
 /**
- * 根据ID获取单个星灵的完整信息
+ * 根据ID获取单个星灵的完整信息。
+ * @param {string} id - 星灵的ID。
+ * @returns {AstralSpirit | null} 对应的星灵对象，如果未找到则返回null。
  */
 export function getAstralSpiritById(id: string): AstralSpirit | null {
   return astralSpiritCache[id] || null;
 }
 
 /**
- * 获取所有星灵套装的简要列表
+ * 获取所有已缓存星灵套装的简要列表。
+ * @returns {{ id: number; name: string }[]} 包含套装ID和名称的对象数组。
  */
 export function getAllAstralSpiritSuits(): { id: number; name: string }[] {
   return Object.values(astralSpiritSuitCache).map(suit => ({
@@ -110,7 +114,9 @@ export function getAllAstralSpiritSuits(): { id: number; name: string }[] {
 }
 
 /**
- * 根据ID获取单个星灵套装的完整信息
+ * 根据ID获取单个星灵套装的完整信息。
+ * @param {string} id - 套装的ID。
+ * @returns {AstralSpiritSuit | null} 对应的套装对象，如果未找到则返回null。
  */
 export function getAstralSpiritSuitById(id: string): AstralSpiritSuit | null {
   return astralSpiritSuitCache[id] || null;

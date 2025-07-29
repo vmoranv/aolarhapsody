@@ -10,6 +10,12 @@ const router = Router();
 // =================================
 // 道具API
 // =================================
+
+/**
+ * @route GET /items
+ * @description 获取所有道具的简化列表。
+ * @returns {object} 200 - 成功获取道具列表。
+ */
 router.get('/items', (req: Request, res: Response) => {
   const items = getAllItems();
   const simplifiedItems = items.map(item => ({
@@ -24,6 +30,13 @@ router.get('/items', (req: Request, res: Response) => {
   });
 });
 
+/**
+ * @route GET /items/:id
+ * @description 通过ID获取单个道具的详细信息。
+ * @param {string} id.path.required - 道具的唯一ID。
+ * @returns {object} 200 - 成功获取道具信息。
+ * @returns {object} 404 - 未找到指定ID的道具。
+ */
 router.get('/items/:id', (req: Request, res: Response) => {
   const { id } = req.params;
   const item = getItemById(id);
@@ -43,6 +56,11 @@ router.get('/items/:id', (req: Request, res: Response) => {
   }
 });
 
+/**
+ * @route GET /petitems
+ * @description 获取所有与宠物相关的道具ID列表。
+ * @returns {object} 200 - 成功获取宠物道具ID列表。
+ */
 router.get('/petitems', (req: Request, res: Response) => {
   const ids = getPetItemIds();
   res.json({

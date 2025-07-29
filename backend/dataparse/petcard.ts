@@ -4,6 +4,11 @@ import { PetCard, PetCardSuit } from '../types/petcard';
 const cachedPetCards: Record<string, PetCard> = {};
 const cachedPetCardSuits: Record<string, PetCardSuit> = {};
 
+/**
+ * 解析数字数组。
+ * @param {string | number[]} input - 输入的字符串或数字数组。
+ * @returns {number[]} 解析后的数字数组。
+ */
 function parseNumberArray(input: string | number[]): number[] {
   if (typeof input === 'string') {
     return input.split(',').map(Number);
@@ -12,7 +17,8 @@ function parseNumberArray(input: string | number[]): number[] {
 }
 
 /**
- * 初始化装备数据模块
+ * 初始化装备数据模块。
+ * @returns {Promise<boolean>} 如果初始化成功，则返回true，否则返回false。
  */
 export async function initPetCardModule(): Promise<boolean> {
   try {
@@ -28,7 +34,7 @@ export async function initPetCardModule(): Promise<boolean> {
       return false;
     }
 
-    // Parse PetCards
+    // 解析装备卡
     Object.values(responseData.data).forEach(item => {
       if (item.length >= 23) {
         const card: PetCard = {
@@ -60,7 +66,7 @@ export async function initPetCardModule(): Promise<boolean> {
       }
     });
 
-    // Parse PetCardSuits
+    // 解析装备卡套装
     Object.values(responseData.suit).forEach(item => {
       if (item.length >= 8) {
         const suit: PetCardSuit = {
@@ -85,18 +91,36 @@ export async function initPetCardModule(): Promise<boolean> {
   }
 }
 
+/**
+ * 获取所有装备卡。
+ * @returns {PetCard[]} 所有装备卡的数组。
+ */
 export function getAllPetCards(): PetCard[] {
   return Object.values(cachedPetCards);
 }
 
+/**
+ * 根据ID获取装备卡。
+ * @param {number} id - 装备卡ID。
+ * @returns {PetCard | undefined} 找到的装备卡，否则为undefined。
+ */
 export function getPetCardById(id: number): PetCard | undefined {
   return cachedPetCards[id];
 }
 
+/**
+ * 获取所有装备卡套装。
+ * @returns {PetCardSuit[]} 所有装备卡套装的数组。
+ */
 export function getAllPetCardSuits(): PetCardSuit[] {
   return Object.values(cachedPetCardSuits);
 }
 
+/**
+ * 根据ID获取装备卡套装。
+ * @param {number} id - 装备卡套装ID。
+ * @returns {PetCardSuit | undefined} 找到的装备卡套装，否则为undefined。
+ */
 export function getPetCardSuitById(id: number): PetCardSuit | undefined {
   return cachedPetCardSuits[id];
 }

@@ -52,14 +52,27 @@ export async function initTitleModule(): Promise<boolean> {
   }
 }
 
+/**
+ * 获取所有已缓存的称号数据
+ * @returns {TitleData | null} 包含称号配置和称号列表的对象，如果未初始化则返回null
+ */
 export function getTitleData() {
   return cachedTitles;
 }
 
+/**
+ * 根据ID获取特定的称号
+ * @param {number} id - 称号的ID
+ * @returns {Title | undefined} 对应的称号对象，如果未找到则返回undefined
+ */
 export function getTitleById(id: number) {
   return cachedTitles?.data.find(t => t.titleId === id);
 }
 
+/**
+ * 获取称号的配置信息
+ * @returns {TitleConfig | undefined} 称号的配置对象，如果未初始化则返回undefined
+ */
 export function getTitleConfig() {
   return cachedTitles?.titleConfig;
 }
