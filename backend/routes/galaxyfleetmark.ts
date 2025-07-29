@@ -1,38 +1,38 @@
 import { Router, Request, Response } from 'express';
 import {
-  getAllHeadFrames,
-  getHeadFrameById,
-} from '../dataparse/headframe';
+  getAllGalaxyFleetMarks,
+  getGalaxyFleetMarkById,
+} from '../dataparse/galaxyfleetmark';
 
 const router = Router();
 
 // =================================
-// 头像框API
+// 舰队头衔API
 // =================================
-router.get('/headframes', (req: Request, res: Response) => {
-  const frames = getAllHeadFrames();
+router.get('/galaxyfleetmarks', (req: Request, res: Response) => {
+  const marks = getAllGalaxyFleetMarks();
   res.json({
     success: true,
-    data: frames,
-    count: frames.length,
+    data: marks,
+    count: marks.length,
     timestamp: new Date().toISOString(),
   });
 });
 
-router.get('/headframes/:id', (req: Request, res: Response) => {
+router.get('/galaxyfleetmarks/:id', (req: Request, res: Response) => {
   const { id } = req.params;
-  const frame = getHeadFrameById(id);
+  const mark = getGalaxyFleetMarkById(id);
 
-  if (frame) {
+  if (mark) {
     res.json({
       success: true,
-      data: frame,
+      data: mark,
       timestamp: new Date().toISOString(),
     });
   } else {
     res.status(404).json({
       success: false,
-      error: `未找到ID为 ${id} 的头像框`,
+      error: `未找到ID为 ${id} 的银河舰队徽章`,
       timestamp: new Date().toISOString(),
     });
   }

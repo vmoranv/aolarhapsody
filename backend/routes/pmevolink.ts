@@ -1,38 +1,38 @@
 import { Router, Request, Response } from 'express';
 import {
-  getAllHeadFrames,
-  getHeadFrameById,
-} from '../dataparse/headframe';
+  getAllSpEvoLinks,
+  getSpEvoLinkByBeforeId,
+} from '../dataparse/pmevolink';
 
 const router = Router();
 
 // =================================
-// 头像框API
+// 特殊进化API
 // =================================
-router.get('/headframes', (req: Request, res: Response) => {
-  const frames = getAllHeadFrames();
+router.get('/spevo', (req: Request, res: Response) => {
+  const links = getAllSpEvoLinks();
   res.json({
     success: true,
-    data: frames,
-    count: frames.length,
+    data: links,
+    count: links.length,
     timestamp: new Date().toISOString(),
   });
 });
 
-router.get('/headframes/:id', (req: Request, res: Response) => {
+router.get('/spevo/:id', (req: Request, res: Response) => {
   const { id } = req.params;
-  const frame = getHeadFrameById(id);
+  const link = getSpEvoLinkByBeforeId(id);
 
-  if (frame) {
+  if (link) {
     res.json({
       success: true,
-      data: frame,
+      data: link,
       timestamp: new Date().toISOString(),
     });
   } else {
     res.status(404).json({
       success: false,
-      error: `未找到ID为 ${id} 的头像框`,
+      error: `未找到前置ID为 ${id} 的特殊进化链接`,
       timestamp: new Date().toISOString(),
     });
   }

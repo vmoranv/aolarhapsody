@@ -1,12 +1,12 @@
 import { fetchAndParseJSON } from './game-data-parser';
-import { HeadFrame } from './types/headframe';
+import { HeadFrame } from '../types/headframe';
 
 const headFrameCache: Record<string, HeadFrame> = {};
 
 /**
- * 解析并缓存头像框数据
+ * 初始化头像框数据模块
  */
-export async function parseAndCacheHeadFrames(): Promise<boolean> {
+export async function initHeadFrameModule(): Promise<boolean> {
   try {
     const url = 'https://aola.100bt.com/h5/data/headframedata.json';
     console.log('开始获取头像框数据JSON文件...');

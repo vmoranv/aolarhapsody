@@ -7,7 +7,7 @@ import {
   getAllClothesAffectBody,
   getAllClothesParts,
   getClothesPartById,
-} from '../clothes';
+} from '../dataparse/clothes';
 
 const router = Router();
 

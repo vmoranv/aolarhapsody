@@ -1,13 +1,13 @@
 import { fetchAndParseJSON } from './game-data-parser';
-import { AstralSpirit, AstralSpiritSuit } from './types/astralspirit';
+import { AstralSpirit, AstralSpiritSuit } from '../types/astralspirit';
 
 const astralSpiritCache: Record<string, AstralSpirit> = {};
 const astralSpiritSuitCache: Record<string, AstralSpiritSuit> = {};
 
 /**
- * 解析并缓存星灵数据
+ * 初始化星灵数据模块
  */
-export async function parseAndCacheAstralSpirits(): Promise<boolean> {
+export async function initAstralSpiritDataModule(): Promise<boolean> {
   try {
     const url = 'https://aola.100bt.com/h5/data/astralspiritdata.json';
     console.log('开始获取星灵数据JSON文件...');

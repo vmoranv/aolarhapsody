@@ -1,6 +1,5 @@
-import axios from 'axios';
-import { fetchAndParseDictionary } from './game-data-parser';
-import { Pet, Weather, Skill, SkillAttribute, ProcessedAttribute } from './types/pmdatalist';
+import { fetchAndParseDictionary, fetchAndParseJSON } from './game-data-parser';
+import { Pet, Weather, Skill, SkillAttribute, ProcessedAttribute } from '../types/pmdatalist';
 
 // =================================
 // 核心逻辑
@@ -315,17 +314,15 @@ export async function initPetDataModule(): Promise<boolean> {
   try {
     const url = 'https://aola.100bt.com/h5/data/pmdatalist.json';
     console.log('开始获取亚比数据JSON文件...');
-    const response = await axios.get(url, {
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36',
-      },
-    });
-
-    if (response.status !== 200) {
-      throw new Error(`HTTP错误: ${response.status} ${response.statusText}`);
-    }
-    
-    return parseAndCacheFullPetData(response.data);
+    const data = await fetchAndParseJSON(url) as {
+      pmDataMap: unknown,
+      pmExpMap: Record<string, (string | number)[]>,
+      pmWeatherMap: Record<string, (string | number)[]>,
+      pmSkillMap: Record<string, (string | number)[]>,
+      pmSkillMap1: Record<string, (string | number)[]>,
+      pmAttDefTableMap: Record<string, string[]>
+    };
+    return parseAndCacheFullPetData(data);
   } catch (error) {
     console.error('初始化亚比数据处理模块失败:', error);
     return false;

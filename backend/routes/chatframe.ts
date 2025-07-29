@@ -1,27 +1,31 @@
 import { Router, Request, Response } from 'express';
 import {
-  getAllHeadFrames,
-  getHeadFrameById,
-} from '../dataparse/headframe';
+  getAllChatFrames,
+  getChatFrameById,
+} from '../dataparse/chatframe';
 
 const router = Router();
 
 // =================================
-// 头像框API
+// 聊天头像框API
 // =================================
-router.get('/headframes', (req: Request, res: Response) => {
-  const frames = getAllHeadFrames();
+router.get('/chatframes', (req: Request, res: Response) => {
+  const frames = getAllChatFrames();
+  const simplifiedFrames = frames.map(frame => ({
+    id: frame.id,
+    name: frame.name,
+  }));
   res.json({
     success: true,
-    data: frames,
-    count: frames.length,
+    data: simplifiedFrames,
+    count: simplifiedFrames.length,
     timestamp: new Date().toISOString(),
   });
 });
 
-router.get('/headframes/:id', (req: Request, res: Response) => {
+router.get('/chatframes/:id', (req: Request, res: Response) => {
   const { id } = req.params;
-  const frame = getHeadFrameById(id);
+  const frame = getChatFrameById(id);
 
   if (frame) {
     res.json({
@@ -32,7 +36,7 @@ router.get('/headframes/:id', (req: Request, res: Response) => {
   } else {
     res.status(404).json({
       success: false,
-      error: `未找到ID为 ${id} 的头像框`,
+      error: `未找到ID为 ${id} 的聊天框`,
       timestamp: new Date().toISOString(),
     });
   }

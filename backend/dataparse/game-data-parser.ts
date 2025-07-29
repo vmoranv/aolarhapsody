@@ -85,3 +85,13 @@ export async function fetchAndParseJSON(url: string): Promise<unknown> {
     throw error;
   }
 }
+
+/**
+ * 从给定的URL获取并解析一个JSON文件，并将其转换为指定的类型。
+ * @param url - JSON文件的URL。
+ * @returns 解析后的类型化JSON数据。
+ */
+export async function fetchAndParseData<T>(url: string): Promise<T> {
+  const data = await fetchAndParseJSON(url);
+  return data as T;
+}

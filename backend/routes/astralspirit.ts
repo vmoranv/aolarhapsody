@@ -4,7 +4,7 @@ import {
   getAstralSpiritById,
   getAllAstralSpiritSuits,
   getAstralSpiritSuitById
-} from '../astralspirit';
+} from '../dataparse/astralspirit';
 
 const router = Router();
 

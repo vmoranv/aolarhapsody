@@ -4,7 +4,7 @@ import {
   getPetIconById,
   getAllHeadIcons,
   getHeadIconById,
-} from '../icondata';
+} from '../dataparse/icondata';
 
 const router = Router();
 

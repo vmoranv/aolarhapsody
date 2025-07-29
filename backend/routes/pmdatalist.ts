@@ -9,7 +9,7 @@ import {
   getSkillById,
   getAttributeRelations,
   fetchAndGetAllSkillAttributes
-} from '../pmdatalist';
+} from '../dataparse/pmdatalist';
 
 const router = Router();
 

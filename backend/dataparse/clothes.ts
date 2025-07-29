@@ -1,5 +1,5 @@
 import { fetchAndParseJSON } from './game-data-parser';
-import { Clothes, ClothesSuit, ClothesAffectBody, ClothesPart } from './types/clothes';
+import { Clothes, ClothesSuit, ClothesAffectBody, ClothesPart } from '../types/clothes';
 
 const clothesCache: Record<string, Clothes> = {};
 const clothesSuitCache: Record<string, ClothesSuit> = {};
@@ -7,9 +7,9 @@ const clothesAffectBodyCache: Record<string, ClothesAffectBody> = {};
 const clothesPartCache: Record<string, ClothesPart> = {};
 
 /**
- * 解析并缓存服装数据
+ * 初始化服装数据模块
  */
-export async function parseAndCacheClothes(): Promise<boolean> {
+export async function initClothesModule(): Promise<boolean> {
   try {
     const clothesDataUrl = 'https://aola.100bt.com/h5/data/clothesdata.json';
     const clothesPartUrl = 'https://aola.100bt.com/h5/data/clothespartdata_des.json';

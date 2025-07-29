@@ -1,13 +1,13 @@
 import { fetchAndParseJSON } from './game-data-parser';
-import { PetIcon, HeadIcon } from './types/icondata';
+import { PetIcon, HeadIcon } from '../types/icondata';
 
 const petIconCache: Record<string, PetIcon> = {};
 const headIconCache: Record<string, HeadIcon> = {};
 
 /**
- * 解析并缓存宠物图标和头像数据
+ * 初始化图标数据模块
  */
-export async function parseAndCacheIcons(): Promise<boolean> {
+export async function initIconModule(): Promise<boolean> {
   try {
     const petIconUrl = 'https://aola.100bt.com/h5/data/peticondata.json';
     const headIconUrl = 'https://aola.100bt.com/h5/data/headicondata.json';
