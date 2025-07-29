@@ -9,7 +9,6 @@ const cachedPetDictionaryData: Record<string, PetDictionaryDataItem> = {};
 export async function initPetDictionaryModule(): Promise<boolean> {
   try {
     const url = 'https://aola.100bt.com/h5/data/petdictionarydata.json';
-    console.log('开始获取亚比图鉴数据JSON文件...');
     const responseData = await fetchAndParseJSON(url) as {
       data: Record<string, string[]>;
     };
@@ -49,7 +48,6 @@ export async function initPetDictionaryModule(): Promise<boolean> {
       }
     });
 
-    console.log(`成功解析并缓存了 ${Object.keys(cachedPetDictionaryData).length} 个亚比图鉴条目`);
     return true;
   } catch (error) {
     console.error('解析亚比图鉴数据时出错:', error);

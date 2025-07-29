@@ -14,8 +14,8 @@ const router = Router();
 
 /**
  * @route GET /peticons
- * @description 获取所有宠物图标。
- * @returns {object} 200 - 包含所有宠物图标的数组。
+ * @description 获取所有宠物图标
+ * @returns {object} 200 - 包含所有宠物图标的数组
  */
 router.get('/peticons', (req: Request, res: Response) => {
   const icons = getAllPetIcons();
@@ -29,10 +29,10 @@ router.get('/peticons', (req: Request, res: Response) => {
 
 /**
  * @route GET /peticons/:id
- * @description 根据ID获取单个宠物图标。
- * @param {string} id - 宠物图标ID。
- * @returns {object} 200 - 宠物图标对象。
- * @returns {object} 404 - 如果未找到宠物图标。
+ * @description 根据ID获取单个宠物图标
+ * @param {string} id - 宠物图标ID
+ * @returns {object} 200 - 宠物图标对象
+ * @returns {object} 404 - 如果未找到宠物图标
  */
 router.get('/peticons/:id', (req: Request, res: Response) => {
   const { id } = req.params;
@@ -55,25 +55,29 @@ router.get('/peticons/:id', (req: Request, res: Response) => {
 
 /**
  * @route GET /headicons
- * @description 获取所有头像图标。
- * @returns {object} 200 - 包含所有头像图标的数组。
+ * @description 获取所有头像图标的简化列表
+ * @returns {object} 200 - 包含所有头像图标的简化信息的数组
  */
 router.get('/headicons', (req: Request, res: Response) => {
   const icons = getAllHeadIcons();
+  const simplifiedIcons = icons.map(icon => ({
+    id: icon.id,
+    name: icon.name,
+  }));
   res.json({
     success: true,
-    data: icons,
-    count: icons.length,
+    data: simplifiedIcons,
+    count: simplifiedIcons.length,
     timestamp: new Date().toISOString(),
   });
 });
 
 /**
  * @route GET /headicons/:id
- * @description 根据ID获取单个头像图标。
- * @param {string} id - 头像图标ID。
- * @returns {object} 200 - 头像图标对象。
- * @returns {object} 404 - 如果未找到头像图标。
+ * @description 根据ID获取单个头像图标
+ * @param {string} id - 头像图标ID
+ * @returns {object} 200 - 头像图标对象
+ * @returns {object} 404 - 如果未找到头像图标
  */
 router.get('/headicons/:id', (req: Request, res: Response) => {
   const { id } = req.params;

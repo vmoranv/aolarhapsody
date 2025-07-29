@@ -9,7 +9,6 @@ const chatFrameCache: Record<string, ChatFrame> = {};
 export async function initChatFrameModule(): Promise<boolean> {
   try {
     const url = 'https://aola.100bt.com/h5/data/chatframedata.json';
-    console.log('开始获取聊天框数据JSON文件...');
     const response = await fetchAndParseJSON(url) as {
       data: Record<string, (string | number)[]>;
     };
@@ -36,7 +35,6 @@ export async function initChatFrameModule(): Promise<boolean> {
       }
     });
 
-    console.log(`成功解析并缓存了 ${Object.keys(chatFrameCache).length} 个聊天框`);
     return true;
   } catch (error) {
     console.error('解析聊天框数据时出错:', error);
@@ -45,17 +43,17 @@ export async function initChatFrameModule(): Promise<boolean> {
 }
 
 /**
- * 获取所有已缓存的聊天框。
- * @returns {ChatFrame[]} 聊天框对象数组。
+ * 获取所有已缓存的聊天框
+ * @returns {ChatFrame[]} 聊天框对象数组
  */
 export function getAllChatFrames(): ChatFrame[] {
   return Object.values(chatFrameCache);
 }
 
 /**
- * 根据ID获取单个聊天框。
- * @param {string} id - 聊天框的ID。
- * @returns {ChatFrame | null} 对应的聊天框对象，如果未找到则返回null。
+ * 根据ID获取单个聊天框
+ * @param {string} id - 聊天框的ID
+ * @returns {ChatFrame | null} 对应的聊天框对象，如果未找到则返回null
  */
 export function getChatFrameById(id: string): ChatFrame | null {
   return chatFrameCache[id] || null;

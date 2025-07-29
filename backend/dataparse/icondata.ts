@@ -11,7 +11,6 @@ export async function initIconModule(): Promise<boolean> {
   try {
     const petIconUrl = 'https://aola.100bt.com/h5/data/peticondata.json';
     const headIconUrl = 'https://aola.100bt.com/h5/data/headicondata.json';
-    console.log('开始获取宠物图标和头像数据JSON文件...');
 
     const [petIconResponse, headIconResponse] = await Promise.all([
       fetchAndParseJSON(petIconUrl) as Promise<Record<string, number>>,
@@ -25,7 +24,6 @@ export async function initIconModule(): Promise<boolean> {
           iconType: Number(value),
         };
       });
-      console.log(`成功解析并缓存了 ${Object.keys(petIconCache).length} 个宠物图标`);
     } else {
       console.error('宠物图标数据为空或格式不正确');
     }
@@ -46,7 +44,6 @@ export async function initIconModule(): Promise<boolean> {
           headIconCache[headIcon.id] = headIcon;
         }
       });
-      console.log(`成功解析并缓存了 ${Object.keys(headIconCache).length} 个头像`);
     } else {
       console.error('头像数据为空或格式不正确');
     }
@@ -59,34 +56,34 @@ export async function initIconModule(): Promise<boolean> {
 }
 
 /**
- * 获取所有已缓存的宠物图标。
- * @returns {PetIcon[]} 宠物图标对象数组。
+ * 获取所有已缓存的宠物图标
+ * @returns {PetIcon[]} 宠物图标对象数组
  */
 export function getAllPetIcons(): PetIcon[] {
   return Object.values(petIconCache);
 }
 
 /**
- * 根据ID获取单个宠物图标。
- * @param {string} id - 宠物图标的ID (viewId)。
- * @returns {PetIcon | null} 对应的宠物图标对象，如果未找到则返回null。
+ * 根据ID获取单个宠物图标
+ * @param {string} id - 宠物图标的ID (viewId)
+ * @returns {PetIcon | null} 对应的宠物图标对象，如果未找到则返回null
  */
 export function getPetIconById(id: string): PetIcon | null {
   return petIconCache[id] || null;
 }
 
 /**
- * 获取所有已缓存的头像图标。
- * @returns {HeadIcon[]} 头像图标对象数组。
+ * 获取所有已缓存的头像图标
+ * @returns {HeadIcon[]} 头像图标对象数组
  */
 export function getAllHeadIcons(): HeadIcon[] {
   return Object.values(headIconCache);
 }
 
 /**
- * 根据ID获取单个头像图标。
- * @param {string} id - 头像图标的ID。
- * @returns {HeadIcon | null} 对应的头像图标对象，如果未找到则返回null。
+ * 根据ID获取单个头像图标
+ * @param {string} id - 头像图标的ID
+ * @returns {HeadIcon | null} 对应的头像图标对象，如果未找到则返回null
  */
 export function getHeadIconById(id: string): HeadIcon | null {
   return headIconCache[id] || null;

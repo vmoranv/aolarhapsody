@@ -9,7 +9,6 @@ const inscriptionCache: Record<string, Inscription> = {};
 export async function initInscriptionModule(): Promise<boolean> {
   try {
     const url = 'https://aola.100bt.com/h5/data/inscriptiondata.json';
-    console.log('开始获取铭文数据JSON文件...');
     const response = await fetchAndParseJSON(url) as {
       data: Record<string, (string | number)[]>;
     };
@@ -37,7 +36,6 @@ export async function initInscriptionModule(): Promise<boolean> {
       }
     });
 
-    console.log(`成功解析并缓存了 ${Object.keys(inscriptionCache).length} 个铭文`);
     return true;
   } catch (error) {
     console.error('解析铭文数据时出错:', error);
@@ -46,17 +44,17 @@ export async function initInscriptionModule(): Promise<boolean> {
 }
 
 /**
- * 获取所有已缓存的铭文。
- * @returns {Inscription[]} 铭文对象数组。
+ * 获取所有已缓存的铭文
+ * @returns {Inscription[]} 铭文对象数组
  */
 export function getAllInscriptions(): Inscription[] {
   return Object.values(inscriptionCache);
 }
 
 /**
- * 根据ID获取单个铭文。
- * @param {string} id - 铭文的ID。
- * @returns {Inscription | null} 对应的铭文对象，如果未找到则返回null。
+ * 根据ID获取单个铭文
+ * @param {string} id - 铭文的ID
+ * @returns {Inscription | null} 对应的铭文对象，如果未找到则返回null
  */
 export function getInscriptionById(id: string): Inscription | null {
   return inscriptionCache[id] || null;

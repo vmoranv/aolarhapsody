@@ -14,8 +14,8 @@ const router = Router();
 
 /**
  * @route GET /godcards
- * @description 获取所有神兵的简化列表。
- * @returns {object} 200 - 成功获取神兵列表。
+ * @description 获取所有神兵的简化列表
+ * @returns {object} 200 - 成功获取神兵列表
  */
 router.get('/godcards', (req: Request, res: Response) => {
   const cards = getAllGodCards();
@@ -33,10 +33,10 @@ router.get('/godcards', (req: Request, res: Response) => {
 
 /**
  * @route GET /godcards/:id
- * @description 通过ID获取单个神兵的详细信息。
- * @param {string} id.path.required - 神兵的唯一ID。
- * @returns {object} 200 - 成功获取神兵信息。
- * @returns {object} 404 - 未找到指定ID的神兵。
+ * @description 通过ID获取单个神兵的详细信息
+ * @param {string} id.path.required - 神兵的唯一ID
+ * @returns {object} 200 - 成功获取神兵信息
+ * @returns {object} 404 - 未找到指定ID的神兵
  */
 router.get('/godcards/:id', (req: Request, res: Response) => {
   const { id } = req.params;
@@ -63,25 +63,29 @@ router.get('/godcards/:id', (req: Request, res: Response) => {
 
 /**
  * @route GET /godcardsuits
- * @description 获取所有神兵套装。
- * @returns {object} 200 - 成功获取神兵套装列表。
+ * @description 获取所有神兵套装的简化列表
+ * @returns {object} 200 - 成功获取神兵套装列表
  */
 router.get('/godcardsuits', (req: Request, res: Response) => {
   const suits = getAllGodCardSuits();
+  const simplifiedSuits = suits.map(suit => ({
+    id: suit.id,
+    name: suit.name,
+  }));
   res.json({
     success: true,
-    data: suits,
-    count: suits.length,
+    data: simplifiedSuits,
+    count: simplifiedSuits.length,
     timestamp: new Date().toISOString(),
   });
 });
 
 /**
  * @route GET /godcardsuits/:id
- * @description 通过ID获取单个神兵套装的详细信息。
- * @param {string} id.path.required - 神兵套装的唯一ID。
- * @returns {object} 200 - 成功获取神兵套装信息。
- * @returns {object} 404 - 未找到指定ID的神兵套装。
+ * @description 通过ID获取单个神兵套装的详细信息
+ * @param {string} id.path.required - 神兵套装的唯一ID
+ * @returns {object} 200 - 成功获取神兵套装信息
+ * @returns {object} 404 - 未找到指定ID的神兵套装
  */
 router.get('/godcardsuits/:id', (req: Request, res: Response) => {
   const { id } = req.params;

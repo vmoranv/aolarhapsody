@@ -10,7 +10,6 @@ const godCardSuitCache: Record<string, GodCardSuit> = {};
 export async function initGodCardModule(): Promise<boolean> {
   try {
     const url = 'https://aola.100bt.com/h5/data/godcarddata.json';
-    console.log('开始获取神兵数据JSON文件...');
     const response = await fetchAndParseJSON(url) as {
       data: Record<string, (string | number | number[] | null)[]>;
       suit: Record<string, (string | number | number[])[]>;
@@ -61,7 +60,6 @@ export async function initGodCardModule(): Promise<boolean> {
       }
     });
 
-    console.log(`成功解析并缓存了 ${Object.keys(godCardCache).length} 个神兵和 ${Object.keys(godCardSuitCache).length} 个神兵套装`);
     return true;
   } catch (error) {
     console.error('解析神兵数据时出错:', error);
@@ -70,34 +68,34 @@ export async function initGodCardModule(): Promise<boolean> {
 }
 
 /**
- * 获取所有已缓存的神兵。
- * @returns {GodCard[]} 神兵对象数组。
+ * 获取所有已缓存的神兵
+ * @returns {GodCard[]} 神兵对象数组
  */
 export function getAllGodCards(): GodCard[] {
   return Object.values(godCardCache);
 }
 
 /**
- * 根据ID获取单个神兵。
- * @param {string} id - 神兵的ID。
- * @returns {GodCard | null} 对应的神兵对象，如果未找到则返回null。
+ * 根据ID获取单个神兵
+ * @param {string} id - 神兵的ID
+ * @returns {GodCard | null} 对应的神兵对象，如果未找到则返回null
  */
 export function getGodCardById(id: string): GodCard | null {
   return godCardCache[id] || null;
 }
 
 /**
- * 获取所有已缓存的神兵套装。
- * @returns {GodCardSuit[]} 神兵套装对象数组。
+ * 获取所有已缓存的神兵套装
+ * @returns {GodCardSuit[]} 神兵套装对象数组
  */
 export function getAllGodCardSuits(): GodCardSuit[] {
   return Object.values(godCardSuitCache);
 }
 
 /**
- * 根据ID获取单个神兵套装。
- * @param {string} id - 神兵套装的ID。
- * @returns {GodCardSuit | null} 对应的神兵套装对象，如果未找到则返回null。
+ * 根据ID获取单个神兵套装
+ * @param {string} id - 神兵套装的ID
+ * @returns {GodCardSuit | null} 对应的神兵套装对象，如果未找到则返回null
  */
 export function getGodCardSuitById(id: string): GodCardSuit | null {
   return godCardSuitCache[id] || null;

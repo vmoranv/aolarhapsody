@@ -9,7 +9,6 @@ const cachedPetCard2s: Record<string, PetCard2> = {};
 export async function initPetCard2Module(): Promise<boolean> {
   try {
     const url = 'https://aola.100bt.com/h5/data/petcard2data.json';
-    console.log('开始获取特性晶石数据JSON文件...');
     const responseData = await fetchAndParseJSON(url) as {
       data: Record<string, (string | number | boolean | number[])[]>;
     };
@@ -43,7 +42,6 @@ export async function initPetCard2Module(): Promise<boolean> {
       }
     });
 
-    console.log(`成功解析并缓存了 ${Object.keys(cachedPetCard2s).length} 个特性晶石`);
     return true;
   } catch (error) {
     console.error('解析特性晶石数据时出错:', error);

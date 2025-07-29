@@ -9,7 +9,6 @@ const summonerSkillCache: Record<string, SummonerSkillDataConfig> = {};
 export async function initSummonerModule(): Promise<boolean> {
   try {
     const url = 'https://aola.100bt.com/h5/data/summonerconfig.json';
-    console.log('开始获取召唤师技能数据JSON文件...');
     const response = await fetchAndParseJSON(url) as {
       data: Record<string, (string | number)[]>;
     };
@@ -32,7 +31,6 @@ export async function initSummonerModule(): Promise<boolean> {
       }
     });
 
-    console.log(`成功解析并缓存了 ${Object.keys(summonerSkillCache).length} 个召唤师技能`);
     return true;
   } catch (error) {
     console.error('解析召唤师技能数据时出错:', error);
@@ -41,17 +39,17 @@ export async function initSummonerModule(): Promise<boolean> {
 }
 
 /**
- * 获取所有已缓存的召唤师技能。
- * @returns {SummonerSkillDataConfig[]} 召唤师技能对象数组。
+ * 获取所有已缓存的召唤师技能
+ * @returns {SummonerSkillDataConfig[]} 召唤师技能对象数组
  */
 export function getAllSummonerSkills(): SummonerSkillDataConfig[] {
   return Object.values(summonerSkillCache);
 }
 
 /**
- * 根据ID获取单个召唤师技能。
- * @param {string} id - 召唤师技能的ID。
- * @returns {SummonerSkillDataConfig | null} 对应的召唤师技能对象，如果未找到则返回null。
+ * 根据ID获取单个召唤师技能
+ * @param {string} id - 召唤师技能的ID
+ * @returns {SummonerSkillDataConfig | null} 对应的召唤师技能对象，如果未找到则返回null
  */
 export function getSummonerSkillById(id: string): SummonerSkillDataConfig | null {
   return summonerSkillCache[id] || null;

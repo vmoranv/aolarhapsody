@@ -6,7 +6,7 @@ import { Pet, Weather, Skill, SkillAttribute, ProcessedAttribute } from '../type
 // =================================
 
 /**
- * 存储完整亚比数据的缓存。
+ * 存储完整亚比数据的缓存
  * @type {Pet[]}
  */
 let fullPetDataCache: Pet[] = [];
@@ -17,9 +17,9 @@ let attributeRelationsCache: Record<string, string[]> = {};
 const skillAttributesCache: ProcessedAttribute[] = [];
 
 /**
- * 解析并缓存所有亚比数据。
- * @param rawData - 包含亚比、经验、天气、技能和属性相克关系的原始数据对象。
- * @returns {boolean} 如果解析和缓存成功则返回true，否则返回false。
+ * 解析并缓存所有亚比数据
+ * @param rawData - 包含亚比、经验、场地、技能和属性相克关系的原始数据对象
+ * @returns {boolean} 如果解析和缓存成功则返回true，否则返回false
  */
 export function parseAndCacheFullPetData(rawData: {
   pmDataMap: unknown,
@@ -49,7 +49,6 @@ export function parseAndCacheFullPetData(rawData: {
         });
     };
     fullPetDataCache = processFullData(rawData.pmDataMap);
-    console.log(`成功解析并缓存了 ${fullPetDataCache.length} 个亚比的完整数据（ID范围：0-9999）`);
 
     // 解析经验表
     if (rawData.pmExpMap && typeof rawData.pmExpMap === 'object') {
@@ -59,7 +58,6 @@ export function parseAndCacheFullPetData(rawData: {
         }
         return acc;
       }, {} as Record<string, number[]>);
-      console.log(`成功解析并缓存了 ${Object.keys(expMapCache).length} 个经验成长类型`);
     } else {
       console.warn('未找到或格式不正确的经验表 (pmExpMap)');
     }
@@ -89,7 +87,6 @@ export function parseAndCacheFullPetData(rawData: {
         }
         return acc;
       }, {} as Record<string, Weather>);
-      console.log(`成功解析并缓存了 ${Object.keys(weatherMapCache).length} 个场地效果`);
     }
 
     // 解析技能数据
@@ -144,7 +141,6 @@ export function parseAndCacheFullPetData(rawData: {
         }
         return acc;
       }, {} as Record<string, Skill>));
-      console.log(`成功解析并缓存了 ${Object.keys(skillMapCache).length} 个技能`);
     } else {
       console.warn('未找到技能数据 (pmSkillMap, pmSkillMap1)');
     }
@@ -152,7 +148,6 @@ export function parseAndCacheFullPetData(rawData: {
     // 解析克制关系
     if (rawData.pmAttDefTableMap) {
       attributeRelationsCache = rawData.pmAttDefTableMap;
-      console.log(`成功解析并缓存了克制关系表`);
     } else {
       console.warn('未找到克制关系表 (pmAttDefTableMap)');
     }
@@ -165,8 +160,8 @@ export function parseAndCacheFullPetData(rawData: {
 }
 
 /**
- * 获取简化的亚比列表。
- * @returns {{ id: string | number; name: string }[]} 一个包含亚比ID和名称的对象数组。
+ * 获取简化的亚比列表
+ * @returns {{ id: string | number; name: string }[]} 一个包含亚比ID和名称的对象数组
  */
 export function getPetList(): { id: string | number; name: string }[] {
     return fullPetDataCache.map(pet => ({
@@ -176,9 +171,9 @@ export function getPetList(): { id: string | number; name: string }[] {
 }
 
 /**
- * 根据ID获取亚比的完整数据。
- * @param id - 亚比的ID。
- * @returns {Pet | null} 如果找到则返回亚比对象，否则返回null。
+ * 根据ID获取亚比的完整数据
+ * @param id - 亚比的ID
+ * @returns {Pet | null} 如果找到则返回亚比对象，否则返回null
  */
 export function getPetFullDataById(id: string | number): Pet | null {
   const processedId = id.toString().replace('_0', '');
@@ -188,9 +183,9 @@ export function getPetFullDataById(id: string | number): Pet | null {
 }
 
 /**
- * 根据关键字搜索亚比。
- * @param keyword - 搜索关键字。
- * @returns {{ id: string | number; name: string }[]} 匹配搜索条件的亚比列表。
+ * 根据关键字搜索亚比
+ * @param keyword - 搜索关键字
+ * @returns {{ id: string | number; name: string }[]} 匹配搜索条件的亚比列表
  */
 export function searchPets(keyword: string): { id: string | number; name: string }[] {
   const searchStr = keyword.toLowerCase();
@@ -206,12 +201,12 @@ export function searchPets(keyword: string): { id: string | number; name: string
 }
 
 /**
- * 计算从当前等级和经验升到目标等级所需的经验值。
- * @param petId - 亚比的ID。
- * @param currentLevel - 当前等级。
- * @param currentExp - 当前等级下的经验值。
- * @param targetLevel - 目标等级。
- * @returns {{ success: boolean; requiredExp?: number; message?: string }} 一个包含操作是否成功、所需经验值和可选消息的对象。
+ * 计算从当前等级和经验升到目标等级所需的经验值
+ * @param petId - 亚比的ID
+ * @param currentLevel - 当前等级
+ * @param currentExp - 当前等级下的经验值
+ * @param targetLevel - 目标等级
+ * @returns {{ success: boolean; requiredExp?: number; message?: string }} 一个包含操作是否成功、所需经验值和可选消息的对象
  */
 export function calculateExp(
   petId: string,
@@ -237,8 +232,8 @@ export function calculateExp(
 }
 
 /**
- * 获取所有场地效果的简化列表。
- * @returns {{ id: string; name: string }[]} 一个包含场地效果ID和名称的对象数组。
+ * 获取所有场地效果的简化列表
+ * @returns {{ id: string; name: string }[]} 一个包含场地效果ID和名称的对象数组
  */
 export function getAllWeathers(): { id: string; name: string }[] {
   return Object.values(weatherMapCache).map(weather => ({
@@ -248,26 +243,26 @@ export function getAllWeathers(): { id: string; name: string }[] {
 }
 
 /**
- * 根据ID获取场地效果。
- * @param id - 场地效果的ID。
- * @returns {Weather | null} 如果找到则返回场地效果对象，否则返回null。
+ * 根据ID获取场地效果
+ * @param id - 场地效果的ID
+ * @returns {Weather | null} 如果找到则返回场地效果对象，否则返回null
  */
 export function getWeatherById(id: string): Weather | null {
   return weatherMapCache[id] || null;
 }
 
 /**
- * 根据ID获取技能。
- * @param id - 技能的ID。
- * @returns {Skill | null} 如果找到则返回技能对象，否则返回null。
+ * 根据ID获取技能
+ * @param id - 技能的ID
+ * @returns {Skill | null} 如果找到则返回技能对象，否则返回null
  */
 export function getSkillById(id: string): Skill | null {
   return skillMapCache[id] || null;
 }
 
 /**
- * 获取属性克制关系。
- * @returns {Record<string, string[]>} 一个表示属性克制关系的对象。
+ * 获取属性克制关系
+ * @returns {Record<string, string[]>} 一个表示属性克制关系的对象
  */
 export function getAttributeRelations(): Record<string, string[]> {
   return attributeRelationsCache;
@@ -279,10 +274,20 @@ export function getAttributeRelations(): Record<string, string[]> {
 
 const EXCLUDED_ATTRIBUTE_IDS = [3, 6, 17];
 
+/**
+ * 判断一个属性ID是否属于超系
+ * @param id - 属性的ID
+ * @returns {boolean} 如果是超系则返回true，否则返回false
+ */
 function isSuperAttribute(id: number): boolean {
   return id > 22;
 }
 
+/**
+ * 处理所有技能属性，过滤掉不需要的属性并进行格式化
+ * @param attributeMap - 从游戏数据中解析出的原始技能属性数组
+ * @returns {ProcessedAttribute[]} 处理过的技能属性对象数组
+ */
 function processAllAttributes(attributeMap: SkillAttribute[]): ProcessedAttribute[] {
   return attributeMap
     .filter(attr => !EXCLUDED_ATTRIBUTE_IDS.includes(attr[0]))
@@ -293,14 +298,18 @@ function processAllAttributes(attributeMap: SkillAttribute[]): ProcessedAttribut
     }));
 }
 
+/**
+ * 从远程获取、解析并缓存所有技能属性数据
+ * 如果缓存中已存在数据，则直接返回缓存数据
+ * @returns {Promise<ProcessedAttribute[]>} 一个包含所有已处理技能属性的Promise
+ * @throws {Error} 当获取或解析数据失败时抛出错误
+ */
 export async function fetchAndGetAllSkillAttributes(): Promise<ProcessedAttribute[]> {
   if (skillAttributesCache.length > 0) {
-    console.log('技能属性数据已缓存,直接返回');
     return skillAttributesCache;
   }
 
   try {
-    console.log('首次获取, 开始获取技能属性数据...');
     const url = 'http://aola.100bt.com/h5/js/gamemain.js';
     const rawData = await fetchAndParseDictionary(url, 'PMAttributeMap._skillAttributeData') as SkillAttribute[];
 
@@ -317,7 +326,6 @@ export async function fetchAndGetAllSkillAttributes(): Promise<ProcessedAttribut
     const processedData = processAllAttributes(rawData);
     
     skillAttributesCache.push(...processedData); // 缓存结果
-    console.log(`成功解析并缓存了 ${processedData.length} 个技能属性`);
     
     return processedData;
   } catch (error) {
@@ -327,13 +335,12 @@ export async function fetchAndGetAllSkillAttributes(): Promise<ProcessedAttribut
 }
 
 /**
- * 初始化亚比数据处理模块。
- * @returns {Promise<boolean>} 如果初始化成功则返回true，否则返回false。
+ * 初始化亚比数据处理模块
+ * @returns {Promise<boolean>} 如果初始化成功则返回true，否则返回false
  */
 export async function initPetDataModule(): Promise<boolean> {
   try {
     const url = 'https://aola.100bt.com/h5/data/pmdatalist.json';
-    console.log('开始获取亚比数据JSON文件...');
     const data = await fetchAndParseJSON(url) as {
       pmDataMap: unknown,
       pmExpMap: Record<string, (string | number)[]>,

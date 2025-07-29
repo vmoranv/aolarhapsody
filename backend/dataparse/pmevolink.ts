@@ -9,7 +9,6 @@ const spEvoCache: Record<string, SpEvo> = {};
 export async function initSpEvoModule(): Promise<boolean> {
   try {
     const url = 'https://aola.100bt.com/h5/data/pmevolinkdata.json';
-    console.log('开始获取特殊进化数据JSON文件...');
     const response = await fetchAndParseJSON(url) as {
       data: Record<string, string[]>;
     };
@@ -31,7 +30,6 @@ export async function initSpEvoModule(): Promise<boolean> {
       }
     });
 
-    console.log(`成功解析并缓存了 ${Object.keys(spEvoCache).length} 个特殊进化链接`);
     return true;
   } catch (error) {
     console.error('解析特殊进化数据时出错:', error);
@@ -40,17 +38,17 @@ export async function initSpEvoModule(): Promise<boolean> {
 }
 
 /**
- * 获取所有已缓存的特殊进化链接。
- * @returns {SpEvo[]} 特殊进化链接对象数组。
+ * 获取所有已缓存的特殊进化链接
+ * @returns {SpEvo[]} 特殊进化链接对象数组
  */
 export function getAllSpEvoLinks(): SpEvo[] {
   return Object.values(spEvoCache);
 }
 
 /**
- * 根据进化前的亚比ID获取单个特殊进化链接。
- * @param {string} id - 进化前亚比的ID。
- * @returns {SpEvo | null} 对应的特殊进化链接对象，如果未找到则返回null。
+ * 根据进化前的亚比ID获取单个特殊进化链接
+ * @param {string} id - 进化前亚比的ID
+ * @returns {SpEvo | null} 对应的特殊进化链接对象，如果未找到则返回null
  */
 export function getSpEvoLinkByBeforeId(id: string): SpEvo | null {
   return spEvoCache[id] || null;

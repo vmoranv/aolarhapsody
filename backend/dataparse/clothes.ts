@@ -13,7 +13,6 @@ export async function initClothesModule(): Promise<boolean> {
   try {
     const clothesDataUrl = 'https://aola.100bt.com/h5/data/clothesdata.json';
     const clothesPartUrl = 'https://aola.100bt.com/h5/data/clothespartdata_des.json';
-    console.log('开始获取服装和部件数据JSON文件...');
 
     const [clothesResponse, clothesPartResponse] = await Promise.all([
       fetchAndParseJSON(clothesDataUrl) as Promise<{
@@ -47,7 +46,6 @@ export async function initClothesModule(): Promise<boolean> {
             };
           }
         });
-        console.log(`成功解析并缓存了 ${Object.keys(clothesCache).length} 件服装`);
       }
 
       // 解析套装
@@ -61,7 +59,6 @@ export async function initClothesModule(): Promise<boolean> {
             };
           }
         });
-        console.log(`成功解析并缓存了 ${Object.keys(clothesSuitCache).length} 个服装套装`);
       }
 
       // 解析身体部位影响
@@ -74,7 +71,6 @@ export async function initClothesModule(): Promise<boolean> {
             };
           }
         });
-        console.log(`成功解析并缓存了 ${Object.keys(clothesAffectBodyCache).length} 个身体部位影响`);
       }
     } else {
       console.error('服装数据为空或格式不正确');
@@ -90,7 +86,6 @@ export async function initClothesModule(): Promise<boolean> {
             };
           }
         });
-        console.log(`成功解析并缓存了 ${Object.keys(clothesPartCache).length} 个服装部件`);
       }
     } else {
       console.error('服装部件数据为空或格式不正确');
@@ -104,8 +99,8 @@ export async function initClothesModule(): Promise<boolean> {
 }
 
 /**
- * 获取所有已缓存服装的简要列表。
- * @returns {{ id: number; name: string }[]} 包含服装ID和名称的对象数组。
+ * 获取所有已缓存服装的简要列表
+ * @returns {{ id: number; name: string }[]} 包含服装ID和名称的对象数组
  */
 export function getAllClothes(): { id: number; name: string }[] {
   return Object.values(clothesCache).map(clothes => ({
@@ -115,17 +110,17 @@ export function getAllClothes(): { id: number; name: string }[] {
 }
 
 /**
- * 根据ID获取单件服装的完整信息。
- * @param {string} id - 服装的ID。
- * @returns {Clothes | null} 对应的服装对象，如果未找到则返回null。
+ * 根据ID获取单件服装的完整信息
+ * @param {string} id - 服装的ID
+ * @returns {Clothes | null} 对应的服装对象，如果未找到则返回null
  */
 export function getClothesById(id: string): Clothes | null {
   return clothesCache[id] || null;
 }
 
 /**
- * 获取所有已缓存服装套装的简要列表。
- * @returns {{ id: number; name: string }[]} 包含套装ID和名称的对象数组。
+ * 获取所有已缓存服装套装的简要列表
+ * @returns {{ id: number; name: string }[]} 包含套装ID和名称的对象数组
  */
 export function getAllClothesSuits(): { id: number; name: string }[] {
   return Object.values(clothesSuitCache).map(suit => ({
@@ -135,34 +130,34 @@ export function getAllClothesSuits(): { id: number; name: string }[] {
 }
 
 /**
- * 根据ID获取单个服装套装的完整信息。
- * @param {string} id - 套装的ID。
- * @returns {ClothesSuit | null} 对应的套装对象，如果未找到则返回null。
+ * 根据ID获取单个服装套装的完整信息
+ * @param {string} id - 套装的ID
+ * @returns {ClothesSuit | null} 对应的套装对象，如果未找到则返回null
  */
 export function getClothesSuitById(id: string): ClothesSuit | null {
   return clothesSuitCache[id] || null;
 }
 
 /**
- * 获取所有已缓存的服装对身体部位的影响数据。
- * @returns {ClothesAffectBody[]} 身体部位影响对象数组。
+ * 获取所有已缓存的服装对身体部位的影响数据
+ * @returns {ClothesAffectBody[]} 身体部位影响对象数组
  */
 export function getAllClothesAffectBody(): ClothesAffectBody[] {
     return Object.values(clothesAffectBodyCache);
 }
 
 /**
- * 获取所有已缓存的服装部件。
- * @returns {ClothesPart[]} 服装部件对象数组。
+ * 获取所有已缓存的服装部件
+ * @returns {ClothesPart[]} 服装部件对象数组
  */
 export function getAllClothesParts(): ClothesPart[] {
   return Object.values(clothesPartCache);
 }
 
 /**
- * 根据ID获取单个服装部件。
- * @param {string} id - 部件的ID。
- * @returns {ClothesPart | null} 对应的部件对象，如果未找到则返回null。
+ * 根据ID获取单个服装部件
+ * @param {string} id - 部件的ID
+ * @returns {ClothesPart | null} 对应的部件对象，如果未找到则返回null
  */
 export function getClothesPartById(id: string): ClothesPart | null {
   return clothesPartCache[id] || null;

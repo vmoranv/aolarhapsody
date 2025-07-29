@@ -9,7 +9,6 @@ const headFrameCache: Record<string, HeadFrame> = {};
 export async function initHeadFrameModule(): Promise<boolean> {
   try {
     const url = 'https://aola.100bt.com/h5/data/headframedata.json';
-    console.log('开始获取头像框数据JSON文件...');
     const response = await fetchAndParseJSON(url) as {
       data: Record<string, (string | number)[]>;
     };
@@ -36,7 +35,6 @@ export async function initHeadFrameModule(): Promise<boolean> {
       }
     });
 
-    console.log(`成功解析并缓存了 ${Object.keys(headFrameCache).length} 个头像框`);
     return true;
   } catch (error) {
     console.error('解析头像框数据时出错:', error);
@@ -45,8 +43,8 @@ export async function initHeadFrameModule(): Promise<boolean> {
 }
 
 /**
- * 获取所有已缓存头像框的简要列表。
- * @returns {{ id: number; name: string }[]} 包含头像框ID和名称的对象数组。
+ * 获取所有已缓存头像框的简要列表
+ * @returns {{ id: number; name: string }[]} 包含头像框ID和名称的对象数组
  */
 export function getAllHeadFrames(): { id: number; name: string }[] {
   return Object.values(headFrameCache).map(frame => ({
@@ -56,9 +54,9 @@ export function getAllHeadFrames(): { id: number; name: string }[] {
 }
 
 /**
- * 根据ID获取单个头像框的完整信息。
- * @param {string} id - 头像框的ID。
- * @returns {HeadFrame | null} 对应的头像框对象，如果未找到则返回null。
+ * 根据ID获取单个头像框的完整信息
+ * @param {string} id - 头像框的ID
+ * @returns {HeadFrame | null} 对应的头像框对象，如果未找到则返回null
  */
 export function getHeadFrameById(id: string): HeadFrame | null {
   return headFrameCache[id] || null;

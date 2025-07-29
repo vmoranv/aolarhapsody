@@ -12,8 +12,8 @@ const router = Router();
 
 /**
  * @route GET /chatframes
- * @description 获取所有聊天框（简化版）。
- * @returns {object} 200 - 包含所有聊天框的简化信息的数组。
+ * @description 获取所有聊天框（简化版）
+ * @returns {object} 200 - 包含所有聊天框的简化信息的数组
  */
 router.get('/chatframes', (req: Request, res: Response) => {
   const frames = getAllChatFrames();
@@ -31,10 +31,10 @@ router.get('/chatframes', (req: Request, res: Response) => {
 
 /**
  * @route GET /chatframes/:id
- * @description 根据ID获取单个聊天框。
- * @param {string} id - 聊天框ID。
- * @returns {object} 200 - 聊天框对象。
- * @returns {object} 404 - 如果未找到聊天框。
+ * @description 根据ID获取单个聊天框
+ * @param {string} id - 聊天框ID
+ * @returns {object} 200 - 聊天框对象
+ * @returns {object} 404 - 如果未找到聊天框
  */
 router.get('/chatframes/:id', (req: Request, res: Response) => {
   const { id } = req.params;

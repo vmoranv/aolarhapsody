@@ -5,8 +5,8 @@ const router = Router();
 
 /**
  * @route GET /pettalks
- * @description 获取所有亚比的语音。
- * @returns {object} 200 - 成功获取亚比语音列表。
+ * @description 获取所有亚比的语音
+ * @returns {object} 200 - 成功获取亚比语音列表
  */
 router.get('/pettalks', (req: Request, res: Response) => {
   const talks = getAllPetTalks();
@@ -20,10 +20,10 @@ router.get('/pettalks', (req: Request, res: Response) => {
 
 /**
  * @route GET /pettalks/:id
- * @description 通过种族ID获取单个亚比的语音。
- * @param {number} id - 亚比的种族ID。
- * @returns {object} 200 - 成功获取亚比语音。
- * @returns {object} 404 - 未找到指定种族ID的亚比语音。
+ * @description 通过种族ID获取单个亚比的语音
+ * @param {number} id - 亚比的种族ID
+ * @returns {object} 200 - 成功获取亚比语音
+ * @returns {object} 404 - 未找到指定种族ID的亚比语音
  */
 router.get('/pettalks/:id', (req: Request, res: Response) => {
   const id = parseInt(req.params.id, 10);

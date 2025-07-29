@@ -5,8 +5,8 @@ const router = Router();
 
 /**
  * @route GET /petdictionary
- * @description 获取所有亚比图鉴条目的简化列表。
- * @returns {object} 200 - 成功获取亚比图鉴列表。
+ * @description 获取所有亚比图鉴条目的简化列表
+ * @returns {object} 200 - 成功获取亚比图鉴列表
  */
 router.get('/petdictionary', (req: Request, res: Response) => {
   const items = getAllPetDictionaryData();
@@ -24,10 +24,10 @@ router.get('/petdictionary', (req: Request, res: Response) => {
 
 /**
  * @route GET /petdictionary/:id
- * @description 通过ID获取单个亚比图鉴条目的详细信息。
- * @param {number} id - 亚比的唯一ID。
- * @returns {object} 200 - 成功获取亚比图鉴信息。
- * @returns {object} 404 - 未找到指定ID的亚比图鉴条目。
+ * @description 通过ID获取单个亚比图鉴条目的详细信息
+ * @param {number} id - 亚比的唯一ID
+ * @returns {object} 200 - 成功获取亚比图鉴信息
+ * @returns {object} 404 - 未找到指定ID的亚比图鉴条目
  */
 router.get('/petdictionary/:id', (req: Request, res: Response) => {
   const id = parseInt(req.params.id, 10);

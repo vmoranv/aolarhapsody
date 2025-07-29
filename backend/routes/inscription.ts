@@ -12,8 +12,8 @@ const router = Router();
 
 /**
  * @route GET /inscriptions
- * @description 获取所有铭文（简化版）。
- * @returns {object} 200 - 包含所有铭文的简化信息的数组。
+ * @description 获取所有铭文（简化版）
+ * @returns {object} 200 - 包含所有铭文的简化信息的数组
  */
 router.get('/inscriptions', (req: Request, res: Response) => {
   const inscriptions = getAllInscriptions();
@@ -31,10 +31,10 @@ router.get('/inscriptions', (req: Request, res: Response) => {
 
 /**
  * @route GET /inscriptions/:id
- * @description 根据ID获取单个铭文。
- * @param {string} id - 铭文ID。
- * @returns {object} 200 - 铭文对象。
- * @returns {object} 404 - 如果未找到铭文。
+ * @description 根据ID获取单个铭文
+ * @param {string} id - 铭文ID
+ * @returns {object} 200 - 铭文对象
+ * @returns {object} 404 - 如果未找到铭文
  */
 router.get('/inscriptions/:id', (req: Request, res: Response) => {
   const { id } = req.params;

@@ -1,8 +1,8 @@
-import { fetchAndParseData } from './game-data-parser';
-import { TaskData, TaskDefine, TaskStarter, TaskBitTitle, TaskSubTitle, TaskAreaConfig, TaskNpcName } from '../types/task';
+import { fetchAndParseJSON } from './game-data-parser';
+import { TaskDefine, TaskStarter, TaskBitTitle, TaskSubTitle, TaskAreaConfig, TaskNpcName } from '../types/task';
 
 /**
- * 原始任务数据负载接口。
+ * 原始剧情数据负载接口
  */
 interface RawTaskPayload {
   defines: Record<string, [string, string, string | undefined]>;
@@ -14,108 +14,176 @@ interface RawTaskPayload {
   orderInArea: Record<string, Record<string, string[]>>;
 }
 
-let cachedTasks: TaskData | null = null;
+const cachedTasks: {
+  defines: Record<string, TaskDefine>;
+  starters: Record<string, TaskStarter>;
+  bitTitle: Record<string, TaskBitTitle>;
+  subTitle: Record<string, TaskSubTitle>;
+  areaConfig: Record<string, TaskAreaConfig>;
+  orderInArea: Record<string, Record<string, string[]>>;
+  npcNames: TaskNpcName;
+} = {
+  defines: {},
+  starters: {},
+  bitTitle: {},
+  subTitle: {},
+  areaConfig: {},
+  orderInArea: {},
+  npcNames: {},
+};
 
 /**
- * 初始化任务数据模块。
- * @returns {Promise<boolean>} 如果初始化成功，则返回true，否则返回false。
+ * 初始化剧情数据模块
+ * @returns {Promise<boolean>} 如果初始化成功，则返回true，否则返回false
  */
 export async function initTaskModule(): Promise<boolean> {
   try {
     const url = 'https://aola.100bt.com/h5/data/taskdata.json';
-    console.log('开始获取任务数据JSON文件...');
-    const rawData = await fetchAndParseData<RawTaskPayload>(url);
+    const rawData = (await fetchAndParseJSON(url)) as RawTaskPayload;
 
     if (!rawData || typeof rawData !== 'object') {
-      console.error('任务数据为空或格式不正确');
+      console.error('剧情数据为空或格式不正确');
       return false;
     }
 
-    type RawTaskDefine = [string, string, string | undefined];
-    const definesArray = rawData.defines && typeof rawData.defines === 'object' ? Object.values(rawData.defines as Record<string, RawTaskDefine>) : [];
-    const defines: TaskDefine[] = definesArray.map((item: RawTaskDefine) => ({
-      taskId: parseInt(item[0], 10),
-      type: parseInt(item[1], 10),
-      extData: item[2] ? item[2].split(',').map(Number) : [],
-    }));
+    // 解析 剧情组定义
+    if (rawData.defines) {
+      Object.values(rawData.defines).forEach(item => {
+        const define: TaskDefine = {
+          taskId: parseInt(item[0], 10),
+          type: parseInt(item[1], 10),
+          extData: item[2] ? item[2].split(',').map(Number) : [],
+        };
+        cachedTasks.defines[define.taskId] = define;
+      });
+    }
 
-    type RawTaskStarter = [string, string, string, string, string, string, string, string];
-    const startersArray = rawData.starters && typeof rawData.starters === 'object' ? Object.values(rawData.starters as Record<string, RawTaskStarter>) : [];
-    const starters: TaskStarter[] = startersArray.map((item: RawTaskStarter) => ({
-      taskId: parseInt(item[0], 10),
-      type: parseInt(item[1], 10),
-      extData: item[2],
-      preString: item[3],
-      isOnline: parseInt(item[4], 10),
-      taskName: item[5],
-      line: parseInt(item[6], 10),
-      area: parseInt(item[7], 10),
-    }));
+    // 解析 开始剧情
+    if (rawData.starters) {
+      Object.values(rawData.starters).forEach(item => {
+        const starter: TaskStarter = {
+          taskId: parseInt(item[0], 10),
+          type: parseInt(item[1], 10),
+          extData: item[2],
+          preString: item[3],
+          isOnline: parseInt(item[4], 10),
+          taskName: item[5],
+          line: parseInt(item[6], 10),
+          area: parseInt(item[7], 10),
+        };
+        cachedTasks.starters[starter.taskId] = starter;
+      });
+    }
+    
+    // 解析 剧情标题
+    if (rawData.bitTitle) {
+        Object.values(rawData.bitTitle).forEach(item => {
+            cachedTasks.bitTitle[item.id] = item;
+        });
+    }
 
-    const bitTitleArray = rawData.bitTitle && typeof rawData.bitTitle === 'object' ? Object.values(rawData.bitTitle as Record<string, TaskBitTitle>) : [];
-    const bitTitle: TaskBitTitle[] = bitTitleArray.map((item: TaskBitTitle) => ({
-      id: item.id,
-      name: item.name,
-      subTitleIds: item.subTitleIds,
-      iconFrame: item.iconFrame,
-    }));
+    // 解析 子标题
+    if (rawData.subTitle) {
+        Object.values(rawData.subTitle).forEach(item => {
+            cachedTasks.subTitle[item.subTitleId] = item;
+        });
+    }
 
-    const subTitleArray = rawData.subTitle && typeof rawData.subTitle === 'object' ? Object.values(rawData.subTitle as Record<string, TaskSubTitle>) : [];
-    const subTitle: TaskSubTitle[] = subTitleArray.map((item: TaskSubTitle) => ({
-      subTitleId: item.subTitleId,
-      name: item.name,
-      areas: item.areas,
-    }));
+    // 解析 区域配置
+    if (rawData.areaConfig) {
+        Object.values(rawData.areaConfig).forEach(item => {
+            cachedTasks.areaConfig[item.id] = item;
+        });
+    }
 
-    const areaConfigArray = rawData.areaConfig && typeof rawData.areaConfig === 'object' ? Object.values(rawData.areaConfig as Record<string, TaskAreaConfig>) : [];
-    const areaConfig: TaskAreaConfig[] = areaConfigArray.map((item: TaskAreaConfig) => ({
-      id: item.id,
-      name: item.name,
-    }));
+    cachedTasks.npcNames = rawData.npcNames || {};
+    cachedTasks.orderInArea = rawData.orderInArea || {};
 
-    const npcNames: TaskNpcName = typeof rawData.npcNames === 'object' ? rawData.npcNames : {};
-    const orderInArea = typeof rawData.orderInArea === 'object' ? rawData.orderInArea : {};
-
-    cachedTasks = {
-      defines,
-      starters,
-      bitTitle,
-      subTitle,
-      areaConfig,
-      orderInArea,
-      npcNames,
-    };
-
-    console.log(`成功解析并缓存了 ${defines.length} 个任务定义和 ${starters.length} 个任务启动器`);
     return true;
   } catch (error) {
-    console.error('解析任务数据时出错:', error);
+    console.error('解析剧情数据时出错:', error);
     return false;
   }
 }
 
 /**
- * 获取所有任务数据。
- * @returns {TaskData | null} 缓存的任务数据。
+ * 获取所有缓存的剧情数据
+ * @returns {object} 包含所有剧情数据的对象
  */
 export function getTaskData() {
   return cachedTasks;
 }
 
 /**
- * 根据ID获取任务定义。
- * @param {number} id - 任务ID。
- * @returns {TaskDefine | undefined} 找到的任务定义，否则为undefined。
+ * 根据ID获取剧情定义
+ * @param {number} id - 剧情ID
+ * @returns {TaskDefine | undefined} 找到的剧情定义，否则为undefined
  */
 export function getTaskDefineById(id: number) {
-  return cachedTasks?.defines.find(d => d.taskId === id);
+  return cachedTasks.defines[id];
 }
 
 /**
- * 根据ID获取任务启动器。
- * @param {number} id - 任务ID。
- * @returns {TaskStarter | undefined} 找到的任务启动器，否则为undefined。
+ * 根据ID获取开始剧情
+ * @param {number} id - 剧情ID
+ * @returns {TaskStarter | undefined} 找到的开始剧情，否则为undefined
  */
 export function getTaskStarterById(id: number) {
-  return cachedTasks?.starters.find(s => s.taskId === id);
+  return cachedTasks.starters[id];
+}
+
+/**
+ * 获取所有剧情定义
+ * @returns {TaskDefine[]} 剧情定义对象数组
+ */
+export function getAllDefines() {
+  return Object.values(cachedTasks.defines);
+}
+
+/**
+ * 获取所有开始剧情
+ * @returns {TaskStarter[]} 开始剧情对象数组
+ */
+export function getAllStarters() {
+  return Object.values(cachedTasks.starters);
+}
+
+/**
+ * 获取所有剧情大标题
+ * @returns {TaskBitTitle[]} 剧情大标题对象数组
+ */
+export function getAllBitTitles() {
+  return Object.values(cachedTasks.bitTitle);
+}
+
+/**
+ * 获取所有剧情子标题
+ * @returns {TaskSubTitle[]} 剧情子标题对象数组
+ */
+export function getAllSubTitles() {
+  return Object.values(cachedTasks.subTitle);
+}
+
+/**
+ * 获取所有剧情区域配置
+ * @returns {TaskAreaConfig[]} 剧情区域配置对象数组
+ */
+export function getAllAreaConfigs() {
+  return Object.values(cachedTasks.areaConfig);
+}
+
+/**
+ * 获取区域内的剧情顺序
+ * @returns {object} 区域剧情顺序对象
+ */
+export function getOrderInArea() {
+  return cachedTasks.orderInArea;
+}
+
+/**
+ * 获取所有NPC名称
+ * @returns {object} NPC名称对象
+ */
+export function getAllNpcNames() {
+  return cachedTasks.npcNames;
 }

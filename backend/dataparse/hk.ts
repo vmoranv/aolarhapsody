@@ -10,7 +10,6 @@ const hkBuffCache: Record<string, HKBuff> = {};
 export async function initHkModule(): Promise<boolean> {
   try {
     const url = 'https://aola.100bt.com/h5/data/hkdata.json';
-    console.log('开始获取魂卡数据JSON文件...');
     const response = await fetchAndParseJSON(url) as {
       data: Record<string, (string | number)[]>;
       buff: Record<string, (string | number | string[])[]>;
@@ -52,7 +51,6 @@ export async function initHkModule(): Promise<boolean> {
       }
     });
 
-    console.log(`成功解析并缓存了 ${Object.keys(hkDataCache).length} 个魂卡和 ${Object.keys(hkBuffCache).length} 个魂卡Buff`);
     return true;
   } catch (error) {
     console.error('解析魂卡数据时出错:', error);
@@ -61,34 +59,34 @@ export async function initHkModule(): Promise<boolean> {
 }
 
 /**
- * 获取所有已缓存的魂卡。
- * @returns {HKData[]} 魂卡对象数组。
+ * 获取所有已缓存的魂卡
+ * @returns {HKData[]} 魂卡对象数组
  */
 export function getAllHkData(): HKData[] {
   return Object.values(hkDataCache);
 }
 
 /**
- * 根据ID获取单个魂卡。
- * @param {string} id - 魂卡的ID。
- * @returns {HKData | null} 对应的魂卡对象，如果未找到则返回null。
+ * 根据ID获取单个魂卡
+ * @param {string} id - 魂卡的ID
+ * @returns {HKData | null} 对应的魂卡对象，如果未找到则返回null
  */
 export function getHkDataById(id: string): HKData | null {
   return hkDataCache[id] || null;
 }
 
 /**
- * 获取所有已缓存的魂卡Buff。
- * @returns {HKBuff[]} 魂卡Buff对象数组。
+ * 获取所有已缓存的魂卡Buff
+ * @returns {HKBuff[]} 魂卡Buff对象数组
  */
 export function getAllHkBuffs(): HKBuff[] {
   return Object.values(hkBuffCache);
 }
 
 /**
- * 根据ID获取单个魂卡Buff。
- * @param {string} id - 魂卡Buff的ID。
- * @returns {HKBuff | null} 对应的魂卡Buff对象，如果未找到则返回null。
+ * 根据ID获取单个魂卡Buff
+ * @param {string} id - 魂卡Buff的ID
+ * @returns {HKBuff | null} 对应的魂卡Buff对象，如果未找到则返回null
  */
 export function getHkBuffById(id: string): HKBuff | null {
   return hkBuffCache[id] || null;

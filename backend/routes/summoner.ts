@@ -12,8 +12,8 @@ const router = Router();
 
 /**
  * @route GET /summonerskills
- * @description 获取所有召唤师技能的简化列表。
- * @returns {object} 200 - 成功获取召唤师技能列表。
+ * @description 获取所有召唤师技能的简化列表
+ * @returns {object} 200 - 成功获取召唤师技能列表
  */
 router.get('/summonerskills', (req: Request, res: Response) => {
   const skills = getAllSummonerSkills();
@@ -31,10 +31,10 @@ router.get('/summonerskills', (req: Request, res: Response) => {
 
 /**
  * @route GET /summonerskills/:id
- * @description 通过ID获取单个召唤师技能的详细信息。
- * @param {string} id - 召唤师技能的唯一ID。
- * @returns {object} 200 - 成功获取召唤师技能信息。
- * @returns {object} 404 - 未找到指定ID的召唤师技能。
+ * @description 通过ID获取单个召唤师技能的详细信息
+ * @param {string} id - 召唤师技能的唯一ID
+ * @returns {object} 200 - 成功获取召唤师技能信息
+ * @returns {object} 404 - 未找到指定ID的召唤师技能
  */
 router.get('/summonerskills/:id', (req: Request, res: Response) => {
   const { id } = req.params;

@@ -5,9 +5,9 @@ const cachedPetCards: Record<string, PetCard> = {};
 const cachedPetCardSuits: Record<string, PetCardSuit> = {};
 
 /**
- * 解析数字数组。
- * @param {string | number[]} input - 输入的字符串或数字数组。
- * @returns {number[]} 解析后的数字数组。
+ * 解析数字数组
+ * @param {string | number[]} input - 输入的字符串或数字数组
+ * @returns {number[]} 解析后的数字数组
  */
 function parseNumberArray(input: string | number[]): number[] {
   if (typeof input === 'string') {
@@ -17,13 +17,12 @@ function parseNumberArray(input: string | number[]): number[] {
 }
 
 /**
- * 初始化装备数据模块。
- * @returns {Promise<boolean>} 如果初始化成功，则返回true，否则返回false。
+ * 初始化装备数据模块
+ * @returns {Promise<boolean>} 如果初始化成功，则返回true，否则返回false
  */
 export async function initPetCardModule(): Promise<boolean> {
   try {
     const url = 'https://aola.100bt.com/h5/data/petcarddata.json';
-    console.log('开始获取装备数据JSON文件...');
     const responseData = await fetchAndParseJSON(url) as {
       data: Record<string, (string | number | boolean | number[])[]>;
       suit: Record<string, (string | number | boolean | number[])[]>;
@@ -83,7 +82,6 @@ export async function initPetCardModule(): Promise<boolean> {
       }
     });
 
-    console.log(`成功解析并缓存了 ${Object.keys(cachedPetCards).length} 个装备和 ${Object.keys(cachedPetCardSuits).length} 个装备套装`);
     return true;
   } catch (error) {
     console.error('解析装备数据时出错:', error);
@@ -92,34 +90,34 @@ export async function initPetCardModule(): Promise<boolean> {
 }
 
 /**
- * 获取所有装备卡。
- * @returns {PetCard[]} 所有装备卡的数组。
+ * 获取所有装备卡
+ * @returns {PetCard[]} 所有装备卡的数组
  */
 export function getAllPetCards(): PetCard[] {
   return Object.values(cachedPetCards);
 }
 
 /**
- * 根据ID获取装备卡。
- * @param {number} id - 装备卡ID。
- * @returns {PetCard | undefined} 找到的装备卡，否则为undefined。
+ * 根据ID获取装备卡
+ * @param {number} id - 装备卡ID
+ * @returns {PetCard | undefined} 找到的装备卡，否则为undefined
  */
 export function getPetCardById(id: number): PetCard | undefined {
   return cachedPetCards[id];
 }
 
 /**
- * 获取所有装备卡套装。
- * @returns {PetCardSuit[]} 所有装备卡套装的数组。
+ * 获取所有装备卡套装
+ * @returns {PetCardSuit[]} 所有装备卡套装的数组
  */
 export function getAllPetCardSuits(): PetCardSuit[] {
   return Object.values(cachedPetCardSuits);
 }
 
 /**
- * 根据ID获取装备卡套装。
- * @param {number} id - 装备卡套装ID。
- * @returns {PetCardSuit | undefined} 找到的装备卡套装，否则为undefined。
+ * 根据ID获取装备卡套装
+ * @param {number} id - 装备卡套装ID
+ * @returns {PetCardSuit | undefined} 找到的装备卡套装，否则为undefined
  */
 export function getPetCardSuitById(id: number): PetCardSuit | undefined {
   return cachedPetCardSuits[id];

@@ -14,7 +14,6 @@ let cachedTitles: TitleData | null = null;
 export async function initTitleModule(): Promise<boolean> {
   try {
     const url = 'https://aola.100bt.com/h5/data/title.json';
-    console.log('开始获取称号数据JSON文件...');
     const rawData = await fetchAndParseData<RawTitlePayload>(url);
 
     if (!rawData || typeof rawData !== 'object') {
@@ -44,7 +43,6 @@ export async function initTitleModule(): Promise<boolean> {
       data,
     };
 
-    console.log(`成功解析并缓存了 ${data.length} 个称号`);
     return true;
   } catch (error) {
     console.error('解析称号数据时出错:', error);

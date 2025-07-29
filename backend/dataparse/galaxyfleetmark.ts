@@ -9,7 +9,6 @@ const galaxyFleetMarkCache: Record<string, GalaxyFleetMark> = {};
 export async function initGalaxyFleetMarkModule(): Promise<boolean> {
   try {
     const url = 'https://aola.100bt.com/h5/data/galaxygleetmarkdata.json';
-    console.log('开始获取银河舰队徽章数据JSON文件...');
     const response = await fetchAndParseJSON(url) as {
       data: Record<string, (string | number)[]>;
     };
@@ -36,7 +35,6 @@ export async function initGalaxyFleetMarkModule(): Promise<boolean> {
       }
     });
 
-    console.log(`成功解析并缓存了 ${Object.keys(galaxyFleetMarkCache).length} 个银河舰队徽章`);
     return true;
   } catch (error) {
     console.error('解析银河舰队徽章数据时出错:', error);
@@ -45,8 +43,8 @@ export async function initGalaxyFleetMarkModule(): Promise<boolean> {
 }
 
 /**
- * 获取所有已缓存的银河舰队徽章的简要列表。
- * @returns {{ id: number; name: string }[]} 包含徽章ID和名称的对象数组。
+ * 获取所有已缓存的银河舰队徽章的简要列表
+ * @returns {{ id: number; name: string }[]} 包含徽章ID和名称的对象数组
  */
 export function getAllGalaxyFleetMarks(): { id: number; name: string }[] {
   return Object.values(galaxyFleetMarkCache).map(mark => ({
@@ -56,9 +54,9 @@ export function getAllGalaxyFleetMarks(): { id: number; name: string }[] {
 }
 
 /**
- * 根据ID获取单个银河舰队徽章的完整信息。
- * @param {string} id - 徽章的ID。
- * @returns {GalaxyFleetMark | null} 对应的徽章对象，如果未找到则返回null。
+ * 根据ID获取单个银河舰队徽章的完整信息
+ * @param {string} id - 徽章的ID
+ * @returns {GalaxyFleetMark | null} 对应的徽章对象，如果未找到则返回null
  */
 export function getGalaxyFleetMarkById(id: string): GalaxyFleetMark | null {
   return galaxyFleetMarkCache[id] || null;

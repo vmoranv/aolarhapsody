@@ -1,7 +1,7 @@
 import { fetchAndParseJSON } from './game-data-parser';
 import { PetTalk } from '../types/pettalk';
 
-const cachedPetTalks: Record<string, PetTalk> = {};
+const cachedPetTalks: Record<number, string> = {};
 
 /**
  * 初始化亚比语音数据模块
@@ -9,33 +9,20 @@ const cachedPetTalks: Record<string, PetTalk> = {};
 export async function initPetTalkModule(): Promise<boolean> {
   try {
     const url = 'https://aola.100bt.com/h5/data/pettalkdata.json';
-    console.log('开始获取亚比语音数据JSON文件...');
-    const responseData = await fetchAndParseJSON(url) as Record<string, (string | number)[]>;
+    const responseData = await fetchAndParseJSON(url) as Record<string, string>;
 
     if (!responseData) {
       console.error('亚比语音数据为空或格式不正确');
       return false;
     }
 
-    Object.values(responseData).forEach(item => {
-      if (item.length >= 2) {
-        const raceId = item[0] as number;
-        const talk = item[1] as string;
-
-        if (cachedPetTalks[raceId]) {
-          // If raceId already exists, push the new talk
-          cachedPetTalks[raceId].talks.push(talk);
-        } else {
-          // Otherwise, create a new entry
-          cachedPetTalks[raceId] = {
-            raceId: raceId,
-            talks: [talk],
-          };
-        }
+    Object.entries(responseData).forEach(([id, talk]) => {
+      const raceId = parseInt(id, 10);
+      if (!isNaN(raceId)) {
+        cachedPetTalks[raceId] = talk;
       }
     });
 
-    console.log(`成功解析并缓存了 ${Object.keys(cachedPetTalks).length} 个亚比的语音`);
     return true;
   } catch (error) {
     console.error('解析亚比语音数据时出错:', error);
@@ -44,11 +31,14 @@ export async function initPetTalkModule(): Promise<boolean> {
 }
 
 /**
- * 获取所有已缓存的亚比语音
- * @returns {PetTalk[]} 亚比语音对象数组
+ * 获取所有已缓存的亚比语音的简化列表
+ * @returns {{id: number, name: string}[]} 亚比语音对象数组
  */
-export function getAllPetTalks(): PetTalk[] {
-  return Object.values(cachedPetTalks);
+export function getAllPetTalks(): { id: number, name: string }[] {
+  return Object.entries(cachedPetTalks).map(([id, talk]) => ({
+    id: parseInt(id, 10),
+    name: talk,
+  }));
 }
 
 /**
@@ -57,5 +47,9 @@ export function getAllPetTalks(): PetTalk[] {
  * @returns {PetTalk | undefined} 对应的亚比语音对象，如果未找到则返回undefined
  */
 export function getPetTalksByRaceId(id: number): PetTalk | undefined {
-  return cachedPetTalks[id];
+  const talk = cachedPetTalks[id];
+  if (talk) {
+    return { raceId: id, talk: talk };
+  }
+  return undefined;
 }

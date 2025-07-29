@@ -10,7 +10,6 @@ const cachedSkillStones: Record<string, SkillStone> = {};
 export async function initPetStoneModule(): Promise<boolean> {
   try {
     const url = 'https://aola.100bt.com/h5/data/petstonedata.json';
-    console.log('开始获取进化石和技能石数据JSON文件...');
     const responseData = await fetchAndParseJSON(url) as {
       evoData: Record<string, (string | number)[]>;
       skillData: Record<string, (string | number)[]>;
@@ -47,7 +46,6 @@ export async function initPetStoneModule(): Promise<boolean> {
       }
     });
 
-    console.log(`成功解析并缓存了 ${Object.keys(cachedEvolutionStones).length} 个进化石和 ${Object.keys(cachedSkillStones).length} 个技能石`);
     return true;
   } catch (error) {
     console.error('解析进化石和技能石数据时出错:', error);

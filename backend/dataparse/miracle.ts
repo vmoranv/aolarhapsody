@@ -6,12 +6,11 @@ const petInfoDataCache: Record<string, MiraclePetInfo> = {};
 const breakDataCache: Record<string, MiraclePetBreakData> = {};
 
 /**
- * 初始化奇迹数据模块
+ * 初始化神迹数据模块
  */
 export async function initMiracleModule(): Promise<boolean> {
   try {
     const url = 'https://aola.100bt.com/h5/data/miracledata.json';
-    console.log('开始获取奇迹数据JSON文件...');
     const response = await fetchAndParseJSON(url) as {
       awakeData: Record<string, (string | number)[]>;
       petInfoData: Record<string, (string | number)[]>;
@@ -19,7 +18,7 @@ export async function initMiracleModule(): Promise<boolean> {
     };
 
     if (!response || !response.awakeData || !response.petInfoData || !response.breakData) {
-      console.error('奇迹数据为空或格式不正确');
+      console.error('神迹数据为空或格式不正确');
       return false;
     }
 
@@ -63,33 +62,32 @@ export async function initMiracleModule(): Promise<boolean> {
       }
     });
 
-    console.log(`成功解析并缓存了 ${Object.keys(awakeDataCache).length} 条觉醒数据, ${Object.keys(petInfoDataCache).length} 条宠物信息数据, 和 ${Object.keys(breakDataCache).length} 条突破数据`);
     return true;
   } catch (error) {
-    console.error('解析奇迹数据时出错:', error);
+    console.error('解析神迹数据时出错:', error);
     return false;
   }
 }
 
 /**
- * 获取所有已缓存的奇迹觉醒数据。
- * @returns {MiraclePetAwakeData[]} 奇迹觉醒数据对象数组。
+ * 获取所有已缓存的神迹觉醒数据
+ * @returns {MiraclePetAwakeData[]} 神迹觉醒数据对象数组
  */
 export function getAllAwakeData(): MiraclePetAwakeData[] {
   return Object.values(awakeDataCache);
 }
 
 /**
- * 获取所有已缓存的奇迹宠物信息数据。
- * @returns {MiraclePetInfo[]} 奇迹宠物信息对象数组。
+ * 获取所有已缓存的神迹宠物信息数据
+ * @returns {MiraclePetInfo[]} 神迹宠物信息对象数组
  */
 export function getAllPetInfoData(): MiraclePetInfo[] {
   return Object.values(petInfoDataCache);
 }
 
 /**
- * 获取所有已缓存的奇迹突破数据。
- * @returns {MiraclePetBreakData[]} 奇迹突破数据对象数组。
+ * 获取所有已缓存的神迹突破数据
+ * @returns {MiraclePetBreakData[]} 神迹突破数据对象数组
  */
 export function getAllBreakData(): MiraclePetBreakData[] {
   return Object.values(breakDataCache);

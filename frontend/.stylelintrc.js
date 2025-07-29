@@ -6,7 +6,7 @@ module.exports = {
   /* 继承某些已有的规则 */
   extends: [
     'stylelint-config-standard', // 配置stylelint拓展插件
-    'stylelint-prettier/recommended', // 在 Stylelint 中集成 Prettier，使其成为 Stylelint 规则的一部分。
+    'stylelint-prettier/recommended', // 在 Stylelint 中集成 Prettier，使其成为 Stylelint 规则的一部分
     'stylelint-config-recess-order', // 配置stylelint css属性书写顺序插件,
   ],
 

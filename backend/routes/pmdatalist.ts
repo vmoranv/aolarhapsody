@@ -19,9 +19,9 @@ const router = Router();
 
 /**
  * @route GET /skill-attributes
- * @description 获取所有技能属性。
- * @returns {object} 200 - 成功获取技能属性列表。
- * @returns {object} 500 - 服务器内部错误。
+ * @description 获取所有技能属性
+ * @returns {object} 200 - 成功获取技能属性列表
+ * @returns {object} 500 - 服务器内部错误
  */
 router.get('/skill-attributes', async (req: Request, res: Response) => {
   try {
@@ -44,10 +44,10 @@ router.get('/skill-attributes', async (req: Request, res: Response) => {
 
 /**
  * @route GET /attribute-relations/:id
- * @description 获取指定ID的属性克制关系。
- * @param {string} id - 属性的ID。
- * @returns {object} 200 - 成功获取属性克制关系。
- * @returns {object} 404 - 未找到指定ID的克制关系。
+ * @description 获取指定ID的属性克制关系
+ * @param {string} id - 属性的ID
+ * @returns {object} 200 - 成功获取属性克制关系
+ * @returns {object} 404 - 未找到指定ID的克制关系
  */
 router.get('/attribute-relations/:id', (req: Request, res: Response) => {
   const { id } = req.params;
@@ -84,8 +84,8 @@ router.get('/attribute-relations/:id', (req: Request, res: Response) => {
 
 /**
  * @route GET /pets
- * @description 获取所有亚比的简要列表。
- * @returns {object} 200 - 成功获取亚比列表。
+ * @description 获取所有亚比的简要列表
+ * @returns {object} 200 - 成功获取亚比列表
  */
 router.get('/pets', (req: Request, res: Response) => {
   const petList = getPetList();
@@ -98,14 +98,25 @@ router.get('/pets', (req: Request, res: Response) => {
 });
 
 /**
- * @route GET /pets/search
- * @description 根据关键词搜索亚比。
- * @param {string} keyword - 用于搜索的关键词。
- * @returns {object} 200 - 成功返回搜索结果。
+ * @route POST /pets/search
+ * @description 根据关键词搜索亚比
+ * @param {object} body - 请求体
+ * @param {string} body.keyword - 用于搜索的关键词
+ * @returns {object} 200 - 成功返回搜索结果
+ * @returns {object} 400 - 如果请求体中缺少keyword
  */
-router.get('/pets/search', (req: Request, res: Response) => {
-  const keyword = req.query.keyword as string;
-  const results = searchPets(keyword);
+router.post('/pets/search', (req: Request, res: Response) => {
+  const { keyword } = req.body;
+
+  if (!keyword) {
+    return res.status(400).json({
+      success: false,
+      error: '请求体中缺少 "keyword" 参数',
+      timestamp: new Date().toISOString(),
+    });
+  }
+
+  const results = searchPets(keyword as string);
   res.json({
     success: true,
     data: results,
@@ -177,10 +188,14 @@ router.post('/exp/calculate', (req: Request, res: Response) => {
 // 获取所有场地效果
 router.get('/weathers', (req: Request, res: Response) => {
   const weathers = getAllWeathers();
+  const simplifiedWeathers = weathers.map(weather => ({
+    id: weather.id,
+    name: weather.name,
+  }));
   res.json({
     success: true,
-    data: weathers,
-    count: weathers.length,
+    data: simplifiedWeathers,
+    count: simplifiedWeathers.length,
     timestamp: new Date().toISOString(),
   });
 });
