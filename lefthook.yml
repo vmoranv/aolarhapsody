@@ -1,33 +1,31 @@
+# See https://github.com/evilmartians/lefthook/blob/master/docs/configuration.md
+
+# pre-push:
+#   jobs:
+#     security-audit:
+#       run: pnpm audit
+
 pre-commit:
   parallel: true
-  commands:
-    code-workspace:
-      run: pnpm vsh code-workspace --auto-commit
-    lint-md:
+  jobs:
+    prettier:
+      glob: '*.{js,jsx,ts,tsx,vue,css,scss,less,html,md,json}'
       run: pnpm prettier --cache --ignore-unknown --write {staged_files}
-      glob: '*.md'
-    lint-vue:
-      run: pnpm prettier --write {staged_files} && pnpm eslint --cache --fix {staged_files} && pnpm stylelint --fix --allow-empty-input {staged_files}
-      glob: '*.vue'
-    lint-js:
-      run: pnpm prettier --cache --ignore-unknown --write {staged_files} && pnpm eslint --cache --fix {staged_files}
-      glob: '*.{js,jsx,ts,tsx}'
-    lint-style:
-      run: pnpm prettier --cache --ignore-unknown --write {staged_files} && pnpm stylelint --fix --allow-empty-input {staged_files}
-      glob: '*.{scss,less,styl,html,vue,css}'
-    lint-package:
-      run: pnpm prettier --cache --write {staged_files}
-      glob: 'package.json'
-    lint-json:
-      run: pnpm prettier --cache --write --parser json {staged_files}
-      glob: '{!(package)*.json,*.code-snippets,.!(browserslist)*rc}'
+    eslint:
+      glob: '*.{js,jsx,ts,tsx,vue}'
+      run: pnpm eslint --cache --fix {staged_files}
+    stylelint:
+      glob: '*.{vue,css,scss,less,html}'
+      run: pnpm stylelint --fix --allow-empty-input {staged_files}
 
 post-merge:
-  commands:
+  parallel: true
+  jobs:
     install:
       run: pnpm install
 
 commit-msg:
-  commands:
+  parallel: true
+  jobs:
     commitlint:
-      run: pnpm exec commitlint --edit $1
+      run: pnpm exec commitlint --edit {1}
