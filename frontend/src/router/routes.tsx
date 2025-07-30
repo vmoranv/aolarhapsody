@@ -9,7 +9,7 @@ import Home from '@/views/Home';
  */
 export const constantRoutes: RouteObject[] = [
   {
-    path: '/',
+    path: '/app',
     id: 'Home',
     element: <Home />,
   },

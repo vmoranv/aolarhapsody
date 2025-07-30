@@ -3,14 +3,14 @@
   "private": true,
   "scripts": {
     "build": "cross-env NODE_OPTIONS=--max-old-space-size=8192 ar-turbo build",
-    "build:front": "ar-turbo build --filter=frontend",
-    "build:backend": "ar-turbo build --filter=backend",
+    "build:front": "ar-turbo build",
+    "build:backend": "ar-turbo build",
     "check": "ash lint && pnpm lint:cspell",
     "clean": "node ./scripts/clean.mjs",
     "commit": "czg",
     "dev": "ar-turbo dev",
-    "dev:front": "ar-turbo dev --filter=frontend",
-    "dev:backend": "ar-turbo dev --filter=backend",
+    "dev:front": "ar-turbo dev",
+    "dev:backend": "ar-turbo dev",
     "format": "ash lint --format",
     "lint": "ash lint",
     "lint:cspell": "cspell lint \"**/*.ts\" \"**/README.md\" \".changeset/*.md\" --no-progress",
@@ -20,6 +20,8 @@
     "reinstall": "pnpm clean --del-lock && pnpm install"
   },
   "devDependencies": {
+    "@aolarhapsody/scripts-helper": "workspace:*",
+    "@aolarhapsody/turbo-run": "workspace:*",
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",
     "cross-env": "^10.0.0",

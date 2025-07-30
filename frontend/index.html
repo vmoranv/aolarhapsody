@@ -8,6 +8,11 @@
   </head>
   <body>
     <div id="root"></div>
+    <script>
+      if (window.location.pathname === '/') {
+        window.location.href = '/landing.html';
+      }
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
