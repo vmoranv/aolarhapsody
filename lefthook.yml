@@ -7,25 +7,31 @@
 
 pre-commit:
   parallel: true
-  jobs:
-    prettier:
-      glob: '*.{js,jsx,ts,tsx,vue,css,scss,less,html,md,json}'
+  commands:
+    lint-scripts:
+      glob: '*.{js,jsx,ts,tsx}'
+      run: pnpm prettier --cache --ignore-unknown --write {staged_files} && pnpm eslint --cache --fix {staged_files}
+    lint-styles:
+      glob: '*.{css,scss,less,html,vue}'
+      run: pnpm prettier --cache --ignore-unknown --write {staged_files} && pnpm stylelint --fix --allow-empty-input {staged_files}
+    lint-json:
+      glob: '{!(package)*.json,*.code-snippets,.!(browserslist)*rc}'
+      run: pnpm prettier --cache --write --parser json {staged_files}
+    lint-package:
+      glob: 'package.json'
+      run: pnpm prettier --cache --write {staged_files}
+    lint-md:
+      glob: '*.md'
       run: pnpm prettier --cache --ignore-unknown --write {staged_files}
-    eslint:
-      glob: '*.{js,jsx,ts,tsx,vue}'
-      run: pnpm eslint --cache --fix {staged_files}
-    stylelint:
-      glob: '*.{vue,css,scss,less,html}'
-      run: pnpm stylelint --fix --allow-empty-input {staged_files}
 
 post-merge:
   parallel: true
-  jobs:
+  commands:
     install:
       run: pnpm install
 
 commit-msg:
   parallel: true
-  jobs:
+  commands:
     commitlint:
       run: pnpm exec commitlint --edit {1}
