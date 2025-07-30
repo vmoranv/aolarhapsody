@@ -2,7 +2,6 @@
 
 export default {
   root: true,
-  ignoreFiles: ['**/*.html'],
 
   /* 继承某些已有的规则 */
   extends: [
