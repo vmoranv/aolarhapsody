@@ -16,7 +16,14 @@ async function cleanTargetsRecursively(currentDir, targets) {
       const itemPath = normalize(join(currentDir, item));
       const stat = await fs.lstat(itemPath);
 
-      if (targets.includes(item)) {
+      const shouldDelete = targets.some((target) => {
+        if (target.startsWith('*.')) {
+          return item.endsWith(target.slice(1));
+        }
+        return item === target;
+      });
+
+      if (shouldDelete) {
         // 匹配到目标目录或文件时直接删除
         await fs.rm(itemPath, { force: true, recursive: true });
         console.log(`Deleted: ${itemPath}`);
@@ -34,7 +41,14 @@ async function cleanTargetsRecursively(currentDir, targets) {
 
 (async function startCleanup() {
   // 要删除的目录及文件名称
-  const targets = ['node_modules', 'dist', '.turbo', 'dist.zip'];
+  const targets = [
+    'node_modules',
+    'dist',
+    '.turbo',
+    'dist.zip',
+    '*.tsbuildinfo',
+    'vite.config.js',
+  ];
   const deleteLockFile = process.argv.includes('--del-lock');
   const cleanupTargets = [...targets];
 

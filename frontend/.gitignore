@@ -1,0 +1,11 @@
+# build artifacts
+dist
+dist-ssr
+*.local
+
+# cache
+.eslintcache
+*.tsbuildinfo
+
+# dependencies
+node_modules
