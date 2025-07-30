@@ -15,7 +15,8 @@
   },
   "scripts": {
     "build": "pnpm unbuild",
-    "stub": "pnpm unbuild --stub"
+    "stub": "pnpm unbuild --stub",
+    "prepare": "pnpm build"
   },
   "dependencies": {
     "@clack/prompts": "^0.11.0",

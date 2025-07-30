@@ -2,7 +2,7 @@
   "name": "aolarhapsody-monorepo",
   "private": true,
   "scripts": {
-    "build": "cross-env NODE_OPTIONS=--max-old-space-size=8192 ar-turbo build",
+    "build": "pnpm --filter @aolarhapsody/turbo-run build && cross-env NODE_OPTIONS=--max-old-space-size=8192 ar-turbo build",
     "build:front": "pnpm --filter frontend build",
     "build:backend": "pnpm --filter backend build",
     "check": "ash lint && pnpm lint:cspell",
