@@ -28,7 +28,9 @@ export const damageMapping: { [key: string]: number } = {
  * @returns {number} 克制关系对应的数值倍率
  */
 export function parseRelation(relation: string): number {
-  if (!relation || relation === '') return 1;
+  if (!relation || relation === '') {
+    return 1;
+  }
   const value = damageMapping[relation];
   return value !== undefined ? value : 1;
 }

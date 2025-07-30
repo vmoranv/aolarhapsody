@@ -9,7 +9,8 @@
   <body>
     <div id="root"></div>
     <script>
-      if (window.location.pathname === '/') {
+      // 只有在没有 hash 路由且路径为根路径时才重定向到 landing.html
+      if (window.location.pathname === '/' && !window.location.hash) {
         window.location.href = '/landing.html';
       }
     </script>

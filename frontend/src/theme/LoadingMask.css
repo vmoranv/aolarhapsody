@@ -1,0 +1,75 @@
+/*
+  注册 --mask-size 自定义属性，以便浏览器可以正确地对其进行动画。
+  这是解决动画在某些情况下不触发的关键。
+*/
+@property --mask-size {
+  syntax: '<length-percentage>';
+  inherits: false;
+  initial-value: 150vmax;
+}
+
+.loading-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  width: 100%; /* 使用 100% 替代 100vw，以避免在垂直滚动条存在时导致水平溢出 */
+  height: 100vh;
+  pointer-events: none; /* 遮罩本身不响应点击 */
+
+  /* 背景色将独立进行动画，实现从当前颜色到目标颜色的渐变 */
+  background-color: var(--mask-from-color);
+  mask-image: radial-gradient(
+    circle at center,
+    transparent var(--mask-size),
+    black calc(var(--mask-size) + 1px)
+  );
+  mask-repeat: no-repeat;
+  mask-position: center;
+  animation-duration: 0.5s; /* 动画时间 */
+  animation-timing-function: cubic-bezier(0.86, 0, 0.07, 1); /* 优化动画曲线，使其更平滑 */
+  animation-fill-mode: forwards;
+
+  /*
+    使用 mask-image 实现虹膜效果，将形状和颜色分离，以便独立动画。
+  */
+  --mask-size: 150vmax;
+}
+
+.loading-mask.show {
+  animation-name: mask-in;
+}
+
+.loading-mask.hide {
+  animation-name: mask-out;
+}
+
+/* 虹膜收缩：从当前主题色 -> 中间色 */
+@keyframes mask-in {
+  from {
+    --mask-size: 150vmax;
+
+    background-color: var(--mask-from-color);
+  }
+
+  to {
+    --mask-size: 0;
+
+    background-color: var(--mask-intermediate-color);
+  }
+}
+
+/* 虹膜扩张：从中间色 -> 目标主题色 */
+@keyframes mask-out {
+  from {
+    --mask-size: 0;
+
+    background-color: var(--mask-intermediate-color);
+  }
+
+  to {
+    --mask-size: 150vmax;
+
+    background-color: var(--mask-to-color);
+  }
+}

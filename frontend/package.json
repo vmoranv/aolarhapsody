@@ -13,8 +13,16 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@ant-design/colors": "^7.2.1",
+    "@tanstack/react-query": "^5.83.0",
+    "@types/gsap": "^3.0.0",
+    "antd": "^5.26.7",
+    "framer-motion": "^12.23.12",
+    "gsap": "^3.13.0",
+    "lucide-react": "^0.534.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "react-hot-toast": "^2.5.2",
     "react-router-dom": "^7.7.0",
     "zustand": "^5.0.6"
   },

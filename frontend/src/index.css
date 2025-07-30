@@ -1,3 +1,342 @@
-@tailwind base;
-@tailwind components;
+@import url('tailwindcss/preflight');
+
 @tailwind utilities;
+
+/* 统一的主题变量系统 */
+:root {
+  /* 主题变量会被 JavaScript 动态设置 */
+  --theme-primary: #667eea;
+  --theme-secondary: #764ba2;
+  --theme-background: #f5f7fa;
+  --theme-surface: #fff;
+  --theme-elevated: #fff;
+  --theme-text: #262626;
+  --theme-text-secondary: #666;
+  --theme-text-tertiary: #999;
+  --theme-text-disabled: #bfbfbf;
+  --theme-border: #d9d9d9;
+  --theme-border-secondary: #f0f0f0;
+  --theme-success: #52c41a;
+  --theme-warning: #faad14;
+  --theme-error: #ff4d4f;
+  --theme-info: #1890ff;
+  --theme-fill: #f5f5f5;
+  --theme-fill-secondary: #fafafa;
+  --theme-fill-tertiary: #f5f5f5;
+  --theme-fill-quaternary: #f0f0f0;
+  --theme-shadow: rgb(0 0 0 / 10%);
+  --theme-shadow-secondary: rgb(0 0 0 / 6%);
+}
+
+/* 主题类会通过 JavaScript 动态更新 CSS 变量 */
+
+/* 现代化字体和基础样式 */
+:root {
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB',
+    'Microsoft YaHei', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  line-height: 1.6;
+  font-synthesis: none;
+  text-rendering: optimizelegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-size-adjust: 100%;
+}
+
+/* 重置默认样式 */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  padding: 0;
+  margin: 0;
+  color: var(--theme-text);
+  background: var(--theme-background);
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+/* 滚动条样式 */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+  transition: background 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* 链接样式 */
+a {
+  color: #667eea;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: #764ba2;
+}
+
+/* 选择文本样式 */
+::selection {
+  color: #262626;
+  background: rgb(102 126 234 / 20%);
+}
+
+/* 焦点样式 */
+:focus-visible {
+  outline: 2px solid #667eea;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* 动画类 */
+.fade-in {
+  animation: fade-in 0.3s ease-in-out;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.slide-up {
+  animation: slide-up 0.4s ease-out;
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Ant Design 组件自定义样式 */
+.ant-layout {
+  background: transparent !important;
+}
+
+.ant-card {
+  background: var(--theme-surface) !important;
+  border-color: var(--theme-border) !important;
+  transition: all 0.3s ease;
+}
+
+.ant-card:hover {
+  transform: translateY(-2px);
+}
+
+.light-theme .ant-card:hover {
+  box-shadow: 0 8px 24px rgb(0 0 0 / 12%) !important;
+}
+
+.dark-theme .ant-card:hover {
+  box-shadow: 0 8px 24px rgb(0 0 0 / 40%) !important;
+}
+
+/* 优化的主题变量应用 - 使用统一的主题变量 */
+.ant-input,
+.ant-select-selector,
+.ant-btn:not(.ant-btn-primary) {
+  color: var(--theme-text) !important;
+  background: var(--theme-elevated) !important;
+  border-color: var(--theme-border) !important;
+  transition: all 0.2s ease !important;
+}
+
+.ant-input:focus,
+.ant-input-focused,
+.ant-select-focused .ant-select-selector {
+  border-color: var(--theme-primary) !important;
+  box-shadow: 0 0 0 2px rgb(102 126 234 / 20%) !important;
+}
+
+.ant-typography,
+.ant-typography h1,
+.ant-typography h2,
+.ant-typography h3,
+.ant-typography h4,
+.ant-typography h5,
+.ant-typography h6 {
+  color: var(--theme-text) !important;
+  transition: color 0.2s ease !important;
+}
+
+.ant-statistic-content {
+  color: var(--theme-text) !important;
+}
+
+.ant-statistic-title {
+  color: var(--theme-text-secondary) !important;
+}
+
+.ant-empty-description {
+  color: var(--theme-text-secondary) !important;
+}
+
+.ant-tag {
+  color: var(--theme-text) !important;
+  background: var(--theme-fill-secondary) !important;
+  border-color: var(--theme-border) !important;
+}
+
+/* 简化的深色主题样式 - 减少重绘 */
+.dark-theme {
+  --ant-color-bg-container: #161b22;
+  --ant-color-bg-elevated: #21262d;
+  --ant-color-border: #30363d;
+  --ant-color-text: #c9d1d9;
+  --ant-color-text-secondary: #8b949e;
+}
+
+/* 响应式设计 */
+@media (width <= 768px) {
+  body {
+    background: #f5f5f5;
+  }
+}
+
+/* 主题切换按钮样式 */
+.theme-toggle-btn {
+  z-index: 10000;
+  pointer-events: auto !important;
+  background-color: var(--theme-surface) !important;
+  transition: all 0.3s ease !important;
+}
+
+.theme-toggle-btn:hover {
+  border-color: var(--theme-primary) !important;
+}
+
+.theme-toggle-btn:hover .lucide {
+  color: var(--theme-primary) !important;
+}
+
+/* View Transition API 样式优化 */
+::view-transition-old(root),
+::view-transition-new(root) {
+  mix-blend-mode: normal;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  animation: none;
+}
+
+::view-transition-group(root) {
+  animation-duration: 0.4s;
+  animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* 确保过渡期间的性能优化 */
+::view-transition-old(root) {
+  z-index: 1;
+}
+
+::view-transition-new(root) {
+  z-index: 2;
+}
+
+/* 主题切换时的性能优化 */
+.theme-transitioning {
+  pointer-events: none;
+}
+
+.theme-transitioning * {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  will-change: auto !important;
+}
+
+.theme-transitioning .ant-card,
+.theme-transitioning .ant-input,
+.theme-transitioning .ant-select,
+.theme-transitioning .ant-button {
+  transition: none !important;
+}
+
+/* 主题相关的背景色 - 简化以提升性能 */
+body.light-theme {
+  color: var(--theme-text);
+  background: #f5f7fa !important;
+}
+
+body.dark-theme {
+  color: var(--theme-text);
+  background: #0d1117 !important;
+}
+
+/* 深色主题下的滚动条 */
+.dark-theme ::-webkit-scrollbar-track {
+  background: #21262d;
+}
+
+.dark-theme ::-webkit-scrollbar-thumb {
+  background: #484f58;
+}
+
+.dark-theme ::-webkit-scrollbar-thumb:hover {
+  background: #6e7681;
+}
+
+/* 深色主题下的选择文本 */
+.dark-theme ::selection {
+  color: #c9d1d9;
+  background: rgb(88 166 255 / 30%);
+}
+
+/* 深色主题下的链接 */
+.dark-theme a {
+  color: var(--theme-primary);
+}
+
+.dark-theme a:hover {
+  color: var(--theme-secondary);
+}
+
+/* 响应式设计 */
+@media (width <= 768px) {
+  body.light-theme {
+    background: #f5f5f5 !important;
+  }
+
+  body.dark-theme {
+    background: #0d1117 !important;
+  }
+}
+
+/* 打印样式 */
+@media print {
+  body {
+    background: white !important;
+  }
+
+  .ant-layout-sider {
+    display: none !important;
+  }
+}

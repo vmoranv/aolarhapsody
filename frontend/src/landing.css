@@ -1,225 +1,237 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;700&display=swap');
 
 :root {
-    --primary-color-light: #4a90e2;
-    --secondary-color-light: #50e3c2;
-    --background-color-light: #f0f4f8;
-    --text-color-light: #333;
-    --card-background-light: #ffffff;
-    --shadow-color-light: rgba(0, 0, 0, 0.1);
-
-    --primary-color-dark: #58a6ff;
-    --secondary-color-dark: #3ddc84;
-    --background-color-dark: #0d1117;
-    --text-color-dark: #c9d1d9;
-    --card-background-dark: #161b22;
-    --shadow-color-dark: rgba(0, 0, 0, 0.3);
+  --primary-color-light: #4a90e2;
+  --secondary-color-light: #50e3c2;
+  --background-color-light: #f0f4f8;
+  --text-color-light: #333;
+  --card-background-light: #fff;
+  --shadow-color-light: rgb(0 0 0 / 10%);
+  --primary-color-dark: #58a6ff;
+  --secondary-color-dark: #3ddc84;
+  --background-color-dark: #0d1117;
+  --text-color-dark: #c9d1d9;
+  --card-background-dark: #161b22;
+  --shadow-color-dark: rgb(0 0 0 / 30%);
 }
 
 .light-theme {
-    --primary-color: var(--primary-color-light);
-    --secondary-color: var(--secondary-color-light);
-    --background-color: var(--background-color-light);
-    --text-color: var(--text-color-light);
-    --card-background: var(--card-background-light);
-    --shadow-color: var(--shadow-color-light);
+  --primary-color: var(--primary-color-light);
+  --secondary-color: var(--secondary-color-light);
+  --background-color: var(--background-color-light);
+  --text-color: var(--text-color-light);
+  --card-background: var(--card-background-light);
+  --shadow-color: var(--shadow-color-light);
 }
 
 .dark-theme {
-    --primary-color: var(--primary-color-dark);
-    --secondary-color: var(--secondary-color-dark);
-    --background-color: var(--background-color-dark);
-    --text-color: var(--text-color-dark);
-    --card-background: var(--card-background-dark);
-    --shadow-color: var(--shadow-color-dark);
+  --primary-color: var(--primary-color-dark);
+  --secondary-color: var(--secondary-color-dark);
+  --background-color: var(--background-color-dark);
+  --text-color: var(--text-color-dark);
+  --card-background: var(--card-background-dark);
+  --shadow-color: var(--shadow-color-dark);
 }
 
 body {
-    font-family: 'Noto Sans SC', sans-serif;
-    margin: 0;
-    background-color: var(--background-color);
-    color: var(--text-color);
-    line-height: 1.6;
+  margin: 0;
+  overflow-x: hidden;
+  font-family: 'Noto Sans SC', sans-serif;
+  line-height: 1.6;
+  color: var(--text-color);
+  background-color: var(--background-color);
 }
 
 header {
-    background: var(--card-background);
-    box-shadow: 0 2px 4px var(--shadow-color);
-    padding: 1rem 2rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: sticky;
-    top: 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 1rem 2rem;
+  background: color-mix(in srgb, var(--card-background) 70%, transparent);
+  box-shadow: 0 2px 4px var(--shadow-color);
+  backdrop-filter: blur(10px);
 }
 
 header h1 {
-    color: var(--primary-color);
-    margin: 0;
+  margin: 0;
+  color: var(--primary-color);
 }
 
 header nav {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 header nav a {
-    color: var(--text-color);
-    text-decoration: none;
-    margin: 0 1rem;
-    font-weight: 400;
-    transition: color 0.3s ease;
+  margin: 0 1rem;
+  font-weight: 400;
+  color: var(--text-color);
+  text-decoration: none;
+  transition: color 0.3s ease;
 }
 
 header nav a:hover {
-    color: var(--primary-color);
+  color: var(--primary-color);
 }
 
 .theme-toggle {
-    background-color: transparent;
-    border: 1px solid #8b949e;
-    border-radius: 8px;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-    margin-left: 1rem;
-    transition: border-color 0.3s ease;
-    --icon-rotate: 0deg;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  margin-left: 1rem;
+  overflow: hidden;
+  cursor: pointer;
+  background-color: transparent;
+  border: 1px solid #8b949e;
+  border-radius: 8px;
+  transition: border-color 0.3s ease;
+
+  --icon-rotate: 0deg;
 }
 
 .theme-toggle:hover {
-    border-color: var(--primary-color);
-    --icon-rotate: 15deg;
+  border-color: var(--primary-color);
+
+  --icon-rotate: 15deg;
 }
 
 .theme-toggle svg {
-    position: absolute;
-    transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.5s cubic-bezier(0.25, 1, 0.5, 1);
-    color: #8b949e;
-    pointer-events: none;
+  position: absolute;
+  color: #8b949e;
+  pointer-events: none;
+  transition:
+    transform 0.5s cubic-bezier(0.25, 1, 0.5, 1),
+    opacity 0.5s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 .theme-toggle:hover svg {
-    color: var(--primary-color);
+  color: var(--primary-color);
 }
 
 .theme-toggle .sun {
-    transform: scale(1) rotate(var(--icon-rotate));
-    opacity: 1;
+  opacity: 1;
+  transform: scale(1) rotate(var(--icon-rotate));
 }
 
 .theme-toggle .moon {
-    transform: scale(0) rotate(calc(var(--icon-rotate) - 90deg));
-    opacity: 0;
+  opacity: 0;
+  transform: scale(0) rotate(calc(var(--icon-rotate) - 90deg));
 }
 
 .dark-theme .theme-toggle .sun {
-    transform: scale(0) rotate(calc(var(--icon-rotate) + 90deg));
-    opacity: 0;
+  opacity: 0;
+  transform: scale(0) rotate(calc(var(--icon-rotate) + 90deg));
 }
 
 .dark-theme .theme-toggle .moon {
-    transform: scale(1) rotate(var(--icon-rotate));
-    opacity: 1;
+  opacity: 1;
+  transform: scale(1) rotate(var(--icon-rotate));
 }
 
 main {
-    padding: 2rem;
+  padding: 2rem;
 }
 
 #hero {
-    text-align: center;
-    padding: 4rem 1rem;
-    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-    color: white;
-    border-radius: 8px;
+  padding: 4rem 1rem;
+  color: white;
+  text-align: center;
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  border-radius: 8px;
 }
 
 #hero h2 {
-    font-size: 2.5rem;
-    margin-bottom: 0.5rem;
+  margin-bottom: 0.5rem;
+  font-size: 2.5rem;
 }
 
 #hero p {
-    font-size: 1.2rem;
-    margin-bottom: 2rem;
+  margin-bottom: 2rem;
+  font-size: 1.2rem;
 }
 
 .cta-button {
-    background-color: white;
-    color: var(--primary-color);
-    padding: 0.8rem 1.5rem;
-    border-radius: 25px;
-    text-decoration: none;
-    font-weight: 700;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  padding: 0.8rem 1.5rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  text-decoration: none;
+  background-color: white;
+  border-radius: 25px;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .cta-button:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 4px 10px var(--shadow-color);
+  box-shadow: 0 4px 10px var(--shadow-color);
+  transform: translateY(-3px);
 }
 
 section {
-    margin-bottom: 3rem;
+  margin-bottom: 3rem;
 }
 
 section h2 {
-    text-align: center;
-    font-size: 2rem;
-    margin-bottom: 2rem;
-    color: var(--primary-color);
+  margin-bottom: 2rem;
+  font-size: 2rem;
+  color: var(--primary-color);
+  text-align: center;
 }
 
 .feature-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
 }
 
 .feature-item {
-    background: var(--card-background);
-    padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px var(--shadow-color);
-    text-align: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  padding: 2rem;
+  text-align: center;
+  background: var(--card-background);
+  border-radius: 8px;
+  box-shadow: 0 2px 5px var(--shadow-color);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .feature-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 12px var(--shadow-color);
+  box-shadow: 0 6px 12px var(--shadow-color);
+  transform: translateY(-5px);
 }
 
 .feature-item h3 {
-    color: var(--primary-color);
-    margin-top: 0;
+  margin-top: 0;
+  color: var(--primary-color);
 }
 
 #about {
-    background: var(--card-background);
-    padding: 2rem;
-    border-radius: 8px;
-    text-align: center;
+  padding: 2rem;
+  text-align: center;
+  background: var(--card-background);
+  border-radius: 8px;
 }
 
 footer {
-    text-align: center;
-    padding: 2rem;
-    background: #333;
-    color: white;
+  padding: 2rem;
+  color: white;
+  text-align: center;
+  background: #333;
 }
 
 /* View Transition API resets */
 ::view-transition-old(root),
 ::view-transition-new(root) {
-  animation: none;
   mix-blend-mode: normal;
+  animation: none;
 }
 
 /* 当我们需要让旧视图显示在最上层时，添加这个类 */
@@ -230,7 +242,7 @@ footer {
 
 /* 确保在过渡期间按钮仍然可以被点击，以实现动画打断 */
 .theme-toggle {
-    pointer-events: auto !important;
-    /* 确保按钮在过渡动画的伪元素之上 */
-    z-index: 10000;
+  /* 确保按钮在过渡动画的伪元素之上 */
+  z-index: 10000;
+  pointer-events: auto !important;
 }

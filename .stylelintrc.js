@@ -1,7 +1,8 @@
 // @see: https://stylelint.io
 
-module.exports = {
+export default {
   root: true,
+  ignoreFiles: ['**/*.html'],
 
   /* 继承某些已有的规则 */
   extends: [
@@ -13,7 +14,33 @@ module.exports = {
   plugins: ['stylelint-less', 'stylelint-prettier'], // 配置stylelint less拓展插件
 
   /* 自定义规则 */
-  rules: {},
+  rules: {
+    // 允许 tailwind 的 at-rule
+    'at-rule-no-unknown': [
+      true,
+      {
+        ignoreAtRules: ['tailwind'],
+      },
+    ],
+    // 允许驼峰命名的 keyframes
+    'keyframes-name-pattern': [
+      '^([a-z][a-z0-9]*)(-[a-z0-9]+)*$',
+      {
+        message: 'Expected keyframe name to be kebab-case or camelCase',
+      },
+    ],
+    // 允许驼峰命名的 CSS 变量
+    'custom-property-pattern': [
+      '^([a-z][a-z0-9]*)(-[a-z0-9]+)*$',
+      {
+        message: 'Expected custom property name to be kebab-case or camelCase',
+      },
+    ],
+    // 禁用重复选择器检查
+    'no-duplicate-selectors': null,
+    // 禁用特异性顺序检查
+    'no-descending-specificity': null,
+  },
   // overrides: [
   //   // 若项目中存在less文件，添加以下配置
   //   {

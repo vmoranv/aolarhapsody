@@ -1,61 +1,99 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>奥拉狂想曲 - 欢迎</title>
-    <link rel="stylesheet" href="src/landing.css">
-</head>
-<body>
-    <header>
-        <h1>奥拉狂想曲</h1>
-        <nav>
-            <a href="#features">特性</a>
-            <a href="#about">关于</a>
-            <a href="#contact">联系我们</a>
-            <button type="button" id="theme-toggle" class="theme-toggle" title="切换主题">
-                <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-                <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-            </button>
-        </nav>
+    <link rel="stylesheet" href="src/landing.css" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  </head>
+  <body>
+    <header class="reveal">
+      <h1 class="reveal">奥拉狂想曲</h1>
+      <nav>
+        <a href="#features">特性</a>
+        <a href="#about">关于</a>
+        <a href="#contact">联系我们</a>
+        <button type="button" id="theme-toggle" class="theme-toggle" title="切换主题">
+          <svg
+            class="sun"
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+          <svg
+            class="moon"
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+      </nav>
     </header>
 
     <main>
-        <section id="hero">
-            <h2>探索充满活力的奥拉世界</h2>
-            <p>一个为奥拉星爱好者打造的终极工具集和社区。</p>
-            <a href="/app" class="cta-button">进入应用</a>
-        </section>
+      <section id="hero">
+        <h2 class="reveal">探索充满活力的奥拉世界</h2>
+        <p class="reveal">一个为奥拉星爱好者打造的终极工具集和社区。</p>
+        <a href="/app" class="cta-button reveal">进入应用</a>
+      </section>
 
-        <section id="features">
-            <h2>核心功能</h2>
-            <div class="feature-grid">
-                <div class="feature-item">
-                    <h3>宠物图鉴</h3>
-                    <p>浏览、搜索和筛选所有宠物的详细信息。</p>
-                </div>
-                <div class="feature-item">
-                    <h3>数据查询</h3>
-                    <p>访问游戏中的各种数据，包括物品、任务和成就。</p>
-                </div>
-                <div class="feature-item">
-                    <h3>社区工具</h3>
-                    <p>与其他玩家分享你的见解和策略。</p>
-                </div>
-            </div>
-        </section>
+      <section id="features">
+        <h2 class="reveal">核心功能</h2>
+        <div class="feature-grid">
+          <div class="feature-item reveal">
+            <h3>宠物图鉴</h3>
+            <p>浏览、搜索和筛选所有宠物的详细信息。</p>
+          </div>
+          <div class="feature-item reveal">
+            <h3>数据查询</h3>
+            <p>访问游戏中的各种数据，包括物品、任务和成就。</p>
+          </div>
+          <div class="feature-item reveal">
+            <h3>社区工具</h3>
+            <p>与其他玩家分享你的见解和策略。</p>
+          </div>
+        </div>
+      </section>
 
-        <section id="about">
-            <h2>关于我们</h2>
-            <p>奥拉狂想曲是一个由爱好者驱动的项目，旨在为奥拉星玩家提供最好的工具和资源。</p>
-        </section>
+      <section id="about">
+        <h2 class="reveal">关于我们</h2>
+        <p class="reveal">
+          奥拉狂想曲是一个由爱好者驱动的项目，旨在为奥拉星玩家提供最好的工具和资源。
+        </p>
+      </section>
     </main>
 
-    <footer id="contact">
-        <p>&copy; 2024 奥拉狂想曲. 保留所有权利。</p>
-        <p>联系我们: contact@aolarhapsody.com</p>
+    <footer id="contact" class="reveal">
+      <p>&copy; 2024 奥拉狂想曲. 保留所有权利。</p>
+      <p>联系我们: contact@aolarhapsody.com</p>
     </footer>
 
     <script type="module" src="/src/landing.ts"></script>
-</body>
+  </body>
 </html>
