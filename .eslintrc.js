@@ -39,6 +39,7 @@ module.exports = {
     '@typescript-eslint/no-non-null-assertion': 'off', // 不允许使用后缀运算符的非空断言(!)
     'react-hooks/rules-of-hooks': 'off',
     'react-hooks/exhaustive-deps': 'off',
+    'no-console': ['error', { allow: ['warn', 'error'] }],
     'simple-import-sort/imports': [
       'error',
       {

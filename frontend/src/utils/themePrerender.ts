@@ -33,7 +33,6 @@ class ThemePrerender {
       this.precomputeCriticalStyles(themeName, themeColors);
     });
 
-    console.log('🎨 主题样式预计算完成');
   }
 
   // 预计算关键样式（避免运行时计算）
@@ -83,17 +82,12 @@ class ThemePrerender {
 
   // 快速应用预渲染样式 - 优化版本
   applyPrerenderedTheme(theme: string) {
-    const startTime = performance.now();
-
-    // 使用预计算的样式
-    const cssVariables = this.getPrerenderedStyle(theme);
-
     // 使用更高效的批量更新方式
-    this.fastBatchUpdate(theme, cssVariables, startTime);
+    this.fastBatchUpdate(theme);
   }
 
   // 零DOM操作的超高效更新方法
-  private fastBatchUpdate(theme: string, _cssVariables: string, startTime: number) {
+  private fastBatchUpdate(theme: string) {
     // 使用同步更新，避免异步延迟
     const { documentElement: root, body } = document;
 
@@ -102,7 +96,6 @@ class ThemePrerender {
 
     // 如果主题没有变化，直接返回
     if (currentTheme === theme) {
-      console.log(`⚡ 主题未变化，跳过更新: ${(performance.now() - startTime).toFixed(2)}ms`);
       return;
     }
 
@@ -111,19 +104,15 @@ class ThemePrerender {
 
     // 使用 CSSStyleSheet.insertRule 进行批量样式更新（如果支持）
     if (document.adoptedStyleSheets !== undefined) {
-      this.updateWithConstructableStylesheets(theme, themeColors, startTime);
+      this.updateWithConstructableStylesheets(theme, themeColors);
     } else {
       // 回退到传统方法，但优化DOM操作
-      this.updateWithTraditionalMethod(theme, themeColors, root, body, startTime);
+      this.updateWithTraditionalMethod(theme, themeColors, root, body);
     }
   }
 
   // 使用 Constructable Stylesheets 的现代方法
-  private updateWithConstructableStylesheets(
-    theme: string,
-    themeColors: ThemeColors,
-    startTime: number
-  ) {
+  private updateWithConstructableStylesheets(theme: string, themeColors: ThemeColors) {
     try {
       // 创建或更新样式表
       let themeStyleSheet = (window as any).__themeStyleSheet;
@@ -149,18 +138,9 @@ class ThemePrerender {
       // 更新 body 类名
       document.body.className =
         document.body.className.replace(/\b(light|dark)-theme\b/g, '').trim() + ` ${theme}-theme`;
-
-      const duration = performance.now() - startTime;
-      console.log(`⚡ 现代样式表更新完成: ${duration.toFixed(2)}ms`);
     } catch (error) {
       console.warn('现代样式表更新失败，回退到传统方法:', error);
-      this.updateWithTraditionalMethod(
-        theme,
-        themeColors,
-        document.documentElement,
-        document.body,
-        startTime
-      );
+      this.updateWithTraditionalMethod(theme, themeColors, document.documentElement, document.body);
     }
   }
 
@@ -169,8 +149,7 @@ class ThemePrerender {
     theme: string,
     themeColors: ThemeColors,
     root: HTMLElement,
-    body: HTMLElement,
-    startTime: number
+    body: HTMLElement
   ) {
     // 使用 requestAnimationFrame 确保在下一帧开始时更新
     requestAnimationFrame(() => {
@@ -192,16 +171,11 @@ class ThemePrerender {
       // 强制重排，然后恢复过渡
       this.forceReflow(root);
       root.style.transition = '';
-
-      const duration = performance.now() - startTime;
-      console.log(`⚡ 传统方法更新完成: ${duration.toFixed(2)}ms`);
     });
   }
 
   // 预热方法 - 在应用启动时调用
   warmup() {
-    console.log('🔥 开始主题系统预热...');
-
     // 预渲染两个主题的虚拟 DOM
     this.prerenderVirtualDOM('light');
     this.prerenderVirtualDOM('dark');
@@ -212,8 +186,6 @@ class ThemePrerender {
       this.getPrerenderedStyle(theme);
       this.getCriticalStyles(theme);
     });
-
-    console.log('✅ 主题系统预热完成');
   }
 
   private forceReflow(element: HTMLElement) {

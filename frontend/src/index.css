@@ -207,6 +207,24 @@ a:hover {
   border-color: var(--theme-border) !important;
 }
 
+.dark-theme .ant-tag {
+  color: var(--text-dark) !important;
+  background: var(--elevated-dark) !important;
+  border-color: var(--border-dark) !important;
+}
+
+.dark-theme .ant-tag.ant-tag-checkable-checked {
+  color: var(--primary-dark) !important;
+  background: var(--elevated-dark) !important;
+  border-color: var(--primary-dark) !important;
+}
+
+.dark-theme .ant-tag.ant-tag-checkable:not(.ant-tag-checkable-checked):hover {
+  color: var(--primary-dark) !important;
+  background: var(--elevated-dark) !important;
+  border-color: var(--primary-dark) !important;
+}
+
 /* 简化的深色主题样式 - 减少重绘 */
 .dark-theme {
   --ant-color-bg-container: #161b22;

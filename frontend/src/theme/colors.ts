@@ -1,76 +1,78 @@
+import { useTheme } from '../hooks/useTheme';
+
 // 统一的主题调色盘
 export const lightTheme = {
   // 主色调
-  primary: '#667eea',
-  secondary: '#764ba2',
+  primary: 'var(--primary-light)',
+  secondary: 'var(--secondary-light)',
 
   // 背景色
-  background: '#f5f7fa',
-  surface: '#ffffff',
-  elevated: '#ffffff',
+  background: 'var(--background-light)',
+  surface: 'var(--surface-light)',
+  elevated: 'var(--elevated-light)',
 
   // 文字色
-  text: '#262626',
-  textSecondary: '#666666',
-  textTertiary: '#999999',
-  textDisabled: '#bfbfbf',
+  text: 'var(--text-light)',
+  textSecondary: 'var(--text-secondary-light)',
+  textTertiary: 'var(--text-tertiary-light)',
+  textDisabled: 'var(--text-disabled-light)',
 
   // 边框色
-  border: '#d9d9d9',
-  borderSecondary: '#f0f0f0',
+  border: 'var(--border-light)',
+  borderSecondary: 'var(--border-secondary-light)',
 
   // 状态色
-  success: '#52c41a',
-  warning: '#faad14',
-  error: '#ff4d4f',
-  info: '#1890ff',
+  success: 'var(--success-light)',
+  warning: 'var(--warning-light)',
+  error: 'var(--error-light)',
+  info: 'var(--info-light)',
 
   // 填充色
-  fill: '#f5f5f5',
-  fillSecondary: '#fafafa',
-  fillTertiary: '#f5f5f5',
-  fillQuaternary: '#f0f0f0',
+  fill: 'var(--fill-light)',
+  fillSecondary: 'var(--fill-secondary-light)',
+  fillTertiary: 'var(--fill-tertiary-light)',
+  fillQuaternary: 'var(--fill-quaternary-light)',
 
   // 阴影
-  shadow: 'rgba(0, 0, 0, 0.1)',
-  shadowSecondary: 'rgba(0, 0, 0, 0.06)',
+  shadow: 'var(--shadow-light)',
+  shadowSecondary: 'var(--shadow-secondary-light)',
 } as const;
 
 export const darkTheme = {
   // 主色调
-  primary: '#58a6ff',
-  secondary: '#3ddc84',
+  primary: 'var(--primary-dark)',
+  secondary: 'var(--secondary-dark)',
 
   // 背景色
-  background: '#0d1117',
-  surface: '#161b22',
-  elevated: '#21262d',
+  background: 'var(--background-dark)',
+  surface: 'var(--surface-dark)',
+  elevated: 'var(--elevated-dark)',
 
   // 文字色
-  text: '#c9d1d9',
-  textSecondary: '#8b949e',
-  textTertiary: '#6e7681',
-  textDisabled: '#484f58',
+  text: 'var(--text-dark)',
+  textSecondary: 'var(--text-secondary-dark)',
+  textTertiary: 'var(--text-tertiary-dark)',
+  textDisabled: 'var(--text-disabled-dark)',
 
   // 边框色
-  border: '#30363d',
-  borderSecondary: '#21262d',
+  border: 'var(--border-dark)',
+  borderSecondary: 'var(--border-secondary-dark)',
 
   // 状态色
-  success: '#3fb950',
-  warning: '#d29922',
-  error: '#f85149',
-  info: '#58a6ff',
+  success: 'var(--success-dark)',
+  warning: 'var(--warning-dark)',
+  error: 'var(--error-dark)',
+  info: 'var(--info-dark)',
 
   // 填充色
-  fill: '#21262d',
-  fillSecondary: '#30363d',
-  fillTertiary: '#21262d',
-  fillQuaternary: '#161b22',
+  fill: 'var(--fill-dark)',
+  fillSecondary: 'var(--fill-secondary-dark)',
+  fillTertiary: 'var(--fill-tertiary-dark)',
+  fillQuaternary: 'var(--fill-quaternary-dark)',
 
   // 阴影
-  shadow: 'rgba(0, 0, 0, 0.3)',
-  shadowSecondary: 'rgba(0, 0, 0, 0.2)',
+  shadow: 'var(--shadow-dark)',
+  shadowSecondary: 'var(--shadow-secondary-dark)',
 } as const;
 
 export type ThemeColors = {
@@ -101,5 +103,51 @@ export const transitionColors = {
   // 从浅色模式切换到深色模式时，中间色为浅蓝紫（参考暗色模式主色）
   lightToDark: '#aed6f1',
   // 从深色模式切换到浅色模式时，中间色为深蓝紫（参考亮色模式主色）
-  darkToLight: '#6C3483',
-} as const;
+    darkToLight: '#6C3483',
+  } as const;
+  
+  // 品质等级颜色映射
+  export const getQualityColor = (quality: number, isDark = false) => {
+    const theme = isDark ? 'dark' : 'light';
+    if (quality >= 1 && quality <= 5) {
+      return `var(--quality-${quality}-${theme})`;
+    }
+    return 'var(--surface-light)';
+  };
+  
+  // 属性统计颜色映射
+  export const getStatColor = (
+    stat: 'hp' | 'attack' | 'defense' | 'spAttack' | 'spDefense' | 'speed',
+    isDark = false
+  ) => {
+    const theme = isDark ? 'dark' : 'light';
+    const statName = stat.replace('sp', 'sp-');
+    return `var(--stat-${statName}-${theme})`;
+  };
+  
+  // 状态颜色映射
+  export const getStatusColor = (
+    status: 'success' | 'warning' | 'error' | 'info',
+    isDark = false
+  ) => {
+    const theme = isDark ? 'dark' : 'light';
+    return `var(--status-${status}-${theme})`;
+  };
+  
+  // Hook 版本的颜色获取函数
+  export const useQualityColor = (quality: number) => {
+    const { theme } = useTheme()!;
+    return getQualityColor(quality, theme === 'dark');
+  };
+  
+  export const useStatColor = (
+    stat: 'hp' | 'attack' | 'defense' | 'spAttack' | 'spDefense' | 'speed'
+  ) => {
+    const { theme } = useTheme()!;
+    return getStatColor(stat, theme === 'dark');
+  };
+  
+  export const useStatusColor = (status: 'success' | 'warning' | 'error' | 'info') => {
+    const { theme } = useTheme()!;
+    return getStatusColor(status, theme === 'dark');
+  };

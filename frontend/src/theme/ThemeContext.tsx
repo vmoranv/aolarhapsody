@@ -66,7 +66,6 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
       theme === 'dark' ? transitionColors.darkToLight : transitionColors.lightToDark;
 
     const showLoadingMask = () => {
-      console.log('遮罩开始进入');
       const mask = document.createElement('div');
 
       // 设置颜色渐变的起始、中间和结束颜色
@@ -83,7 +82,6 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
     };
 
     const hideLoadingMask = (mask: HTMLElement) => {
-      console.log('遮罩开始离开');
       mask.classList.remove('show');
       mask.classList.add('hide');
       mask.addEventListener(
@@ -98,7 +96,6 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
     const mask = showLoadingMask();
 
     const startPageRender = () => {
-      console.log('底层渲染开始');
       // 如果浏览器支持 View Transition API，使用动画切换
       if (document.startViewTransition) {
         // 最终方案：在视图过渡前后，通过 JS 精确控制布局，防止抖动

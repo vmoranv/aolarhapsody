@@ -22,7 +22,7 @@ import Layout from '../components/Layout';
 import LoadingSpinner from '../components/LoadingSpinner';
 import SearchAndFilter from '../components/SearchAndFilter';
 import { useTheme } from '../hooks/useTheme';
-import { useQualityColor, useStatColor, useStatusColor } from '../utils/theme-colors';
+import { useQualityColor, useStatColor, useStatusColor } from '../theme/colors';
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -98,7 +98,7 @@ const getQualityText = (quality: number) => {
     4: '史诗',
     5: '传说',
   };
-  return texts[quality as keyof typeof texts] || '未知';
+  return texts[quality as keyof typeof texts] || '';
 };
 
 const AstralSpiritCard: React.FC<{ spirit: AstralSpirit; index: number }> = ({ spirit, index }) => {
@@ -142,12 +142,14 @@ const AstralSpiritCard: React.FC<{ spirit: AstralSpirit; index: number }> = ({ s
             <Text type="secondary" style={{ fontSize: '12px' }}>
               ID: {spirit.id}
             </Text>
-            <div style={{ marginTop: 8 }}>
-              <Tag color={qualityColor} style={{ borderRadius: 12 }}>
-                <Star size={12} style={{ marginRight: 4 }} />
-                {getQualityText(spirit.quality)}
-              </Tag>
-            </div>
+            {getQualityText(spirit.quality) && (
+              <div style={{ marginTop: 8 }}>
+                <Tag color={qualityColor} style={{ borderRadius: 12 }}>
+                  <Star size={12} style={{ marginRight: 4 }} />
+                  {getQualityText(spirit.quality)}
+                </Tag>
+              </div>
+            )}
           </div>
 
           <Divider style={{ margin: '12px 0' }} />

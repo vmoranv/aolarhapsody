@@ -23,7 +23,7 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import SearchAndFilter from '../components/SearchAndFilter';
 import { useTheme } from '../hooks/useTheme';
 import { fetchData, filterBySearch, filterByType, paginateData } from '../utils/api';
-import { useElementColor, useQualityColor, useStatColor } from '../utils/theme-colors';
+import { useQualityColor, useStatColor } from '../theme/colors';
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -59,7 +59,7 @@ const getRarityText = (rarity: number) => {
 const PMDataListCard: React.FC<{ pmData: PMDataListItem; index: number }> = ({ pmData, index }) => {
   const { token } = theme.useToken();
   const rarityColor = useQualityColor(pmData.rarity);
-  const elementColor = useElementColor(pmData.element);
+  const elementColor = 'transparent';
   const hpColor = useStatColor('hp');
   const attackColor = useStatColor('attack');
   const defenseColor = useStatColor('defense');

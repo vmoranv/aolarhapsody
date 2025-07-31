@@ -22,7 +22,7 @@ import Layout from '../components/Layout';
 import LoadingSpinner from '../components/LoadingSpinner';
 import SearchAndFilter from '../components/SearchAndFilter';
 import { useTheme } from '../hooks/useTheme';
-import { useQualityColor, useStatusColor } from '../utils/theme-colors';
+import { useQualityColor, useStatusColor } from '../theme/colors';
 
 const { Title, Paragraph, Text } = Typography;
 

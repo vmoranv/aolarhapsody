@@ -22,7 +22,7 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import SearchAndFilter from '../components/SearchAndFilter';
 import { useTheme } from '../hooks/useTheme';
 import { getPetImageUrls } from '../utils/pet-helper';
-import { useStatusColor } from '../utils/theme-colors';
+import { useStatusColor } from '../theme/colors';
 
 const { Title, Paragraph, Text } = Typography;
 
