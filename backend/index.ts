@@ -1,7 +1,6 @@
 // 导入必要的模块
-import express, { Express, Request, Response } from 'express';
 import cors from 'cors';
-
+import express, { Express, Request, Response } from 'express';
 // 导入模块
 import { initializers } from './dataparse';
 import allRoutes from './routes';
@@ -38,22 +37,15 @@ async function startServer() {
     const initFunction = initializers[moduleName as keyof typeof initializers];
     const success = await initFunction();
     if (!success) {
-      // 从键名中提取模块名用于日志记录
-      const friendlyName = moduleName.replace('init', '').replace('Module', '');
-      console.error(`${friendlyName} 数据模块初始化失败！`);
       process.exit(1);
     }
   }
 
-  const server = app.listen(port, () => {
-    console.log(`Backend server is running on http://localhost:${port}`);
-  });
+  const server = app.listen(port, () => {});
 
   // 优雅地关闭服务器
   process.on('SIGINT', () => {
-    console.log('收到 SIGINT 信号，正在关闭服务器...');
     server.close(() => {
-      console.log('服务器已关闭。');
       process.exit(0);
     });
   });
