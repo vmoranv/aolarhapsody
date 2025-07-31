@@ -10,19 +10,19 @@ pre-commit:
   commands:
     lint-scripts:
       glob: '**/*.{js,jsx,ts,tsx}'
-      run: pnpm eslint --cache --fix {staged_files}
+      run: pnpm prettier --cache --ignore-unknown --write {staged_files} && pnpm eslint --cache --fix {staged_files} && git add {staged_files}
     lint-styles:
       glob: '**/*.{css,scss,less,vue}'
-      run: pnpm stylelint --fix --allow-empty-input {staged_files}
+      run: pnpm prettier --cache --ignore-unknown --write {staged_files} && pnpm stylelint --fix --allow-empty-input {staged_files} && git add {staged_files}
     lint-json:
       glob: '{!(package)*.json,*.code-snippets,.!(browserslist)*rc}'
-      run: pnpm prettier --cache --write --parser json {staged_files}
+      run: pnpm prettier --cache --write --parser json {staged_files} && git add {staged_files}
     lint-package:
       glob: 'package.json'
-      run: pnpm prettier --cache --write {staged_files}
+      run: pnpm prettier --cache --write {staged_files} && git add {staged_files}
     lint-md:
       glob: '*.md'
-      run: pnpm prettier --cache --ignore-unknown --write {staged_files}
+      run: pnpm prettier --cache --ignore-unknown --write {staged_files} && git add {staged_files}
 
 post-merge:
   parallel: true

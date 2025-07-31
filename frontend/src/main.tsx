@@ -1,4 +1,3 @@
-import './theme/palette.css';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
@@ -6,6 +5,7 @@ import { Toaster } from 'react-hot-toast';
 import { ThemeProvider } from './theme/ThemeContext';
 import { themePrerender } from './utils/themePrerender';
 import App from './App';
+import './theme/palette.css';
 import './index.css';
 
 // 预热主题系统

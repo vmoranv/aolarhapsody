@@ -21,8 +21,8 @@ import Layout from '../components/Layout';
 import LoadingSpinner from '../components/LoadingSpinner';
 import SearchAndFilter from '../components/SearchAndFilter';
 import { useTheme } from '../hooks/useTheme';
-import { getPetImageUrls } from '../utils/pet-helper';
 import { useStatusColor } from '../theme/colors';
+import { getPetImageUrls } from '../utils/pet-helper';
 
 const { Title, Paragraph, Text } = Typography;
 

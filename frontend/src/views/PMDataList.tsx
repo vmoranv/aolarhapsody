@@ -22,8 +22,8 @@ import Layout from '../components/Layout';
 import LoadingSpinner from '../components/LoadingSpinner';
 import SearchAndFilter from '../components/SearchAndFilter';
 import { useTheme } from '../hooks/useTheme';
-import { fetchData, filterBySearch, filterByType, paginateData } from '../utils/api';
 import { useQualityColor, useStatColor } from '../theme/colors';
+import { fetchData, filterBySearch, filterByType, paginateData } from '../utils/api';
 
 const { Title, Paragraph, Text } = Typography;
 
