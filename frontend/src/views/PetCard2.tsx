@@ -21,6 +21,8 @@ import ErrorDisplay from '../components/ErrorDisplay';
 import Layout from '../components/Layout';
 import LoadingSpinner from '../components/LoadingSpinner';
 import SearchAndFilter from '../components/SearchAndFilter';
+import { useTheme } from '../hooks/useTheme';
+import { useQualityColor, useStatusColor } from '../utils/theme-colors';
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -62,18 +64,6 @@ const fetchPetCard2s = async (): Promise<PetCard2[]> => {
   }
 };
 
-const getVipColor = (vip: number) => {
-  const colors = {
-    0: '#d9d9d9', // 灰色 - 普通
-    1: '#52c41a', // 绿色 - VIP1
-    2: '#1890ff', // 蓝色 - VIP2
-    3: '#722ed1', // 紫色 - VIP3
-    4: '#fa8c16', // 橙色 - VIP4
-    5: '#f5222d', // 红色 - VIP5+
-  };
-  return colors[Math.min(vip, 5) as keyof typeof colors] || '#d9d9d9';
-};
-
 const getVipText = (vip: number) => {
   if (vip === 0) return '普通';
   return `VIP${vip}`;
@@ -81,7 +71,7 @@ const getVipText = (vip: number) => {
 
 const PetCard2Card: React.FC<{ petCard2: PetCard2; index: number }> = ({ petCard2, index }) => {
   const { token } = theme.useToken();
-  const vipColor = getVipColor(petCard2.vip);
+  const vipColor = useQualityColor(petCard2.vip);
 
   return (
     <motion.div
@@ -170,13 +160,13 @@ const PetCard2Card: React.FC<{ petCard2: PetCard2; index: number }> = ({ petCard
           <Row gutter={[8, 8]}>
             <Col span={12}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-                <Coins size={14} color="#faad14" />
+                <Coins size={14} color={useStatusColor('warning')} />
                 <Text style={{ fontSize: '12px' }}>金币: {petCard2.price}</Text>
               </div>
             </Col>
             <Col span={12}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-                <DollarSign size={14} color="#f5222d" />
+                <DollarSign size={14} color={useStatusColor('error')} />
                 <Text style={{ fontSize: '12px' }}>RMB: {petCard2.rmb}</Text>
               </div>
             </Col>
@@ -193,7 +183,7 @@ const PetCard2Card: React.FC<{ petCard2: PetCard2; index: number }> = ({ petCard
           </div>
 
           {/* 种族限制 */}
-          {petCard2.raceList.length > 0 && (
+          {petCard2.raceList && petCard2.raceList.length > 0 && (
             <div>
               <Text style={{ fontSize: '12px', fontWeight: 'bold', color: token.colorText }}>
                 <Users size={12} style={{ marginRight: 4 }} />
@@ -215,7 +205,7 @@ const PetCard2Card: React.FC<{ petCard2: PetCard2; index: number }> = ({ petCard
           )}
 
           {/* 经验区间 */}
-          {petCard2.levelExpArea.length > 0 && (
+          {petCard2.levelExpArea && petCard2.levelExpArea.length > 0 && (
             <Tooltip title={`经验区间: ${petCard2.levelExpArea.join(', ')}`}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
                 <Text style={{ fontSize: '12px', color: token.colorTextTertiary }}>
@@ -237,6 +227,7 @@ const PetCard2Card: React.FC<{ petCard2: PetCard2; index: number }> = ({ petCard
 };
 
 const PetCard2 = () => {
+  const { colors } = useTheme()!;
   const [searchValue, setSearchValue] = useState('');
   const [filterType, setFilterType] = useState<'all' | 'super' | 'normal'>('all');
   const [currentPage, setCurrentPage] = useState(1);
@@ -356,7 +347,7 @@ const PetCard2 = () => {
           >
             特性晶石系统
           </Title>
-          <Paragraph style={{ fontSize: '16px', color: 'var(--text-color)', marginTop: 8 }}>
+          <Paragraph style={{ fontSize: '16px', color: colors.textSecondary, marginTop: 8 }}>
             收集珍贵的特性晶石，提升亚比的特殊能力
           </Paragraph>
         </motion.div>
@@ -452,7 +443,7 @@ const PetCard2 = () => {
               <Empty
                 image={Empty.PRESENTED_IMAGE_SIMPLE}
                 description={
-                  <span style={{ color: '#666' }}>
+                  <span style={{ color: colors.textSecondary }}>
                     {searchValue || filterType !== 'all' || showTradeableOnly || showLimitedTimeOnly
                       ? '没有找到匹配的特性晶石'
                       : '暂无特性晶石数据'}
@@ -460,9 +451,9 @@ const PetCard2 = () => {
                 }
                 style={{
                   padding: '60px 20px',
-                  background: '#ffffff',
+                  background: colors.surface,
                   borderRadius: 12,
-                  border: '1px solid #f0f0f0',
+                  border: `1px solid ${colors.borderSecondary}`,
                 }}
               />
             </motion.div>

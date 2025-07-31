@@ -26,21 +26,21 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         return ['1'];
       case '/app/pets':
         return ['2-1'];
-      case '/app/astral-spirit':
+      case '/app/astralspirit':
         return ['2-2'];
-      case '/app/crystal-key':
+      case '/app/crystalkey':
         return ['2-3'];
-      case '/app/god-card':
+      case '/app/godcard':
         return ['2-4'];
       case '/app/hk':
         return ['2-5'];
       case '/app/inscription':
         return ['2-6'];
-      case '/app/pet-card':
+      case '/app/petcard':
         return ['2-7'];
-      case '/app/pet-card2':
+      case '/app/petcard2':
         return ['2-8'];
-      case '/app/pm-data-list':
+      case '/app/pmdatalist':
         return ['2-9'];
       case '/app/tote':
         return ['2-10'];
@@ -55,13 +55,13 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     const path = location.pathname;
     if (
       path.startsWith('/app/pets') ||
-      path.startsWith('/app/astral-spirit') ||
-      path.startsWith('/app/crystal-key') ||
-      path.startsWith('/app/god-card') ||
+      path.startsWith('/app/astralspirit') ||
+      path.startsWith('/app/crystalkey') ||
+      path.startsWith('/app/godcard') ||
       path.startsWith('/app/hk') ||
       path.startsWith('/app/inscription') ||
-      path.startsWith('/app/pet-card') ||
-      path.startsWith('/app/pm-data-list') ||
+      path.startsWith('/app/petcard') ||
+      path.startsWith('/app/pmdatalist') ||
       path.startsWith('/app/tote')
     ) {
       return ['2'];
@@ -143,13 +143,13 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         navigate('/app/pets');
         break;
       case '2-2':
-        navigate('/app/astral-spirit');
+        navigate('/app/astralspirit');
         break;
       case '2-3':
-        navigate('/app/crystal-key');
+        navigate('/app/crystalkey');
         break;
       case '2-4':
-        navigate('/app/god-card');
+        navigate('/app/godcard');
         break;
       case '2-5':
         navigate('/app/hk');
@@ -158,13 +158,13 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         navigate('/app/inscription');
         break;
       case '2-7':
-        navigate('/app/pet-card');
+        navigate('/app/petcard');
         break;
       case '2-8':
-        navigate('/app/pet-card2');
+        navigate('/app/petcard2');
         break;
       case '2-9':
-        navigate('/app/pm-data-list');
+        navigate('/app/pmdatalist');
         break;
       case '2-10':
         navigate('/app/tote');

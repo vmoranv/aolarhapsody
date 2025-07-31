@@ -21,6 +21,8 @@ import ErrorDisplay from '../components/ErrorDisplay';
 import Layout from '../components/Layout';
 import LoadingSpinner from '../components/LoadingSpinner';
 import SearchAndFilter from '../components/SearchAndFilter';
+import { useTheme } from '../hooks/useTheme';
+import { useQualityColor, useStatColor, useStatusColor } from '../utils/theme-colors';
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -88,17 +90,6 @@ const fetchAstralSpiritSuits = async (): Promise<AstralSpiritSuit[]> => {
   }
 };
 
-const getQualityColor = (quality: number) => {
-  const colors = {
-    1: '#52c41a', // 绿色
-    2: '#1890ff', // 蓝色
-    3: '#722ed1', // 紫色
-    4: '#fa8c16', // 橙色
-    5: '#f5222d', // 红色
-  };
-  return colors[quality as keyof typeof colors] || '#d9d9d9';
-};
-
 const getQualityText = (quality: number) => {
   const texts = {
     1: '普通',
@@ -112,7 +103,11 @@ const getQualityText = (quality: number) => {
 
 const AstralSpiritCard: React.FC<{ spirit: AstralSpirit; index: number }> = ({ spirit, index }) => {
   const { token } = theme.useToken();
-  const qualityColor = getQualityColor(spirit.quality);
+  const qualityColor = useQualityColor(spirit.quality);
+  const attackColor = useStatColor('attack');
+  const defenseColor = useStatColor('defense');
+  const spAttackColor = useStatColor('spAttack');
+  const spDefenseColor = useStatColor('spDefense');
 
   return (
     <motion.div
@@ -161,7 +156,7 @@ const AstralSpiritCard: React.FC<{ spirit: AstralSpirit; index: number }> = ({ s
           <Row gutter={[8, 8]}>
             <Col span={12}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-                <Avatar size={16} style={{ backgroundColor: '#f5222d' }}>
+                <Avatar size={16} style={{ backgroundColor: attackColor }}>
                   <Zap size={10} />
                 </Avatar>
                 <Text style={{ fontSize: '12px' }}>攻击: {spirit.attack}</Text>
@@ -169,7 +164,7 @@ const AstralSpiritCard: React.FC<{ spirit: AstralSpirit; index: number }> = ({ s
             </Col>
             <Col span={12}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-                <Avatar size={16} style={{ backgroundColor: '#52c41a' }}>
+                <Avatar size={16} style={{ backgroundColor: defenseColor }}>
                   <Shield size={10} />
                 </Avatar>
                 <Text style={{ fontSize: '12px' }}>防御: {spirit.defend}</Text>
@@ -177,7 +172,7 @@ const AstralSpiritCard: React.FC<{ spirit: AstralSpirit; index: number }> = ({ s
             </Col>
             <Col span={12}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-                <Avatar size={16} style={{ backgroundColor: '#722ed1' }}>
+                <Avatar size={16} style={{ backgroundColor: spAttackColor }}>
                   <Zap size={10} />
                 </Avatar>
                 <Text style={{ fontSize: '12px' }}>特攻: {spirit.sAttack}</Text>
@@ -185,7 +180,7 @@ const AstralSpiritCard: React.FC<{ spirit: AstralSpirit; index: number }> = ({ s
             </Col>
             <Col span={12}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-                <Avatar size={16} style={{ backgroundColor: '#1890ff' }}>
+                <Avatar size={16} style={{ backgroundColor: spDefenseColor }}>
                   <Shield size={10} />
                 </Avatar>
                 <Text style={{ fontSize: '12px' }}>特防: {spirit.sDefend}</Text>
@@ -229,6 +224,7 @@ const AstralSpiritSuitCard: React.FC<{ suit: AstralSpiritSuit; index: number }> 
   index,
 }) => {
   const { token } = theme.useToken();
+  const suitColor = useStatusColor('warning'); // 使用警告色作为套装颜色
 
   return (
     <motion.div
@@ -249,16 +245,16 @@ const AstralSpiritSuitCard: React.FC<{ suit: AstralSpiritSuit; index: number }> 
         style={{
           borderRadius: 16,
           overflow: 'hidden',
-          border: `2px solid #fa8c16`,
-          background: 'linear-gradient(135deg, #fa8c1610 0%, #fa8c1605 100%)',
-          boxShadow: '0 4px 12px #fa8c1630',
+          border: `2px solid ${suitColor}`,
+          background: `linear-gradient(135deg, ${suitColor}10 0%, ${suitColor}05 100%)`,
+          boxShadow: `0 4px 12px ${suitColor}30`,
           height: '100%',
         }}
       >
         <Space direction="vertical" size="small" style={{ width: '100%' }}>
           <div style={{ textAlign: 'center' }}>
             <Title level={4} style={{ margin: 0, color: token.colorText }}>
-              <Crown size={16} style={{ marginRight: 8, color: '#fa8c16' }} />
+              <Crown size={16} style={{ marginRight: 8, color: suitColor }} />
               {suit.name}
             </Title>
             <Text type="secondary" style={{ fontSize: '12px' }}>
@@ -304,6 +300,7 @@ const AstralSpiritSuitCard: React.FC<{ suit: AstralSpiritSuit; index: number }> 
 };
 
 const AstralSpirit = () => {
+  const { colors } = useTheme()!;
   const [searchValue, setSearchValue] = useState('');
   const [filterType, setFilterType] = useState<'all' | 'super' | 'normal'>('all');
   const [currentPage, setCurrentPage] = useState(1);
@@ -440,7 +437,7 @@ const AstralSpirit = () => {
           >
             星灵系统
           </Title>
-          <Paragraph style={{ fontSize: '16px', color: 'var(--text-color)', marginTop: 8 }}>
+          <Paragraph style={{ fontSize: '16px', color: colors.textSecondary, marginTop: 8 }}>
             探索强大的星灵伙伴，了解它们的属性和套装效果
           </Paragraph>
         </motion.div>
@@ -546,15 +543,15 @@ const AstralSpirit = () => {
               <Empty
                 image={Empty.PRESENTED_IMAGE_SIMPLE}
                 description={
-                  <span style={{ color: '#666' }}>
+                  <span style={{ color: colors.textSecondary }}>
                     {searchValue || filterType !== 'all' ? '没有找到匹配的数据' : '暂无数据'}
                   </span>
                 }
                 style={{
                   padding: '60px 20px',
-                  background: '#ffffff',
+                  background: colors.surface,
                   borderRadius: 12,
-                  border: '1px solid #f0f0f0',
+                  border: `1px solid ${colors.borderSecondary}`,
                 }}
               />
             </motion.div>

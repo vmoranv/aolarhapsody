@@ -8,6 +8,8 @@ import ErrorDisplay from '../components/ErrorDisplay';
 import Layout from '../components/Layout';
 import LoadingSpinner from '../components/LoadingSpinner';
 import SearchAndFilter from '../components/SearchAndFilter';
+import { useTheme } from '../hooks/useTheme';
+import { useQualityColor } from '../utils/theme-colors';
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -40,7 +42,7 @@ interface ApiResponse<T> {
 }
 
 const fetchHKData = async (): Promise<HKData[]> => {
-  const response = await fetch('/api/hk-data');
+  const response = await fetch('/api/hkdata');
   if (!response.ok) {
     throw new Error(`HTTP error! status: ${response.status}`);
   }
@@ -53,7 +55,7 @@ const fetchHKData = async (): Promise<HKData[]> => {
 };
 
 const fetchHKBuffs = async (): Promise<HKBuff[]> => {
-  const response = await fetch('/api/hk-buffs');
+  const response = await fetch('/api/hkbuffs');
   if (!response.ok) {
     throw new Error(`HTTP error! status: ${response.status}`);
   }
@@ -63,17 +65,6 @@ const fetchHKBuffs = async (): Promise<HKBuff[]> => {
   } else {
     throw new Error(result.error || '获取魂卡Buff数据失败');
   }
-};
-
-const getColorByValue = (color: number) => {
-  const colors = {
-    1: '#52c41a', // 绿色
-    2: '#1890ff', // 蓝色
-    3: '#722ed1', // 紫色
-    4: '#fa8c16', // 橙色
-    5: '#f5222d', // 红色
-  };
-  return colors[color as keyof typeof colors] || '#d9d9d9';
 };
 
 const getProduceTypeText = (type: number) => {
@@ -88,7 +79,7 @@ const getProduceTypeText = (type: number) => {
 
 const HKDataCard: React.FC<{ hkData: HKData; index: number }> = ({ hkData, index }) => {
   const { token } = theme.useToken();
-  const cardColor = getColorByValue(hkData.color);
+  const cardColor = useQualityColor(hkData.color);
 
   return (
     <motion.div
@@ -179,7 +170,7 @@ const HKDataCard: React.FC<{ hkData: HKData; index: number }> = ({ hkData, index
 
 const HKBuffCard: React.FC<{ hkBuff: HKBuff; index: number }> = ({ hkBuff, index }) => {
   const { token } = theme.useToken();
-  const buffColor = getColorByValue(hkBuff.color);
+  const buffColor = useQualityColor(hkBuff.color);
 
   return (
     <motion.div
@@ -291,6 +282,7 @@ const HKBuffCard: React.FC<{ hkBuff: HKBuff; index: number }> = ({ hkBuff, index
 };
 
 const HK = () => {
+  const { colors } = useTheme()!;
   const [searchValue, setSearchValue] = useState('');
   const [filterType, setFilterType] = useState<'all' | 'super' | 'normal'>('all');
   const [currentPage, setCurrentPage] = useState(1);
@@ -430,7 +422,7 @@ const HK = () => {
           >
             魂卡系统
           </Title>
-          <Paragraph style={{ fontSize: '16px', color: 'var(--text-color)', marginTop: 8 }}>
+          <Paragraph style={{ fontSize: '16px', color: colors.textSecondary, marginTop: 8 }}>
             探索神秘的魂卡力量，掌握强大的Buff效果
           </Paragraph>
         </motion.div>
@@ -532,15 +524,15 @@ const HK = () => {
               <Empty
                 image={Empty.PRESENTED_IMAGE_SIMPLE}
                 description={
-                  <span style={{ color: '#666' }}>
+                  <span style={{ color: colors.textSecondary }}>
                     {searchValue || filterType !== 'all' ? '没有找到匹配的数据' : '暂无数据'}
                   </span>
                 }
                 style={{
                   padding: '60px 20px',
-                  background: '#ffffff',
+                  background: colors.surface,
                   borderRadius: 12,
-                  border: '1px solid #f0f0f0',
+                  border: `1px solid ${colors.borderSecondary}`,
                 }}
               />
             </motion.div>

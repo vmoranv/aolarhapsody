@@ -20,7 +20,9 @@ import ErrorDisplay from '../components/ErrorDisplay';
 import Layout from '../components/Layout';
 import LoadingSpinner from '../components/LoadingSpinner';
 import SearchAndFilter from '../components/SearchAndFilter';
+import { useTheme } from '../hooks/useTheme';
 import { fetchData, filterBySearch, filterByType, paginateData } from '../utils/api';
+import { useQualityColor, useStatusColor } from '../utils/theme-colors';
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -37,17 +39,6 @@ interface Tote {
   category: string;
   rarity: number;
 }
-
-const getQualityColor = (quality: number) => {
-  const colors = {
-    1: '#52c41a', // 绿色
-    2: '#1890ff', // 蓝色
-    3: '#722ed1', // 紫色
-    4: '#fa8c16', // 橙色
-    5: '#f5222d', // 红色
-  };
-  return colors[quality as keyof typeof colors] || '#d9d9d9';
-};
 
 const getQualityText = (quality: number) => {
   const texts = {
@@ -73,7 +64,7 @@ const getRarityText = (rarity: number) => {
 
 const ToteCard: React.FC<{ tote: Tote; index: number }> = ({ tote, index }) => {
   const { token } = theme.useToken();
-  const qualityColor = getQualityColor(tote.quality);
+  const qualityColor = useQualityColor(tote.quality);
 
   return (
     <motion.div
@@ -162,7 +153,7 @@ const ToteCard: React.FC<{ tote: Tote; index: number }> = ({ tote, index }) => {
               <Statistic
                 title="金币"
                 value={tote.price}
-                valueStyle={{ fontSize: '14px', color: '#faad14' }}
+                valueStyle={{ fontSize: '14px', color: useStatusColor('warning') }}
                 prefix="💰"
               />
             </Col>
@@ -170,7 +161,7 @@ const ToteCard: React.FC<{ tote: Tote; index: number }> = ({ tote, index }) => {
               <Statistic
                 title="RMB"
                 value={tote.rmb}
-                valueStyle={{ fontSize: '14px', color: '#f5222d' }}
+                valueStyle={{ fontSize: '14px', color: useStatusColor('error') }}
                 prefix="¥"
               />
             </Col>
@@ -210,6 +201,7 @@ const ToteCard: React.FC<{ tote: Tote; index: number }> = ({ tote, index }) => {
 };
 
 const Tote = () => {
+  const { colors } = useTheme()!;
   const [searchValue, setSearchValue] = useState('');
   const [filterType, setFilterType] = useState<'all' | 'super' | 'normal'>('all');
   const [currentPage, setCurrentPage] = useState(1);
@@ -222,7 +214,7 @@ const Tote = () => {
     refetch,
   } = useQuery({
     queryKey: ['totes'],
-    queryFn: () => fetchData<Tote>('totes'),
+    queryFn: () => fetchData<Tote>('totes/data'),
   });
 
   // Handle success and error states
@@ -323,7 +315,7 @@ const Tote = () => {
           >
             Tote系统
           </Title>
-          <Paragraph style={{ fontSize: '16px', color: 'var(--text-color)', marginTop: 8 }}>
+          <Paragraph style={{ fontSize: '16px', color: colors.textSecondary, marginTop: 8 }}>
             收集各种珍贵的Tote物品，丰富你的收藏
           </Paragraph>
         </motion.div>
@@ -340,8 +332,8 @@ const Tote = () => {
                 <Statistic
                   title="总数量"
                   value={stats.total}
-                  prefix={<Database size={20} color="#1890ff" />}
-                  valueStyle={{ color: '#1890ff' }}
+                  prefix={<Database size={20} color={colors.info} />}
+                  valueStyle={{ color: colors.info }}
                 />
               </Card>
             </Col>
@@ -350,8 +342,8 @@ const Tote = () => {
                 <Statistic
                   title="高品质"
                   value={stats.super}
-                  prefix={<Star size={20} color="#faad14" />}
-                  valueStyle={{ color: '#faad14' }}
+                  prefix={<Star size={20} color={colors.warning} />}
+                  valueStyle={{ color: colors.warning }}
                 />
               </Card>
             </Col>
@@ -360,8 +352,8 @@ const Tote = () => {
                 <Statistic
                   title="普通品质"
                   value={stats.normal}
-                  prefix={<Package size={20} color="#52c41a" />}
-                  valueStyle={{ color: '#52c41a' }}
+                  prefix={<Package size={20} color={colors.success} />}
+                  valueStyle={{ color: colors.success }}
                 />
               </Card>
             </Col>
@@ -370,8 +362,8 @@ const Tote = () => {
                 <Statistic
                   title="平均价格"
                   value={stats.avgPrice}
-                  prefix={<TrendingUp size={20} color="#722ed1" />}
-                  valueStyle={{ color: '#722ed1' }}
+                  prefix={<TrendingUp size={20} color={colors.secondary} />}
+                  valueStyle={{ color: colors.secondary }}
                   suffix="金币"
                 />
               </Card>
@@ -440,15 +432,15 @@ const Tote = () => {
               <Empty
                 image={Empty.PRESENTED_IMAGE_SIMPLE}
                 description={
-                  <span style={{ color: '#666' }}>
+                  <span style={{ color: colors.textSecondary }}>
                     {searchValue || filterType !== 'all' ? '没有找到匹配的Tote' : '暂无Tote数据'}
                   </span>
                 }
                 style={{
                   padding: '60px 20px',
-                  background: '#ffffff',
+                  background: colors.surface,
                   borderRadius: 12,
-                  border: '1px solid #f0f0f0',
+                  border: `1px solid ${colors.borderSecondary}`,
                 }}
               />
             </motion.div>

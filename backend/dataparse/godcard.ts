@@ -10,7 +10,7 @@ const godCardSuitCache: Record<string, GodCardSuit> = {};
 export async function initGodCardModule(): Promise<boolean> {
   try {
     const url = 'https://aola.100bt.com/h5/data/godcarddata.json';
-    const response = await fetchAndParseJSON(url) as {
+    const response = (await fetchAndParseJSON(url)) as {
       data: Record<string, (string | number | number[] | null)[]>;
       suit: Record<string, (string | number | number[])[]>;
     };
@@ -21,7 +21,7 @@ export async function initGodCardModule(): Promise<boolean> {
     }
 
     // 解析神兵
-    Object.values(response.data).forEach(item => {
+    Object.values(response.data).forEach((item) => {
       if (Array.isArray(item) && item.length >= 17) {
         const card: GodCard = {
           cardId: Number(item[0]),
@@ -47,13 +47,35 @@ export async function initGodCardModule(): Promise<boolean> {
     });
 
     // 解析神兵套装
-    Object.values(response.suit).forEach(item => {
+    Object.values(response.suit).forEach((item) => {
       if (Array.isArray(item) && item.length >= 5) {
+        let suitName = String(item[2]);
+        const godCardidList = item[3] as number[];
+
+        // 如果套装名称为空，使用第一件装备的名称生成套装名称
+        if (!suitName || suitName.trim() === '') {
+          if (godCardidList && godCardidList.length > 0) {
+            const firstCardId = godCardidList[0];
+            const firstCard = godCardCache[firstCardId];
+            if (firstCard && firstCard.name) {
+              // 提取装备名称中的基础名称和品质等级
+              const qualityMatch = firstCard.name.match(/^(.+?)(传说|史诗|王者)/);
+              if (qualityMatch) {
+                const baseName = qualityMatch[1];
+                const quality = qualityMatch[2];
+                suitName = `${baseName}${quality}套装`;
+              } else {
+                suitName = `${firstCard.name}套装`;
+              }
+            }
+          }
+        }
+
         const suit: GodCardSuit = {
           id: Number(item[0]),
           suitType: Number(item[1]),
-          name: String(item[2]),
-          godCardidList: item[3] as number[],
+          name: suitName,
+          godCardidList: godCardidList,
           dec: String(item[4]),
         };
         godCardSuitCache[suit.id] = suit;

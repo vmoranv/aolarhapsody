@@ -95,8 +95,14 @@ export async function run(options: RunOptions) {
     s.start(`Running '${script}' in ${targetPackage}...`);
 
     try {
-      const subprocess = execa('pnpm', ['--filter', String(targetPackage), script], {
+      const targetPackageData = allPackages.find((p) => p.value === targetPackage);
+      if (!targetPackageData) {
+        throw new Error(`Could not find package data for ${targetPackage}`);
+      }
+
+      const subprocess = execa('pnpm', ['exec', 'ts-node', 'index.ts'], {
         stdio: 'inherit',
+        cwd: targetPackageData.path,
       });
 
       s.stop(`Successfully started '${script}' in ${targetPackage}.`);

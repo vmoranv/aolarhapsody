@@ -21,7 +21,9 @@ import ErrorDisplay from '../components/ErrorDisplay';
 import Layout from '../components/Layout';
 import LoadingSpinner from '../components/LoadingSpinner';
 import SearchAndFilter from '../components/SearchAndFilter';
+import { useTheme } from '../hooks/useTheme';
 import { fetchData, filterBySearch, filterByType, paginateData } from '../utils/api';
+import { useElementColor, useQualityColor, useStatColor } from '../utils/theme-colors';
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -43,17 +45,6 @@ interface PMDataListItem {
   desc: string;
 }
 
-const getRarityColor = (rarity: number) => {
-  const colors = {
-    1: '#52c41a', // 绿色
-    2: '#1890ff', // 蓝色
-    3: '#722ed1', // 紫色
-    4: '#fa8c16', // 橙色
-    5: '#f5222d', // 红色
-  };
-  return colors[rarity as keyof typeof colors] || '#d9d9d9';
-};
-
 const getRarityText = (rarity: number) => {
   const texts = {
     1: '普通',
@@ -65,32 +56,16 @@ const getRarityText = (rarity: number) => {
   return texts[rarity as keyof typeof texts] || '未知';
 };
 
-const getElementColor = (element: string) => {
-  const colors: { [key: string]: string } = {
-    火: '#f5222d',
-    水: '#1890ff',
-    草: '#52c41a',
-    电: '#faad14',
-    冰: '#13c2c2',
-    地: '#fa8c16',
-    飞: '#722ed1',
-    虫: '#a0d911',
-    毒: '#eb2f96',
-    超能: '#9254de',
-    格斗: '#fa541c',
-    岩石: '#8c8c8c',
-    钢: '#595959',
-    龙: '#2f54eb',
-    恶: '#434343',
-    妖精: '#f759ab',
-  };
-  return colors[element] || '#d9d9d9';
-};
-
 const PMDataListCard: React.FC<{ pmData: PMDataListItem; index: number }> = ({ pmData, index }) => {
   const { token } = theme.useToken();
-  const rarityColor = getRarityColor(pmData.rarity);
-  const elementColor = getElementColor(pmData.element);
+  const rarityColor = useQualityColor(pmData.rarity);
+  const elementColor = useElementColor(pmData.element);
+  const hpColor = useStatColor('hp');
+  const attackColor = useStatColor('attack');
+  const defenseColor = useStatColor('defense');
+  const spAttackColor = useStatColor('spAttack');
+  const spDefenseColor = useStatColor('spDefense');
+  const speedColor = useStatColor('speed');
 
   // 计算总战力
   const totalPower =
@@ -183,7 +158,7 @@ const PMDataListCard: React.FC<{ pmData: PMDataListItem; index: number }> = ({ p
           <Row gutter={[4, 4]} style={{ marginTop: 12 }}>
             <Col span={8}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                <Avatar size={14} style={{ backgroundColor: '#f5222d', fontSize: '8px' }}>
+                <Avatar size={14} style={{ backgroundColor: hpColor, fontSize: '8px' }}>
                   HP
                 </Avatar>
                 <Text style={{ fontSize: '11px' }}>{pmData.hp}</Text>
@@ -191,7 +166,7 @@ const PMDataListCard: React.FC<{ pmData: PMDataListItem; index: number }> = ({ p
             </Col>
             <Col span={8}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                <Avatar size={14} style={{ backgroundColor: '#fa8c16', fontSize: '8px' }}>
+                <Avatar size={14} style={{ backgroundColor: attackColor, fontSize: '8px' }}>
                   <Zap size={8} />
                 </Avatar>
                 <Text style={{ fontSize: '11px' }}>{pmData.attack}</Text>
@@ -199,7 +174,7 @@ const PMDataListCard: React.FC<{ pmData: PMDataListItem; index: number }> = ({ p
             </Col>
             <Col span={8}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                <Avatar size={14} style={{ backgroundColor: '#52c41a', fontSize: '8px' }}>
+                <Avatar size={14} style={{ backgroundColor: defenseColor, fontSize: '8px' }}>
                   <Shield size={8} />
                 </Avatar>
                 <Text style={{ fontSize: '11px' }}>{pmData.defend}</Text>
@@ -207,7 +182,7 @@ const PMDataListCard: React.FC<{ pmData: PMDataListItem; index: number }> = ({ p
             </Col>
             <Col span={8}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                <Avatar size={14} style={{ backgroundColor: '#722ed1', fontSize: '8px' }}>
+                <Avatar size={14} style={{ backgroundColor: spAttackColor, fontSize: '8px' }}>
                   SA
                 </Avatar>
                 <Text style={{ fontSize: '11px' }}>{pmData.sAttack}</Text>
@@ -215,7 +190,7 @@ const PMDataListCard: React.FC<{ pmData: PMDataListItem; index: number }> = ({ p
             </Col>
             <Col span={8}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                <Avatar size={14} style={{ backgroundColor: '#1890ff', fontSize: '8px' }}>
+                <Avatar size={14} style={{ backgroundColor: spDefenseColor, fontSize: '8px' }}>
                   SD
                 </Avatar>
                 <Text style={{ fontSize: '11px' }}>{pmData.sDefend}</Text>
@@ -223,7 +198,7 @@ const PMDataListCard: React.FC<{ pmData: PMDataListItem; index: number }> = ({ p
             </Col>
             <Col span={8}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                <Avatar size={14} style={{ backgroundColor: '#13c2c2', fontSize: '8px' }}>
+                <Avatar size={14} style={{ backgroundColor: speedColor, fontSize: '8px' }}>
                   SP
                 </Avatar>
                 <Text style={{ fontSize: '11px' }}>{pmData.speed}</Text>
@@ -272,6 +247,7 @@ const PMDataListCard: React.FC<{ pmData: PMDataListItem; index: number }> = ({ p
 };
 
 const PMDataList = () => {
+  const { colors } = useTheme()!;
   const [searchValue, setSearchValue] = useState('');
   const [filterType, setFilterType] = useState<'all' | 'super' | 'normal'>('all');
   const [currentPage, setCurrentPage] = useState(1);
@@ -284,7 +260,7 @@ const PMDataList = () => {
     refetch,
   } = useQuery({
     queryKey: ['pm-data-list'],
-    queryFn: () => fetchData<PMDataListItem>('pmdatalist'),
+    queryFn: () => fetchData<PMDataListItem>('pets'),
   });
 
   // Handle success and error states
@@ -393,7 +369,7 @@ const PMDataList = () => {
           >
             PM数据列表
           </Title>
-          <Paragraph style={{ fontSize: '16px', color: 'var(--text-color)', marginTop: 8 }}>
+          <Paragraph style={{ fontSize: '16px', color: colors.textSecondary, marginTop: 8 }}>
             探索完整的PM数据库，了解每个PM的详细属性
           </Paragraph>
         </motion.div>
@@ -410,8 +386,8 @@ const PMDataList = () => {
                 <Statistic
                   title="总数量"
                   value={stats.total}
-                  prefix={<Database size={20} color="#1890ff" />}
-                  valueStyle={{ color: '#1890ff' }}
+                  prefix={<Database size={20} color={colors.info} />}
+                  valueStyle={{ color: colors.info }}
                 />
               </Card>
             </Col>
@@ -420,8 +396,8 @@ const PMDataList = () => {
                 <Statistic
                   title="高稀有度"
                   value={stats.super}
-                  prefix={<Star size={20} color="#faad14" />}
-                  valueStyle={{ color: '#faad14' }}
+                  prefix={<Star size={20} color={colors.warning} />}
+                  valueStyle={{ color: colors.warning }}
                 />
               </Card>
             </Col>
@@ -430,8 +406,8 @@ const PMDataList = () => {
                 <Statistic
                   title="平均战力"
                   value={stats.avgPower}
-                  prefix={<TrendingUp size={20} color="#722ed1" />}
-                  valueStyle={{ color: '#722ed1' }}
+                  prefix={<TrendingUp size={20} color={colors.secondary} />}
+                  valueStyle={{ color: colors.secondary }}
                 />
               </Card>
             </Col>
@@ -440,8 +416,8 @@ const PMDataList = () => {
                 <Statistic
                   title="属性种类"
                   value={stats.elements}
-                  prefix={<Users size={20} color="#52c41a" />}
-                  valueStyle={{ color: '#52c41a' }}
+                  prefix={<Users size={20} color={colors.success} />}
+                  valueStyle={{ color: colors.success }}
                 />
               </Card>
             </Col>
@@ -507,15 +483,15 @@ const PMDataList = () => {
               <Empty
                 image={Empty.PRESENTED_IMAGE_SIMPLE}
                 description={
-                  <span style={{ color: '#666' }}>
+                  <span style={{ color: colors.textSecondary }}>
                     {searchValue || filterType !== 'all' ? '没有找到匹配的PM数据' : '暂无PM数据'}
                   </span>
                 }
                 style={{
                   padding: '60px 20px',
-                  background: '#ffffff',
+                  background: colors.surface,
                   borderRadius: 12,
-                  border: '1px solid #f0f0f0',
+                  border: `1px solid ${colors.borderSecondary}`,
                 }}
               />
             </motion.div>

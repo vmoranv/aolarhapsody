@@ -236,7 +236,7 @@ const PetCardCard: React.FC<{ petCard: PetCard; index: number }> = ({ petCard, i
             </Text>
           </div>
 
-          {petCard.limitRaceId.length > 0 && (
+          {petCard.limitRaceId && petCard.limitRaceId.length > 0 && (
             <div>
               <Text style={{ fontSize: '12px', fontWeight: 'bold', color: token.colorText }}>
                 限制种族:

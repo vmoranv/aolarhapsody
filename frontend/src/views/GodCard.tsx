@@ -21,6 +21,8 @@ import ErrorDisplay from '../components/ErrorDisplay';
 import Layout from '../components/Layout';
 import LoadingSpinner from '../components/LoadingSpinner';
 import SearchAndFilter from '../components/SearchAndFilter';
+import { useTheme } from '../hooks/useTheme';
+import { useQualityColor, useStatColor, useStatusColor } from '../utils/theme-colors';
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -87,17 +89,6 @@ const fetchGodCardSuits = async (): Promise<GodCardSuit[]> => {
   }
 };
 
-const getQualityColor = (quality: number) => {
-  const colors = {
-    1: '#52c41a', // 绿色
-    2: '#1890ff', // 蓝色
-    3: '#722ed1', // 紫色
-    4: '#fa8c16', // 橙色
-    5: '#f5222d', // 红色
-  };
-  return colors[quality as keyof typeof colors] || '#d9d9d9';
-};
-
 const getQualityText = (quality: number) => {
   const texts = {
     1: '普通',
@@ -111,7 +102,11 @@ const getQualityText = (quality: number) => {
 
 const GodCardCard: React.FC<{ godCard: GodCard; index: number }> = ({ godCard, index }) => {
   const { token } = theme.useToken();
-  const qualityColor = getQualityColor(godCard.quality);
+  const qualityColor = useQualityColor(godCard.quality);
+  const attackColor = useStatColor('attack');
+  const defenseColor = useStatColor('defense');
+  const spAttackColor = useStatColor('spAttack');
+  const spDefenseColor = useStatColor('spDefense');
 
   return (
     <motion.div
@@ -186,7 +181,7 @@ const GodCardCard: React.FC<{ godCard: GodCard; index: number }> = ({ godCard, i
           <Row gutter={[8, 8]}>
             <Col span={12}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-                <Avatar size={16} style={{ backgroundColor: '#f5222d' }}>
+                <Avatar size={16} style={{ backgroundColor: attackColor }}>
                   <Zap size={10} />
                 </Avatar>
                 <Text style={{ fontSize: '12px' }}>攻击: {godCard.attack}</Text>
@@ -194,7 +189,7 @@ const GodCardCard: React.FC<{ godCard: GodCard; index: number }> = ({ godCard, i
             </Col>
             <Col span={12}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-                <Avatar size={16} style={{ backgroundColor: '#52c41a' }}>
+                <Avatar size={16} style={{ backgroundColor: defenseColor }}>
                   <Shield size={10} />
                 </Avatar>
                 <Text style={{ fontSize: '12px' }}>防御: {godCard.defend}</Text>
@@ -202,7 +197,7 @@ const GodCardCard: React.FC<{ godCard: GodCard; index: number }> = ({ godCard, i
             </Col>
             <Col span={12}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-                <Avatar size={16} style={{ backgroundColor: '#722ed1' }}>
+                <Avatar size={16} style={{ backgroundColor: spAttackColor }}>
                   <Zap size={10} />
                 </Avatar>
                 <Text style={{ fontSize: '12px' }}>特攻: {godCard.sAttack}</Text>
@@ -210,7 +205,7 @@ const GodCardCard: React.FC<{ godCard: GodCard; index: number }> = ({ godCard, i
             </Col>
             <Col span={12}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-                <Avatar size={16} style={{ backgroundColor: '#1890ff' }}>
+                <Avatar size={16} style={{ backgroundColor: spDefenseColor }}>
                   <Shield size={10} />
                 </Avatar>
                 <Text style={{ fontSize: '12px' }}>特防: {godCard.sDefend}</Text>
@@ -236,7 +231,7 @@ const GodCardCard: React.FC<{ godCard: GodCard; index: number }> = ({ godCard, i
             </Text>
           </div>
 
-          {godCard.limitRaceId.length > 0 && (
+          {godCard.limitRaceId && godCard.limitRaceId.length > 0 && (
             <div>
               <Text style={{ fontSize: '12px', fontWeight: 'bold', color: token.colorText }}>
                 限制种族:
@@ -280,6 +275,7 @@ const GodCardCard: React.FC<{ godCard: GodCard; index: number }> = ({ godCard, i
 
 const GodCardSuitCard: React.FC<{ suit: GodCardSuit; index: number }> = ({ suit, index }) => {
   const { token } = theme.useToken();
+  const suitColor = useStatusColor('warning'); // 使用警告色作为套装颜色
 
   return (
     <motion.div
@@ -300,23 +296,23 @@ const GodCardSuitCard: React.FC<{ suit: GodCardSuit; index: number }> = ({ suit,
         style={{
           borderRadius: 16,
           overflow: 'hidden',
-          border: `2px solid #fa8c16`,
-          background: 'linear-gradient(135deg, #fa8c1610 0%, #fa8c1605 100%)',
-          boxShadow: '0 4px 12px #fa8c1630',
+          border: `2px solid ${suitColor}`,
+          background: `linear-gradient(135deg, ${suitColor}10 0%, ${suitColor}05 100%)`,
+          boxShadow: `0 4px 12px ${suitColor}30`,
           height: '100%',
         }}
       >
         <Space direction="vertical" size="small" style={{ width: '100%' }}>
           <div style={{ textAlign: 'center' }}>
             <Title level={4} style={{ margin: 0, color: token.colorText }}>
-              <Crown size={16} style={{ marginRight: 8, color: '#fa8c16' }} />
+              <Crown size={16} style={{ marginRight: 8, color: suitColor }} />
               {suit.name}
             </Title>
             <Text type="secondary" style={{ fontSize: '12px' }}>
               套装ID: {suit.id}
             </Text>
             <div style={{ marginTop: 8 }}>
-              <Tag color="#fa8c16" style={{ borderRadius: 12 }}>
+              <Tag color={suitColor} style={{ borderRadius: 12 }}>
                 类型: {suit.suitType}
               </Tag>
             </div>
@@ -360,6 +356,7 @@ const GodCardSuitCard: React.FC<{ suit: GodCardSuit; index: number }> = ({ suit,
 };
 
 const GodCard = () => {
+  const { colors } = useTheme()!;
   const [searchValue, setSearchValue] = useState('');
   const [filterType, setFilterType] = useState<'all' | 'super' | 'normal'>('all');
   const [currentPage, setCurrentPage] = useState(1);
@@ -496,7 +493,7 @@ const GodCard = () => {
           >
             神兵系统
           </Title>
-          <Paragraph style={{ fontSize: '16px', color: 'var(--text-color)', marginTop: 8 }}>
+          <Paragraph style={{ fontSize: '16px', color: colors.textSecondary, marginTop: 8 }}>
             收集强大的神兵卡牌，组建无敌套装
           </Paragraph>
         </motion.div>
@@ -546,22 +543,21 @@ const GodCard = () => {
           {paginatedData.length > 0 ? (
             <>
               <Row gutter={[16, 16]}>
-                {paginatedData.map((item, index) => (
-                  <Col
-                    xs={24}
-                    sm={12}
-                    md={8}
-                    lg={6}
-                    xl={4}
-                    key={viewMode === 'cards' ? (item as GodCard).cardId : (item as GodCardSuit).id}
-                  >
-                    {viewMode === 'cards' ? (
-                      <GodCardCard godCard={item as GodCard} index={index} />
-                    ) : (
-                      <GodCardSuitCard suit={item as GodCardSuit} index={index} />
-                    )}
-                  </Col>
-                ))}
+                {paginatedData.map((item, index) => {
+                  const key =
+                    viewMode === 'cards'
+                      ? `card-${(item as GodCard).cardId || index}`
+                      : `suit-${(item as GodCardSuit).id || index}`;
+                  return (
+                    <Col xs={24} sm={12} md={8} lg={6} xl={4} key={key}>
+                      {viewMode === 'cards' ? (
+                        <GodCardCard godCard={item as GodCard} index={index} />
+                      ) : (
+                        <GodCardSuitCard suit={item as GodCardSuit} index={index} />
+                      )}
+                    </Col>
+                  );
+                })}
               </Row>
 
               {filteredData.length > pageSize && (
@@ -598,15 +594,15 @@ const GodCard = () => {
               <Empty
                 image={Empty.PRESENTED_IMAGE_SIMPLE}
                 description={
-                  <span style={{ color: '#666' }}>
+                  <span style={{ color: colors.textSecondary }}>
                     {searchValue || filterType !== 'all' ? '没有找到匹配的数据' : '暂无数据'}
                   </span>
                 }
                 style={{
                   padding: '60px 20px',
-                  background: '#ffffff',
+                  background: colors.surface,
                   borderRadius: 12,
-                  border: '1px solid #f0f0f0',
+                  border: `1px solid ${colors.borderSecondary}`,
                 }}
               />
             </motion.div>

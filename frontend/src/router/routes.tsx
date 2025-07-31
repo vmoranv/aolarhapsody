@@ -30,17 +30,17 @@ export const constantRoutes: RouteObject[] = [
     element: <PetDictionary />,
   },
   {
-    path: '/app/astral-spirit',
+    path: '/app/astralspirit',
     id: 'AstralSpirit',
     element: <AstralSpirit />,
   },
   {
-    path: '/app/crystal-key',
+    path: '/app/crystalkey',
     id: 'CrystalKey',
     element: <CrystalKey />,
   },
   {
-    path: '/app/god-card',
+    path: '/app/godcard',
     id: 'GodCard',
     element: <GodCard />,
   },
@@ -55,17 +55,17 @@ export const constantRoutes: RouteObject[] = [
     element: <Inscription />,
   },
   {
-    path: '/app/pet-card',
+    path: '/app/petcard',
     id: 'PetCard',
     element: <PetCard />,
   },
   {
-    path: '/app/pet-card2',
+    path: '/app/petcard2',
     id: 'PetCard2',
     element: <PetCard2 />,
   },
   {
-    path: '/app/pm-data-list',
+    path: '/app/pmdatalist',
     id: 'PMDataList',
     element: <PMDataList />,
   },

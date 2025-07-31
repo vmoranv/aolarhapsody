@@ -20,7 +20,9 @@ import ErrorDisplay from '../components/ErrorDisplay';
 import Layout from '../components/Layout';
 import LoadingSpinner from '../components/LoadingSpinner';
 import SearchAndFilter from '../components/SearchAndFilter';
+import { useTheme } from '../hooks/useTheme';
 import { getPetImageUrls } from '../utils/pet-helper';
+import { useStatusColor } from '../utils/theme-colors';
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -58,7 +60,7 @@ interface ApiResponse<T> {
 }
 
 const fetchPetDictionary = async (): Promise<PetDictionaryItem[]> => {
-  const response = await fetch('/api/pet-dictionary');
+  const response = await fetch('/api/petdictionary');
 
   if (!response.ok) {
     throw new Error(`HTTP error! status: ${response.status}`);
@@ -76,6 +78,8 @@ const fetchPetDictionary = async (): Promise<PetDictionaryItem[]> => {
 const PetCard: React.FC<{ pet: PetDictionaryItem; index: number }> = ({ pet, index }) => {
   const petImages = getPetImageUrls(pet.petID);
   const { token } = theme.useToken();
+  const rareColor = useStatusColor('error');
+  const normalColor = useStatusColor('info');
 
   return (
     <motion.div
@@ -97,10 +101,12 @@ const PetCard: React.FC<{ pet: PetDictionaryItem; index: number }> = ({ pet, ind
           borderRadius: 16,
           overflow: 'hidden',
           border:
-            pet.isRare === '1' ? '2px solid #ff7875' : `1px solid ${token.colorBorderSecondary}`,
+            pet.isRare === '1'
+              ? `2px solid ${rareColor}`
+              : `1px solid ${token.colorBorderSecondary}`,
           background:
             pet.isRare === '1'
-              ? 'linear-gradient(135deg, #fff2f0 0%, #ffece8 100%)'
+              ? `linear-gradient(135deg, ${rareColor}10 0%, ${rareColor}08 100%)`
               : token.colorBgContainer,
           boxShadow: `0 4px 12px ${token.colorBorderSecondary}`,
           height: '100%',
@@ -109,7 +115,7 @@ const PetCard: React.FC<{ pet: PetDictionaryItem; index: number }> = ({ pet, ind
           <div
             style={{
               height: 200,
-              background: `linear-gradient(135deg, ${pet.isRare === '1' ? '#ff9c6e' : '#91d5ff'} 0%, ${pet.isRare === '1' ? '#ffc069' : '#bae7ff'} 100%)`,
+              background: `linear-gradient(135deg, ${pet.isRare === '1' ? rareColor : normalColor}20 0%, ${pet.isRare === '1' ? rareColor : normalColor}10 100%)`,
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -214,7 +220,7 @@ const PetCard: React.FC<{ pet: PetDictionaryItem; index: number }> = ({ pet, ind
           {pet.petFavourite && (
             <Tooltip title={pet.petFavourite}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <Heart size={14} color="#ff4d4f" />
+                <Heart size={14} color={useStatusColor('error')} />
                 <Text style={{ fontSize: '12px', color: token.colorTextSecondary }} ellipsis>
                   {pet.petFavourite}
                 </Text>
@@ -245,6 +251,7 @@ const PetCard: React.FC<{ pet: PetDictionaryItem; index: number }> = ({ pet, ind
 };
 
 const PetDictionary = () => {
+  const { colors } = useTheme()!;
   const [searchValue, setSearchValue] = useState('');
   const [filterType, setFilterType] = useState<'all' | 'super' | 'normal'>('all');
   const [currentPage, setCurrentPage] = useState(1);
@@ -352,7 +359,7 @@ const PetDictionary = () => {
           >
             亚比图鉴
           </Title>
-          <Paragraph style={{ fontSize: '16px', color: 'var(--text-color)', marginTop: 8 }}>
+          <Paragraph style={{ fontSize: '16px', color: colors.textSecondary, marginTop: 8 }}>
             探索奥拉星世界中所有可爱的亚比伙伴，了解它们的属性和特征
           </Paragraph>
         </motion.div>
@@ -418,15 +425,15 @@ const PetDictionary = () => {
               <Empty
                 image={Empty.PRESENTED_IMAGE_SIMPLE}
                 description={
-                  <span style={{ color: '#666' }}>
+                  <span style={{ color: colors.textSecondary }}>
                     {searchValue || filterType !== 'all' ? '没有找到匹配的亚比' : '暂无亚比数据'}
                   </span>
                 }
                 style={{
                   padding: '60px 20px',
-                  background: '#ffffff',
+                  background: colors.surface,
                   borderRadius: 12,
-                  border: '1px solid #f0f0f0',
+                  border: `1px solid ${colors.borderSecondary}`,
                 }}
               />
             </motion.div>

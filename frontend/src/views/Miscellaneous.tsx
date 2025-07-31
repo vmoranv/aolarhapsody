@@ -33,7 +33,6 @@ import React, { useState } from 'react';
 import Layout from '../components/Layout';
 
 const { Title, Paragraph, Text } = Typography;
-const { Panel } = Collapse;
 
 // 通用API响应类型
 interface ApiResponse<T> {
@@ -101,7 +100,7 @@ const dataConfigs = [
     title: '图标数据',
     icon: Package,
     color: '#13c2c2',
-    endpoint: 'icondata',
+    endpoint: 'headicons',
     description: '游戏内图标资源',
   },
   {
@@ -117,7 +116,7 @@ const dataConfigs = [
     title: '奇迹',
     icon: Gem,
     color: '#f5222d',
-    endpoint: 'miracles',
+    endpoint: 'miracle/awake',
     description: '神秘的奇迹力量',
   },
   {
@@ -125,7 +124,7 @@ const dataConfigs = [
     title: '宠物石',
     icon: Gem,
     color: '#faad14',
-    endpoint: 'petstones',
+    endpoint: 'evolutionstones',
     description: '亚比进化石头',
   },
   {
@@ -149,7 +148,7 @@ const dataConfigs = [
     title: '进化链接',
     icon: Link,
     color: '#9254de',
-    endpoint: 'pmevolinks',
+    endpoint: 'spevo',
     description: '亚比进化关联',
   },
   {
@@ -157,7 +156,7 @@ const dataConfigs = [
     title: '召唤师技能',
     icon: Zap,
     color: '#ff7a45',
-    endpoint: 'summoners',
+    endpoint: 'summonerskills',
     description: '召唤师专属技能',
   },
   {
@@ -327,7 +326,7 @@ const Miscellaneous = () => {
     return useQuery({
       queryKey: [config.key],
       queryFn: fetcher,
-      enabled: activeKeys.includes(config.key), // 只有展开的面板才加载数据
+      // 移除懒加载限制，页面加载时就获取所有数据的条数
     });
   });
 
@@ -411,52 +410,50 @@ const Miscellaneous = () => {
             onChange={handlePanelChange}
             size="large"
             style={{ background: 'transparent' }}
-          >
-            {dataConfigs.map((config, index) => {
+            items={dataConfigs.map((config, index) => {
               const query = queries[index];
               const IconComponent = config.icon;
 
-              return (
-                <Panel
-                  key={config.key}
-                  header={
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                      <Avatar
-                        size={32}
-                        style={{ backgroundColor: config.color }}
-                        icon={<IconComponent size={16} />}
-                      />
-                      <div>
-                        <Text strong style={{ fontSize: '16px' }}>
-                          {config.title}
-                        </Text>
-                        <br />
-                        <Text type="secondary" style={{ fontSize: '12px' }}>
-                          {config.description}
-                        </Text>
-                      </div>
-                      <div style={{ marginLeft: 'auto' }}>
-                        <Tag color={config.color}>{query.data?.length || 0} 条</Tag>
-                      </div>
+              return {
+                key: config.key,
+                label: (
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                    <Avatar
+                      size={32}
+                      style={{ backgroundColor: config.color }}
+                      icon={<IconComponent size={16} />}
+                    />
+                    <div>
+                      <Text strong style={{ fontSize: '16px' }}>
+                        {config.title}
+                      </Text>
+                      <br />
+                      <Text type="secondary" style={{ fontSize: '12px' }}>
+                        {config.description}
+                      </Text>
                     </div>
-                  }
-                  style={{
-                    marginBottom: 16,
-                    borderRadius: 12,
-                    border: `1px solid ${config.color}30`,
-                    background: `${config.color}05`,
-                  }}
-                >
+                    <div style={{ marginLeft: 'auto' }}>
+                      <Tag color={config.color}>{query.data?.length || 0} 条</Tag>
+                    </div>
+                  </div>
+                ),
+                children: (
                   <DataSection
                     config={config}
                     data={query.data || []}
                     loading={query.isLoading}
                     error={query.error}
                   />
-                </Panel>
-              );
+                ),
+                style: {
+                  marginBottom: 16,
+                  borderRadius: 12,
+                  border: `1px solid ${config.color}30`,
+                  background: `${config.color}05`,
+                },
+              };
             })}
-          </Collapse>
+          />
         </motion.div>
       </Space>
     </Layout>
