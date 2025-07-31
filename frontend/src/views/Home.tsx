@@ -11,7 +11,6 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import SearchAndFilter from '../components/SearchAndFilter';
 import { useTheme } from '../hooks/useTheme';
 import { getAttributeIconUrl } from '../utils/attribute-helper';
-import { getPetImageUrls } from '../utils/pet-helper';
 
 const { Title, Paragraph } = Typography;
 
@@ -106,14 +105,6 @@ const Home = () => {
     setSearchValue('');
     setFilterType('all');
   };
-
-  // 调试代码
-  React.useEffect(() => {
-    console.log('--- 调试图片URL生成 ---');
-    console.log('亚比ID为 1 的图片URL:', getPetImageUrls(1));
-    console.log('亚比ID为 4399 的图片URL:', getPetImageUrls(4399));
-    console.log('----------------------');
-  }, []);
 
   if (isLoading) {
     return (
