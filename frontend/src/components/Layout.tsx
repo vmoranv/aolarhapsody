@@ -21,22 +21,48 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   // 根据当前路径确定选中的菜单项
   const getSelectedKeys = () => {
     const path = location.pathname;
-    if (path === '/app') {
-      return ['1'];
+    switch (path) {
+      case '/app':
+        return ['1'];
+      case '/app/pets':
+        return ['2-1'];
+      case '/app/astral-spirit':
+        return ['2-2'];
+      case '/app/crystal-key':
+        return ['2-3'];
+      case '/app/god-card':
+        return ['2-4'];
+      case '/app/hk':
+        return ['2-5'];
+      case '/app/inscription':
+        return ['2-6'];
+      case '/app/pet-card':
+        return ['2-7'];
+      case '/app/pet-card2':
+        return ['2-8'];
+      case '/app/pm-data-list':
+        return ['2-9'];
+      case '/app/tote':
+        return ['2-10'];
+      case '/app/miscellaneous':
+        return ['3'];
+      default:
+        return ['1'];
     }
-    if (path === '/app/pets') {
-      return ['2-1'];
-    }
-    return ['1'];
   };
 
   const getOpenKeys = () => {
     const path = location.pathname;
     if (
       path.startsWith('/app/pets') ||
-      path.includes('skills') ||
-      path.includes('items') ||
-      path.includes('inscription')
+      path.startsWith('/app/astral-spirit') ||
+      path.startsWith('/app/crystal-key') ||
+      path.startsWith('/app/god-card') ||
+      path.startsWith('/app/hk') ||
+      path.startsWith('/app/inscription') ||
+      path.startsWith('/app/pet-card') ||
+      path.startsWith('/app/pm-data-list') ||
+      path.startsWith('/app/tote')
     ) {
       return ['2'];
     }
@@ -52,7 +78,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     {
       key: '2',
       icon: <Database size={18} />,
-      label: '数据查询',
+      label: '核心系统',
       children: [
         {
           key: '2-1',
@@ -60,27 +86,51 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         },
         {
           key: '2-2',
-          label: '技能数据',
+          label: '星灵系统',
         },
         {
           key: '2-3',
-          label: '道具信息',
+          label: '晶钥系统',
         },
         {
           key: '2-4',
+          label: '神兵系统',
+        },
+        {
+          key: '2-5',
+          label: '魂卡系统',
+        },
+        {
+          key: '2-6',
           label: '铭文系统',
+        },
+        {
+          key: '2-7',
+          label: '宠物卡系统',
+        },
+        {
+          key: '2-8',
+          label: '特性晶石',
+        },
+        {
+          key: '2-9',
+          label: 'PM数据列表',
+        },
+        {
+          key: '2-10',
+          label: 'Tote系统',
         },
       ],
     },
     {
       key: '3',
-      icon: <Users size={18} />,
-      label: '社区',
+      icon: <Settings size={18} />,
+      label: '杂项数据',
     },
     {
       key: '4',
-      icon: <Settings size={18} />,
-      label: '设置',
+      icon: <Users size={18} />,
+      label: '社区',
     },
   ];
 
@@ -93,16 +143,34 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         navigate('/app/pets');
         break;
       case '2-2':
-        // 技能数据页面 - 暂时导航到首页
-        navigate('/app');
+        navigate('/app/astral-spirit');
         break;
       case '2-3':
-        // 道具信息页面 - 暂时导航到首页
-        navigate('/app');
+        navigate('/app/crystal-key');
         break;
       case '2-4':
-        // 铭文系统页面 - 暂时导航到首页
-        navigate('/app');
+        navigate('/app/god-card');
+        break;
+      case '2-5':
+        navigate('/app/hk');
+        break;
+      case '2-6':
+        navigate('/app/inscription');
+        break;
+      case '2-7':
+        navigate('/app/pet-card');
+        break;
+      case '2-8':
+        navigate('/app/pet-card2');
+        break;
+      case '2-9':
+        navigate('/app/pm-data-list');
+        break;
+      case '2-10':
+        navigate('/app/tote');
+        break;
+      case '3':
+        navigate('/app/miscellaneous');
         break;
       default:
         break;

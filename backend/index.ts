@@ -37,16 +37,25 @@ async function startServer() {
   for (const moduleName in initializers) {
     const initFunction = initializers[moduleName as keyof typeof initializers];
     const success = await initFunction();
-    if (!success) {
-      // 从键名中提取模块名用于日志记录
-      const friendlyName = moduleName.replace('init', '').replace('Module', '');
-      console.error(`${friendlyName} 数据模块初始化失败！`);
+      if (!success) {
+        // 从键名中提取模块名用于日志记录
+        const friendlyName = moduleName.replace('init', '').replace('Module', '');
+        console.error(`${friendlyName} 数据模块初始化失败！`);
+      }
     }
+  
+    const server = app.listen(port, () => {
+      // 服务器成功启动后不再打印日志
+    });
+  
+    // 优雅地关闭服务器
+    process.on('SIGINT', () => {
+      console.log('收到 SIGINT 信号，正在关闭服务器...');
+      server.close(() => {
+        console.log('服务器已关闭。');
+        process.exit(0);
+      });
+    });
   }
-
-  app.listen(port, () => {
-    // 服务器成功启动后不再打印日志
-  });
-}
-
-startServer();
+  
+  startServer();

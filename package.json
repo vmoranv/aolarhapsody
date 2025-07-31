@@ -4,10 +4,12 @@
   "type": "module",
   "scripts": {
     "build": "pnpm --filter @aolarhapsody/turbo-run build && cross-env NODE_OPTIONS=--max-old-space-size=8192 ar-turbo build",
+    "build:all": "pnpm --parallel --filter \"./**\" build",
     "build:front": "pnpm --filter frontend build",
     "build:backend": "pnpm --filter backend build",
-    "preview": "pnpm build:front && pnpm --filter frontend preview",
+    "preview": "pnpm build:all && pnpm --parallel --filter \"./**\" preview",
     "preview:front": "pnpm --filter frontend preview",
+    "preview:backend": "pnpm --filter backend preview",
     "check": "ash lint && pnpm lint:cspell",
     "clean": "node ./scripts/clean.mjs",
     "commit": "czg",

@@ -14,6 +14,7 @@ interface SearchAndFilterProps {
   onReset: () => void;
   totalCount: number;
   filteredCount: number;
+  hideFilter?: boolean;
 }
 
 const SearchAndFilter: React.FC<SearchAndFilterProps> = ({
@@ -24,6 +25,7 @@ const SearchAndFilter: React.FC<SearchAndFilterProps> = ({
   onReset,
   totalCount,
   filteredCount,
+  hideFilter = false,
 }) => {
   const { colors } = useTheme()!;
 
@@ -64,16 +66,18 @@ const SearchAndFilter: React.FC<SearchAndFilterProps> = ({
               allowClear
             />
 
-            <Select
-              value={filterType}
-              onChange={onFilterChange}
-              style={{ minWidth: '120px' }}
-              suffixIcon={<Filter size={16} color={colors.textSecondary} />}
-            >
-              <Option value="all">全部属性</Option>
-              <Option value="super">超级属性</Option>
-              <Option value="normal">普通属性</Option>
-            </Select>
+            {!hideFilter && (
+              <Select
+                value={filterType}
+                onChange={onFilterChange}
+                style={{ minWidth: '120px' }}
+                suffixIcon={<Filter size={16} color={colors.textSecondary} />}
+              >
+                <Option value="all">全部属性</Option>
+                <Option value="super">超级属性</Option>
+                <Option value="normal">普通属性</Option>
+              </Select>
+            )}
 
             <Button icon={<RotateCcw size={16} />} onClick={onReset} style={{ borderRadius: 8 }}>
               重置
