@@ -14,7 +14,7 @@ export default tseslint.config([
   },
   {
     // Apply to all TypeScript and TSX files
-    files: ['frontend/**/*.{ts,tsx}'],
+    files: ['frontend/**/*.{ts,tsx}', 'backend/**/*.ts'],
     // Extend recommended configurations
     extends: [
       js.configs.recommended,
