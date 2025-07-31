@@ -9,10 +9,10 @@ pre-commit:
   parallel: true
   commands:
     lint-scripts:
-      glob: '*.{js,jsx,ts,tsx}'
+      glob: '**/*.{js,jsx,ts,tsx}'
       run: pnpm prettier --cache --ignore-unknown --write {staged_files} && pnpm eslint --cache --fix {staged_files}
     lint-styles:
-      glob: '*.{css,scss,less,html,vue}'
+      glob: '**/*.{css,scss,less,vue}'
       run: pnpm prettier --cache --ignore-unknown --write {staged_files} && pnpm stylelint --fix --allow-empty-input {staged_files}
     lint-json:
       glob: '{!(package)*.json,*.code-snippets,.!(browserslist)*rc}'

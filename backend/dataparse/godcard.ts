@@ -53,20 +53,18 @@ export async function initGodCardModule(): Promise<boolean> {
         const godCardidList = item[3] as number[];
 
         // 如果套装名称为空，使用第一件装备的名称生成套装名称
-        if (!suitName || suitName.trim() === '') {
-          if (godCardidList && godCardidList.length > 0) {
-            const firstCardId = godCardidList[0];
-            const firstCard = godCardCache[firstCardId];
-            if (firstCard && firstCard.name) {
-              // 提取装备名称中的基础名称和品质等级
-              const qualityMatch = firstCard.name.match(/^(.+?)(传说|史诗|王者)/);
-              if (qualityMatch) {
-                const baseName = qualityMatch[1];
-                const quality = qualityMatch[2];
-                suitName = `${baseName}${quality}套装`;
-              } else {
-                suitName = `${firstCard.name}套装`;
-              }
+        if ((!suitName || suitName.trim() === '') && godCardidList && godCardidList.length > 0) {
+          const firstCardId = godCardidList[0];
+          const firstCard = godCardCache[firstCardId];
+          if (firstCard && firstCard.name) {
+            // 提取装备名称中的基础名称和品质等级
+            const qualityMatch = firstCard.name.match(/^(.+?)(传说|史诗|王者)/);
+            if (qualityMatch) {
+              const baseName = qualityMatch[1];
+              const quality = qualityMatch[2];
+              suitName = `${baseName}${quality}套装`;
+            } else {
+              suitName = `${firstCard.name}套装`;
             }
           }
         }

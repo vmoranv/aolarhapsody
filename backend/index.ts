@@ -41,11 +41,12 @@ async function startServer() {
       // 从键名中提取模块名用于日志记录
       const friendlyName = moduleName.replace('init', '').replace('Module', '');
       console.error(`${friendlyName} 数据模块初始化失败！`);
+      process.exit(1);
     }
   }
 
   const server = app.listen(port, () => {
-    // 服务器成功启动后不再打印日志
+    console.log(`Backend server is running on http://localhost:${port}`);
   });
 
   // 优雅地关闭服务器
