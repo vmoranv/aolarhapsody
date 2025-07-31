@@ -1,16 +1,16 @@
 import type { RouteObject } from 'react-router-dom';
-import Home from '@/views/Home';
-import PetDictionary from '@/views/PetDictionary';
 import AstralSpirit from '@/views/AstralSpirit';
 import CrystalKey from '@/views/CrystalKey';
 import GodCard from '@/views/GodCard';
 import HK from '@/views/HK';
+import Home from '@/views/Home';
 import Inscription from '@/views/Inscription';
+import Miscellaneous from '@/views/Miscellaneous';
 import PetCard from '@/views/PetCard';
 import PetCard2 from '@/views/PetCard2';
+import PetDictionary from '@/views/PetDictionary';
 import PMDataList from '@/views/PMDataList';
 import Tote from '@/views/Tote';
-import Miscellaneous from '@/views/Miscellaneous';
 
 /**
  * Defines the constant (public) routes for the application.

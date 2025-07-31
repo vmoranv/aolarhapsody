@@ -3,6 +3,7 @@ import {
   Avatar,
   Card,
   Col,
+  Divider,
   Empty,
   Pagination,
   Row,
@@ -11,10 +12,9 @@ import {
   theme,
   Tooltip,
   Typography,
-  Divider,
 } from 'antd';
 import { motion } from 'framer-motion';
-import { CreditCard, Crown, Star, Shield, Zap } from 'lucide-react';
+import { CreditCard, Crown, Shield, Star, Zap } from 'lucide-react';
 import React, { useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
 import ErrorDisplay from '../components/ErrorDisplay';
@@ -149,13 +149,10 @@ const PetCardCard: React.FC<{ petCard: PetCard; index: number }> = ({ petCard, i
               overflow: 'hidden',
             }}
           >
-            <motion.div
-              whileHover={{ scale: 1.1, rotate: 5 }}
-              transition={{ duration: 0.3 }}
-            >
+            <motion.div whileHover={{ scale: 1.1, rotate: 5 }} transition={{ duration: 0.3 }}>
               <CreditCard size={48} color="white" />
             </motion.div>
-            
+
             {/* 品质标识 */}
             <div style={{ position: 'absolute', top: 10, right: 10 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
@@ -550,7 +547,14 @@ const PetCard = () => {
             <>
               <Row gutter={[16, 16]}>
                 {paginatedData.map((item, index) => (
-                  <Col xs={24} sm={12} md={8} lg={6} xl={4} key={viewMode === 'cards' ? (item as PetCard).cardId : (item as PetCardSuit).id}>
+                  <Col
+                    xs={24}
+                    sm={12}
+                    md={8}
+                    lg={6}
+                    xl={4}
+                    key={viewMode === 'cards' ? (item as PetCard).cardId : (item as PetCardSuit).id}
+                  >
                     {viewMode === 'cards' ? (
                       <PetCardCard petCard={item as PetCard} index={index} />
                     ) : (

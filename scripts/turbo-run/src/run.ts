@@ -95,19 +95,35 @@ export async function run(options: RunOptions) {
     s.start(`Running '${script}' in ${targetPackage}...`);
 
     try {
-      // Fire and forget
-      execa('pnpm', ['--filter', String(targetPackage), script], {
+      const subprocess = execa('pnpm', ['--filter', String(targetPackage), script], {
         stdio: 'inherit',
       });
+
       s.stop(`Successfully started '${script}' in ${targetPackage}.`);
+
+      // Handle process exit
+      const cleanup = () => {
+        if (subprocess.pid) {
+          subprocess.kill('SIGINT');
+        }
+      };
+
+      process.on('SIGINT', cleanup);
+      process.on('exit', cleanup);
+
+      await subprocess;
     } catch (e: unknown) {
       s.stop(`Failed to run '${script}' in ${targetPackage}.`);
       if (e instanceof Error) {
-        console.error(e.message);
+        // Ignore cancellation errors
+        if (!/was killed with SIGINT/.test(e.message)) {
+          console.error(e.message);
+          process.exit(1);
+        }
       } else {
         console.error(e);
+        process.exit(1);
       }
-      process.exit(1);
     }
   }
 

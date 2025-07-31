@@ -1,16 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import {
-  Card,
-  Col,
-  Empty,
-  Pagination,
-  Row,
-  Space,
-  Tag,
-  theme,
-  Tooltip,
-  Typography,
-} from 'antd';
+import { Card, Col, Empty, Pagination, Row, Space, Tag, theme, Tooltip, Typography } from 'antd';
 import { motion } from 'framer-motion';
 import { Key, Sparkles } from 'lucide-react';
 import React, { useMemo, useState } from 'react';
@@ -63,11 +52,11 @@ const fetchCrystalKeyDetail = async (id: string): Promise<CrystalKey> => {
   }
 };
 
-const CrystalKeyCard: React.FC<{ crystalKey: CrystalKey; index: number; onDetail: (id: number) => void }> = ({ 
-  crystalKey, 
-  index, 
-  onDetail 
-}) => {
+const CrystalKeyCard: React.FC<{
+  crystalKey: CrystalKey;
+  index: number;
+  onDetail: (id: number) => void;
+}> = ({ crystalKey, index, onDetail }) => {
   const { token } = theme.useToken();
 
   return (
@@ -108,13 +97,10 @@ const CrystalKeyCard: React.FC<{ crystalKey: CrystalKey; index: number; onDetail
               overflow: 'hidden',
             }}
           >
-            <motion.div
-              whileHover={{ scale: 1.1, rotate: 10 }}
-              transition={{ duration: 0.3 }}
-            >
+            <motion.div whileHover={{ scale: 1.1, rotate: 10 }} transition={{ duration: 0.3 }}>
               <Key size={48} color="white" />
             </motion.div>
-            
+
             {/* 装饰性星星 */}
             <div style={{ position: 'absolute', top: 10, right: 10 }}>
               <Sparkles size={20} color="rgba(255,255,255,0.7)" />
@@ -306,7 +292,11 @@ const CrystalKey = () => {
                 </div>
               }
               extra={
-                <Tag color="#722ed1" onClick={() => setSelectedKey(null)} style={{ cursor: 'pointer' }}>
+                <Tag
+                  color="#722ed1"
+                  onClick={() => setSelectedKey(null)}
+                  style={{ cursor: 'pointer' }}
+                >
                   关闭
                 </Tag>
               }
@@ -318,8 +308,12 @@ const CrystalKey = () => {
             >
               <Space direction="vertical" size="middle" style={{ width: '100%' }}>
                 <div>
-                  <Text strong style={{ fontSize: '16px' }}>{selectedKey.name}</Text>
-                  <Text type="secondary" style={{ marginLeft: 12 }}>ID: {selectedKey.id}</Text>
+                  <Text strong style={{ fontSize: '16px' }}>
+                    {selectedKey.name}
+                  </Text>
+                  <Text type="secondary" style={{ marginLeft: 12 }}>
+                    ID: {selectedKey.id}
+                  </Text>
                 </div>
                 {selectedKey.description && (
                   <div>

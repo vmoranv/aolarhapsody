@@ -1,16 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import {
-  Card,
-  Col,
-  Empty,
-  Pagination,
-  Row,
-  Space,
-  Tag,
-  theme,
-  Typography,
-  Divider,
-} from 'antd';
+import { Card, Col, Divider, Empty, Pagination, Row, Space, Tag, theme, Typography } from 'antd';
 import { motion } from 'framer-motion';
 import { Heart, Sparkles, Zap } from 'lucide-react';
 import React, { useMemo, useState } from 'react';
@@ -137,13 +126,10 @@ const HKDataCard: React.FC<{ hkData: HKData; index: number }> = ({ hkData, index
               overflow: 'hidden',
             }}
           >
-            <motion.div
-              whileHover={{ scale: 1.1, rotate: 10 }}
-              transition={{ duration: 0.3 }}
-            >
+            <motion.div whileHover={{ scale: 1.1, rotate: 10 }} transition={{ duration: 0.3 }}>
               <Heart size={48} color="white" />
             </motion.div>
-            
+
             {/* 装饰性元素 */}
             <div style={{ position: 'absolute', top: 10, right: 10 }}>
               <Sparkles size={20} color="rgba(255,255,255,0.7)" />
@@ -379,8 +365,8 @@ const HK = () => {
           (buff) =>
             buff.name.toLowerCase().includes(searchValue.toLowerCase()) ||
             buff.id.toString().includes(searchValue) ||
-            buff.buffNames.some(name => name.toLowerCase().includes(searchValue.toLowerCase())) ||
-            buff.decs.some(desc => desc.toLowerCase().includes(searchValue.toLowerCase()))
+            buff.buffNames.some((name) => name.toLowerCase().includes(searchValue.toLowerCase())) ||
+            buff.decs.some((desc) => desc.toLowerCase().includes(searchValue.toLowerCase()))
         );
       }
 
@@ -495,7 +481,14 @@ const HK = () => {
             <>
               <Row gutter={[16, 16]}>
                 {paginatedData.map((item, index) => (
-                  <Col xs={24} sm={12} md={8} lg={6} xl={4} key={viewMode === 'data' ? (item as HKData).id : (item as HKBuff).id}>
+                  <Col
+                    xs={24}
+                    sm={12}
+                    md={8}
+                    lg={6}
+                    xl={4}
+                    key={viewMode === 'data' ? (item as HKData).id : (item as HKBuff).id}
+                  >
                     {viewMode === 'data' ? (
                       <HKDataCard hkData={item as HKData} index={index} />
                     ) : (

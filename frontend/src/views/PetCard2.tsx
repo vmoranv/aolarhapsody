@@ -2,19 +2,19 @@ import { useQuery } from '@tanstack/react-query';
 import {
   Card,
   Col,
+  Divider,
   Empty,
   Pagination,
   Row,
   Space,
+  Switch,
   Tag,
   theme,
   Tooltip,
   Typography,
-  Divider,
-  Switch,
 } from 'antd';
 import { motion } from 'framer-motion';
-import { Gem, Star, DollarSign, Coins, Clock, Users } from 'lucide-react';
+import { Clock, Coins, DollarSign, Gem, Star, Users } from 'lucide-react';
 import React, { useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
 import ErrorDisplay from '../components/ErrorDisplay';
@@ -119,13 +119,10 @@ const PetCard2Card: React.FC<{ petCard2: PetCard2; index: number }> = ({ petCard
               overflow: 'hidden',
             }}
           >
-            <motion.div
-              whileHover={{ scale: 1.1, rotate: 10 }}
-              transition={{ duration: 0.3 }}
-            >
+            <motion.div whileHover={{ scale: 1.1, rotate: 10 }} transition={{ duration: 0.3 }}>
               <Gem size={48} color="white" />
             </motion.div>
-            
+
             {/* VIP标识 */}
             <div style={{ position: 'absolute', top: 10, right: 10 }}>
               <Tag color="white" style={{ color: vipColor, fontWeight: 'bold' }}>
@@ -297,7 +294,7 @@ const PetCard2 = () => {
         (card) =>
           card.name.toLowerCase().includes(searchValue.toLowerCase()) ||
           card.cardId.toString().includes(searchValue) ||
-          card.raceList.some(raceId => raceId.toString().includes(searchValue))
+          card.raceList.some((raceId) => raceId.toString().includes(searchValue))
       );
     }
 
@@ -374,11 +371,7 @@ const PetCard2 = () => {
             <Space wrap>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                 <Text>仅显示可交易:</Text>
-                <Switch
-                  checked={showTradeableOnly}
-                  onChange={setShowTradeableOnly}
-                  size="small"
-                />
+                <Switch checked={showTradeableOnly} onChange={setShowTradeableOnly} size="small" />
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                 <Text>仅显示限时:</Text>
@@ -390,8 +383,8 @@ const PetCard2 = () => {
               </div>
               <div>
                 <Text type="secondary" style={{ fontSize: '12px' }}>
-                  可交易: {petCard2s.filter(c => c.trade).length} | 
-                  限时: {petCard2s.filter(c => c.isLimitedTime).length}
+                  可交易: {petCard2s.filter((c) => c.trade).length} | 限时:{' '}
+                  {petCard2s.filter((c) => c.isLimitedTime).length}
                 </Text>
               </div>
             </Space>
@@ -460,8 +453,8 @@ const PetCard2 = () => {
                 image={Empty.PRESENTED_IMAGE_SIMPLE}
                 description={
                   <span style={{ color: '#666' }}>
-                    {searchValue || filterType !== 'all' || showTradeableOnly || showLimitedTimeOnly 
-                      ? '没有找到匹配的特性晶石' 
+                    {searchValue || filterType !== 'all' || showTradeableOnly || showLimitedTimeOnly
+                      ? '没有找到匹配的特性晶石'
                       : '暂无特性晶石数据'}
                   </span>
                 }

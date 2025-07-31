@@ -3,6 +3,7 @@ import {
   Avatar,
   Card,
   Col,
+  Divider,
   Empty,
   Pagination,
   Row,
@@ -11,10 +12,9 @@ import {
   theme,
   Tooltip,
   Typography,
-  Divider,
 } from 'antd';
 import { motion } from 'framer-motion';
-import { Sword, Shield, Zap, Crown, Star } from 'lucide-react';
+import { Crown, Shield, Star, Sword, Zap } from 'lucide-react';
 import React, { useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
 import ErrorDisplay from '../components/ErrorDisplay';
@@ -149,13 +149,10 @@ const GodCardCard: React.FC<{ godCard: GodCard; index: number }> = ({ godCard, i
               overflow: 'hidden',
             }}
           >
-            <motion.div
-              whileHover={{ scale: 1.1, rotate: 5 }}
-              transition={{ duration: 0.3 }}
-            >
+            <motion.div whileHover={{ scale: 1.1, rotate: 5 }} transition={{ duration: 0.3 }}>
               <Sword size={48} color="white" />
             </motion.div>
-            
+
             {/* 品质标识 */}
             <div style={{ position: 'absolute', top: 10, right: 10 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
@@ -550,7 +547,14 @@ const GodCard = () => {
             <>
               <Row gutter={[16, 16]}>
                 {paginatedData.map((item, index) => (
-                  <Col xs={24} sm={12} md={8} lg={6} xl={4} key={viewMode === 'cards' ? (item as GodCard).cardId : (item as GodCardSuit).id}>
+                  <Col
+                    xs={24}
+                    sm={12}
+                    md={8}
+                    lg={6}
+                    xl={4}
+                    key={viewMode === 'cards' ? (item as GodCard).cardId : (item as GodCardSuit).id}
+                  >
                     {viewMode === 'cards' ? (
                       <GodCardCard godCard={item as GodCard} index={index} />
                     ) : (

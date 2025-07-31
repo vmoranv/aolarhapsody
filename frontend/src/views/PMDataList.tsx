@@ -1,20 +1,20 @@
 import { useQuery } from '@tanstack/react-query';
 import {
+  Avatar,
   Card,
   Col,
   Empty,
   Pagination,
   Row,
   Space,
+  Statistic,
   Tag,
   theme,
   Tooltip,
   Typography,
-  Statistic,
-  Avatar,
 } from 'antd';
 import { motion } from 'framer-motion';
-import { Database, Star, TrendingUp, Users, Zap, Shield } from 'lucide-react';
+import { Database, Shield, Star, TrendingUp, Users, Zap } from 'lucide-react';
 import React, { useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
 import ErrorDisplay from '../components/ErrorDisplay';
@@ -67,22 +67,22 @@ const getRarityText = (rarity: number) => {
 
 const getElementColor = (element: string) => {
   const colors: { [key: string]: string } = {
-    '火': '#f5222d',
-    '水': '#1890ff',
-    '草': '#52c41a',
-    '电': '#faad14',
-    '冰': '#13c2c2',
-    '地': '#fa8c16',
-    '飞': '#722ed1',
-    '虫': '#a0d911',
-    '毒': '#eb2f96',
-    '超能': '#9254de',
-    '格斗': '#fa541c',
-    '岩石': '#8c8c8c',
-    '钢': '#595959',
-    '龙': '#2f54eb',
-    '恶': '#434343',
-    '妖精': '#f759ab',
+    火: '#f5222d',
+    水: '#1890ff',
+    草: '#52c41a',
+    电: '#faad14',
+    冰: '#13c2c2',
+    地: '#fa8c16',
+    飞: '#722ed1',
+    虫: '#a0d911',
+    毒: '#eb2f96',
+    超能: '#9254de',
+    格斗: '#fa541c',
+    岩石: '#8c8c8c',
+    钢: '#595959',
+    龙: '#2f54eb',
+    恶: '#434343',
+    妖精: '#f759ab',
   };
   return colors[element] || '#d9d9d9';
 };
@@ -93,7 +93,8 @@ const PMDataListCard: React.FC<{ pmData: PMDataListItem; index: number }> = ({ p
   const elementColor = getElementColor(pmData.element);
 
   // 计算总战力
-  const totalPower = pmData.hp + pmData.attack + pmData.defend + pmData.sAttack + pmData.sDefend + pmData.speed;
+  const totalPower =
+    pmData.hp + pmData.attack + pmData.defend + pmData.sAttack + pmData.sDefend + pmData.speed;
 
   return (
     <motion.div
@@ -131,13 +132,10 @@ const PMDataListCard: React.FC<{ pmData: PMDataListItem; index: number }> = ({ p
               overflow: 'hidden',
             }}
           >
-            <motion.div
-              whileHover={{ scale: 1.1, rotate: 5 }}
-              transition={{ duration: 0.3 }}
-            >
+            <motion.div whileHover={{ scale: 1.1, rotate: 5 }} transition={{ duration: 0.3 }}>
               <Database size={48} color="white" />
             </motion.div>
-            
+
             {/* 稀有度标识 */}
             <div style={{ position: 'absolute', top: 10, right: 10 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
@@ -149,7 +147,10 @@ const PMDataListCard: React.FC<{ pmData: PMDataListItem; index: number }> = ({ p
 
             {/* 等级标识 */}
             <div style={{ position: 'absolute', bottom: 10, left: 10 }}>
-              <Tag color="white" style={{ color: rarityColor, fontWeight: 'bold', fontSize: '10px' }}>
+              <Tag
+                color="white"
+                style={{ color: rarityColor, fontWeight: 'bold', fontSize: '10px' }}
+              >
                 Lv.{pmData.level}
               </Tag>
             </div>
@@ -230,7 +231,14 @@ const PMDataListCard: React.FC<{ pmData: PMDataListItem; index: number }> = ({ p
             </Col>
           </Row>
 
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 8 }}>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              marginTop: 8,
+            }}
+          >
             <Text style={{ fontSize: '12px', color: token.colorTextSecondary }}>
               总战力: {totalPower}
             </Text>
@@ -323,13 +331,19 @@ const PMDataList = () => {
 
   // 统计数据
   const stats = useMemo(() => {
-    const superPM = pmDataList.filter(pm => pm.rarity >= 4);
-    const normalPM = pmDataList.filter(pm => pm.rarity < 4);
-    const avgPower = pmDataList.length > 0 
-      ? Math.round(pmDataList.reduce((sum, pm) => sum + pm.hp + pm.attack + pm.defend + pm.sAttack + pm.sDefend + pm.speed, 0) / pmDataList.length)
-      : 0;
-    const elements = [...new Set(pmDataList.map(pm => pm.element).filter(Boolean))];
-    
+    const superPM = pmDataList.filter((pm) => pm.rarity >= 4);
+    const normalPM = pmDataList.filter((pm) => pm.rarity < 4);
+    const avgPower =
+      pmDataList.length > 0
+        ? Math.round(
+            pmDataList.reduce(
+              (sum, pm) => sum + pm.hp + pm.attack + pm.defend + pm.sAttack + pm.sDefend + pm.speed,
+              0
+            ) / pmDataList.length
+          )
+        : 0;
+    const elements = [...new Set(pmDataList.map((pm) => pm.element).filter(Boolean))];
+
     return {
       total: pmDataList.length,
       super: superPM.length,
@@ -479,9 +493,7 @@ const PMDataList = () => {
                     onChange={setCurrentPage}
                     showSizeChanger={false}
                     showQuickJumper
-                    showTotal={(total, range) =>
-                      `第 ${range[0]}-${range[1]} 条，共 ${total} 个PM`
-                    }
+                    showTotal={(total, range) => `第 ${range[0]}-${range[1]} 条，共 ${total} 个PM`}
                   />
                 </motion.div>
               )}

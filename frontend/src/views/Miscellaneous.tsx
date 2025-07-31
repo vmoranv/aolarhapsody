@@ -1,32 +1,32 @@
 import { useQuery } from '@tanstack/react-query';
 import {
+  Alert,
+  Avatar,
   Card,
   Col,
+  Collapse,
   Empty,
+  List,
   Row,
   Space,
+  Spin,
   Tag,
   Typography,
-  Collapse,
-  List,
-  Avatar,
-  Spin,
-  Alert,
 } from 'antd';
 import { motion } from 'framer-motion';
-import { 
-  MessageCircle, 
-  Shirt, 
-  Award, 
-  Image, 
-  Package, 
-  Sparkles, 
-  Gem, 
-  MessageSquare, 
-  Swords, 
-  Link, 
-  Zap, 
-  CheckSquare 
+import {
+  Award,
+  CheckSquare,
+  Gem,
+  Image,
+  Link,
+  MessageCircle,
+  MessageSquare,
+  Package,
+  Shirt,
+  Sparkles,
+  Swords,
+  Zap,
 } from 'lucide-react';
 import React, { useState } from 'react';
 // import toast from 'react-hot-toast';
@@ -47,18 +47,20 @@ interface ApiResponse<T> {
 // 这些接口定义在运行时通过any类型处理，不需要具体的TypeScript接口定义
 
 // 数据获取函数
-const createFetcher = <T,>(endpoint: string) => async (): Promise<T[]> => {
-  const response = await fetch(`/api/${endpoint}`);
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
-  }
-  const result: ApiResponse<T[]> = await response.json();
-  if (result.success && Array.isArray(result.data)) {
-    return result.data;
-  } else {
-    throw new Error(result.error || `获取${endpoint}数据失败`);
-  }
-};
+const createFetcher =
+  <T,>(endpoint: string) =>
+  async (): Promise<T[]> => {
+    const response = await fetch(`/api/${endpoint}`);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const result: ApiResponse<T[]> = await response.json();
+    if (result.success && Array.isArray(result.data)) {
+      return result.data;
+    } else {
+      throw new Error(result.error || `获取${endpoint}数据失败`);
+    }
+  };
 
 // 数据配置
 const dataConfigs = [
@@ -170,7 +172,7 @@ const dataConfigs = [
 
 // 数据展示组件
 const DataSection: React.FC<{
-  config: typeof dataConfigs[0];
+  config: (typeof dataConfigs)[0];
   data: any[];
   loading: boolean;
   error: any;
@@ -251,7 +253,9 @@ const DataSection: React.FC<{
               title={
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                   <Text strong>
-                    {item.name || item.taskname || `${config.title} ${item.id || item.viewId || item.raceId}`}
+                    {item.name ||
+                      item.taskname ||
+                      `${config.title} ${item.id || item.viewId || item.raceId}`}
                   </Text>
                   {item.id && (
                     <Tag color="blue" style={{ fontSize: '12px' }}>
@@ -274,15 +278,25 @@ const DataSection: React.FC<{
                   )}
                   {item.price && (
                     <div style={{ marginTop: 4 }}>
-                      <Tag color="gold" style={{ fontSize: '12px' }}>金币: {item.price}</Tag>
-                      {item.rmb && <Tag color="red" style={{ fontSize: '12px' }}>RMB: {item.rmb}</Tag>}
+                      <Tag color="gold" style={{ fontSize: '12px' }}>
+                        金币: {item.price}
+                      </Tag>
+                      {item.rmb && (
+                        <Tag color="red" style={{ fontSize: '12px' }}>
+                          RMB: {item.rmb}
+                        </Tag>
+                      )}
                     </div>
                   )}
                   {item.cost && (
-                    <Tag color="purple" style={{ fontSize: '12px' }}>消耗: {item.cost}</Tag>
+                    <Tag color="purple" style={{ fontSize: '12px' }}>
+                      消耗: {item.cost}
+                    </Tag>
                   )}
                   {item.levelLimit && (
-                    <Tag color="green" style={{ fontSize: '12px' }}>等级限制: {item.levelLimit}</Tag>
+                    <Tag color="green" style={{ fontSize: '12px' }}>
+                      等级限制: {item.levelLimit}
+                    </Tag>
                   )}
                 </div>
               }
@@ -291,18 +305,13 @@ const DataSection: React.FC<{
         )}
         locale={{
           emptyText: (
-            <Empty
-              image={Empty.PRESENTED_IMAGE_SIMPLE}
-              description={`暂无${config.title}数据`}
-            />
+            <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={`暂无${config.title}数据`} />
           ),
         }}
       />
       {data.length > 10 && (
         <div style={{ textAlign: 'center', marginTop: 16 }}>
-          <Text type="secondary">
-            还有 {data.length - 10} 条数据未显示...
-          </Text>
+          <Text type="secondary">还有 {data.length - 10} 条数据未显示...</Text>
         </div>
       )}
     </Card>
@@ -313,7 +322,7 @@ const Miscellaneous = () => {
   const [activeKeys, setActiveKeys] = useState<string[]>(['chatframes']);
 
   // 为每个数据类型创建查询
-  const queries = dataConfigs.map(config => {
+  const queries = dataConfigs.map((config) => {
     const fetcher = createFetcher(config.endpoint);
     return useQuery({
       queryKey: [config.key],
@@ -364,7 +373,7 @@ const Miscellaneous = () => {
             {dataConfigs.slice(0, 4).map((config, index) => {
               const query = queries[index];
               const IconComponent = config.icon;
-              
+
               return (
                 <Col xs={24} sm={12} md={6} key={config.key}>
                   <Card style={{ borderRadius: 12, textAlign: 'center' }}>
@@ -406,7 +415,7 @@ const Miscellaneous = () => {
             {dataConfigs.map((config, index) => {
               const query = queries[index];
               const IconComponent = config.icon;
-              
+
               return (
                 <Panel
                   key={config.key}
@@ -427,9 +436,7 @@ const Miscellaneous = () => {
                         </Text>
                       </div>
                       <div style={{ marginLeft: 'auto' }}>
-                        <Tag color={config.color}>
-                          {query.data?.length || 0} 条
-                        </Tag>
+                        <Tag color={config.color}>{query.data?.length || 0} 条</Tag>
                       </div>
                     </div>
                   }

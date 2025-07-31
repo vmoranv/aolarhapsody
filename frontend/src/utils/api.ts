@@ -9,7 +9,10 @@ export interface ApiResponse<T> {
 
 // 通用API错误类
 export class ApiError extends Error {
-  constructor(message: string, public status?: number) {
+  constructor(
+    message: string,
+    public status?: number
+  ) {
     super(message);
     this.name = 'ApiError';
   }
@@ -18,13 +21,13 @@ export class ApiError extends Error {
 // 通用数据获取函数
 export const fetchData = async <T>(endpoint: string): Promise<T[]> => {
   const response = await fetch(`/api/${endpoint}`);
-  
+
   if (!response.ok) {
     throw new ApiError(`HTTP error! status: ${response.status}`, response.status);
   }
-  
+
   const result: ApiResponse<T[]> = await response.json();
-  
+
   if (result.success && Array.isArray(result.data)) {
     return result.data;
   } else {
@@ -35,13 +38,13 @@ export const fetchData = async <T>(endpoint: string): Promise<T[]> => {
 // 获取单个数据项
 export const fetchDataItem = async <T>(endpoint: string, id: string): Promise<T> => {
   const response = await fetch(`/api/${endpoint}/${id}`);
-  
+
   if (!response.ok) {
     throw new ApiError(`HTTP error! status: ${response.status}`, response.status);
   }
-  
+
   const result: ApiResponse<T> = await response.json();
-  
+
   if (result.success && result.data) {
     return result.data;
   } else {
@@ -87,23 +90,22 @@ export const filterBySearch = <T extends { name: string; id: number }>(
   additionalFields?: (item: T) => string[]
 ): T[] => {
   if (!searchValue.trim()) return items;
-  
+
   const lowerSearch = searchValue.toLowerCase();
-  
-  return items.filter(item => {
-    const basicMatch = 
-      item.name.toLowerCase().includes(lowerSearch) ||
-      item.id.toString().includes(searchValue);
-    
+
+  return items.filter((item) => {
+    const basicMatch =
+      item.name.toLowerCase().includes(lowerSearch) || item.id.toString().includes(searchValue);
+
     if (basicMatch) return true;
-    
+
     if (additionalFields) {
-      const additionalMatch = additionalFields(item).some(field =>
+      const additionalMatch = additionalFields(item).some((field) =>
         field.toLowerCase().includes(lowerSearch)
       );
       if (additionalMatch) return true;
     }
-    
+
     return false;
   });
 };
@@ -115,8 +117,8 @@ export const filterByType = <T extends { [key: string]: any }>(
   threshold: number = 4
 ): T[] => {
   if (filterType === 'all') return items;
-  
-  return items.filter(item => {
+
+  return items.filter((item) => {
     const quality = item[qualityField] as number;
     if (filterType === 'super') {
       return quality >= threshold;
@@ -126,11 +128,7 @@ export const filterByType = <T extends { [key: string]: any }>(
   });
 };
 
-export const paginateData = <T>(
-  items: T[],
-  currentPage: number,
-  pageSize: number
-): T[] => {
+export const paginateData = <T>(items: T[], currentPage: number, pageSize: number): T[] => {
   const startIndex = (currentPage - 1) * pageSize;
   return items.slice(startIndex, startIndex + pageSize);
 };

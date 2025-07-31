@@ -1,7 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
 import {
+  Button,
   Card,
   Col,
+  Divider,
   Empty,
   Pagination,
   Row,
@@ -10,11 +12,9 @@ import {
   theme,
   Tooltip,
   Typography,
-  Divider,
-  Button,
 } from 'antd';
 import { motion } from 'framer-motion';
-import { Scroll, ArrowUp, ArrowDown, DollarSign, Coins } from 'lucide-react';
+import { ArrowDown, ArrowUp, Coins, DollarSign, Scroll } from 'lucide-react';
 import React, { useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
 import ErrorDisplay from '../components/ErrorDisplay';
@@ -80,9 +80,9 @@ const getTypeText = (type: number) => {
   return texts[type as keyof typeof texts] || '未知类型';
 };
 
-const InscriptionCard: React.FC<{ 
-  inscription: Inscription; 
-  index: number; 
+const InscriptionCard: React.FC<{
+  inscription: Inscription;
+  index: number;
   onViewEvolution: (inscription: Inscription) => void;
 }> = ({ inscription, index, onViewEvolution }) => {
   const { token } = theme.useToken();
@@ -124,13 +124,10 @@ const InscriptionCard: React.FC<{
               overflow: 'hidden',
             }}
           >
-            <motion.div
-              whileHover={{ scale: 1.1, rotate: 5 }}
-              transition={{ duration: 0.3 }}
-            >
+            <motion.div whileHover={{ scale: 1.1, rotate: 5 }} transition={{ duration: 0.3 }}>
               <Scroll size={48} color="white" />
             </motion.div>
-            
+
             {/* 等级标识 */}
             <div style={{ position: 'absolute', top: 10, right: 10 }}>
               <Tag color="white" style={{ color: typeColor, fontWeight: 'bold' }}>
@@ -140,15 +137,15 @@ const InscriptionCard: React.FC<{
           </div>
         }
         actions={[
-          <Button 
-            key="evolution" 
-            type="text" 
-            size="small" 
+          <Button
+            key="evolution"
+            type="text"
+            size="small"
             onClick={() => onViewEvolution(inscription)}
             disabled={inscription.preLevelId === 0 && inscription.nextLevelId === 0}
           >
             进化链
-          </Button>
+          </Button>,
         ]}
       >
         <Space direction="vertical" size="small" style={{ width: '100%' }}>
@@ -196,9 +193,7 @@ const InscriptionCard: React.FC<{
                   </Text>
                 </>
               ) : (
-                <Text style={{ fontSize: '11px', color: token.colorTextTertiary }}>
-                  基础铭文
-                </Text>
+                <Text style={{ fontSize: '11px', color: token.colorTextTertiary }}>基础铭文</Text>
               )}
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
@@ -210,9 +205,7 @@ const InscriptionCard: React.FC<{
                   </Text>
                 </>
               ) : (
-                <Text style={{ fontSize: '11px', color: token.colorTextTertiary }}>
-                  最高级
-                </Text>
+                <Text style={{ fontSize: '11px', color: token.colorTextTertiary }}>最高级</Text>
               )}
             </div>
           </div>
@@ -311,17 +304,17 @@ const Inscription = () => {
   const handleViewEvolution = (inscription: Inscription) => {
     const chain: Inscription[] = [];
     const visited = new Set<number>();
-    
+
     // 构建进化链
     const buildChain = (current: Inscription, direction: 'up' | 'down') => {
       if (visited.has(current.id)) return;
       visited.add(current.id);
-      
+
       if (direction === 'up') {
         chain.unshift(current);
         // 查找前置铭文
         if (current.preLevelId > 0) {
-          const preInscription = inscriptions.find(i => i.id === current.preLevelId);
+          const preInscription = inscriptions.find((i) => i.id === current.preLevelId);
           if (preInscription) {
             buildChain(preInscription, 'up');
           }
@@ -330,7 +323,7 @@ const Inscription = () => {
         chain.push(current);
         // 查找后续铭文
         if (current.nextLevelId > 0) {
-          const nextInscription = inscriptions.find(i => i.id === current.nextLevelId);
+          const nextInscription = inscriptions.find((i) => i.id === current.nextLevelId);
           if (nextInscription) {
             buildChain(nextInscription, 'down');
           }
@@ -340,10 +333,10 @@ const Inscription = () => {
 
     // 从当前铭文开始构建完整进化链
     buildChain(inscription, 'up');
-    
+
     // 如果当前铭文有后续进化，添加后续部分
     if (inscription.nextLevelId > 0) {
-      const nextInscription = inscriptions.find(i => i.id === inscription.nextLevelId);
+      const nextInscription = inscriptions.find((i) => i.id === inscription.nextLevelId);
       if (nextInscription) {
         buildChain(nextInscription, 'down');
       }
@@ -423,11 +416,7 @@ const Inscription = () => {
                   <span>{selectedInscription.name} 的进化链</span>
                 </div>
               }
-              extra={
-                <Button onClick={() => setSelectedInscription(null)}>
-                  关闭
-                </Button>
-              }
+              extra={<Button onClick={() => setSelectedInscription(null)}>关闭</Button>}
               style={{
                 borderRadius: 12,
                 border: '2px solid #722ed1',
@@ -441,8 +430,12 @@ const Inscription = () => {
                       size="small"
                       style={{
                         borderRadius: 8,
-                        border: inscription.id === selectedInscription.id ? '2px solid #722ed1' : '1px solid #d9d9d9',
-                        background: inscription.id === selectedInscription.id ? '#722ed110' : '#ffffff',
+                        border:
+                          inscription.id === selectedInscription.id
+                            ? '2px solid #722ed1'
+                            : '1px solid #d9d9d9',
+                        background:
+                          inscription.id === selectedInscription.id ? '#722ed110' : '#ffffff',
                       }}
                     >
                       <Space direction="vertical" size="small" style={{ width: '100%' }}>
@@ -453,7 +446,10 @@ const Inscription = () => {
                             Lv.{inscription.level}
                           </Text>
                         </div>
-                        <Tag color={getTypeColor(inscription.inscriptionType)} style={{ alignSelf: 'center' }}>
+                        <Tag
+                          color={getTypeColor(inscription.inscriptionType)}
+                          style={{ alignSelf: 'center' }}
+                        >
                           {getTypeText(inscription.inscriptionType)}
                         </Tag>
                         {index < evolutionChain.length - 1 && (
@@ -481,9 +477,9 @@ const Inscription = () => {
               <Row gutter={[16, 16]}>
                 {paginatedInscriptions.map((inscription, index) => (
                   <Col xs={24} sm={12} md={8} lg={6} xl={4} key={inscription.id}>
-                    <InscriptionCard 
-                      inscription={inscription} 
-                      index={index} 
+                    <InscriptionCard
+                      inscription={inscription}
+                      index={index}
                       onViewEvolution={handleViewEvolution}
                     />
                   </Col>

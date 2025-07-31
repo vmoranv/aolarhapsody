@@ -6,14 +6,14 @@ import {
   Pagination,
   Row,
   Space,
+  Statistic,
   Tag,
   theme,
   Tooltip,
   Typography,
-  Statistic,
 } from 'antd';
 import { motion } from 'framer-motion';
-import { Package, Star, TrendingUp, Database } from 'lucide-react';
+import { Database, Package, Star, TrendingUp } from 'lucide-react';
 import React, { useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
 import ErrorDisplay from '../components/ErrorDisplay';
@@ -111,13 +111,10 @@ const ToteCard: React.FC<{ tote: Tote; index: number }> = ({ tote, index }) => {
               overflow: 'hidden',
             }}
           >
-            <motion.div
-              whileHover={{ scale: 1.1, rotate: 5 }}
-              transition={{ duration: 0.3 }}
-            >
+            <motion.div whileHover={{ scale: 1.1, rotate: 5 }} transition={{ duration: 0.3 }}>
               <Package size={48} color="white" />
             </motion.div>
-            
+
             {/* 品质标识 */}
             <div style={{ position: 'absolute', top: 10, right: 10 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
@@ -129,7 +126,10 @@ const ToteCard: React.FC<{ tote: Tote; index: number }> = ({ tote, index }) => {
 
             {/* 类型标识 */}
             <div style={{ position: 'absolute', bottom: 10, left: 10 }}>
-              <Tag color="white" style={{ color: qualityColor, fontWeight: 'bold', fontSize: '10px' }}>
+              <Tag
+                color="white"
+                style={{ color: qualityColor, fontWeight: 'bold', fontSize: '10px' }}
+              >
                 类型 {tote.type}
               </Tag>
             </div>
@@ -268,10 +268,13 @@ const Tote = () => {
 
   // 统计数据
   const stats = useMemo(() => {
-    const superTotes = totes.filter(tote => tote.quality >= 4);
-    const normalTotes = totes.filter(tote => tote.quality < 4);
-    const avgPrice = totes.length > 0 ? Math.round(totes.reduce((sum, tote) => sum + tote.price, 0) / totes.length) : 0;
-    
+    const superTotes = totes.filter((tote) => tote.quality >= 4);
+    const normalTotes = totes.filter((tote) => tote.quality < 4);
+    const avgPrice =
+      totes.length > 0
+        ? Math.round(totes.reduce((sum, tote) => sum + tote.price, 0) / totes.length)
+        : 0;
+
     return {
       total: totes.length,
       super: superTotes.length,

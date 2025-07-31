@@ -3,6 +3,7 @@ import {
   Avatar,
   Card,
   Col,
+  Divider,
   Empty,
   Pagination,
   Row,
@@ -11,10 +12,9 @@ import {
   theme,
   Tooltip,
   Typography,
-  Divider,
 } from 'antd';
 import { motion } from 'framer-motion';
-import { Star, Shield, Zap, Crown } from 'lucide-react';
+import { Crown, Shield, Star, Zap } from 'lucide-react';
 import React, { useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
 import ErrorDisplay from '../components/ErrorDisplay';
@@ -224,7 +224,10 @@ const AstralSpiritCard: React.FC<{ spirit: AstralSpirit; index: number }> = ({ s
   );
 };
 
-const AstralSpiritSuitCard: React.FC<{ suit: AstralSpiritSuit; index: number }> = ({ suit, index }) => {
+const AstralSpiritSuitCard: React.FC<{ suit: AstralSpiritSuit; index: number }> = ({
+  suit,
+  index,
+}) => {
   const { token } = theme.useToken();
 
   return (
@@ -488,7 +491,18 @@ const AstralSpirit = () => {
             <>
               <Row gutter={[16, 16]}>
                 {paginatedData.map((item, index) => (
-                  <Col xs={24} sm={12} md={8} lg={6} xl={4} key={viewMode === 'spirits' ? (item as AstralSpirit).id : (item as AstralSpiritSuit).id}>
+                  <Col
+                    xs={24}
+                    sm={12}
+                    md={8}
+                    lg={6}
+                    xl={4}
+                    key={
+                      viewMode === 'spirits'
+                        ? (item as AstralSpirit).id
+                        : (item as AstralSpiritSuit).id
+                    }
+                  >
                     {viewMode === 'spirits' ? (
                       <AstralSpiritCard spirit={item as AstralSpirit} index={index} />
                     ) : (
