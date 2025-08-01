@@ -425,6 +425,18 @@ h6 {
   line-height: 1.1;
 }
 
+.art-text {
+  padding: 0 20px;
+  font-family: Birthstone, cursive;
+  font-size: 6rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  background: linear-gradient(90deg, rgb(139 92 246 / 100%), rgb(168 85 247 / 0%));
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 1px rgb(255 255 255 / 20%);
+}
+
 .gradient-text {
   background: var(--primary-gradient);
   background-clip: text;
@@ -493,17 +505,8 @@ h6 {
   box-shadow: var(--shadow-lg);
 }
 
-.cta-button.primary::before {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  content: '';
-  background: var(--secondary-gradient);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
 .cta-button.primary:hover {
+  border-color: var(--accent-primary);
   box-shadow: var(--shadow-glow-hover);
   transform: translateY(-3px);
 }

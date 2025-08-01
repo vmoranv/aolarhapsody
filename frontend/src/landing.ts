@@ -266,7 +266,7 @@ function initGSAPAnimations() {
     gsap.from(card, {
       y: 50,
       opacity: 0,
-      duration: 0.8,
+      duration: 0.2,
       ease: 'power2.out',
       scrollTrigger: {
         trigger: card,
@@ -280,7 +280,7 @@ function initGSAPAnimations() {
       gsap.to(card, {
         y: -10,
         scale: 1.03,
-        duration: 0.3,
+        duration: 0.1,
         ease: 'power2.out',
       });
     });
@@ -288,7 +288,7 @@ function initGSAPAnimations() {
       gsap.to(card, {
         y: 0,
         scale: 1,
-        duration: 0.3,
+        duration: 0.1,
         ease: 'power2.out',
       });
     });
@@ -349,7 +349,7 @@ function initGSAPAnimations() {
 function init() {
   // 应用保存的主题
   const savedTheme =
-    (localStorage.getItem('theme') as 'light-theme' | 'dark-theme') || 'light-theme';
+    (localStorage.getItem('theme') as 'light-theme' | 'dark-theme') || 'dark-theme';
   applyTheme(savedTheme);
 
   // 初始化各种功能
@@ -364,7 +364,7 @@ function init() {
     button.addEventListener('mouseenter', () => {
       gsap.to(button, {
         scale: 1.05,
-        duration: 0.3,
+        duration: 0.1,
         ease: 'power2.out',
       });
     });
@@ -372,7 +372,7 @@ function init() {
     button.addEventListener('mouseleave', () => {
       gsap.to(button, {
         scale: 1,
-        duration: 0.3,
+        duration: 0.1,
         ease: 'power2.out',
       });
     });
