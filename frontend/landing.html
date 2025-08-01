@@ -5,93 +5,428 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>奥拉狂想曲 - 欢迎</title>
     <link rel="stylesheet" href="src/landing.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollToPlugin.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lottie-web@5.12.2/build/player/lottie.min.js"></script>
   </head>
   <body>
-    <header class="reveal">
-      <h1 class="reveal">奥拉狂想曲</h1>
-      <nav>
-        <a href="#features">特性</a>
-        <a href="#about">关于</a>
-        <a href="#contact">联系我们</a>
-        <button type="button" id="theme-toggle" class="theme-toggle" title="切换主题">
-          <svg
-            class="sun"
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <circle cx="12" cy="12" r="5"></circle>
-            <line x1="12" y1="1" x2="12" y2="3"></line>
-            <line x1="12" y1="21" x2="12" y2="23"></line>
-            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-            <line x1="1" y1="12" x2="3" y2="12"></line>
-            <line x1="21" y1="12" x2="23" y2="12"></line>
-            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-          </svg>
-          <svg
-            class="moon"
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-          </svg>
-        </button>
-      </nav>
-    </header>
+    <!-- 动态背景 -->
+    <div class="cursor-glow"></div>
+    
+    <!-- 导航栏 -->
+    <nav class="navbar">
+      <div class="container">
+        <a href="#" class="navbar-brand">
+          <i class="fas fa-star"></i>
+          奥拉狂想曲
+        </a>
+        <div class="navbar-nav">
+          <a href="#features" class="nav-link">
+            <i class="fas fa-magic"></i>
+            特性
+          </a>
+          <a href="#showcase" class="nav-link">
+            <i class="fas fa-images"></i>
+            展示
+          </a>
+          <a href="#about" class="nav-link">
+            <i class="fas fa-info-circle"></i>
+            关于我们
+          </a>
+          <a href="#contact" class="nav-link">
+            <i class="fas fa-envelope"></i>
+            联系我们
+          </a>
+          <button type="button" id="theme-toggle" class="theme-toggle" title="切换主题">
+            <svg
+              class="sun"
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="5"></circle>
+              <line x1="12" y1="1" x2="12" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="23"></line>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+              <line x1="1" y1="12" x2="3" y2="12"></line>
+              <line x1="21" y1="12" x2="23" y2="12"></line>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+            <svg
+              class="moon"
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </nav>
 
-    <main>
-      <section id="hero">
-        <h2 class="reveal">探索充满活力的奥拉世界</h2>
-        <p class="reveal">一个为奥拉星爱好者打造的终极工具集和社区。</p>
-        <a href="/#/app" class="cta-button reveal">进入应用</a>
-      </section>
+    <!-- 英雄区域 -->
+    <section class="hero" id="hero">
+      <div class="hero-particles"></div>
+      <div class="container">
+        <div class="hero-content">
 
-      <section id="features">
-        <h2 class="reveal">核心功能</h2>
-        <div class="feature-grid">
-          <div class="feature-item reveal">
-            <h3>宠物图鉴</h3>
-            <p>浏览、搜索和筛选所有宠物的详细信息。</p>
+          <h1 class="hero-title">
+            <span class="gradient-text">探索充满活力的</span>
+            <span class="hero-title-highlight">奥拉世界</span>
+          </h1>
+          <p class="hero-subtitle">
+            一个为奥拉星爱好者打造的终极工具集和社区平台
+            <br>
+            体验前所未有的游戏辅助功能
+          </p>
+          <div class="hero-buttons">
+            <a href="/#/app" class="cta-button primary">
+              <i class="fas fa-play"></i>
+              立即开始
+            </a>
+            <a href="#features" class="cta-button secondary">
+              <i class="fas fa-info-circle"></i>
+              了解更多
+            </a>
           </div>
-          <div class="feature-item reveal">
-            <h3>数据查询</h3>
-            <p>访问游戏中的各种数据，包括物品、任务和成就。</p>
+
+        </div>
+        <div class="hero-visual">
+          <div class="globe-background"></div>
+          <svg class="static-arcs" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="arc-glow-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="var(--accent-primary)" stop-opacity="0.1"/>
+                <stop offset="50%" stop-color="var(--accent-primary)" stop-opacity="1"/>
+                <stop offset="100%" stop-color="var(--accent-primary)" stop-opacity="0.1"/>
+              </linearGradient>
+              <filter id="arc-glow" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="blur"/>
+                <feMerge>
+                  <feMergeNode in="blur"/>
+                  <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+              </filter>
+            </defs>
+            <path d="M 100,250 A 150,150 0 0,1 400,250" class="arc-path"></path>
+            <path d="M 150,150 A 150,150 0 0,1 350,350" class="arc-path"></path>
+            <path d="M 250,100 A 150,150 0 0,1 250,400" class="arc-path"></path>
+          </svg>
+          <div class="globe-spot" style="top: 30%; left: 20%;"></div>
+          <div class="globe-spot" style="top: 50%; left: 80%;"></div>
+          <div class="globe-spot" style="top: 70%; left: 40%;"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 特性区域 -->
+    <section class="features" id="features">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-badge">
+            <i class="fas fa-star"></i>
+            <span>核心功能</span>
           </div>
-          <div class="feature-item reveal">
-            <h3>社区工具</h3>
-            <p>与其他玩家分享你的见解和策略。</p>
+          <h2 class="section-title">强大的功能集合</h2>
+          <p class="section-description">
+            我们提供一系列创新的工具和服务，让您的奥拉星之旅更加精彩
+          </p>
+        </div>
+        
+        <div class="features-grid">
+          <div class="feature-card premium">
+            <div class="feature-icon-container">
+              <div class="feature-icon">
+                <i class="fas fa-paw"></i>
+              </div>
+              <div class="feature-glow"></div>
+            </div>
+            <h3 class="feature-title">智能宠物图鉴</h3>
+            <p class="feature-description">
+              AI驱动的宠物识别与推荐系统，智能分析宠物属性，提供最优配置建议
+            </p>
+            <div class="feature-tags">
+              <span class="tag">AI推荐</span>
+              <span class="tag">实时更新</span>
+            </div>
+            <div class="feature-arrow">
+              <i class="fas fa-arrow-right"></i>
+            </div>
+          </div>
+
+          <div class="feature-card premium">
+            <div class="feature-icon-container">
+              <div class="feature-icon">
+                <i class="fas fa-chart-pie"></i>
+              </div>
+              <div class="feature-glow"></div>
+            </div>
+            <h3 class="feature-title">高级数据分析</h3>
+            <p class="feature-description">
+              深度挖掘游戏数据，提供可视化图表和趋势分析，助您制定最佳策略
+            </p>
+            <div class="feature-tags">
+              <span class="tag">可视化</span>
+              <span class="tag">深度分析</span>
+            </div>
+            <div class="feature-arrow">
+              <i class="fas fa-arrow-right"></i>
+            </div>
+          </div>
+
+          <div class="feature-card premium">
+            <div class="feature-icon-container">
+              <div class="feature-icon">
+                <i class="fas fa-users-cog"></i>
+              </div>
+              <div class="feature-glow"></div>
+            </div>
+            <h3 class="feature-title">社区生态系统</h3>
+            <p class="feature-description">
+              构建活跃的玩家社区，分享攻略心得，参与线上活动，结识志同道合的伙伴
+            </p>
+            <div class="feature-tags">
+              <span class="tag">社交互动</span>
+              <span class="tag">活动丰富</span>
+            </div>
+            <div class="feature-arrow">
+              <i class="fas fa-arrow-right"></i>
+            </div>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section id="about">
-        <h2 class="reveal">关于我们</h2>
-        <p class="reveal">
-          奥拉狂想曲是一个由爱好者驱动的项目，旨在为奥拉星玩家提供最好的工具和资源。
-        </p>
-      </section>
-    </main>
+    <!-- 展示区域 -->
+    <section class="showcase" id="showcase">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-badge">
+            <i class="fas fa-images"></i>
+            <span>产品展示</span>
+          </div>
+          <h2 class="section-title">精美界面预览</h2>
+          <p class="section-description">
+            体验我们精心设计的用户界面和流畅的交互体验
+          </p>
+        </div>
 
-    <footer id="contact" class="reveal">
-      <p>&copy; 2024 奥拉狂想曲. 保留所有权利。</p>
-      <p>联系我们: contact@aolarhapsody.com</p>
+        <div class="showcase-carousel">
+          <div class="swiper showcase-swiper">
+            <div class="swiper-wrapper">
+              <div class="swiper-slide">
+                <div class="showcase-item">
+                  <div class="showcase-image">
+                    <div class="mockup-browser">
+                      <div class="browser-header">
+                        <div class="browser-dots">
+                          <span></span>
+                          <span></span>
+                          <span></span>
+                        </div>
+                      </div>
+                      <div class="browser-content">
+                        <div class="demo-interface">
+                          <div class="demo-sidebar">
+                            <div class="demo-nav-item active">
+                              <i class="fas fa-home"></i>
+                              <span>首页</span>
+                            </div>
+                            <div class="demo-nav-item">
+                              <i class="fas fa-paw"></i>
+                              <span>宠物图鉴</span>
+                            </div>
+                            <div class="demo-nav-item">
+                              <i class="fas fa-chart-bar"></i>
+                              <span>数据分析</span>
+                            </div>
+                          </div>
+                          <div class="demo-main">
+                            <div class="demo-card">
+                              <div class="demo-avatar"></div>
+                              <div class="demo-content">
+                                <div class="demo-title"></div>
+                                <div class="demo-text"></div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="showcase-content">
+                    <h3>直观的用户界面</h3>
+                    <p>简洁现代的设计风格，让复杂的功能变得简单易用</p>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="swiper-slide">
+                <div class="showcase-item">
+                  <div class="showcase-image">
+                    <div class="mockup-phone">
+                      <div class="phone-screen">
+                        <div class="mobile-demo">
+                          <div class="mobile-header">
+                            <div class="mobile-title">奥拉狂想曲</div>
+                            <div class="mobile-menu">
+                              <i class="fas fa-bars"></i>
+                            </div>
+                          </div>
+                          <div class="mobile-content">
+                            <div class="mobile-card">
+                              <div class="mobile-icon">
+                                <i class="fas fa-paw"></i>
+                              </div>
+                              <div class="mobile-info">
+                                <div class="mobile-name">火焰狮</div>
+                                <div class="mobile-type">火系</div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="showcase-content">
+                    <h3>移动端适配</h3>
+                    <p>完美适配各种设备，随时随地享受奥拉星的乐趣</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="swiper-pagination"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 关于我们区域 -->
+    <section class="about" id="about">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-badge">
+            <i class="fas fa-heart"></i>
+            <span>关于我们</span>
+          </div>
+          <h2 class="section-title">致力于打造最佳游戏体验</h2>
+          <p class="section-description">
+            奥拉狂想曲是一个由爱好者驱动的项目，我们致力于为奥拉星玩家提供最好的工具和资源
+          </p>
+        </div>
+        
+        <div class="about-content">
+          <div class="about-grid">
+            <div class="about-item">
+              <div class="about-icon">
+                <i class="fas fa-lightbulb"></i>
+              </div>
+              <h3>创新理念</h3>
+              <p>运用最新技术，为传统游戏体验注入现代化元素，让每一次互动都充满惊喜。</p>
+            </div>
+            
+            <div class="about-item">
+              <div class="about-icon">
+                <i class="fas fa-users"></i>
+              </div>
+              <h3>社区驱动</h3>
+              <p>倾听玩家声音，基于社区反馈持续改进，打造真正符合用户需求的产品。</p>
+            </div>
+            
+            <div class="about-item">
+              <div class="about-icon">
+                <i class="fas fa-rocket"></i>
+              </div>
+              <h3>持续进化</h3>
+              <p>不断探索新功能，优化用户体验，始终保持产品的先进性和竞争力。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 底部 -->
+    <footer class="footer" id="contact">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-main">
+            <div class="footer-brand">
+              <h3>
+                <i class="fas fa-star"></i>
+                奥拉狂想曲
+              </h3>
+              <p>为奥拉星玩家打造的专业工具平台</p>
+              <div class="social-links">
+                <a href="#" class="social-link">
+                  <i class="fab fa-github"></i>
+                </a>
+                <a href="#" class="social-link">
+                  <i class="fab fa-discord"></i>
+                </a>
+                <a href="#" class="social-link">
+                  <i class="fab fa-twitter"></i>
+                </a>
+              </div>
+            </div>
+            
+            <div class="footer-links">
+              <div class="footer-column">
+                <h4>产品</h4>
+                <ul>
+                  <li><a href="#">宠物图鉴</a></li>
+                  <li><a href="#">数据分析</a></li>
+                  <li><a href="#">社区功能</a></li>
+                  <li><a href="#">移动应用</a></li>
+                </ul>
+              </div>
+              
+              <div class="footer-column">
+                <h4>支持</h4>
+                <ul>
+                  <li><a href="#">帮助中心</a></li>
+                  <li><a href="#">用户指南</a></li>
+                  <li><a href="#">常见问题</a></li>
+                  <li><a href="#">联系我们</a></li>
+                </ul>
+              </div>
+              
+              <div class="footer-column">
+                <h4>公司</h4>
+                <ul>
+                  <li><a href="#">关于我们</a></li>
+                  <li><a href="#">隐私政策</a></li>
+                  <li><a href="#">服务条款</a></li>
+                  <li><a href="#">更新日志</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          
+          <div class="footer-bottom">
+            <p>&copy; 2024 奥拉狂想曲. 保留所有权利。</p>
+            <p>联系我们: <a href="mailto:contact@aolarhapsody.com">contact@aolarhapsody.com</a></p>
+          </div>
+        </div>
+      </div>
     </footer>
 
     <script type="module" src="/src/landing.ts"></script>
