@@ -27,24 +27,31 @@ import { fetchData, filterBySearch, filterByType, paginateData } from '../utils/
 
 const { Title, Paragraph, Text } = Typography;
 
-// PMDataList数据类型
+/**
+ * PM数据列表项的数据类型定义
+ */
 interface PMDataListItem {
-  id: number;
-  name: string;
-  type: number;
-  level: number;
-  hp: number;
-  attack: number;
-  defend: number;
-  sAttack: number;
-  sDefend: number;
-  speed: number;
-  rarity: number;
-  element: string;
-  category: string;
-  desc: string;
+  id: number; // ID
+  name: string; // 名称
+  type: number; // 类型
+  level: number; // 等级
+  hp: number; // 生命值
+  attack: number; // 攻击
+  defend: number; // 防御
+  sAttack: number; // 特殊攻击
+  sDefend: number; // 特殊防御
+  speed: number; // 速度
+  rarity: number; // 稀有度
+  element: string; // 属性
+  category: string; // 类别
+  desc: string; // 描述
 }
 
+/**
+ * 根据稀有度值获取对应的文本描述
+ * @param rarity - 稀有度值 (1-5)
+ * @returns 返回稀有度的文本描述
+ */
 const getRarityText = (rarity: number) => {
   const texts = {
     1: '普通',
@@ -246,6 +253,12 @@ const PMDataListCard: React.FC<{ pmData: PMDataListItem; index: number }> = ({ p
   );
 };
 
+/**
+ * PM数据列表页面组件
+ * - 使用 React Query 获取数据
+ * - 展示PM数据的统计信息
+ * - 实现搜索、筛选和分页功能
+ */
 const PMDataList = () => {
   const { colors } = useTheme()!;
   const [searchValue, setSearchValue] = useState('');

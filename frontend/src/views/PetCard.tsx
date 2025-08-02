@@ -24,43 +24,57 @@ import SearchAndFilter from '../components/SearchAndFilter';
 
 const { Title, Paragraph, Text } = Typography;
 
-// 宠物卡数据类型
+/**
+ * 宠物卡数据类型定义
+ */
 interface PetCard {
-  cardId: number;
-  name: string;
-  quality: number;
-  hp: number;
-  speed: number;
-  attack: number;
-  defend: number;
-  sAttack: number;
-  sDefend: number;
-  desc: string;
-  limitRaceId: number[];
-  viewId: number;
-  level: number;
-  levelUpId: number;
-  synthesisType: number;
-  limitExtAppend: null;
-  originCardId: number;
+  cardId: number; // 卡片ID
+  name: string; // 卡片名称
+  quality: number; // 品质
+  hp: number; // 生命值
+  speed: number; // 速度
+  attack: number; // 攻击
+  defend: number; // 防御
+  sAttack: number; // 特殊攻击
+  sDefend: number; // 特殊防御
+  desc: string; // 描述
+  limitRaceId: number[]; // 限制种族ID列表
+  viewId: number; // 视图ID
+  level: number; // 等级
+  levelUpId: number; // 升级ID
+  synthesisType: number; // 合成类型
+  limitExtAppend: null; // 限制扩展附加 (未知用途)
+  originCardId: number; // 原始卡片ID
 }
 
+/**
+ * 宠物卡套装数据类型定义
+ */
 interface PetCardSuit {
-  id: number;
-  suitType: number;
-  name: string;
-  petCardIdList: number[];
-  dec: string;
+  id: number; // 套装ID
+  suitType: number; // 套装类型
+  name: string; // 套装名称
+  petCardIdList: number[]; // 包含的宠物卡ID列表
+  dec: string; // 套装描述
 }
 
+/**
+ * 通用API响应结构
+ * @template T 响应数据的类型
+ */
 interface ApiResponse<T> {
-  success: boolean;
-  data?: T;
-  error?: string;
-  count?: number;
-  timestamp: string;
+  success: boolean; // 请求是否成功
+  data?: T; // 响应数据
+  error?: string; // 错误信息
+  count?: number; // 数据总数
+  timestamp: string; // 服务器时间戳
 }
 
+/**
+ * 异步获取所有宠物卡数据
+ * @returns 返回一个包含所有宠物卡的Promise数组
+ * @throws 当网络请求失败或API返回错误时抛出异常
+ */
 const fetchPetCards = async (): Promise<PetCard[]> => {
   const response = await fetch('/api/petcards');
   if (!response.ok) {
@@ -74,6 +88,11 @@ const fetchPetCards = async (): Promise<PetCard[]> => {
   }
 };
 
+/**
+ * 异步获取所有宠物卡套装数据
+ * @returns 返回一个包含所有宠物卡套装的Promise数组
+ * @throws 当网络请求失败或API返回错误时抛出异常
+ */
 const fetchPetCardSuits = async (): Promise<PetCardSuit[]> => {
   const response = await fetch('/api/petcardsuits');
   if (!response.ok) {
@@ -87,6 +106,11 @@ const fetchPetCardSuits = async (): Promise<PetCardSuit[]> => {
   }
 };
 
+/**
+ * 根据品质值获取对应的颜色
+ * @param quality - 品质值 (1-5)
+ * @returns 返回表示颜色的十六进制字符串
+ */
 const getQualityColor = (quality: number) => {
   const colors = {
     1: '#52c41a', // 绿色
@@ -98,6 +122,11 @@ const getQualityColor = (quality: number) => {
   return colors[quality as keyof typeof colors] || '#d9d9d9';
 };
 
+/**
+ * 根据品质值获取对应的文本描述
+ * @param quality - 品质值 (1-5)
+ * @returns 返回品质的文本描述
+ */
 const getQualityText = (quality: number) => {
   const texts = {
     1: '普通',
@@ -109,6 +138,11 @@ const getQualityText = (quality: number) => {
   return texts[quality as keyof typeof texts] || '未知';
 };
 
+/**
+ * 宠物卡片展示组件
+ * @param petCard - 单个宠物卡的数据
+ * @param index - 卡片在列表中的索引，用于动画延迟
+ */
 const PetCardCard: React.FC<{ petCard: PetCard; index: number }> = ({ petCard, index }) => {
   const { token } = theme.useToken();
   const qualityColor = getQualityColor(petCard.quality);
@@ -278,6 +312,11 @@ const PetCardCard: React.FC<{ petCard: PetCard; index: number }> = ({ petCard, i
   );
 };
 
+/**
+ * 宠物卡套装卡片展示组件
+ * @param suit - 单个宠物卡套装的数据
+ * @param index - 卡片在列表中的索引，用于动画延迟
+ */
 const PetCardSuitCard: React.FC<{ suit: PetCardSuit; index: number }> = ({ suit, index }) => {
   const { token } = theme.useToken();
 
@@ -359,6 +398,12 @@ const PetCardSuitCard: React.FC<{ suit: PetCardSuit; index: number }> = ({ suit,
   );
 };
 
+/**
+ * 宠物卡系统页面组件
+ * - 使用 React Query 获取宠物卡和套装数据
+ * - 提供视图切换功能 (卡片/套装)
+ * - 实现搜索、筛选和分页
+ */
 const PetCard = () => {
   const [searchValue, setSearchValue] = useState('');
   const [filterType, setFilterType] = useState<'all' | 'super' | 'normal'>('all');

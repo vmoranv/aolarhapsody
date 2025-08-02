@@ -69,6 +69,11 @@ const getVipText = (vip: number) => {
   return `VIP${vip}`;
 };
 
+/**
+ * 特性晶石卡片组件
+ * @param petCard2 - 单个特性晶石的数据
+ * @param index - 卡片在列表中的索引，用于动画延迟
+ */
 const PetCard2Card: React.FC<{ petCard2: PetCard2; index: number }> = ({ petCard2, index }) => {
   const { token } = theme.useToken();
   const vipColor = useQualityColor(petCard2.vip);

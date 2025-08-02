@@ -90,6 +90,11 @@ const fetchAstralSpiritSuits = async (): Promise<AstralSpiritSuit[]> => {
   }
 };
 
+/**
+ * 根据品质值获取对应的文本描述
+ * @param quality - 品质值 (1-5)
+ * @returns 返回品质的文本描述
+ */
 const getQualityText = (quality: number) => {
   const texts = {
     1: '普通',
@@ -101,6 +106,11 @@ const getQualityText = (quality: number) => {
   return texts[quality as keyof typeof texts] || '';
 };
 
+/**
+ * 星灵卡片组件
+ * @param spirit - 单个星灵的数据
+ * @param index - 卡片在列表中的索引，用于动画延迟
+ */
 const AstralSpiritCard: React.FC<{ spirit: AstralSpirit; index: number }> = ({ spirit, index }) => {
   const { token } = theme.useToken();
   const qualityColor = useQualityColor(spirit.quality);

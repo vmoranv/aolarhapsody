@@ -4,16 +4,26 @@ import { Star, Zap } from 'lucide-react';
 import React from 'react';
 import { useTheme } from '../hooks/useTheme';
 
+/**
+ * 属性卡片组件的属性
+ */
 interface AttributeCardProps {
   attribute: {
-    id: number;
-    name: string;
-    isSuper: boolean;
+    id: number; // 属性ID
+    name: string; // 属性名称
+    isSuper: boolean; // 是否为超级属性
   };
-  imageUrl: string;
-  index: number;
+  imageUrl: string; // 属性图片URL
+  index: number; // 在列表中的索引，用于动画
 }
 
+/**
+ * 属性卡片组件
+ * 用于展示单个属性的信息，包括名称、图片和是否为超级属性。
+ * @param attribute - 属性数据对象。
+ * @param imageUrl - 属性的图片URL。
+ * @param index - 卡片在列表中的索引，用于实现交错动画效果。
+ */
 const AttributeCard: React.FC<AttributeCardProps> = ({ attribute, imageUrl, index }) => {
   const { colors } = useTheme()!;
 

@@ -13,34 +13,48 @@ import { useQualityColor } from '../theme/colors';
 
 const { Title, Paragraph, Text } = Typography;
 
-// 魂卡数据类型
+/**
+ * 魂卡数据类型定义
+ */
 interface HKData {
-  id: number;
-  name: string;
-  color: number;
-  wordBar: string;
-  produceType: number;
+  id: number; // 魂卡ID
+  name: string; // 魂卡名称
+  color: number; // 颜色/品质
+  wordBar: string; // 词条
+  produceType: number; // 产出类型
 }
 
+/**
+ * 魂卡Buff数据类型定义
+ */
 interface HKBuff {
-  id: number;
-  name: string;
-  decs: string[];
-  costs: number[];
-  fontColor: string;
-  color: number;
-  buffNames: string[];
-  values: string[];
+  id: number; // Buff ID
+  name: string; // Buff名称
+  decs: string[]; // 效果描述列表
+  costs: number[]; // 消耗列表
+  fontColor: string; // 字体颜色
+  color: number; // 颜色/品质
+  buffNames: string[]; // Buff名称列表
+  values: string[]; // 数值列表
 }
 
+/**
+ * 通用API响应结构
+ * @template T 响应数据的类型
+ */
 interface ApiResponse<T> {
-  success: boolean;
-  data?: T;
-  error?: string;
-  count?: number;
-  timestamp: string;
+  success: boolean; // 请求是否成功
+  data?: T; // 响应数据
+  error?: string; // 错误信息
+  count?: number; // 数据总数
+  timestamp: string; // 服务器时间戳
 }
 
+/**
+ * 异步获取所有魂卡数据
+ * @returns 返回一个包含所有魂卡的Promise数组
+ * @throws 当网络请求失败或API返回错误时抛出异常
+ */
 const fetchHKData = async (): Promise<HKData[]> => {
   const response = await fetch('/api/hkdata');
   if (!response.ok) {
@@ -54,6 +68,11 @@ const fetchHKData = async (): Promise<HKData[]> => {
   }
 };
 
+/**
+ * 异步获取所有魂卡Buff数据
+ * @returns 返回一个包含所有魂卡Buff的Promise数组
+ * @throws 当网络请求失败或API返回错误时抛出异常
+ */
 const fetchHKBuffs = async (): Promise<HKBuff[]> => {
   const response = await fetch('/api/hkbuffs');
   if (!response.ok) {
@@ -67,6 +86,11 @@ const fetchHKBuffs = async (): Promise<HKBuff[]> => {
   }
 };
 
+/**
+ * 根据产出类型值获取对应的文本描述
+ * @param type - 产出类型值
+ * @returns 返回产出类型的文本描述
+ */
 const getProduceTypeText = (type: number) => {
   const types = {
     1: '普通产出',
@@ -77,6 +101,11 @@ const getProduceTypeText = (type: number) => {
   return types[type as keyof typeof types] || '未知产出';
 };
 
+/**
+ * 魂卡数据卡片组件
+ * @param hkData - 单个魂卡的数据
+ * @param index - 卡片在列表中的索引，用于动画延迟
+ */
 const HKDataCard: React.FC<{ hkData: HKData; index: number }> = ({ hkData, index }) => {
   const { token } = theme.useToken();
   const cardColor = useQualityColor(hkData.color);
@@ -168,6 +197,11 @@ const HKDataCard: React.FC<{ hkData: HKData; index: number }> = ({ hkData, index
   );
 };
 
+/**
+ * 魂卡Buff卡片组件
+ * @param hkBuff - 单个魂卡Buff的数据
+ * @param index - 卡片在列表中的索引，用于动画延迟
+ */
 const HKBuffCard: React.FC<{ hkBuff: HKBuff; index: number }> = ({ hkBuff, index }) => {
   const { token } = theme.useToken();
   const buffColor = useQualityColor(hkBuff.color);
@@ -281,6 +315,12 @@ const HKBuffCard: React.FC<{ hkBuff: HKBuff; index: number }> = ({ hkBuff, index
   );
 };
 
+/**
+ * 魂卡系统页面组件
+ * - 使用 React Query 获取魂卡和Buff数据
+ * - 提供视图切换功能 (数据/Buff)
+ * - 实现搜索、筛选和分页
+ */
 const HK = () => {
   const { colors } = useTheme()!;
   const [searchValue, setSearchValue] = useState('');

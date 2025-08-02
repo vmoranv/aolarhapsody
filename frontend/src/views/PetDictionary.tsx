@@ -51,14 +51,23 @@ interface PetDictionaryItem {
   taskId: string;
 }
 
+/**
+ * 通用API响应结构
+ * @template T 响应数据的类型
+ */
 interface ApiResponse<T> {
-  success: boolean;
-  data?: T;
-  error?: string;
-  count?: number;
-  timestamp: string;
+  success: boolean; // 请求是否成功
+  data?: T; // 响应数据
+  error?: string; // 错误信息
+  count?: number; // 数据总数
+  timestamp: string; // 服务器时间戳
 }
 
+/**
+ * 异步获取亚比图鉴数据
+ * @returns 返回一个包含所有亚比图鉴项的Promise数组
+ * @throws 当网络请求失败或API返回错误时抛出异常
+ */
 const fetchPetDictionary = async (): Promise<PetDictionaryItem[]> => {
   const response = await fetch('/api/petdictionary');
 
@@ -75,6 +84,11 @@ const fetchPetDictionary = async (): Promise<PetDictionaryItem[]> => {
   }
 };
 
+/**
+ * 亚比卡片组件
+ * @param pet - 单个亚比的数据
+ * @param index - 亚比在列表中的索引，用于动画延迟
+ */
 const PetCard: React.FC<{ pet: PetDictionaryItem; index: number }> = ({ pet, index }) => {
   const petImages = getPetImageUrls(pet.petID);
   const { token } = theme.useToken();
@@ -250,6 +264,12 @@ const PetCard: React.FC<{ pet: PetDictionaryItem; index: number }> = ({ pet, ind
   );
 };
 
+/**
+ * 亚比图鉴页面组件
+ * - 使用 React Query 进行数据获取和状态管理
+ * - 实现搜索、筛选和分页功能
+ * - 使用 Framer Motion 添加动画效果
+ */
 const PetDictionary = () => {
   const { colors } = useTheme()!;
   const [searchValue, setSearchValue] = useState('');

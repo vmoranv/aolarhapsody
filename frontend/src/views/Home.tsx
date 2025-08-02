@@ -162,9 +162,7 @@ const Home = () => {
     enabled: !!selectedTarget,
   });
 
-  const monitorData = monitorQueries.data || [];
-  const isLoading = monitorQueries.isLoading;
-  const error = monitorQueries.error;
+  const { data: monitorData = [], isLoading, error } = monitorQueries;
 
   // Handle success and error states
   React.useEffect(() => {

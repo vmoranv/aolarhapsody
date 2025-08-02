@@ -1,7 +1,14 @@
+/**
+ * 基础URL配置
+ */
 const BASE_URL = 'https://aola.100bt.com/h5';
-const DATA_PREFIX = `${BASE_URL}/data`;
-const JS_PREFIX = `${BASE_URL}/js`;
+const DATA_PREFIX = `${BASE_URL}/data`; // JSON数据文件前缀
+const JS_PREFIX = `${BASE_URL}/js`; // JavaScript文件前缀
 
+/**
+ * 游戏内各种数据资源的URL配置对象
+ * 集中管理所有外部数据源的URL，方便维护和修改。
+ */
 export const URL_CONFIG = {
   astralSpirit: `${DATA_PREFIX}/astralspiritdata.json`,
   chatFrame: `${DATA_PREFIX}/chatframedata.json`,

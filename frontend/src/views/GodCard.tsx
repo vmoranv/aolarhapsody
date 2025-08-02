@@ -89,6 +89,11 @@ const fetchGodCardSuits = async (): Promise<GodCardSuit[]> => {
   }
 };
 
+/**
+ * 根据品质值获取对应的文本描述
+ * @param quality - 品质值 (1-5)
+ * @returns 返回品质的文本描述
+ */
 const getQualityText = (quality: number) => {
   const texts = {
     1: '普通',
@@ -100,6 +105,11 @@ const getQualityText = (quality: number) => {
   return texts[quality as keyof typeof texts] || '未知';
 };
 
+/**
+ * 神兵卡片组件
+ * @param godCard - 单个神兵的数据
+ * @param index - 卡片在列表中的索引，用于动画延迟
+ */
 const GodCardCard: React.FC<{ godCard: GodCard; index: number }> = ({ godCard, index }) => {
   const { token } = theme.useToken();
   const qualityColor = useQualityColor(godCard.quality);

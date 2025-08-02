@@ -9,16 +9,27 @@ import ThemeToggle from './ThemeToggle';
 
 const { Header, Sider, Content } = AntLayout;
 
+/**
+ * 布局组件的属性
+ */
 interface LayoutProps {
-  children: React.ReactNode;
+  children: React.ReactNode; // 子组件
 }
 
+/**
+ * 主布局组件
+ * 包含侧边栏、头部和内容区域，为应用提供统一的页面结构。
+ * @param children - 要在内容区域渲染的子组件。
+ */
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const { colors } = useTheme()!;
 
-  // 根据当前路径确定选中的菜单项
+  /**
+   * 根据当前URL路径确定侧边栏中应选中的菜单项。
+   * @returns 返回一个包含选中菜单项key的数组。
+   */
   const getSelectedKeys = () => {
     const path = location.pathname;
     switch (path) {
@@ -53,6 +64,10 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     }
   };
 
+  /**
+   * 根据当前URL路径确定侧边栏中应展开的子菜单。
+   * @returns 返回一个包含展开子菜单key的数组。
+   */
   const getOpenKeys = () => {
     const path = location.pathname;
     if (
@@ -141,6 +156,10 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     },
   ];
 
+  /**
+   * 处理侧边栏菜单的点击事件，根据点击的菜单项key导航到对应的页面。
+   * @param key - 被点击的菜单项的key。
+   */
   const handleMenuClick = ({ key }: { key: string }) => {
     switch (key) {
       case '1':

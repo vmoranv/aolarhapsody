@@ -3,11 +3,20 @@ import { motion } from 'framer-motion';
 import { AlertCircle, RefreshCw } from 'lucide-react';
 import React from 'react';
 
+/**
+ * 错误显示组件的属性
+ */
 interface ErrorDisplayProps {
-  error: string;
-  onRetry?: () => void;
+  error: string; // 要显示的错误信息
+  onRetry?: () => void; // 点击重试按钮时的回调函数
 }
 
+/**
+ * 错误显示组件
+ * 用于在数据加载失败时向用户展示错误信息，并提供重试选项。
+ * @param error - 要显示的错误信息。
+ * @param onRetry - 点击重试按钮时触发的回调函数。
+ */
 const ErrorDisplay: React.FC<ErrorDisplayProps> = ({ error, onRetry }) => {
   return (
     <motion.div

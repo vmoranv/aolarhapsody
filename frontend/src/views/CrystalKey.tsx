@@ -11,21 +11,32 @@ import SearchAndFilter from '../components/SearchAndFilter';
 
 const { Title, Paragraph, Text } = Typography;
 
-// 晶钥数据类型
+/**
+ * 晶钥数据类型定义
+ */
 interface CrystalKey {
-  id: number;
-  name: string;
-  description: string;
+  id: number; // 晶钥ID
+  name: string; // 晶钥名称
+  description: string; // 晶钥描述
 }
 
+/**
+ * 通用API响应结构
+ * @template T 响应数据的类型
+ */
 interface ApiResponse<T> {
-  success: boolean;
-  data?: T;
-  error?: string;
-  count?: number;
-  timestamp: string;
+  success: boolean; // 请求是否成功
+  data?: T; // 响应数据
+  error?: string; // 错误信息
+  count?: number; // 数据总数
+  timestamp: string; // 服务器时间戳
 }
 
+/**
+ * 异步获取所有晶钥数据
+ * @returns 返回一个包含所有晶钥的Promise数组
+ * @throws 当网络请求失败或API返回错误时抛出异常
+ */
 const fetchCrystalKeys = async (): Promise<CrystalKey[]> => {
   const response = await fetch('/api/crystalkeys');
   if (!response.ok) {
@@ -39,6 +50,12 @@ const fetchCrystalKeys = async (): Promise<CrystalKey[]> => {
   }
 };
 
+/**
+ * 异步获取单个晶钥的详细信息
+ * @param id - 晶钥的ID
+ * @returns 返回单个晶钥的Promise对象
+ * @throws 当网络请求失败或API返回错误时抛出异常
+ */
 const fetchCrystalKeyDetail = async (id: string): Promise<CrystalKey> => {
   const response = await fetch(`/api/crystalkeys/${id}`);
   if (!response.ok) {
@@ -52,6 +69,12 @@ const fetchCrystalKeyDetail = async (id: string): Promise<CrystalKey> => {
   }
 };
 
+/**
+ * 晶钥卡片组件
+ * @param crystalKey - 单个晶钥的数据
+ * @param index - 晶钥在列表中的索引，用于动画延迟
+ * @param onDetail - 点击卡片时触发的回调，用于显示详情
+ */
 const CrystalKeyCard: React.FC<{
   crystalKey: CrystalKey;
   index: number;
@@ -151,6 +174,12 @@ const CrystalKeyCard: React.FC<{
   );
 };
 
+/**
+ * 晶钥系统页面组件
+ * - 使用 React Query 获取晶钥列表和详情
+ * - 实现搜索和分页功能
+ * - 点击卡片可查看晶钥详情
+ */
 const CrystalKey = () => {
   const [searchValue, setSearchValue] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
