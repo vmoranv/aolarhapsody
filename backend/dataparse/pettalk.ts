@@ -1,4 +1,5 @@
 import { PetTalk } from '../types/pettalk';
+import { URL_CONFIG } from '../types/url-config';
 import { fetchAndParseJSON } from './game-data-parser';
 
 const cachedPetTalks: Record<number, string> = {};
@@ -8,8 +9,7 @@ const cachedPetTalks: Record<number, string> = {};
  */
 export async function initPetTalkModule(): Promise<boolean> {
   try {
-    const url = 'https://aola.100bt.com/h5/data/pettalkdata.json';
-    const responseData = (await fetchAndParseJSON(url)) as Record<string, string>;
+    const responseData = (await fetchAndParseJSON(URL_CONFIG.petTalk)) as Record<string, string>;
 
     if (!responseData) {
       console.error('亚比语音数据为空或格式不正确');

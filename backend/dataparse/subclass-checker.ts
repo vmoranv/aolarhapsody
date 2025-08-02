@@ -1,5 +1,5 @@
-import { fetchAndParseJSON } from '../dataparse/game-data-parser';
-import { monitorConfig } from './monitor-config';
+import { monitorConfig } from '../types/monitor-config';
+import { fetchAndParseJSON } from './game-data-parser';
 
 export interface CheckResult {
   allSubclasses: string[];

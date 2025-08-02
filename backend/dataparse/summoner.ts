@@ -1,4 +1,5 @@
 import { SummonerSkillDataConfig } from '../types/summoner';
+import { URL_CONFIG } from '../types/url-config';
 import { fetchAndParseJSON } from './game-data-parser';
 
 const summonerSkillCache: Record<string, SummonerSkillDataConfig> = {};
@@ -8,8 +9,7 @@ const summonerSkillCache: Record<string, SummonerSkillDataConfig> = {};
  */
 export async function initSummonerModule(): Promise<boolean> {
   try {
-    const url = 'https://aola.100bt.com/h5/data/summonerconfig.json';
-    const response = (await fetchAndParseJSON(url)) as {
+    const response = (await fetchAndParseJSON(URL_CONFIG.summoner)) as {
       data: Record<string, (string | number)[]>;
     };
 

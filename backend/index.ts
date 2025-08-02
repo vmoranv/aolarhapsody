@@ -1,7 +1,7 @@
 // 导入必要的模块
 import cors from 'cors';
 import express, { Express, Request, Response } from 'express';
-import { initializeMonitors } from './utils/subclass-checker';
+import { initializeMonitors } from './dataparse/subclass-checker';
 // 导入模块
 import { initializers } from './dataparse';
 import allRoutes from './routes';

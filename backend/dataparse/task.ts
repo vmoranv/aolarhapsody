@@ -6,6 +6,7 @@ import {
   TaskStarter,
   TaskSubTitle,
 } from '../types/task';
+import { URL_CONFIG } from '../types/url-config';
 import { fetchAndParseJSON } from './game-data-parser';
 
 /**
@@ -45,8 +46,7 @@ const cachedTasks: {
  */
 export async function initTaskModule(): Promise<boolean> {
   try {
-    const url = 'https://aola.100bt.com/h5/data/taskdata.json';
-    const rawData = (await fetchAndParseJSON(url)) as RawTaskPayload;
+    const rawData = (await fetchAndParseJSON(URL_CONFIG.task)) as RawTaskPayload;
 
     if (!rawData || typeof rawData !== 'object') {
       console.error('剧情数据为空或格式不正确');

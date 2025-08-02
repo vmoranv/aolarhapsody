@@ -1,4 +1,5 @@
 import { HeadIcon, PetIcon } from '../types/icondata';
+import { URL_CONFIG } from '../types/url-config';
 import { fetchAndParseJSON } from './game-data-parser';
 
 const petIconCache: Record<string, PetIcon> = {};
@@ -9,12 +10,11 @@ const headIconCache: Record<string, HeadIcon> = {};
  */
 export async function initIconModule(): Promise<boolean> {
   try {
-    const petIconUrl = 'https://aola.100bt.com/h5/data/peticondata.json';
-    const headIconUrl = 'https://aola.100bt.com/h5/data/headicondata.json';
-
     const [petIconResponse, headIconResponse] = await Promise.all([
-      fetchAndParseJSON(petIconUrl) as Promise<Record<string, number>>,
-      fetchAndParseJSON(headIconUrl) as Promise<{ data: Record<string, (string | number)[]> }>,
+      fetchAndParseJSON(URL_CONFIG.petIcon) as Promise<Record<string, number>>,
+      fetchAndParseJSON(URL_CONFIG.headIcon) as Promise<{
+        data: Record<string, (string | number)[]>;
+      }>,
     ]);
 
     if (petIconResponse) {

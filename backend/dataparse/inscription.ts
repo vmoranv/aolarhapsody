@@ -1,4 +1,5 @@
 import { Inscription } from '../types/inscription';
+import { URL_CONFIG } from '../types/url-config';
 import { fetchAndParseJSON } from './game-data-parser';
 
 const inscriptionCache: Record<string, Inscription> = {};
@@ -8,8 +9,7 @@ const inscriptionCache: Record<string, Inscription> = {};
  */
 export async function initInscriptionModule(): Promise<boolean> {
   try {
-    const url = 'https://aola.100bt.com/h5/data/inscriptiondata.json';
-    const response = (await fetchAndParseJSON(url)) as {
+    const response = (await fetchAndParseJSON(URL_CONFIG.inscription)) as {
       data: Record<string, (string | number)[]>;
     };
 

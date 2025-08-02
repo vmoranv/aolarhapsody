@@ -1,4 +1,4 @@
-import { URL_CONFIG } from '../types/url-config';
+import { URL_CONFIG } from './url-config';
 
 export interface MonitorSource {
   url: string;

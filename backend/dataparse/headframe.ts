@@ -1,4 +1,5 @@
 import { HeadFrame } from '../types/headframe';
+import { URL_CONFIG } from '../types/url-config';
 import { fetchAndParseJSON } from './game-data-parser';
 
 const headFrameCache: Record<string, HeadFrame> = {};
@@ -8,8 +9,7 @@ const headFrameCache: Record<string, HeadFrame> = {};
  */
 export async function initHeadFrameModule(): Promise<boolean> {
   try {
-    const url = 'https://aola.100bt.com/h5/data/headframedata.json';
-    const response = (await fetchAndParseJSON(url)) as {
+    const response = (await fetchAndParseJSON(URL_CONFIG.headFrame)) as {
       data: Record<string, (string | number)[]>;
     };
 

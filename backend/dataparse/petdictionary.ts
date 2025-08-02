@@ -1,4 +1,5 @@
 import { PetDictionaryDataItem } from '../types/petdictionary';
+import { URL_CONFIG } from '../types/url-config';
 import { fetchAndParseJSON } from './game-data-parser';
 
 const cachedPetDictionaryData: Record<string, PetDictionaryDataItem> = {};
@@ -8,8 +9,7 @@ const cachedPetDictionaryData: Record<string, PetDictionaryDataItem> = {};
  */
 export async function initPetDictionaryModule(): Promise<boolean> {
   try {
-    const url = 'https://aola.100bt.com/h5/data/petdictionarydata.json';
-    const responseData = (await fetchAndParseJSON(url)) as {
+    const responseData = (await fetchAndParseJSON(URL_CONFIG.petDictionary)) as {
       data: Record<string, string[]>;
     };
 

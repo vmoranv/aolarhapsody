@@ -1,4 +1,5 @@
 import { Title, TitleConfig, TitleData } from '../types/title';
+import { URL_CONFIG } from '../types/url-config';
 import { fetchAndParseData } from './game-data-parser';
 
 interface RawTitlePayload {
@@ -13,8 +14,7 @@ let cachedTitles: TitleData | null = null;
  */
 export async function initTitleModule(): Promise<boolean> {
   try {
-    const url = 'https://aola.100bt.com/h5/data/title.json';
-    const rawData = await fetchAndParseData<RawTitlePayload>(url);
+    const rawData = await fetchAndParseData<RawTitlePayload>(URL_CONFIG.title);
 
     if (!rawData || typeof rawData !== 'object') {
       console.error('称号数据为空或格式不正确');

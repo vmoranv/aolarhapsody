@@ -1,4 +1,5 @@
 import { Clothes, ClothesAffectBody, ClothesPart, ClothesSuit } from '../types/clothes';
+import { URL_CONFIG } from '../types/url-config';
 import { fetchAndParseJSON } from './game-data-parser';
 
 const clothesCache: Record<string, Clothes> = {};
@@ -11,16 +12,13 @@ const clothesPartCache: Record<string, ClothesPart> = {};
  */
 export async function initClothesModule(): Promise<boolean> {
   try {
-    const clothesDataUrl = 'https://aola.100bt.com/h5/data/clothesdata.json';
-    const clothesPartUrl = 'https://aola.100bt.com/h5/data/clothespartdata_des.json';
-
     const [clothesResponse, clothesPartResponse] = await Promise.all([
-      fetchAndParseJSON(clothesDataUrl) as Promise<{
+      fetchAndParseJSON(URL_CONFIG.clothesData) as Promise<{
         data: Record<string, (string | number | boolean)[]>;
         suit: Record<string, (string | number | number[])[]>;
         CLOTHES_AFFECT_BODY: Record<string, (string | number)[]>;
       }>,
-      fetchAndParseJSON(clothesPartUrl) as Promise<{
+      fetchAndParseJSON(URL_CONFIG.clothesPart) as Promise<{
         data: Record<string, string[]>;
       }>,
     ]);

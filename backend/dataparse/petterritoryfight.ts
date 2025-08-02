@@ -1,4 +1,5 @@
 import { PetTerritoryFetter, PetTerritoryFight } from '../types/petterritoryfight';
+import { URL_CONFIG } from '../types/url-config';
 import { fetchAndParseData } from './game-data-parser';
 
 /**
@@ -18,8 +19,9 @@ const cachedFetters: Record<number, PetTerritoryFetter> = {};
  */
 export async function initPetTerritoryFightModule(): Promise<boolean> {
   try {
-    const url = 'https://aola.100bt.com/h5/data/petterritoryfightdata.json';
-    const rawData = await fetchAndParseData<RawPetTerritoryFightPayload>(url);
+    const rawData = await fetchAndParseData<RawPetTerritoryFightPayload>(
+      URL_CONFIG.petTerritoryFight
+    );
 
     if (!rawData || typeof rawData !== 'object' || !rawData.data) {
       console.error('领域数据为空或格式不正确');

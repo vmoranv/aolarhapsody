@@ -1,4 +1,5 @@
 import { AstralSpirit, AstralSpiritSuit } from '../types/astralspirit';
+import { URL_CONFIG } from '../types/url-config';
 import { fetchAndParseJSON } from './game-data-parser';
 
 const astralSpiritCache: Record<string, AstralSpirit> = {};
@@ -9,8 +10,7 @@ const astralSpiritSuitCache: Record<string, AstralSpiritSuit> = {};
  */
 export async function initAstralSpiritDataModule(): Promise<boolean> {
   try {
-    const url = 'https://aola.100bt.com/h5/data/astralspiritdata.json';
-    const response = (await fetchAndParseJSON(url)) as {
+    const response = (await fetchAndParseJSON(URL_CONFIG.astralSpirit)) as {
       data: Record<string, (string | number | boolean)[]>;
       suit: Record<string, (string | number | number[])[]>;
     };

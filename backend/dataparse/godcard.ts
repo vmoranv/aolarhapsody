@@ -1,4 +1,5 @@
 import { GodCard, GodCardSuit } from '../types/godcard';
+import { URL_CONFIG } from '../types/url-config';
 import { fetchAndParseJSON } from './game-data-parser';
 
 const godCardCache: Record<string, GodCard> = {};
@@ -9,8 +10,7 @@ const godCardSuitCache: Record<string, GodCardSuit> = {};
  */
 export async function initGodCardModule(): Promise<boolean> {
   try {
-    const url = 'https://aola.100bt.com/h5/data/godcarddata.json';
-    const response = (await fetchAndParseJSON(url)) as {
+    const response = (await fetchAndParseJSON(URL_CONFIG.godCard)) as {
       data: Record<string, (string | number | number[] | null)[]>;
       suit: Record<string, (string | number | number[])[]>;
     };

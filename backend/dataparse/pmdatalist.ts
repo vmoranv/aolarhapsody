@@ -1,4 +1,5 @@
 import { Pet, ProcessedAttribute, Skill, SkillAttribute, Weather } from '../types/pmdatalist';
+import { URL_CONFIG } from '../types/url-config';
 import { fetchAndParseDictionary, fetchAndParseJSON } from './game-data-parser';
 
 // =================================
@@ -324,9 +325,8 @@ export async function fetchAndGetAllSkillAttributes(): Promise<ProcessedAttribut
   }
 
   try {
-    const url = 'http://aola.100bt.com/h5/js/gamemain.js';
     const rawData = (await fetchAndParseDictionary(
-      url,
+      URL_CONFIG.gameMainJs,
       'PMAttributeMap._skillAttributeData'
     )) as SkillAttribute[];
 
@@ -362,8 +362,7 @@ export async function fetchAndGetAllSkillAttributes(): Promise<ProcessedAttribut
  */
 export async function initPetDataModule(): Promise<boolean> {
   try {
-    const url = 'https://aola.100bt.com/h5/data/pmdatalist.json';
-    const data = (await fetchAndParseJSON(url)) as {
+    const data = (await fetchAndParseJSON(URL_CONFIG.pmDataList)) as {
       pmDataMap: unknown;
       pmExpMap: Record<string, (string | number)[]>;
       pmWeatherMap: Record<string, (string | number)[]>;

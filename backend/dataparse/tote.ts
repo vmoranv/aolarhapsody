@@ -1,4 +1,5 @@
 import { ToteData, ToteEntryData, ToteValueData } from '../types/tote';
+import { URL_CONFIG } from '../types/url-config';
 import { fetchAndParseJSON } from './game-data-parser';
 
 /**
@@ -26,8 +27,7 @@ const cachedTotes: {
  */
 export async function initToteModule(): Promise<boolean> {
   try {
-    const url = 'https://aola.100bt.com/h5/data/totedata.json';
-    const rawData = (await fetchAndParseJSON(url)) as RawTotePayload;
+    const rawData = (await fetchAndParseJSON(URL_CONFIG.tote)) as RawTotePayload;
 
     if (!rawData || typeof rawData !== 'object') {
       console.error('魂器数据为空或格式不正确');

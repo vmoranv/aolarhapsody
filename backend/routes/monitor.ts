@@ -1,6 +1,6 @@
 import { Request, Response, Router } from 'express';
-import { monitorConfig } from '../utils/monitor-config';
-import { getCachedCheckResult } from '../utils/subclass-checker';
+import { getCachedCheckResult } from '../dataparse/subclass-checker';
+import { monitorConfig } from '../types/monitor-config';
 
 const router = Router();
 

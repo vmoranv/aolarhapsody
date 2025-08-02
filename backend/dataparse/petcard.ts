@@ -1,4 +1,5 @@
 import { PetCard, PetCardSuit } from '../types/petcard';
+import { URL_CONFIG } from '../types/url-config';
 import { fetchAndParseJSON } from './game-data-parser';
 
 const cachedPetCards: Record<string, PetCard> = {};
@@ -22,8 +23,7 @@ function parseNumberArray(input: string | number[]): number[] {
  */
 export async function initPetCardModule(): Promise<boolean> {
   try {
-    const url = 'https://aola.100bt.com/h5/data/petcarddata.json';
-    const responseData = (await fetchAndParseJSON(url)) as {
+    const responseData = (await fetchAndParseJSON(URL_CONFIG.petCard)) as {
       data: Record<string, (string | number | boolean | number[])[]>;
       suit: Record<string, (string | number | boolean | number[])[]>;
     };

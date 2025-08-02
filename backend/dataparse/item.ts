@@ -1,4 +1,5 @@
 import { Item } from '../types/item';
+import { URL_CONFIG } from '../types/url-config';
 import { fetchAndParseJSON } from './game-data-parser';
 
 const itemCache: Record<string, Item> = {};
@@ -9,8 +10,7 @@ let petItemIds: number[] = [];
  */
 export async function initItemModule(): Promise<boolean> {
   try {
-    const url = 'https://aola.100bt.com/h5/data/itemdata.json';
-    const response = (await fetchAndParseJSON(url)) as {
+    const response = (await fetchAndParseJSON(URL_CONFIG.item)) as {
       data: Record<string, (string | number | boolean)[]>;
       petitem: number[][];
     };

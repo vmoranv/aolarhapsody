@@ -1,4 +1,5 @@
 import { GalaxyFleetMark } from '../types/galaxyfleetmark';
+import { URL_CONFIG } from '../types/url-config';
 import { fetchAndParseJSON } from './game-data-parser';
 
 const galaxyFleetMarkCache: Record<string, GalaxyFleetMark> = {};
@@ -8,8 +9,7 @@ const galaxyFleetMarkCache: Record<string, GalaxyFleetMark> = {};
  */
 export async function initGalaxyFleetMarkModule(): Promise<boolean> {
   try {
-    const url = 'https://aola.100bt.com/h5/data/galaxygleetmarkdata.json';
-    const response = (await fetchAndParseJSON(url)) as {
+    const response = (await fetchAndParseJSON(URL_CONFIG.galaxyFleetMark)) as {
       data: Record<string, (string | number)[]>;
     };
 
