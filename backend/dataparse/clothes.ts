@@ -1,4 +1,10 @@
-import { Clothes, ClothesAffectBody, ClothesPart, ClothesSuit } from '../types/clothes';
+import {
+  Clothes,
+  ClothesAffectBody,
+  ClothesPart,
+  ClothesSuit,
+  DoublePoseClothes,
+} from '../types/clothes';
 import { URL_CONFIG } from '../types/url-config';
 import { fetchAndParseJSON } from './game-data-parser';
 
@@ -6,6 +12,8 @@ const clothesCache: Record<string, Clothes> = {};
 const clothesSuitCache: Record<string, ClothesSuit> = {};
 const clothesAffectBodyCache: Record<string, ClothesAffectBody> = {};
 const clothesPartCache: Record<string, ClothesPart> = {};
+const exclusiveClothesCache: number[] = [];
+const doublePoseClothesCache: Record<string, DoublePoseClothes> = {};
 
 /**
  * 初始化服装数据模块
@@ -17,6 +25,8 @@ export async function initClothesModule(): Promise<boolean> {
         data: Record<string, (string | number | boolean)[]>;
         suit: Record<string, (string | number | number[])[]>;
         CLOTHES_AFFECT_BODY: Record<string, (string | number)[]>;
+        EXCLUSIVE_CLOTHES: number[];
+        doublePosConf: Record<string, (string | number | number[])[]>;
       }>,
       fetchAndParseJSON(URL_CONFIG.clothesPart) as Promise<{
         data: Record<string, string[]>;
@@ -66,6 +76,29 @@ export async function initClothesModule(): Promise<boolean> {
             clothesAffectBodyCache[key] = {
               clothesId: Number(value[0]),
               bodyPartType: Number(value[1]),
+            };
+          }
+        });
+      }
+
+      // 解析专属服装
+      if (Array.isArray(clothesResponse.EXCLUSIVE_CLOTHES)) {
+        clothesResponse.EXCLUSIVE_CLOTHES.forEach((clothesId) => {
+          if (typeof clothesId === 'number') {
+            exclusiveClothesCache.push(clothesId);
+          }
+        });
+      }
+
+      // 解析双人姿势
+      if (clothesResponse.doublePosConf) {
+        Object.entries(clothesResponse.doublePosConf).forEach(([key, value]) => {
+          if (Array.isArray(value) && value.length >= 4) {
+            doublePoseClothesCache[key] = {
+              id: Number(value[0]),
+              originSuitIds: value[1] as number[],
+              name: String(value[2]),
+              xingbi: Number(value[3]),
             };
           }
         });
@@ -159,4 +192,32 @@ export function getAllClothesParts(): ClothesPart[] {
  */
 export function getClothesPartById(id: string): ClothesPart | null {
   return clothesPartCache[id] || null;
+}
+
+/**
+ * 获取所有已缓存的专属服装ID
+ * @returns {number[]} 专属服装ID数组
+ */
+export function getAllExclusiveClothes(): number[] {
+  return exclusiveClothesCache;
+}
+
+/**
+ * 获取所有已缓存的双人姿势配置
+ * @returns {{ id: number; name: string }[]} 双人姿势配置对象数组
+ */
+export function getAllDoublePoseClothes(): { id: number; name: string }[] {
+  return Object.values(doublePoseClothesCache).map((pose) => ({
+    id: pose.id,
+    name: pose.name,
+  }));
+}
+
+/**
+ * 根据ID获取单个双人姿势配置
+ * @param {string} id - 双人姿势的ID
+ * @returns {DoublePoseClothes | null} 对应的双人姿势配置对象，如果未找到则返回null
+ */
+export function getDoublePoseClothesById(id: string): DoublePoseClothes | null {
+  return doublePoseClothesCache[id] || null;
 }

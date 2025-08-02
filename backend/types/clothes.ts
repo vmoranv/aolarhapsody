@@ -61,6 +61,34 @@ export interface ClothesPart {
 }
 
 /**
+ * 表示专属服装
+ */
+export interface ExclusiveClothes {
+  /** 服装ID */
+  clothesId: number;
+}
+
+/**
+ * 表示双人姿势配置
+ */
+export interface DoublePoseClothes {
+  /** 姿势ID */
+  id: number;
+  /** 触发姿势的套装ID数组 */
+  originSuitIds: number[];
+  /** 姿势名称 */
+  name: string;
+  /** 解锁所需星币 */
+  xingbi: number;
+}
+
+/**
  * 定义 clothesdata.json 文件中已知的顶级子类
  */
-export const CLOTHES_SUBCLASSES = ['data', 'suit', 'CLOTHES_AFFECT_BODY'];
+export const CLOTHES_SUBCLASSES = [
+  'data',
+  'suit',
+  'CLOTHES_AFFECT_BODY',
+  'EXCLUSIVE_CLOTHES',
+  'doublePosConf',
+];

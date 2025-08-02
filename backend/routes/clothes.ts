@@ -4,9 +4,12 @@ import {
   getAllClothesAffectBody,
   getAllClothesParts,
   getAllClothesSuits,
+  getAllDoublePoseClothes,
+  getAllExclusiveClothes,
   getClothesById,
   getClothesPartById,
   getClothesSuitById,
+  getDoublePoseClothesById,
 } from '../dataparse/clothes';
 
 const router = Router();
@@ -70,6 +73,62 @@ router.get('/clothes/parts/:id', (req: Request, res: Response) => {
     res.status(404).json({
       success: false,
       error: `未找到ID为 ${id} 的服装部件`,
+      timestamp: new Date().toISOString(),
+    });
+  }
+});
+
+/**
+ * @route GET /clothes/exclusive
+ * @description 获取所有专属服装ID
+ * @returns {object} 200 - 包含所有专属服装ID的数组
+ */
+router.get('/clothes/exclusive', (req: Request, res: Response) => {
+  const exclusiveClothesIds = getAllExclusiveClothes();
+  res.json({
+    success: true,
+    data: exclusiveClothesIds,
+    count: exclusiveClothesIds.length,
+    timestamp: new Date().toISOString(),
+  });
+});
+
+/**
+ * @route GET /clothes/doublepose
+ * @description 获取所有双人姿势配置的简化列表
+ * @returns {object} 200 - 包含所有双人姿势配置简化信息的数组
+ */
+router.get('/clothes/doublepose', (req: Request, res: Response) => {
+  const doublePoseClothes = getAllDoublePoseClothes();
+  res.json({
+    success: true,
+    data: doublePoseClothes,
+    count: doublePoseClothes.length,
+    timestamp: new Date().toISOString(),
+  });
+});
+
+/**
+ * @route GET /clothes/doublepose/:id
+ * @description 根据ID获取单个双人姿势配置
+ * @param {string} id - 双人姿势ID
+ * @returns {object} 200 - 双人姿势配置对象
+ * @returns {object} 404 - 如果未找到双人姿势配置
+ */
+router.get('/clothes/doublepose/:id', (req: Request, res: Response) => {
+  const { id } = req.params;
+  const doublePose = getDoublePoseClothesById(id);
+
+  if (doublePose) {
+    res.json({
+      success: true,
+      data: doublePose,
+      timestamp: new Date().toISOString(),
+    });
+  } else {
+    res.status(404).json({
+      success: false,
+      error: `未找到ID为 ${id} 的双人姿势配置`,
       timestamp: new Date().toISOString(),
     });
   }
