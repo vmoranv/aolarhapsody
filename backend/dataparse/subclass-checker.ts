@@ -23,6 +23,17 @@ async function checkUrl(url: string, knownSubclasses: string[]): Promise<CheckRe
       throw new Error(`Failed to fetch or parse data from ${url}`);
     }
 
+    // 如果 knownSubclasses 为空，我们假定这是一个动态键的字典，不进行检查
+    if (knownSubclasses.length === 0) {
+      const allKeys = Object.keys(data);
+      return {
+        allSubclasses: allKeys,
+        newSubclasses: [],
+        subclassCount: allKeys.length,
+        hasNew: false,
+      };
+    }
+
     const allSubclasses = Object.keys(data);
     const newSubclasses = allSubclasses.filter((key) => !knownSubclasses.includes(key));
     const result: CheckResult = {

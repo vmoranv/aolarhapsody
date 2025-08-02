@@ -45,3 +45,7 @@ export interface PetDictionaryDataItem {
   /** 任务ID */
   taskId: string;
 }
+/**
+ * 定义 petdictionarydata.json 文件中已知的顶级子类
+ */
+export const PETDICTIONARY_SUBCLASSES = ['data'];

@@ -21,3 +21,7 @@ export interface Inscription {
   /** 铭文的描述 */
   desc: string;
 }
+/**
+ * 定义 inscriptiondata.json 文件中已知的顶级子类
+ */
+export const INSCRIPTION_SUBCLASSES = ['data'];

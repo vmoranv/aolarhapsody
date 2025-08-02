@@ -11,3 +11,8 @@ export interface SummonerSkillDataConfig {
   /** 技能的消耗 */
   cost: number;
 }
+
+/**
+ * 定义 summonerdata.json 文件中已知的顶级子类
+ */
+export const SUMMONER_SUBCLASSES = [];

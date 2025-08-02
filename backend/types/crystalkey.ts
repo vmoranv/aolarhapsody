@@ -9,3 +9,7 @@ export interface CrystalKey {
   /** 描述 */
   description: string;
 }
+/**
+ * 定义 crystalkeydata.json 文件中已知的顶级子类
+ */
+export const CRYSTALKEY_SUBCLASSES = ['data'];

@@ -35,3 +35,8 @@ export interface HKBuff {
   /** 数值 */
   values: string[];
 }
+
+/**
+ * 定义 hkdata.json 文件中已知的顶级子类
+ */
+export const HK_SUBCLASSES = ['data', 'buff'];

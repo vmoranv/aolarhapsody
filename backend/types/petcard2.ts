@@ -29,3 +29,7 @@ export interface PetCard2 {
   /** 视图ID */
   viewId: number;
 }
+/**
+ * 定义 petcard2data.json 文件中已知的顶级子类
+ */
+export const PETCARD2_SUBCLASSES = ['data'];

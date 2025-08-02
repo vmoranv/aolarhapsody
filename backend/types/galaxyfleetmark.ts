@@ -19,3 +19,7 @@ export interface GalaxyFleetMark {
   /** 开始日期 */
   startDate: string;
 }
+/**
+ * 定义 galaxygleetmarkdata.json 文件中已知的顶级子类
+ */
+export const GALAXYFLEETMARK_SUBCLASSES = ['data'];

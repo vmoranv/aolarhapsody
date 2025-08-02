@@ -59,3 +59,8 @@ export interface Tote {
   /** 魂器数值数据数组 */
   value: ToteValueData[];
 }
+
+/**
+ * 定义 totedata.json 文件中已知的顶级子类
+ */
+export const TOTE_SUBCLASSES = ['data', 'entry', 'value'];

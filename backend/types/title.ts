@@ -36,3 +36,8 @@ export interface TitleData {
   /** 称号数据列表 */
   data: Title[];
 }
+
+/**
+ * 定义 titledata.json 文件中已知的顶级子类
+ */
+export const TITLE_SUBCLASSES = ['titleConfig', 'data'];

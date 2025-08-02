@@ -71,3 +71,7 @@ export interface PetCardSuit {
   /** 新提示数组1 */
   newTipsArr1: string[];
 }
+/**
+ * 定义 petcarddata.json 文件中已知的顶级子类
+ */
+export const PETCARD_SUBCLASSES = ['data', 'suit'];

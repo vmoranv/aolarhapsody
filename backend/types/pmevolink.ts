@@ -9,3 +9,7 @@ export interface SpEvo {
   /** 进化类型 */
   evoType: number;
 }
+/**
+ * 定义 pmevolinkdata.json 文件中已知的顶级子类
+ */
+export const PMEVOLINK_SUBCLASSES = ['data'];

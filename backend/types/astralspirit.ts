@@ -73,3 +73,8 @@ export interface AstralSpiritSuit {
   /** 三件神话套装效果描述 */
   threeShenHuaSuitEffectDes: string;
 }
+
+/**
+ * 定义 astralspiritdata.json 文件中已知的顶级子类
+ */
+export const ASTRALSPIRIT_SUBCLASSES = ['data', 'suit'];

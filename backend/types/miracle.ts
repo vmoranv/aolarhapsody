@@ -41,3 +41,7 @@ export interface MiraclePetBreakData {
   /** 激励阶段的配置 */
   encouragePhaseConf: string;
 }
+/**
+ * 定义 miracledata.json 文件中已知的顶级子类
+ */
+export const MIRACLE_SUBCLASSES = ['awakeData', 'petInfoData', 'breakData'];

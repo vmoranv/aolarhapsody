@@ -19,3 +19,8 @@ export interface ChatFrame {
   /** 开始日期 */
   startDate: string;
 }
+
+/**
+ * 定义 chatframedata.json 文件中已知的顶级子类
+ */
+export const CHATFRAME_SUBCLASSES = ['data'];

@@ -25,3 +25,7 @@ export interface Item {
   /** 道具的描述 */
   des: string;
 }
+/**
+ * 定义 itemdata.json 文件中已知的顶级子类
+ */
+export const ITEM_SUBCLASSES = ['data', 'petitem'];

@@ -94,3 +94,16 @@ export interface TaskData {
   /** NPC名称映射 */
   npcNames: TaskNpcName;
 }
+
+/**
+ * 定义 taskdata.json 文件中已知的顶级子类
+ */
+export const TASK_SUBCLASSES = [
+  'defines',
+  'starters',
+  'bitTitle',
+  'subTitle',
+  'areaConfig',
+  'orderInArea',
+  'npcNames',
+];

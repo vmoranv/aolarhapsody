@@ -59,3 +59,8 @@ export interface ClothesPart {
   /** 描述 */
   description: string;
 }
+
+/**
+ * 定义 clothesdata.json 文件中已知的顶级子类
+ */
+export const CLOTHES_SUBCLASSES = ['data', 'suit', 'CLOTHES_AFFECT_BODY'];

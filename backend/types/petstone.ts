@@ -25,3 +25,7 @@ export interface SkillStone {
   /** 使用技能石的等级限制 */
   levelLimit: number;
 }
+/**
+ * 定义 petstonedata.json 文件中已知的顶级子类
+ */
+export const PETSTONE_SUBCLASSES = ['evoData', 'skillData'];

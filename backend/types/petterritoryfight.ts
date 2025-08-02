@@ -39,3 +39,8 @@ export interface PetTerritoryFightData {
   /** 羁绊数据 */
   fetter: Record<number, PetTerritoryFetter>;
 }
+
+/**
+ * 定义 petterritoryfightdata.json 文件中已知的顶级子类
+ */
+export const PETTERRITORYFIGHT_SUBCLASSES = ['data', 'fetter'];

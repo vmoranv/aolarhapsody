@@ -29,3 +29,12 @@ export interface HeadIcon {
   /** 开始日期 */
   startDate: string;
 }
+/**
+ * 定义 peticondata.json 文件中已知的顶级子类
+ */
+export const PETICON_SUBCLASSES = [];
+
+/**
+ * 定义 headicondata.json 文件中已知的顶级子类
+ */
+export const HEADICON_SUBCLASSES = ['data'];

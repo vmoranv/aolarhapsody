@@ -53,3 +53,7 @@ export interface GodCardSuit {
   /** 套装效果描述 */
   dec: string;
 }
+/**
+ * 定义 godcarddata.json 文件中已知的顶级子类
+ */
+export const GODCARD_SUBCLASSES = ['data', 'suit'];
