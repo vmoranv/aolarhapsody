@@ -1,6 +1,6 @@
 import { PetCard2 } from '../types/petcard2';
-import { URL_CONFIG } from '../types/url-config';
-import { fetchAndParseJSON } from './game-data-parser';
+import { URL_CONFIG } from '../types/urlconfig';
+import { fetchAndParseJSON } from './gamedataparser';
 
 const cachedPetCard2s: Record<string, PetCard2> = {};
 

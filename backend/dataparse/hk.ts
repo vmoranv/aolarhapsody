@@ -1,6 +1,6 @@
 import { HKBuff, HKData } from '../types/hk';
-import { URL_CONFIG } from '../types/url-config';
-import { fetchAndParseJSON } from './game-data-parser';
+import { URL_CONFIG } from '../types/urlconfig';
+import { fetchAndParseJSON } from './gamedataparser';
 
 const hkDataCache: Record<string, HKData> = {};
 const hkBuffCache: Record<string, HKBuff> = {};

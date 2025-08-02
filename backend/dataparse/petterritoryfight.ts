@@ -1,6 +1,6 @@
 import { PetTerritoryFetter, PetTerritoryFight } from '../types/petterritoryfight';
-import { URL_CONFIG } from '../types/url-config';
-import { fetchAndParseData } from './game-data-parser';
+import { URL_CONFIG } from '../types/urlconfig';
+import { fetchAndParseData } from './gamedataparser';
 
 /**
  * 原始亚比领域战数据负载接口

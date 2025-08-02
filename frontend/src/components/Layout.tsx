@@ -24,26 +24,28 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     switch (path) {
       case '/app':
         return ['1'];
-      case '/app/pets':
+      case '/app/attribute':
         return ['2-1'];
-      case '/app/astralspirit':
+      case '/app/pets':
         return ['2-2'];
-      case '/app/crystalkey':
+      case '/app/astralspirit':
         return ['2-3'];
-      case '/app/godcard':
+      case '/app/crystalkey':
         return ['2-4'];
-      case '/app/hk':
+      case '/app/godcard':
         return ['2-5'];
-      case '/app/inscription':
+      case '/app/hk':
         return ['2-6'];
-      case '/app/petcard':
+      case '/app/inscription':
         return ['2-7'];
-      case '/app/petcard2':
+      case '/app/petcard':
         return ['2-8'];
-      case '/app/pmdatalist':
+      case '/app/petcard2':
         return ['2-9'];
-      case '/app/tote':
+      case '/app/pmdatalist':
         return ['2-10'];
+      case '/app/tote':
+        return ['2-11'];
       case '/app/miscellaneous':
         return ['3'];
       default:
@@ -54,6 +56,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const getOpenKeys = () => {
     const path = location.pathname;
     if (
+      path.startsWith('/app/attribute') ||
       path.startsWith('/app/pets') ||
       path.startsWith('/app/astralspirit') ||
       path.startsWith('/app/crystalkey') ||
@@ -82,42 +85,46 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       children: [
         {
           key: '2-1',
-          label: '亚比图鉴',
+          label: '属性系统',
         },
         {
           key: '2-2',
-          label: '星灵系统',
+          label: '亚比图鉴',
         },
         {
           key: '2-3',
-          label: '晶钥系统',
+          label: '星灵系统',
         },
         {
           key: '2-4',
-          label: '神兵系统',
+          label: '晶钥系统',
         },
         {
           key: '2-5',
-          label: '魂卡系统',
+          label: '神兵系统',
         },
         {
           key: '2-6',
-          label: '铭文系统',
+          label: '魂卡系统',
         },
         {
           key: '2-7',
-          label: '宠物卡系统',
+          label: '铭文系统',
         },
         {
           key: '2-8',
-          label: '特性晶石',
+          label: '宠物卡系统',
         },
         {
           key: '2-9',
-          label: 'PM数据列表',
+          label: '特性晶石',
         },
         {
           key: '2-10',
+          label: 'PM数据列表',
+        },
+        {
+          key: '2-11',
           label: 'Tote系统',
         },
       ],
@@ -140,33 +147,36 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         navigate('/app');
         break;
       case '2-1':
-        navigate('/app/pets');
+        navigate('/app/attribute');
         break;
       case '2-2':
-        navigate('/app/astralspirit');
+        navigate('/app/pets');
         break;
       case '2-3':
-        navigate('/app/crystalkey');
+        navigate('/app/astralspirit');
         break;
       case '2-4':
-        navigate('/app/godcard');
+        navigate('/app/crystalkey');
         break;
       case '2-5':
-        navigate('/app/hk');
+        navigate('/app/godcard');
         break;
       case '2-6':
-        navigate('/app/inscription');
+        navigate('/app/hk');
         break;
       case '2-7':
-        navigate('/app/petcard');
+        navigate('/app/inscription');
         break;
       case '2-8':
-        navigate('/app/petcard2');
+        navigate('/app/petcard');
         break;
       case '2-9':
-        navigate('/app/pmdatalist');
+        navigate('/app/petcard2');
         break;
       case '2-10':
+        navigate('/app/pmdatalist');
+        break;
+      case '2-11':
         navigate('/app/tote');
         break;
       case '3':

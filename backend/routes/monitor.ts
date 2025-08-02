@@ -1,6 +1,6 @@
 import { Request, Response, Router } from 'express';
-import { getCachedCheckResult } from '../dataparse/subclass-checker';
-import { monitorConfig } from '../types/monitor-config';
+import { getCachedCheckResult } from '../dataparse/subclasschecker';
+import { monitorConfig } from '../types/monitorconfig';
 
 const router = Router();
 
@@ -17,7 +17,7 @@ router.get('/monitor', (req: Request, res: Response) => {
       const result = getCachedCheckResult(source.url);
       return {
         name,
-        file: source.file,
+        url: source.url,
         newSubclasses: result ? result.newSubclasses : [],
         hasNew: result ? result.hasNew : false,
       };
@@ -67,7 +67,7 @@ router.get('/monitor/:name', (req: Request, res: Response) => {
     success: true,
     data: {
       name,
-      file: source.file,
+      url: source.url,
       subclassCount: result.subclassCount,
       subclasses: result.allSubclasses,
       hasChange: result.hasNew,

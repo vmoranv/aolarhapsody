@@ -1,6 +1,6 @@
 import { PetDictionaryDataItem } from '../types/petdictionary';
-import { URL_CONFIG } from '../types/url-config';
-import { fetchAndParseJSON } from './game-data-parser';
+import { URL_CONFIG } from '../types/urlconfig';
+import { fetchAndParseJSON } from './gamedataparser';
 
 const cachedPetDictionaryData: Record<string, PetDictionaryDataItem> = {};
 

@@ -1,6 +1,6 @@
 import { SummonerSkillDataConfig } from '../types/summoner';
-import { URL_CONFIG } from '../types/url-config';
-import { fetchAndParseJSON } from './game-data-parser';
+import { URL_CONFIG } from '../types/urlconfig';
+import { fetchAndParseJSON } from './gamedataparser';
 
 const summonerSkillCache: Record<string, SummonerSkillDataConfig> = {};
 

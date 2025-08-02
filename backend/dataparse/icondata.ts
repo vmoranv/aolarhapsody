@@ -1,6 +1,6 @@
 import { HeadIcon, PetIcon } from '../types/icondata';
-import { URL_CONFIG } from '../types/url-config';
-import { fetchAndParseJSON } from './game-data-parser';
+import { URL_CONFIG } from '../types/urlconfig';
+import { fetchAndParseJSON } from './gamedataparser';
 
 const petIconCache: Record<string, PetIcon> = {};
 const headIconCache: Record<string, HeadIcon> = {};

@@ -1,6 +1,6 @@
 import { Pet, ProcessedAttribute, Skill, SkillAttribute, Weather } from '../types/pmdatalist';
-import { URL_CONFIG } from '../types/url-config';
-import { fetchAndParseDictionary, fetchAndParseJSON } from './game-data-parser';
+import { URL_CONFIG } from '../types/urlconfig';
+import { fetchAndParseDictionary, fetchAndParseJSON } from './gamedataparser';
 
 // =================================
 // 核心逻辑

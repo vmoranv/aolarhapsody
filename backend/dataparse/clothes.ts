@@ -5,8 +5,8 @@ import {
   ClothesSuit,
   DoublePoseClothes,
 } from '../types/clothes';
-import { URL_CONFIG } from '../types/url-config';
-import { fetchAndParseJSON } from './game-data-parser';
+import { URL_CONFIG } from '../types/urlconfig';
+import { fetchAndParseJSON } from './gamedataparser';
 
 const clothesCache: Record<string, Clothes> = {};
 const clothesSuitCache: Record<string, ClothesSuit> = {};

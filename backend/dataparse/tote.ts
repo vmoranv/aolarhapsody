@@ -1,6 +1,6 @@
 import { ToteData, ToteEntryData, ToteValueData } from '../types/tote';
-import { URL_CONFIG } from '../types/url-config';
-import { fetchAndParseJSON } from './game-data-parser';
+import { URL_CONFIG } from '../types/urlconfig';
+import { fetchAndParseJSON } from './gamedataparser';
 
 /**
  * 原始魂器数据负载接口

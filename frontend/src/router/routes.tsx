@@ -1,5 +1,6 @@
 import type { RouteObject } from 'react-router-dom';
 import AstralSpirit from '@/views/AstralSpirit';
+import Attribute from '@/views/Attribute';
 import CrystalKey from '@/views/CrystalKey';
 import GodCard from '@/views/GodCard';
 import HK from '@/views/HK';
@@ -23,6 +24,11 @@ export const constantRoutes: RouteObject[] = [
     path: '/app',
     id: 'Home',
     element: <Home />,
+  },
+  {
+    path: '/app/attribute',
+    id: 'Attribute',
+    element: <Attribute />,
   },
   {
     path: '/app/pets',

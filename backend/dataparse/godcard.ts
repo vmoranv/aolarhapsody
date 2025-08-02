@@ -1,6 +1,6 @@
 import { GodCard, GodCardSuit } from '../types/godcard';
-import { URL_CONFIG } from '../types/url-config';
-import { fetchAndParseJSON } from './game-data-parser';
+import { URL_CONFIG } from '../types/urlconfig';
+import { fetchAndParseJSON } from './gamedataparser';
 
 const godCardCache: Record<string, GodCard> = {};
 const godCardSuitCache: Record<string, GodCardSuit> = {};

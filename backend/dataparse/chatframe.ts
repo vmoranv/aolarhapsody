@@ -1,6 +1,6 @@
 import { ChatFrame } from '../types/chatframe';
-import { URL_CONFIG } from '../types/url-config';
-import { fetchAndParseJSON } from './game-data-parser';
+import { URL_CONFIG } from '../types/urlconfig';
+import { fetchAndParseJSON } from './gamedataparser';
 
 const chatFrameCache: Record<string, ChatFrame> = {};
 

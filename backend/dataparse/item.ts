@@ -1,6 +1,6 @@
 import { Item } from '../types/item';
-import { URL_CONFIG } from '../types/url-config';
-import { fetchAndParseJSON } from './game-data-parser';
+import { URL_CONFIG } from '../types/urlconfig';
+import { fetchAndParseJSON } from './gamedataparser';
 
 const itemCache: Record<string, Item> = {};
 let petItemIds: number[] = [];

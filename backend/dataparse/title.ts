@@ -1,6 +1,6 @@
 import { Title, TitleConfig, TitleData } from '../types/title';
-import { URL_CONFIG } from '../types/url-config';
-import { fetchAndParseData } from './game-data-parser';
+import { URL_CONFIG } from '../types/urlconfig';
+import { fetchAndParseData } from './gamedataparser';
 
 interface RawTitlePayload {
   data: Record<string, [string, string, string, string, boolean, string, string, string]>;

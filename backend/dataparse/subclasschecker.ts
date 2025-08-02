@@ -1,5 +1,5 @@
-import { monitorConfig } from '../types/monitor-config';
-import { fetchAndParseJSON } from './game-data-parser';
+import { monitorConfig } from '../types/monitorconfig';
+import { fetchAndParseJSON } from './gamedataparser';
 
 export interface CheckResult {
   allSubclasses: string[];
@@ -26,15 +26,27 @@ async function checkUrl(url: string, knownSubclasses: string[]): Promise<CheckRe
     // 如果 knownSubclasses 为空，我们假定这是一个动态键的字典，不进行检查
     if (knownSubclasses.length === 0) {
       const allKeys = Object.keys(data);
-      return {
+      const result: CheckResult = {
         allSubclasses: allKeys,
         newSubclasses: [],
         subclassCount: allKeys.length,
         hasNew: false,
       };
+      checkResultsCache[url] = result;
+      return result;
     }
 
-    const allSubclasses = Object.keys(data);
+    let allSubclasses: string[];
+
+    // 检查数据是否为 { data: [...] } 的结构
+    if (data && typeof data === 'object' && 'data' in data && Array.isArray((data as any).data)) {
+      // 从每个子数组中提取名称（假设名称在索引1的位置）
+      allSubclasses = (data as any).data.map((item: any) => item[1]?.toString()).filter(Boolean);
+    } else {
+      // 否则，使用对象的键作为子类
+      allSubclasses = Object.keys(data);
+    }
+
     const newSubclasses = allSubclasses.filter((key) => !knownSubclasses.includes(key));
     const result: CheckResult = {
       allSubclasses,
@@ -61,12 +73,13 @@ async function checkUrl(url: string, knownSubclasses: string[]): Promise<CheckRe
 /**
  * 初始化所有在配置中定义的监控任务。
  */
-export function initializeMonitors() {
+export async function initializeMonitors(): Promise<void> {
+  const promises = [];
   for (const key in monitorConfig) {
     const source = monitorConfig[key];
-    // 在后台启动检查，不阻塞应用启动
-    checkUrl(source.url, source.knownSubclasses);
+    promises.push(checkUrl(source.url, source.knownSubclasses));
   }
+  await Promise.all(promises);
 }
 
 /**
