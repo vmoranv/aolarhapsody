@@ -1,5 +1,5 @@
-import { fetchAndParseJSON } from './game-data-parser';
 import { PetTalk } from '../types/pettalk';
+import { fetchAndParseJSON } from './game-data-parser';
 
 const cachedPetTalks: Record<number, string> = {};
 
@@ -9,7 +9,7 @@ const cachedPetTalks: Record<number, string> = {};
 export async function initPetTalkModule(): Promise<boolean> {
   try {
     const url = 'https://aola.100bt.com/h5/data/pettalkdata.json';
-    const responseData = await fetchAndParseJSON(url) as Record<string, string>;
+    const responseData = (await fetchAndParseJSON(url)) as Record<string, string>;
 
     if (!responseData) {
       console.error('亚比语音数据为空或格式不正确');
@@ -34,7 +34,7 @@ export async function initPetTalkModule(): Promise<boolean> {
  * 获取所有已缓存的亚比语音的简化列表
  * @returns {{id: number, name: string}[]} 亚比语音对象数组
  */
-export function getAllPetTalks(): { id: number, name: string }[] {
+export function getAllPetTalks(): { id: number; name: string }[] {
   return Object.entries(cachedPetTalks).map(([id, talk]) => ({
     id: parseInt(id, 10),
     name: talk,

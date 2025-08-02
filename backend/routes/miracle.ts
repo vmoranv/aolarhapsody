@@ -1,9 +1,5 @@
-import { Router, Request, Response } from 'express';
-import {
-  getAllAwakeData,
-  getAllPetInfoData,
-  getAllBreakData,
-} from '../dataparse/miracle';
+import { Request, Response, Router } from 'express';
+import { getAllAwakeData, getAllBreakData, getAllPetInfoData } from '../dataparse/miracle';
 
 const router = Router();
 

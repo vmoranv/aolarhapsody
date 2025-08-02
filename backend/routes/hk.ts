@@ -1,10 +1,5 @@
-import { Router, Request, Response } from 'express';
-import {
-  getAllHkData,
-  getHkDataById,
-  getAllHkBuffs,
-  getHkBuffById,
-} from '../dataparse/hk';
+import { Request, Response, Router } from 'express';
+import { getAllHkBuffs, getAllHkData, getHkBuffById, getHkDataById } from '../dataparse/hk';
 
 const router = Router();
 
@@ -19,7 +14,7 @@ const router = Router();
  */
 router.get('/hkdata', (req: Request, res: Response) => {
   const data = getAllHkData();
-  const simplifiedData = data.map(item => ({
+  const simplifiedData = data.map((item) => ({
     id: item.id,
     name: item.name,
   }));
@@ -68,7 +63,7 @@ router.get('/hkdata/:id', (req: Request, res: Response) => {
  */
 router.get('/hkbuffs', (req: Request, res: Response) => {
   const buffs = getAllHkBuffs();
-  const simplifiedBuffs = buffs.map(buff => ({
+  const simplifiedBuffs = buffs.map((buff) => ({
     id: buff.id,
     name: buff.name,
   }));

@@ -1,5 +1,5 @@
-import { fetchAndParseJSON } from './game-data-parser';
 import { Item } from '../types/item';
+import { fetchAndParseJSON } from './game-data-parser';
 
 const itemCache: Record<string, Item> = {};
 let petItemIds: number[] = [];
@@ -10,7 +10,7 @@ let petItemIds: number[] = [];
 export async function initItemModule(): Promise<boolean> {
   try {
     const url = 'https://aola.100bt.com/h5/data/itemdata.json';
-    const response = await fetchAndParseJSON(url) as {
+    const response = (await fetchAndParseJSON(url)) as {
       data: Record<string, (string | number | boolean)[]>;
       petitem: number[][];
     };
@@ -21,7 +21,7 @@ export async function initItemModule(): Promise<boolean> {
     }
 
     // 解析道具
-    Object.values(response.data).forEach(itemData => {
+    Object.values(response.data).forEach((itemData) => {
       if (Array.isArray(itemData) && itemData.length >= 11) {
         const item: Item = {
           id: Number(itemData[0]),
@@ -42,9 +42,8 @@ export async function initItemModule(): Promise<boolean> {
 
     // 解析宠物相关道具ID
     if (response.petitem.length > 0 && Array.isArray(response.petitem[0])) {
-        petItemIds = response.petitem[0];
+      petItemIds = response.petitem[0];
     }
-
 
     return true;
   } catch (error) {

@@ -1,8 +1,5 @@
-import { Router, Request, Response } from 'express';
-import {
-  getAllGalaxyFleetMarks,
-  getGalaxyFleetMarkById,
-} from '../dataparse/galaxyfleetmark';
+import { Request, Response, Router } from 'express';
+import { getAllGalaxyFleetMarks, getGalaxyFleetMarkById } from '../dataparse/galaxyfleetmark';
 
 const router = Router();
 

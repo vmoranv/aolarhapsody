@@ -1,5 +1,6 @@
+import { HKBuff, HKData } from '../types/hk';
+import { URL_CONFIG } from '../types/url-config';
 import { fetchAndParseJSON } from './game-data-parser';
-import { HKData, HKBuff } from '../types/hk';
 
 const hkDataCache: Record<string, HKData> = {};
 const hkBuffCache: Record<string, HKBuff> = {};
@@ -9,8 +10,7 @@ const hkBuffCache: Record<string, HKBuff> = {};
  */
 export async function initHkModule(): Promise<boolean> {
   try {
-    const url = 'https://aola.100bt.com/h5/data/hkdata.json';
-    const response = await fetchAndParseJSON(url) as {
+    const response = (await fetchAndParseJSON(URL_CONFIG.hk)) as {
       data: Record<string, (string | number)[]>;
       buff: Record<string, (string | number | string[])[]>;
     };
@@ -21,7 +21,7 @@ export async function initHkModule(): Promise<boolean> {
     }
 
     // 解析魂卡
-    Object.values(response.data).forEach(item => {
+    Object.values(response.data).forEach((item) => {
       if (Array.isArray(item) && item.length >= 5) {
         const hk: HKData = {
           id: Number(item[0]),
@@ -35,7 +35,7 @@ export async function initHkModule(): Promise<boolean> {
     });
 
     // 解析魂卡Buff
-    Object.values(response.buff).forEach(item => {
+    Object.values(response.buff).forEach((item) => {
       if (Array.isArray(item) && item.length >= 8) {
         const buff: HKBuff = {
           id: Number(item[0]),

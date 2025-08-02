@@ -1,12 +1,12 @@
-import { Router, Request, Response } from 'express';
+import { Request, Response, Router } from 'express';
 import {
   getAllClothes,
-  getClothesById,
-  getAllClothesSuits,
-  getClothesSuitById,
   getAllClothesAffectBody,
   getAllClothesParts,
+  getAllClothesSuits,
+  getClothesById,
   getClothesPartById,
+  getClothesSuitById,
 } from '../dataparse/clothes';
 
 const router = Router();
@@ -37,7 +37,7 @@ router.get('/clothes', (req: Request, res: Response) => {
  */
 router.get('/clothes/parts', (req: Request, res: Response) => {
   const parts = getAllClothesParts();
-  const simplifiedParts = parts.map(part => ({
+  const simplifiedParts = parts.map((part) => ({
     id: part.id,
     name: part.description,
   }));
@@ -148,13 +148,13 @@ router.get('/clothes-suit/:id', (req: Request, res: Response) => {
  * @returns {object} 200 - 包含所有影响身体的服装的数组
  */
 router.get('/clothes-affect-body', (req: Request, res: Response) => {
-    const affectBody = getAllClothesAffectBody();
-    res.json({
-        success: true,
-        data: affectBody,
-        count: affectBody.length,
-        timestamp: new Date().toISOString(),
-    });
+  const affectBody = getAllClothesAffectBody();
+  res.json({
+    success: true,
+    data: affectBody,
+    count: affectBody.length,
+    timestamp: new Date().toISOString(),
+  });
 });
 
 export default router;

@@ -1,5 +1,5 @@
-import { fetchAndParseJSON } from './game-data-parser';
 import { SpEvo } from '../types/pmevolink';
+import { fetchAndParseJSON } from './game-data-parser';
 
 const spEvoCache: Record<string, SpEvo> = {};
 
@@ -9,7 +9,7 @@ const spEvoCache: Record<string, SpEvo> = {};
 export async function initSpEvoModule(): Promise<boolean> {
   try {
     const url = 'https://aola.100bt.com/h5/data/pmevolinkdata.json';
-    const response = await fetchAndParseJSON(url) as {
+    const response = (await fetchAndParseJSON(url)) as {
       data: Record<string, string[]>;
     };
 
@@ -19,7 +19,7 @@ export async function initSpEvoModule(): Promise<boolean> {
     }
 
     // 解析特殊进化
-    Object.values(response.data).forEach(item => {
+    Object.values(response.data).forEach((item) => {
       if (Array.isArray(item) && item.length >= 3) {
         const evo: SpEvo = {
           beforeRaceId: Number(item[0]),

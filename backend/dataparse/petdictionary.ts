@@ -1,5 +1,5 @@
-import { fetchAndParseJSON } from './game-data-parser';
 import { PetDictionaryDataItem } from '../types/petdictionary';
+import { fetchAndParseJSON } from './game-data-parser';
 
 const cachedPetDictionaryData: Record<string, PetDictionaryDataItem> = {};
 
@@ -9,7 +9,7 @@ const cachedPetDictionaryData: Record<string, PetDictionaryDataItem> = {};
 export async function initPetDictionaryModule(): Promise<boolean> {
   try {
     const url = 'https://aola.100bt.com/h5/data/petdictionarydata.json';
-    const responseData = await fetchAndParseJSON(url) as {
+    const responseData = (await fetchAndParseJSON(url)) as {
       data: Record<string, string[]>;
     };
 
@@ -18,8 +18,9 @@ export async function initPetDictionaryModule(): Promise<boolean> {
       return false;
     }
 
-    Object.values(responseData.data).forEach(item => {
-      if (item.length >= 22) { // Based on the markdown file structure
+    Object.values(responseData.data).forEach((item) => {
+      if (item.length >= 22) {
+        // Based on the markdown file structure
         const dictItem: PetDictionaryDataItem = {
           petID: parseInt(item[0], 10),
           petName: item[1],

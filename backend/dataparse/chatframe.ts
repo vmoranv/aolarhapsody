@@ -1,5 +1,5 @@
-import { fetchAndParseJSON } from './game-data-parser';
 import { ChatFrame } from '../types/chatframe';
+import { fetchAndParseJSON } from './game-data-parser';
 
 const chatFrameCache: Record<string, ChatFrame> = {};
 
@@ -9,7 +9,7 @@ const chatFrameCache: Record<string, ChatFrame> = {};
 export async function initChatFrameModule(): Promise<boolean> {
   try {
     const url = 'https://aola.100bt.com/h5/data/chatframedata.json';
-    const response = await fetchAndParseJSON(url) as {
+    const response = (await fetchAndParseJSON(url)) as {
       data: Record<string, (string | number)[]>;
     };
 
@@ -19,7 +19,7 @@ export async function initChatFrameModule(): Promise<boolean> {
     }
 
     // 解析聊天框
-    Object.values(response.data).forEach(item => {
+    Object.values(response.data).forEach((item) => {
       if (Array.isArray(item) && item.length >= 8) {
         const frame: ChatFrame = {
           id: Number(item[0]),

@@ -1,5 +1,5 @@
-import { fetchAndParseJSON } from './game-data-parser';
 import { GalaxyFleetMark } from '../types/galaxyfleetmark';
+import { fetchAndParseJSON } from './game-data-parser';
 
 const galaxyFleetMarkCache: Record<string, GalaxyFleetMark> = {};
 
@@ -9,7 +9,7 @@ const galaxyFleetMarkCache: Record<string, GalaxyFleetMark> = {};
 export async function initGalaxyFleetMarkModule(): Promise<boolean> {
   try {
     const url = 'https://aola.100bt.com/h5/data/galaxygleetmarkdata.json';
-    const response = await fetchAndParseJSON(url) as {
+    const response = (await fetchAndParseJSON(url)) as {
       data: Record<string, (string | number)[]>;
     };
 
@@ -19,7 +19,7 @@ export async function initGalaxyFleetMarkModule(): Promise<boolean> {
     }
 
     // 解析徽章
-    Object.values(response.data).forEach(item => {
+    Object.values(response.data).forEach((item) => {
       if (Array.isArray(item) && item.length >= 8) {
         const mark: GalaxyFleetMark = {
           id: Number(item[0]),
@@ -47,7 +47,7 @@ export async function initGalaxyFleetMarkModule(): Promise<boolean> {
  * @returns {{ id: number; name: string }[]} 包含徽章ID和名称的对象数组
  */
 export function getAllGalaxyFleetMarks(): { id: number; name: string }[] {
-  return Object.values(galaxyFleetMarkCache).map(mark => ({
+  return Object.values(galaxyFleetMarkCache).map((mark) => ({
     id: mark.id,
     name: mark.name,
   }));

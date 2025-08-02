@@ -1,8 +1,5 @@
-import { Router, Request, Response } from 'express';
-import {
-  getAllHeadFrames,
-  getHeadFrameById,
-} from '../dataparse/headframe';
+import { Request, Response, Router } from 'express';
+import { getAllHeadFrames, getHeadFrameById } from '../dataparse/headframe';
 
 const router = Router();
 

@@ -1,14 +1,14 @@
 import express, { Request, Response } from 'express';
 import {
+  getAllAreaConfigs,
+  getAllBitTitles,
+  getAllDefines,
+  getAllNpcNames,
+  getAllStarters,
+  getAllSubTitles,
+  getOrderInArea,
   getTaskDefineById,
   getTaskStarterById,
-  getAllDefines,
-  getAllStarters,
-  getAllBitTitles,
-  getAllSubTitles,
-  getAllAreaConfigs,
-  getOrderInArea,
-  getAllNpcNames,
 } from '../dataparse/task';
 
 const router = express.Router();
@@ -69,7 +69,7 @@ router.get('/tasks/defines/:id', (req: Request, res: Response) => {
  */
 router.get('/tasks/starters', (req: Request, res: Response) => {
   const starters = getAllStarters();
-  const simplifiedStarters = starters.map(s => ({
+  const simplifiedStarters = starters.map((s) => ({
     taskid: s.taskId,
     taskname: s.taskName,
   }));

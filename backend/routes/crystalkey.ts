@@ -1,8 +1,5 @@
-import { Router, Request, Response } from 'express';
-import {
-  getAllCrystalKeys,
-  getCrystalKeyById,
-} from '../dataparse/crystalkey';
+import { Request, Response, Router } from 'express';
+import { getAllCrystalKeys, getCrystalKeyById } from '../dataparse/crystalkey';
 
 const router = Router();
 
@@ -17,7 +14,7 @@ const router = Router();
  */
 router.get('/crystalkeys', (req: Request, res: Response) => {
   const keys = getAllCrystalKeys();
-  const simplifiedKeys = keys.map(key => ({
+  const simplifiedKeys = keys.map((key) => ({
     id: key.id,
     name: key.name,
   }));

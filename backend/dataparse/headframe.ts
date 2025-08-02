@@ -1,5 +1,5 @@
-import { fetchAndParseJSON } from './game-data-parser';
 import { HeadFrame } from '../types/headframe';
+import { fetchAndParseJSON } from './game-data-parser';
 
 const headFrameCache: Record<string, HeadFrame> = {};
 
@@ -9,7 +9,7 @@ const headFrameCache: Record<string, HeadFrame> = {};
 export async function initHeadFrameModule(): Promise<boolean> {
   try {
     const url = 'https://aola.100bt.com/h5/data/headframedata.json';
-    const response = await fetchAndParseJSON(url) as {
+    const response = (await fetchAndParseJSON(url)) as {
       data: Record<string, (string | number)[]>;
     };
 
@@ -19,7 +19,7 @@ export async function initHeadFrameModule(): Promise<boolean> {
     }
 
     // 解析头像框
-    Object.values(response.data).forEach(item => {
+    Object.values(response.data).forEach((item) => {
       if (Array.isArray(item) && item.length >= 8) {
         const headFrame: HeadFrame = {
           id: Number(item[0]),
@@ -47,7 +47,7 @@ export async function initHeadFrameModule(): Promise<boolean> {
  * @returns {{ id: number; name: string }[]} 包含头像框ID和名称的对象数组
  */
 export function getAllHeadFrames(): { id: number; name: string }[] {
-  return Object.values(headFrameCache).map(frame => ({
+  return Object.values(headFrameCache).map((frame) => ({
     id: frame.id,
     name: frame.name,
   }));

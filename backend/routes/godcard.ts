@@ -1,8 +1,8 @@
-import { Router, Request, Response } from 'express';
+import { Request, Response, Router } from 'express';
 import {
   getAllGodCards,
-  getGodCardById,
   getAllGodCardSuits,
+  getGodCardById,
   getGodCardSuitById,
 } from '../dataparse/godcard';
 
@@ -19,7 +19,7 @@ const router = Router();
  */
 router.get('/godcards', (req: Request, res: Response) => {
   const cards = getAllGodCards();
-  const simplifiedCards = cards.map(card => ({
+  const simplifiedCards = cards.map((card) => ({
     id: card.cardId,
     name: card.name,
   }));
@@ -68,7 +68,7 @@ router.get('/godcards/:id', (req: Request, res: Response) => {
  */
 router.get('/godcardsuits', (req: Request, res: Response) => {
   const suits = getAllGodCardSuits();
-  const simplifiedSuits = suits.map(suit => ({
+  const simplifiedSuits = suits.map((suit) => ({
     id: suit.id,
     name: suit.name,
   }));

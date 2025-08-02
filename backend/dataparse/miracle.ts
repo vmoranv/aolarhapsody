@@ -1,5 +1,5 @@
+import { MiraclePetAwakeData, MiraclePetBreakData, MiraclePetInfo } from '../types/miracle';
 import { fetchAndParseJSON } from './game-data-parser';
-import { MiraclePetAwakeData, MiraclePetInfo, MiraclePetBreakData } from '../types/miracle';
 
 const awakeDataCache: Record<string, MiraclePetAwakeData> = {};
 const petInfoDataCache: Record<string, MiraclePetInfo> = {};
@@ -11,7 +11,7 @@ const breakDataCache: Record<string, MiraclePetBreakData> = {};
 export async function initMiracleModule(): Promise<boolean> {
   try {
     const url = 'https://aola.100bt.com/h5/data/miracledata.json';
-    const response = await fetchAndParseJSON(url) as {
+    const response = (await fetchAndParseJSON(url)) as {
       awakeData: Record<string, (string | number)[]>;
       petInfoData: Record<string, (string | number)[]>;
       breakData: Record<string, (string | number)[]>;
@@ -23,7 +23,7 @@ export async function initMiracleModule(): Promise<boolean> {
     }
 
     // 解析觉醒数据
-    Object.values(response.awakeData).forEach(item => {
+    Object.values(response.awakeData).forEach((item) => {
       if (Array.isArray(item) && item.length >= 4) {
         const data: MiraclePetAwakeData = {
           miraclePetRaceId: Number(item[0]),
@@ -36,7 +36,7 @@ export async function initMiracleModule(): Promise<boolean> {
     });
 
     // 解析宠物信息数据
-    Object.values(response.petInfoData).forEach(item => {
+    Object.values(response.petInfoData).forEach((item) => {
       if (Array.isArray(item) && item.length >= 4) {
         const data: MiraclePetInfo = {
           raceId: Number(item[0]),
@@ -49,7 +49,7 @@ export async function initMiracleModule(): Promise<boolean> {
     });
 
     // 解析突破数据
-    Object.values(response.breakData).forEach(item => {
+    Object.values(response.breakData).forEach((item) => {
       if (Array.isArray(item) && item.length >= 5) {
         const data: MiraclePetBreakData = {
           raceId: Number(item[0]),

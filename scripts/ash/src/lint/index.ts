@@ -9,9 +9,11 @@ export function defineLintCommand(cli: CAC) {
       const { format } = options;
       try {
         if (format) {
-          await execa('pnpm', ['format'], { stdio: 'inherit' });
+          await execa('eslint', ['**/*.{js,mjs,cjs,ts,tsx,vue}', '--fix'], { stdio: 'inherit' });
         } else {
-          await execa('pnpm', ['lint'], { stdio: 'inherit' });
+          await execa('eslint', ['**/*.{js,mjs,cjs,ts,tsx,vue}'], {
+            stdio: 'inherit',
+          });
         }
       } catch (error: unknown) {
         if (error instanceof Error) {

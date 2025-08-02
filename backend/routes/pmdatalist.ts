@@ -1,14 +1,14 @@
-import { Router, Request, Response } from 'express';
+import { Request, Response, Router } from 'express';
 import {
-  getPetList,
-  getPetFullDataById,
-  searchPets,
   calculateExp,
+  fetchAndGetAllSkillAttributes,
   getAllWeathers,
-  getWeatherById,
-  getSkillById,
   getAttributeRelations,
-  fetchAndGetAllSkillAttributes
+  getPetFullDataById,
+  getPetList,
+  getSkillById,
+  getWeatherById,
+  searchPets,
 } from '../dataparse/pmdatalist';
 
 const router = Router();
@@ -151,7 +151,12 @@ router.get('/pet/:id', (req: Request, res: Response) => {
 router.post('/exp/calculate', (req: Request, res: Response) => {
   const { petId, currentLevel, currentExp, targetLevel } = req.body;
 
-  if (petId === undefined || currentLevel === undefined || currentExp === undefined || targetLevel === undefined) {
+  if (
+    petId === undefined ||
+    currentLevel === undefined ||
+    currentExp === undefined ||
+    targetLevel === undefined
+  ) {
     return res.status(400).json({
       success: false,
       error: '请求体中缺少必要的参数: petId, currentLevel, currentExp, targetLevel',
@@ -188,7 +193,7 @@ router.post('/exp/calculate', (req: Request, res: Response) => {
 // 获取所有场地效果
 router.get('/weathers', (req: Request, res: Response) => {
   const weathers = getAllWeathers();
-  const simplifiedWeathers = weathers.map(weather => ({
+  const simplifiedWeathers = weathers.map((weather) => ({
     id: weather.id,
     name: weather.name,
   }));

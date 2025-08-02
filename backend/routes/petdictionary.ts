@@ -1,4 +1,4 @@
-import { Router, Request, Response } from 'express';
+import { Request, Response, Router } from 'express';
 import { getAllPetDictionaryData, getPetDictionaryDataById } from '../dataparse/petdictionary';
 
 const router = Router();
@@ -10,7 +10,7 @@ const router = Router();
  */
 router.get('/petdictionary', (req: Request, res: Response) => {
   const items = getAllPetDictionaryData();
-  const simplifiedItems = items.map(item => ({
+  const simplifiedItems = items.map((item) => ({
     petID: item.petID,
     petName: item.petName,
   }));

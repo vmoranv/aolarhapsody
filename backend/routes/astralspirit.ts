@@ -1,9 +1,9 @@
-import { Router, Request, Response } from 'express';
+import { Request, Response, Router } from 'express';
 import {
   getAllAstralSpirits,
-  getAstralSpiritById,
   getAllAstralSpiritSuits,
-  getAstralSpiritSuitById
+  getAstralSpiritById,
+  getAstralSpiritSuitById,
 } from '../dataparse/astralspirit';
 
 const router = Router();

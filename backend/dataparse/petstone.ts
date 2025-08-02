@@ -1,5 +1,5 @@
-import { fetchAndParseJSON } from './game-data-parser';
 import { EvolutionStone, SkillStone } from '../types/petstone';
+import { fetchAndParseJSON } from './game-data-parser';
 
 const cachedEvolutionStones: Record<string, EvolutionStone> = {};
 const cachedSkillStones: Record<string, SkillStone> = {};
@@ -10,7 +10,7 @@ const cachedSkillStones: Record<string, SkillStone> = {};
 export async function initPetStoneModule(): Promise<boolean> {
   try {
     const url = 'https://aola.100bt.com/h5/data/petstonedata.json';
-    const responseData = await fetchAndParseJSON(url) as {
+    const responseData = (await fetchAndParseJSON(url)) as {
       evoData: Record<string, (string | number)[]>;
       skillData: Record<string, (string | number)[]>;
     };
@@ -21,7 +21,7 @@ export async function initPetStoneModule(): Promise<boolean> {
     }
 
     // Parse EvolutionStones
-    Object.values(responseData.evoData).forEach(item => {
+    Object.values(responseData.evoData).forEach((item) => {
       if (item.length >= 4) {
         const stone: EvolutionStone = {
           id: item[0] as number,
@@ -34,7 +34,7 @@ export async function initPetStoneModule(): Promise<boolean> {
     });
 
     // Parse SkillStones
-    Object.values(responseData.skillData).forEach(item => {
+    Object.values(responseData.skillData).forEach((item) => {
       if (item.length >= 4) {
         const stone: SkillStone = {
           id: item[0] as number,

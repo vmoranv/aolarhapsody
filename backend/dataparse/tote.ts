@@ -1,5 +1,5 @@
-import { fetchAndParseJSON } from './game-data-parser';
 import { ToteData, ToteEntryData, ToteValueData } from '../types/tote';
+import { fetchAndParseJSON } from './game-data-parser';
 
 /**
  * 原始魂器数据负载接口
@@ -35,7 +35,7 @@ export async function initToteModule(): Promise<boolean> {
     }
 
     if (rawData.data) {
-      Object.values(rawData.data).forEach(item => {
+      Object.values(rawData.data).forEach((item) => {
         const tote: ToteData = {
           id: parseInt(item[0], 10),
           name: item[1],
@@ -51,7 +51,7 @@ export async function initToteModule(): Promise<boolean> {
     }
 
     if (rawData.entry) {
-      Object.values(rawData.entry).forEach(item => {
+      Object.values(rawData.entry).forEach((item) => {
         const entry: ToteEntryData = {
           id: parseInt(item[0], 10),
           name: item[1],
@@ -62,7 +62,7 @@ export async function initToteModule(): Promise<boolean> {
     }
 
     if (rawData.value) {
-      Object.values(rawData.value).forEach(item => {
+      Object.values(rawData.value).forEach((item) => {
         const value: ToteValueData = {
           id: parseInt(item[0], 10),
           name: item[1],

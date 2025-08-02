@@ -1,5 +1,12 @@
+import {
+  TaskAreaConfig,
+  TaskBitTitle,
+  TaskDefine,
+  TaskNpcName,
+  TaskStarter,
+  TaskSubTitle,
+} from '../types/task';
 import { fetchAndParseJSON } from './game-data-parser';
-import { TaskDefine, TaskStarter, TaskBitTitle, TaskSubTitle, TaskAreaConfig, TaskNpcName } from '../types/task';
 
 /**
  * 原始剧情数据负载接口
@@ -48,7 +55,7 @@ export async function initTaskModule(): Promise<boolean> {
 
     // 解析 剧情组定义
     if (rawData.defines) {
-      Object.values(rawData.defines).forEach(item => {
+      Object.values(rawData.defines).forEach((item) => {
         const define: TaskDefine = {
           taskId: parseInt(item[0], 10),
           type: parseInt(item[1], 10),
@@ -60,7 +67,7 @@ export async function initTaskModule(): Promise<boolean> {
 
     // 解析 开始剧情
     if (rawData.starters) {
-      Object.values(rawData.starters).forEach(item => {
+      Object.values(rawData.starters).forEach((item) => {
         const starter: TaskStarter = {
           taskId: parseInt(item[0], 10),
           type: parseInt(item[1], 10),
@@ -74,26 +81,26 @@ export async function initTaskModule(): Promise<boolean> {
         cachedTasks.starters[starter.taskId] = starter;
       });
     }
-    
+
     // 解析 剧情标题
     if (rawData.bitTitle) {
-        Object.values(rawData.bitTitle).forEach(item => {
-            cachedTasks.bitTitle[item.id] = item;
-        });
+      Object.values(rawData.bitTitle).forEach((item) => {
+        cachedTasks.bitTitle[item.id] = item;
+      });
     }
 
     // 解析 子标题
     if (rawData.subTitle) {
-        Object.values(rawData.subTitle).forEach(item => {
-            cachedTasks.subTitle[item.subTitleId] = item;
-        });
+      Object.values(rawData.subTitle).forEach((item) => {
+        cachedTasks.subTitle[item.subTitleId] = item;
+      });
     }
 
     // 解析 区域配置
     if (rawData.areaConfig) {
-        Object.values(rawData.areaConfig).forEach(item => {
-            cachedTasks.areaConfig[item.id] = item;
-        });
+      Object.values(rawData.areaConfig).forEach((item) => {
+        cachedTasks.areaConfig[item.id] = item;
+      });
     }
 
     cachedTasks.npcNames = rawData.npcNames || {};

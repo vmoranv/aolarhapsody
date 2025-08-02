@@ -1,8 +1,5 @@
-import { Router, Request, Response } from 'express';
-import {
-  getAllInscriptions,
-  getInscriptionById,
-} from '../dataparse/inscription';
+import { Request, Response, Router } from 'express';
+import { getAllInscriptions, getInscriptionById } from '../dataparse/inscription';
 
 const router = Router();
 
@@ -17,7 +14,7 @@ const router = Router();
  */
 router.get('/inscriptions', (req: Request, res: Response) => {
   const inscriptions = getAllInscriptions();
-  const simplifiedInscriptions = inscriptions.map(item => ({
+  const simplifiedInscriptions = inscriptions.map((item) => ({
     id: item.id,
     name: item.name,
   }));

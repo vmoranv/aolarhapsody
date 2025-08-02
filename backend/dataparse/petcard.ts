@@ -1,5 +1,5 @@
-import { fetchAndParseJSON } from './game-data-parser';
 import { PetCard, PetCardSuit } from '../types/petcard';
+import { fetchAndParseJSON } from './game-data-parser';
 
 const cachedPetCards: Record<string, PetCard> = {};
 const cachedPetCardSuits: Record<string, PetCardSuit> = {};
@@ -23,7 +23,7 @@ function parseNumberArray(input: string | number[]): number[] {
 export async function initPetCardModule(): Promise<boolean> {
   try {
     const url = 'https://aola.100bt.com/h5/data/petcarddata.json';
-    const responseData = await fetchAndParseJSON(url) as {
+    const responseData = (await fetchAndParseJSON(url)) as {
       data: Record<string, (string | number | boolean | number[])[]>;
       suit: Record<string, (string | number | boolean | number[])[]>;
     };
@@ -34,7 +34,7 @@ export async function initPetCardModule(): Promise<boolean> {
     }
 
     // 解析装备卡
-    Object.values(responseData.data).forEach(item => {
+    Object.values(responseData.data).forEach((item) => {
       if (item.length >= 23) {
         const card: PetCard = {
           cardId: item[0] as number,
@@ -66,7 +66,7 @@ export async function initPetCardModule(): Promise<boolean> {
     });
 
     // 解析装备卡套装
-    Object.values(responseData.suit).forEach(item => {
+    Object.values(responseData.suit).forEach((item) => {
       if (item.length >= 8) {
         const suit: PetCardSuit = {
           id: item[0] as number,

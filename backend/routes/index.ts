@@ -1,24 +1,25 @@
-import pmRoutes from './pmdatalist';
 import astralSpiritRoutes from './astralspirit';
-import clothesRoutes from './clothes';
-import headFrameRoutes from './headframe';
-import headIconRoutes from './icondata';
-import galaxyFleetMarkRoutes from './galaxyfleetmark';
-import spEvoRoutes from './pmevolink';
 import miscellaneousRoutes from './chatframe';
+import clothesRoutes from './clothes';
 import crystalKeyRoutes from './crystalkey';
+import galaxyFleetMarkRoutes from './galaxyfleetmark';
 import godCardRoutes from './godcard';
+import headFrameRoutes from './headframe';
 import hkRoutes from './hk';
-import itemRoutes from './item';
+import headIconRoutes from './icondata';
 import inscriptionRoutes from './inscription';
+import itemRoutes from './item';
 import miracleRoutes from './miracle';
-import summonerRoutes from './summoner';
-import petStoneRoutes from './petstone';
-import petCard2Routes from './petcard2';
+import monitorRoutes from './monitor';
 import petCardRoutes from './petcard';
+import petCard2Routes from './petcard2';
 import petDictionaryRoutes from './petdictionary';
+import petStoneRoutes from './petstone';
 import petTalkRoutes from './pettalk';
 import petTerritoryFightRoutes from './petterritoryfight';
+import pmRoutes from './pmdatalist';
+import spEvoRoutes from './pmevolink';
+import summonerRoutes from './summoner';
 import taskRoutes from './task';
 import titleRoutes from './title';
 import toteRoutes from './tote';
@@ -48,4 +49,5 @@ export default [
   taskRoutes,
   titleRoutes,
   toteRoutes,
+  monitorRoutes,
 ];

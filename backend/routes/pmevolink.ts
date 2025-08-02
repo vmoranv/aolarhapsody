@@ -1,8 +1,5 @@
-import { Router, Request, Response } from 'express';
-import {
-  getAllSpEvoLinks,
-  getSpEvoLinkByBeforeId,
-} from '../dataparse/pmevolink';
+import { Request, Response, Router } from 'express';
+import { getAllSpEvoLinks, getSpEvoLinkByBeforeId } from '../dataparse/pmevolink';
 
 const router = Router();
 

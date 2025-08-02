@@ -1,5 +1,5 @@
+import { PetTerritoryFetter, PetTerritoryFight } from '../types/petterritoryfight';
 import { fetchAndParseData } from './game-data-parser';
-import { PetTerritoryFight, PetTerritoryFetter } from '../types/petterritoryfight';
 
 /**
  * 原始亚比领域战数据负载接口
@@ -53,7 +53,7 @@ export async function initPetTerritoryFightModule(): Promise<boolean> {
         };
       }
     }
-    
+
     return true;
   } catch (error) {
     console.error('解析领域数据时出错:', error);
@@ -66,7 +66,7 @@ export async function initPetTerritoryFightModule(): Promise<boolean> {
  * @returns {{id: number, name: string}[]} 所有亚比领域战的简化信息数组
  */
 export function getAllPetTerritoryFights() {
-  return Object.values(cachedFights).map(p => ({ id: p.id, name: p.name }));
+  return Object.values(cachedFights).map((p) => ({ id: p.id, name: p.name }));
 }
 
 /**
@@ -83,7 +83,7 @@ export function getPetTerritoryFightById(id: number): PetTerritoryFight | undefi
  * @returns {{id: number, name: string}[]} 所有亚比领域羁绊的简化信息数组
  */
 export function getAllPetTerritoryFetters() {
-  return Object.values(cachedFetters).map(f => ({ id: f.id, name: f.name }));
+  return Object.values(cachedFetters).map((f) => ({ id: f.id, name: f.name }));
 }
 
 /**

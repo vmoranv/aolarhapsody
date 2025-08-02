@@ -1,8 +1,8 @@
-import { Router, Request, Response } from 'express';
+import { Request, Response, Router } from 'express';
 import {
   getAllEvolutionStones,
-  getEvolutionStoneById,
   getAllSkillStones,
+  getEvolutionStoneById,
   getSkillStoneById,
 } from '../dataparse/petstone';
 
@@ -15,7 +15,7 @@ const router = Router();
  */
 router.get('/evolutionstones', (req: Request, res: Response) => {
   const stones = getAllEvolutionStones();
-  const simplifiedStones = stones.map(stone => ({
+  const simplifiedStones = stones.map((stone) => ({
     id: stone.id,
     evoRaceId: stone.evoRaceId,
     evoToRaceId: stone.evoToRaceId,
@@ -60,7 +60,7 @@ router.get('/evolutionstones/:id', (req: Request, res: Response) => {
  */
 router.get('/skillstones', (req: Request, res: Response) => {
   const stones = getAllSkillStones();
-  const simplifiedStones = stones.map(stone => ({
+  const simplifiedStones = stones.map((stone) => ({
     id: stone.id,
     raceId: stone.raceId,
     skillId: stone.skillId,

@@ -1,5 +1,5 @@
+import { HeadIcon, PetIcon } from '../types/icondata';
 import { fetchAndParseJSON } from './game-data-parser';
-import { PetIcon, HeadIcon } from '../types/icondata';
 
 const petIconCache: Record<string, PetIcon> = {};
 const headIconCache: Record<string, HeadIcon> = {};
@@ -29,7 +29,7 @@ export async function initIconModule(): Promise<boolean> {
     }
 
     if (headIconResponse && headIconResponse.data) {
-      Object.values(headIconResponse.data).forEach(item => {
+      Object.values(headIconResponse.data).forEach((item) => {
         if (Array.isArray(item) && item.length >= 8) {
           const headIcon: HeadIcon = {
             id: Number(item[0]),

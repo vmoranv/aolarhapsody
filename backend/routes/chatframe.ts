@@ -1,8 +1,5 @@
-import { Router, Request, Response } from 'express';
-import {
-  getAllChatFrames,
-  getChatFrameById,
-} from '../dataparse/chatframe';
+import { Request, Response, Router } from 'express';
+import { getAllChatFrames, getChatFrameById } from '../dataparse/chatframe';
 
 const router = Router();
 
@@ -17,7 +14,7 @@ const router = Router();
  */
 router.get('/chatframes', (req: Request, res: Response) => {
   const frames = getAllChatFrames();
-  const simplifiedFrames = frames.map(frame => ({
+  const simplifiedFrames = frames.map((frame) => ({
     id: frame.id,
     name: frame.name,
   }));

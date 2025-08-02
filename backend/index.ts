@@ -1,6 +1,7 @@
 // 导入必要的模块
 import cors from 'cors';
 import express, { Express, Request, Response } from 'express';
+import { initializeMonitors } from './utils/subclass-checker';
 // 导入模块
 import { initializers } from './dataparse';
 import allRoutes from './routes';
@@ -33,6 +34,7 @@ allRoutes.forEach((route) => {
 // =================================
 async function startServer() {
   // 遍历 initializers 对象中的所有初始化函数
+  initializeMonitors();
   for (const moduleName in initializers) {
     const initFunction = initializers[moduleName as keyof typeof initializers];
     const success = await initFunction();

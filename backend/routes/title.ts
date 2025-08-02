@@ -1,5 +1,5 @@
 import express, { Request, Response } from 'express';
-import { getTitleData, getTitleById, getTitleConfig } from '../dataparse/title';
+import { getTitleById, getTitleConfig, getTitleData } from '../dataparse/title';
 
 const router = express.Router();
 
@@ -12,7 +12,7 @@ const router = express.Router();
 router.get('/titles', (req: Request, res: Response) => {
   const allTitles = getTitleData();
   if (allTitles) {
-    const simplifiedTitles = allTitles.data.map(title => ({
+    const simplifiedTitles = allTitles.data.map((title) => ({
       id: title.titleId,
       name: title.titleName,
     }));

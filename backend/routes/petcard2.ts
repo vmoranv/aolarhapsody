@@ -1,4 +1,4 @@
-import { Router, Request, Response } from 'express';
+import { Request, Response, Router } from 'express';
 import { getAllPetCard2s, getPetCard2ById } from '../dataparse/petcard2';
 
 const router = Router();
@@ -10,7 +10,7 @@ const router = Router();
  */
 router.get('/petcard2s', (req: Request, res: Response) => {
   const cards = getAllPetCard2s();
-  const simplifiedCards = cards.map(card => ({
+  const simplifiedCards = cards.map((card) => ({
     cardId: card.cardId,
     name: card.name,
   }));

@@ -1,9 +1,9 @@
-import { Router, Request, Response } from 'express';
+import { Request, Response, Router } from 'express';
 import {
-  getAllPetIcons,
-  getPetIconById,
   getAllHeadIcons,
+  getAllPetIcons,
   getHeadIconById,
+  getPetIconById,
 } from '../dataparse/icondata';
 
 const router = Router();
@@ -60,7 +60,7 @@ router.get('/peticons/:id', (req: Request, res: Response) => {
  */
 router.get('/headicons', (req: Request, res: Response) => {
   const icons = getAllHeadIcons();
-  const simplifiedIcons = icons.map(icon => ({
+  const simplifiedIcons = icons.map((icon) => ({
     id: icon.id,
     name: icon.name,
   }));

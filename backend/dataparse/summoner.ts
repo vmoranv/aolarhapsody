@@ -1,5 +1,5 @@
-import { fetchAndParseJSON } from './game-data-parser';
 import { SummonerSkillDataConfig } from '../types/summoner';
+import { fetchAndParseJSON } from './game-data-parser';
 
 const summonerSkillCache: Record<string, SummonerSkillDataConfig> = {};
 
@@ -9,7 +9,7 @@ const summonerSkillCache: Record<string, SummonerSkillDataConfig> = {};
 export async function initSummonerModule(): Promise<boolean> {
   try {
     const url = 'https://aola.100bt.com/h5/data/summonerconfig.json';
-    const response = await fetchAndParseJSON(url) as {
+    const response = (await fetchAndParseJSON(url)) as {
       data: Record<string, (string | number)[]>;
     };
 
@@ -19,7 +19,7 @@ export async function initSummonerModule(): Promise<boolean> {
     }
 
     // 解析召唤师技能
-    Object.values(response.data).forEach(item => {
+    Object.values(response.data).forEach((item) => {
       if (Array.isArray(item) && item.length >= 4) {
         const skill: SummonerSkillDataConfig = {
           id: Number(item[0]),

@@ -1,5 +1,5 @@
-import { fetchAndParseJSON } from './game-data-parser';
 import { Inscription } from '../types/inscription';
+import { fetchAndParseJSON } from './game-data-parser';
 
 const inscriptionCache: Record<string, Inscription> = {};
 
@@ -9,7 +9,7 @@ const inscriptionCache: Record<string, Inscription> = {};
 export async function initInscriptionModule(): Promise<boolean> {
   try {
     const url = 'https://aola.100bt.com/h5/data/inscriptiondata.json';
-    const response = await fetchAndParseJSON(url) as {
+    const response = (await fetchAndParseJSON(url)) as {
       data: Record<string, (string | number)[]>;
     };
 
@@ -19,7 +19,7 @@ export async function initInscriptionModule(): Promise<boolean> {
     }
 
     // 解析铭文
-    Object.values(response.data).forEach(item => {
+    Object.values(response.data).forEach((item) => {
       if (Array.isArray(item) && item.length >= 9) {
         const inscription: Inscription = {
           id: Number(item[0]),

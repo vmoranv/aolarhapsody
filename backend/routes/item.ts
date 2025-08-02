@@ -1,9 +1,5 @@
-import { Router, Request, Response } from 'express';
-import {
-  getAllItems,
-  getItemById,
-  getPetItemIds,
-} from '../dataparse/item';
+import { Request, Response, Router } from 'express';
+import { getAllItems, getItemById, getPetItemIds } from '../dataparse/item';
 
 const router = Router();
 
@@ -18,7 +14,7 @@ const router = Router();
  */
 router.get('/items', (req: Request, res: Response) => {
   const items = getAllItems();
-  const simplifiedItems = items.map(item => ({
+  const simplifiedItems = items.map((item) => ({
     id: item.id,
     name: item.name,
   }));

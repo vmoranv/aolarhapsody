@@ -1,8 +1,5 @@
-import { Router, Request, Response } from 'express';
-import {
-  getAllSummonerSkills,
-  getSummonerSkillById,
-} from '../dataparse/summoner';
+import { Request, Response, Router } from 'express';
+import { getAllSummonerSkills, getSummonerSkillById } from '../dataparse/summoner';
 
 const router = Router();
 
@@ -17,7 +14,7 @@ const router = Router();
  */
 router.get('/summonerskills', (req: Request, res: Response) => {
   const skills = getAllSummonerSkills();
-  const simplifiedSkills = skills.map(item => ({
+  const simplifiedSkills = skills.map((item) => ({
     id: item.id,
     name: item.name,
   }));

@@ -1,5 +1,5 @@
+import { Title, TitleConfig, TitleData } from '../types/title';
 import { fetchAndParseData } from './game-data-parser';
-import { TitleData, Title, TitleConfig } from '../types/title';
 
 interface RawTitlePayload {
   data: Record<string, [string, string, string, string, boolean, string, string, string]>;
@@ -23,7 +23,10 @@ export async function initTitleModule(): Promise<boolean> {
 
     // The `data` property is an object, not an array. We need to convert it to an array first.
     type RawTitle = [string, string, string, string, boolean, string, string, string];
-    const dataArray = rawData.data && typeof rawData.data === 'object' ? Object.values(rawData.data as Record<string, RawTitle>) : [];
+    const dataArray =
+      rawData.data && typeof rawData.data === 'object'
+        ? Object.values(rawData.data as Record<string, RawTitle>)
+        : [];
 
     const data: Title[] = dataArray.map((item: RawTitle) => ({
       titleId: parseInt(item[0], 10),
@@ -36,7 +39,10 @@ export async function initTitleModule(): Promise<boolean> {
       startTime: item[7],
     }));
 
-    const titleConfig: TitleConfig = typeof rawData.titleConfig === 'object' && rawData.titleConfig !== null ? rawData.titleConfig : {};
+    const titleConfig: TitleConfig =
+      typeof rawData.titleConfig === 'object' && rawData.titleConfig !== null
+        ? rawData.titleConfig
+        : {};
 
     cachedTitles = {
       titleConfig,
@@ -64,7 +70,7 @@ export function getTitleData() {
  * @returns {Title | undefined} 对应的称号对象，如果未找到则返回undefined
  */
 export function getTitleById(id: number) {
-  return cachedTitles?.data.find(t => t.titleId === id);
+  return cachedTitles?.data.find((t) => t.titleId === id);
 }
 
 /**

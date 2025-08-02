@@ -1,5 +1,5 @@
+import { Pet, ProcessedAttribute, Skill, SkillAttribute, Weather } from '../types/pmdatalist';
 import { fetchAndParseDictionary, fetchAndParseJSON } from './game-data-parser';
-import { Pet, Weather, Skill, SkillAttribute, ProcessedAttribute } from '../types/pmdatalist';
 
 // =================================
 // 核心逻辑
@@ -22,12 +22,12 @@ const skillAttributesCache: ProcessedAttribute[] = [];
  * @returns {boolean} 如果解析和缓存成功则返回true，否则返回false
  */
 export function parseAndCacheFullPetData(rawData: {
-  pmDataMap: unknown,
-  pmExpMap: Record<string, (string | number)[]>,
-  pmWeatherMap: Record<string, (string | number)[]>,
-  pmSkillMap: Record<string, (string | number)[]>,
-  pmSkillMap1: Record<string, (string | number)[]>,
-  pmAttDefTableMap: Record<string, string[]>
+  pmDataMap: unknown;
+  pmExpMap: Record<string, (string | number)[]>;
+  pmWeatherMap: Record<string, (string | number)[]>;
+  pmSkillMap: Record<string, (string | number)[]>;
+  pmSkillMap1: Record<string, (string | number)[]>;
+  pmAttDefTableMap: Record<string, string[]>;
 }): boolean {
   if (!rawData) {
     console.error('亚比数据为空，无法解析完整数据');
@@ -38,12 +38,14 @@ export function parseAndCacheFullPetData(rawData: {
     // 解析亚比数据
     const processFullData = (dataMap: unknown): Pet[] => {
       return Object.values(dataMap as Record<string, (string | number)[]>)
-        .filter(pet => Array.isArray(pet) && pet.length >= 1 && pet[0])
-        .map((pet: (string | number)[]): Pet => ({
-          id: pet[0],
-          rawData: pet,
-        }))
-        .filter(pet => {
+        .filter((pet) => Array.isArray(pet) && pet.length >= 1 && pet[0])
+        .map(
+          (pet: (string | number)[]): Pet => ({
+            id: pet[0],
+            rawData: pet,
+          })
+        )
+        .filter((pet) => {
           const petId = Number(pet.id.toString().replace('_0', ''));
           return !isNaN(petId) && petId >= 0 && petId <= 9999;
         });
@@ -52,95 +54,107 @@ export function parseAndCacheFullPetData(rawData: {
 
     // 解析经验表
     if (rawData.pmExpMap && typeof rawData.pmExpMap === 'object') {
-      expMapCache = Object.entries(rawData.pmExpMap).reduce((acc, [key, value]) => {
-        if (Array.isArray(value)) {
-          acc[key] = value.map(v => Number(v));
-        }
-        return acc;
-      }, {} as Record<string, number[]>);
+      expMapCache = Object.entries(rawData.pmExpMap).reduce(
+        (acc, [key, value]) => {
+          if (Array.isArray(value)) {
+            acc[key] = value.map((v) => Number(v));
+          }
+          return acc;
+        },
+        {} as Record<string, number[]>
+      );
     } else {
       console.warn('未找到或格式不正确的经验表 (pmExpMap)');
     }
 
     // 解析场地效果
     if (rawData.pmWeatherMap && typeof rawData.pmWeatherMap === 'object') {
-      weatherMapCache = Object.entries(rawData.pmWeatherMap).reduce((acc, [key, value]) => {
-        if (Array.isArray(value) && value.length >= 5) {
-          const weatherData: Weather = {
-            id: String(value[0]),
-            name: String(value[1]),
-            type: Number(value[2]),
-            serverDescription: String(value[3]),
-            description: String(value[4]),
-          };
-
-          // 处理传奇魂相关逻辑
-          if (value.length >= 8 && value[6] && value[7]) {
-            const serials = String(value[7]).split(',');
-            weatherData.legendSoul = {
-              baseDescription: String(value[6]),
-              serials: serials,
-              maxLevel: serials.length - 1,
+      weatherMapCache = Object.entries(rawData.pmWeatherMap).reduce(
+        (acc, [key, value]) => {
+          if (Array.isArray(value) && value.length >= 5) {
+            const weatherData: Weather = {
+              id: String(value[0]),
+              name: String(value[1]),
+              type: Number(value[2]),
+              serverDescription: String(value[3]),
+              description: String(value[4]),
             };
+
+            // 处理传奇魂相关逻辑
+            if (value.length >= 8 && value[6] && value[7]) {
+              const serials = String(value[7]).split(',');
+              weatherData.legendSoul = {
+                baseDescription: String(value[6]),
+                serials: serials,
+                maxLevel: serials.length - 1,
+              };
+            }
+            acc[key] = weatherData;
           }
-          acc[key] = weatherData;
-        }
-        return acc;
-      }, {} as Record<string, Weather>);
+          return acc;
+        },
+        {} as Record<string, Weather>
+      );
     }
 
     // 解析技能数据
     const combinedSkillMap = { ...(rawData.pmSkillMap || {}), ...(rawData.pmSkillMap1 || {}) };
     if (Object.keys(combinedSkillMap).length > 0) {
-      Object.assign(skillMapCache, Object.entries(combinedSkillMap).reduce((acc, [key, value]) => {
-        if (Array.isArray(value) && value.length >= 30) {
-          const getPars = (index: number) => String(value[index] || '');
-          const getSkillType = () => {
-            const str = getPars(29);
-            return str.length > 0 ? parseInt(str) : 0; // 默认值为0
-          };
-          const soulArr = getPars(30).split("#");
+      Object.assign(
+        skillMapCache,
+        Object.entries(combinedSkillMap).reduce(
+          (acc, [key, value]) => {
+            if (Array.isArray(value) && value.length >= 30) {
+              const getPars = (index: number) => String(value[index] || '');
+              const getSkillType = () => {
+                const str = getPars(29);
+                return str.length > 0 ? parseInt(str) : 0; // 默认值为0
+              };
+              const soulArr = getPars(30).split('#');
 
-          acc[key] = {
-            id: Number(getPars(0)),
-            enName: getPars(1),
-            cnName: getPars(2),
-            newCnName: getPars(3),
-            oldEffectDesc: getPars(4).replace(/<br>/g, '\n'),
-            newEffectDesc: getPars(5),
-            clientDesc: getPars(6).replace(/<br>/g, '\n'),
-            power: Number(getPars(7)),
-            hitRate: Number(getPars(8)),
-            allPP: Number(getPars(9)),
-            PRI: Number(getPars(10)),
-            attributeType: Number(getPars(11)),
-            attackType: Number(getPars(12)),
-            hitTaget: Number(getPars(13)),
-            critRate: Number(getPars(14)),
-            damageType: Number(getPars(15)),
-            execType: getPars(16),
-            handler: getPars(17),
-            param: getPars(18),
-            aoyiType: getPars(19) === "" ? -1 : parseInt(getPars(19)),
-            isCompletePMSkill: getPars(20) !== "",
-            skillMovie1: getPars(22),
-            skillMovie2: getPars(23),
-            singlePower: getPars(27),
-            doublePower: getPars(28),
-            skillType: getSkillType(),
-            costSoulNum: parseInt(soulArr[0]) || 0,
-            maxCostSoulNum: parseInt(soulArr[soulArr.length - 1]) || 0,
-            configSkillSerials: getPars(31),
-            legendFiledEffectChange: parseInt(getPars(32)) || 0,
-            legendFiledEffectDesc: getPars(33),
-            isDegeneratorSpiritPassive: getPars(34) === "1",
-            simpleSkillDec: getPars(38),
-            beAttackMvType: getPars(39) === "" ? Number(getPars(12)) : parseInt(getPars(39)),
-            cd: parseInt(getPars(42)) || 0,
-          };
-        }
-        return acc;
-      }, {} as Record<string, Skill>));
+              acc[key] = {
+                id: Number(getPars(0)),
+                enName: getPars(1),
+                cnName: getPars(2),
+                newCnName: getPars(3),
+                oldEffectDesc: getPars(4).replace(/<br>/g, '\n'),
+                newEffectDesc: getPars(5),
+                clientDesc: getPars(6).replace(/<br>/g, '\n'),
+                power: Number(getPars(7)),
+                hitRate: Number(getPars(8)),
+                allPP: Number(getPars(9)),
+                PRI: Number(getPars(10)),
+                attributeType: Number(getPars(11)),
+                attackType: Number(getPars(12)),
+                hitTaget: Number(getPars(13)),
+                critRate: Number(getPars(14)),
+                damageType: Number(getPars(15)),
+                execType: getPars(16),
+                handler: getPars(17),
+                param: getPars(18),
+                aoyiType: getPars(19) === '' ? -1 : parseInt(getPars(19)),
+                isCompletePMSkill: getPars(20) !== '',
+                skillMovie1: getPars(22),
+                skillMovie2: getPars(23),
+                singlePower: getPars(27),
+                doublePower: getPars(28),
+                skillType: getSkillType(),
+                costSoulNum: parseInt(soulArr[0]) || 0,
+                maxCostSoulNum: parseInt(soulArr[soulArr.length - 1]) || 0,
+                configSkillSerials: getPars(31),
+                legendFiledEffectChange: parseInt(getPars(32)) || 0,
+                legendFiledEffectDesc: getPars(33),
+                isDegeneratorSpiritPassive: getPars(34) === '1',
+                simpleSkillDec: getPars(38),
+                beAttackMvType: getPars(39) === '' ? Number(getPars(12)) : parseInt(getPars(39)),
+                cd: parseInt(getPars(42)) || 0,
+              };
+            }
+            return acc;
+          },
+          {} as Record<string, Skill>
+        )
+      );
     } else {
       console.warn('未找到技能数据 (pmSkillMap, pmSkillMap1)');
     }
@@ -164,10 +178,10 @@ export function parseAndCacheFullPetData(rawData: {
  * @returns {{ id: string | number; name: string }[]} 一个包含亚比ID和名称的对象数组
  */
 export function getPetList(): { id: string | number; name: string }[] {
-    return fullPetDataCache.map(pet => ({
-        id: pet.id,
-        name: String(pet.rawData[1] || '未知'),
-    }));
+  return fullPetDataCache.map((pet) => ({
+    id: pet.id,
+    name: String(pet.rawData[1] || '未知'),
+  }));
 }
 
 /**
@@ -177,9 +191,9 @@ export function getPetList(): { id: string | number; name: string }[] {
  */
 export function getPetFullDataById(id: string | number): Pet | null {
   const processedId = id.toString().replace('_0', '');
-  return fullPetDataCache.find(pet => 
-    pet.id.toString().replace('_0', '') === processedId
-  ) || null;
+  return (
+    fullPetDataCache.find((pet) => pet.id.toString().replace('_0', '') === processedId) || null
+  );
 }
 
 /**
@@ -190,11 +204,11 @@ export function getPetFullDataById(id: string | number): Pet | null {
 export function searchPets(keyword: string): { id: string | number; name: string }[] {
   const searchStr = keyword.toLowerCase();
   return fullPetDataCache
-    .filter(pet => {
+    .filter((pet) => {
       const name = String(pet.rawData[1] || '').toLowerCase();
       return pet.id.toString().includes(searchStr) || name.includes(searchStr);
     })
-    .map(pet => ({
+    .map((pet) => ({
       id: pet.id,
       name: String(pet.rawData[1] || '未知'),
     }));
@@ -218,7 +232,7 @@ export function calculateExp(
   // 经验成长类型在index:21
   const expType = String(pet!.rawData[21]);
   const expTable = expMapCache[expType] || expMapCache['0'];
-  
+
   // 计算当前等级的总经验值
   const currentLevelTotalExp = expTable[currentLevel - 1];
   // 计算当前总经验值
@@ -227,7 +241,7 @@ export function calculateExp(
   const targetExp = expTable[targetLevel - 1];
   // 计算还需要的经验值
   const requiredExp = Math.max(0, targetExp - totalCurrentExp);
-  
+
   return { success: true, requiredExp };
 }
 
@@ -236,7 +250,7 @@ export function calculateExp(
  * @returns {{ id: string; name: string }[]} 一个包含场地效果ID和名称的对象数组
  */
 export function getAllWeathers(): { id: string; name: string }[] {
-  return Object.values(weatherMapCache).map(weather => ({
+  return Object.values(weatherMapCache).map((weather) => ({
     id: weather.id,
     name: weather.name,
   }));
@@ -290,8 +304,8 @@ function isSuperAttribute(id: number): boolean {
  */
 function processAllAttributes(attributeMap: SkillAttribute[]): ProcessedAttribute[] {
   return attributeMap
-    .filter(attr => !EXCLUDED_ATTRIBUTE_IDS.includes(attr[0]))
-    .map(attr => ({
+    .filter((attr) => !EXCLUDED_ATTRIBUTE_IDS.includes(attr[0]))
+    .map((attr) => ({
       id: attr[0],
       name: attr[1],
       isSuper: isSuperAttribute(attr[0]),
@@ -311,22 +325,30 @@ export async function fetchAndGetAllSkillAttributes(): Promise<ProcessedAttribut
 
   try {
     const url = 'http://aola.100bt.com/h5/js/gamemain.js';
-    const rawData = await fetchAndParseDictionary(url, 'PMAttributeMap._skillAttributeData') as SkillAttribute[];
+    const rawData = (await fetchAndParseDictionary(
+      url,
+      'PMAttributeMap._skillAttributeData'
+    )) as SkillAttribute[];
 
     // 验证解析后的数据结构
     if (!Array.isArray(rawData)) {
       throw new Error('解析结果不是数组');
     }
     for (const item of rawData) {
-      if (!Array.isArray(item) || item.length !== 2 || typeof item[0] !== 'number' || typeof item[1] !== 'string') {
+      if (
+        !Array.isArray(item) ||
+        item.length !== 2 ||
+        typeof item[0] !== 'number' ||
+        typeof item[1] !== 'string'
+      ) {
         throw new Error('数组元素格式不正确');
       }
     }
 
     const processedData = processAllAttributes(rawData);
-    
+
     skillAttributesCache.push(...processedData); // 缓存结果
-    
+
     return processedData;
   } catch (error) {
     console.error('获取或处理技能属性数据时出错:', error);
@@ -341,13 +363,13 @@ export async function fetchAndGetAllSkillAttributes(): Promise<ProcessedAttribut
 export async function initPetDataModule(): Promise<boolean> {
   try {
     const url = 'https://aola.100bt.com/h5/data/pmdatalist.json';
-    const data = await fetchAndParseJSON(url) as {
-      pmDataMap: unknown,
-      pmExpMap: Record<string, (string | number)[]>,
-      pmWeatherMap: Record<string, (string | number)[]>,
-      pmSkillMap: Record<string, (string | number)[]>,
-      pmSkillMap1: Record<string, (string | number)[]>,
-      pmAttDefTableMap: Record<string, string[]>
+    const data = (await fetchAndParseJSON(url)) as {
+      pmDataMap: unknown;
+      pmExpMap: Record<string, (string | number)[]>;
+      pmWeatherMap: Record<string, (string | number)[]>;
+      pmSkillMap: Record<string, (string | number)[]>;
+      pmSkillMap1: Record<string, (string | number)[]>;
+      pmAttDefTableMap: Record<string, string[]>;
     };
     return parseAndCacheFullPetData(data);
   } catch (error) {
@@ -355,4 +377,3 @@ export async function initPetDataModule(): Promise<boolean> {
     return false;
   }
 }
-

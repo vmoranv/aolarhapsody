@@ -1,5 +1,5 @@
+import { Clothes, ClothesAffectBody, ClothesPart, ClothesSuit } from '../types/clothes';
 import { fetchAndParseJSON } from './game-data-parser';
-import { Clothes, ClothesSuit, ClothesAffectBody, ClothesPart } from '../types/clothes';
 
 const clothesCache: Record<string, Clothes> = {};
 const clothesSuitCache: Record<string, ClothesSuit> = {};
@@ -103,7 +103,7 @@ export async function initClothesModule(): Promise<boolean> {
  * @returns {{ id: number; name: string }[]} 包含服装ID和名称的对象数组
  */
 export function getAllClothes(): { id: number; name: string }[] {
-  return Object.values(clothesCache).map(clothes => ({
+  return Object.values(clothesCache).map((clothes) => ({
     id: clothes.id,
     name: clothes.name,
   }));
@@ -123,7 +123,7 @@ export function getClothesById(id: string): Clothes | null {
  * @returns {{ id: number; name: string }[]} 包含套装ID和名称的对象数组
  */
 export function getAllClothesSuits(): { id: number; name: string }[] {
-  return Object.values(clothesSuitCache).map(suit => ({
+  return Object.values(clothesSuitCache).map((suit) => ({
     id: suit.id,
     name: suit.name,
   }));
@@ -143,7 +143,7 @@ export function getClothesSuitById(id: string): ClothesSuit | null {
  * @returns {ClothesAffectBody[]} 身体部位影响对象数组
  */
 export function getAllClothesAffectBody(): ClothesAffectBody[] {
-    return Object.values(clothesAffectBodyCache);
+  return Object.values(clothesAffectBodyCache);
 }
 
 /**

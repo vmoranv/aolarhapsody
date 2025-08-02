@@ -1,5 +1,5 @@
-import { fetchAndParseJSON } from './game-data-parser';
 import { GodCard, GodCardSuit } from '../types/godcard';
+import { fetchAndParseJSON } from './game-data-parser';
 
 const godCardCache: Record<string, GodCard> = {};
 const godCardSuitCache: Record<string, GodCardSuit> = {};

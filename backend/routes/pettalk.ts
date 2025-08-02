@@ -1,4 +1,4 @@
-import { Router, Request, Response } from 'express';
+import { Request, Response, Router } from 'express';
 import { getAllPetTalks, getPetTalksByRaceId } from '../dataparse/pettalk';
 
 const router = Router();

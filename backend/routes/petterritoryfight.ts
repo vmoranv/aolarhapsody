@@ -1,9 +1,9 @@
 import express, { Request, Response } from 'express';
 import {
-  getAllPetTerritoryFights,
-  getPetTerritoryFightById,
   getAllPetTerritoryFetters,
+  getAllPetTerritoryFights,
   getPetTerritoryFetterById,
+  getPetTerritoryFightById,
 } from '../dataparse/petterritoryfight';
 
 const router = express.Router();

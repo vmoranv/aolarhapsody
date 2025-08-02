@@ -1,5 +1,5 @@
-import { fetchAndParseJSON } from './game-data-parser';
 import { AstralSpirit, AstralSpiritSuit } from '../types/astralspirit';
+import { fetchAndParseJSON } from './game-data-parser';
 
 const astralSpiritCache: Record<string, AstralSpirit> = {};
 const astralSpiritSuitCache: Record<string, AstralSpiritSuit> = {};
@@ -10,9 +10,9 @@ const astralSpiritSuitCache: Record<string, AstralSpiritSuit> = {};
 export async function initAstralSpiritDataModule(): Promise<boolean> {
   try {
     const url = 'https://aola.100bt.com/h5/data/astralspiritdata.json';
-    const response = await fetchAndParseJSON(url) as {
-      data: Record<string, (string | number | boolean)[]>,
-      suit: Record<string, (string | number | number[])[]>
+    const response = (await fetchAndParseJSON(url)) as {
+      data: Record<string, (string | number | boolean)[]>;
+      suit: Record<string, (string | number | number[])[]>;
     };
 
     if (!response) {
@@ -84,7 +84,7 @@ export async function initAstralSpiritDataModule(): Promise<boolean> {
  * @returns {{ id: number; name: string }[]} 包含星灵ID和名称的对象数组
  */
 export function getAllAstralSpirits(): { id: number; name: string }[] {
-  return Object.values(astralSpiritCache).map(spirit => ({
+  return Object.values(astralSpiritCache).map((spirit) => ({
     id: spirit.id,
     name: spirit.name,
   }));
@@ -104,7 +104,7 @@ export function getAstralSpiritById(id: string): AstralSpirit | null {
  * @returns {{ id: number; name: string }[]} 包含套装ID和名称的对象数组
  */
 export function getAllAstralSpiritSuits(): { id: number; name: string }[] {
-  return Object.values(astralSpiritSuitCache).map(suit => ({
+  return Object.values(astralSpiritSuitCache).map((suit) => ({
     id: suit.id,
     name: suit.name,
   }));

@@ -1,5 +1,5 @@
-import { fetchAndParseJSON } from './game-data-parser';
 import { CrystalKey } from '../types/crystalkey';
+import { fetchAndParseJSON } from './game-data-parser';
 
 const crystalKeyCache: Record<string, CrystalKey> = {};
 
@@ -9,7 +9,7 @@ const crystalKeyCache: Record<string, CrystalKey> = {};
 export async function initCrystalKeyModule(): Promise<boolean> {
   try {
     const url = 'https://aola.100bt.com/h5/data/crystalkeydata.json';
-    const response = await fetchAndParseJSON(url) as {
+    const response = (await fetchAndParseJSON(url)) as {
       data: Record<string, (string | number)[]>;
     };
 
@@ -19,7 +19,7 @@ export async function initCrystalKeyModule(): Promise<boolean> {
     }
 
     // 解析晶钥
-    Object.values(response.data).forEach(item => {
+    Object.values(response.data).forEach((item) => {
       if (Array.isArray(item) && item.length >= 3) {
         const key: CrystalKey = {
           id: Number(item[0]),
