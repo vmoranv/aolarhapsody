@@ -60,6 +60,17 @@ const App = () => {
         itemHoverBg: colors.fillSecondary,
         itemColor: colors.text,
         itemSelectedColor: colors.primary,
+        // 添加更多菜单颜色配置
+        colorBgContainer: colors.surface,
+        colorText: colors.text,
+        colorTextSecondary: colors.textSecondary,
+        colorIcon: colors.text,
+        colorIconHover: colors.primary,
+        // 子菜单相关
+        subMenuItemBorderRadius: 8,
+        itemMarginBlock: 4,
+        itemMarginInline: 8,
+        itemPaddingInline: 12,
       },
       Input: {
         colorBgContainer: colors.elevated,

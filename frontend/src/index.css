@@ -235,7 +235,7 @@ a:hover {
 }
 
 /* 响应式设计 */
-@media (width <= 768px) {
+@media (width <=768px) {
   body {
     background: #f5f5f5;
   }
@@ -338,7 +338,7 @@ body.dark-theme {
 }
 
 /* 响应式设计 */
-@media (width <= 768px) {
+@media (width <=768px) {
   body.light-theme {
     background: #f5f5f5 !important;
   }
@@ -346,6 +346,23 @@ body.dark-theme {
   body.dark-theme {
     background: #0d1117 !important;
   }
+}
+
+/* 修复菜单子项标题颜色统一问题 */
+.ant-menu-submenu-title {
+  color: var(--theme-text) !important;
+}
+
+.ant-menu-submenu-title:hover {
+  color: var(--theme-text) !important;
+}
+
+.dark-theme .ant-menu-submenu-title {
+  color: var(--theme-text) !important;
+}
+
+.dark-theme .ant-menu-submenu-title:hover {
+  color: var(--theme-text) !important;
 }
 
 /* 打印样式 */
