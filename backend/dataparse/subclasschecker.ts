@@ -18,7 +18,8 @@ const checkResultsCache: Record<string, CheckResult> = {};
  */
 async function checkUrl(url: string, knownSubclasses: string[]): Promise<CheckResult> {
   try {
-    const data = await fetchAndParseJSON(url);
+    const shouldTruncate = url === monitorConfig.petTalk.url || url === monitorConfig.petIcon.url;
+    const data = await fetchAndParseJSON(url, shouldTruncate);
     if (!data) {
       throw new Error(`Failed to fetch or parse data from ${url}`);
     }

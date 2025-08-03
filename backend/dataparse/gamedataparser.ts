@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { monitorConfig } from '../types/monitorconfig';
 
 /**
  * 安全地解析类似JavaScript对象的字符串
@@ -70,9 +69,10 @@ export async function fetchAndParseDictionary(
 /**
  * 从给定的URL获取并解析一个JSON文件
  * @param url - JSON文件的URL
+ * @param truncate - 是否截断JSON只解析第一个条目
  * @returns 解析后的JSON数据
  */
-export async function fetchAndParseJSON(url: string): Promise<unknown> {
+export async function fetchAndParseJSON(url: string, truncate = false): Promise<unknown> {
   try {
     const response = await axios.get(url, {
       responseType: 'text', // 获取原始文本响应
@@ -88,8 +88,7 @@ export async function fetchAndParseJSON(url: string): Promise<unknown> {
 
     const responseData = response.data;
 
-    // 根据用户要求，为petTalk数据源强制截断，只解析第一个条目
-    if (url === monitorConfig.petTalk.url && typeof responseData === 'string') {
+    if (truncate && typeof responseData === 'string') {
       const firstBrace = responseData.indexOf('{');
       const firstComma = responseData.indexOf(',', firstBrace);
       if (firstBrace !== -1 && firstComma !== -1) {
@@ -98,7 +97,7 @@ export async function fetchAndParseJSON(url: string): Promise<unknown> {
         try {
           return JSON.parse(truncatedData);
         } catch (e) {
-          console.error('解析截断后的petTalk数据时出错:', e);
+          console.error('解析截断后的数据时出错:', e);
           // 如果解析失败，则回退到解析完整数据
           return JSON.parse(responseData);
         }
@@ -121,7 +120,7 @@ export async function fetchAndParseJSON(url: string): Promise<unknown> {
  * @param url - JSON文件的URL
  * @returns 解析后的类型化JSON数据
  */
-export async function fetchAndParseData<T>(url: string): Promise<T> {
-  const data = await fetchAndParseJSON(url);
+export async function fetchAndParseData<T>(url: string, truncate = false): Promise<T> {
+  const data = await fetchAndParseJSON(url, truncate);
   return data as T;
 }
