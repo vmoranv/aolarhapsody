@@ -307,7 +307,9 @@ const Inscription = () => {
 
     // 构建进化链
     const buildChain = (current: Inscription, direction: 'up' | 'down') => {
-      if (visited.has(current.id)) return;
+      if (visited.has(current.id)) {
+        return;
+      }
       visited.add(current.id);
 
       if (direction === 'up') {

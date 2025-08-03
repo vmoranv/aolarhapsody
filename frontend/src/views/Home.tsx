@@ -26,10 +26,10 @@ import {
   Search,
 } from 'lucide-react';
 import React, { useMemo, useState } from 'react';
-import toast from 'react-hot-toast';
 import ErrorDisplay from '../components/ErrorDisplay';
 import Layout from '../components/Layout';
 import LoadingSpinner from '../components/LoadingSpinner';
+import { useNotificationContext } from '../contexts/NotificationContext';
 import { useTheme } from '../hooks/useTheme';
 
 const { Option } = Select;
@@ -138,6 +138,7 @@ const Home = () => {
   const [filterType, setFilterType] = useState<'all' | 'changed' | 'stable'>('all');
   const [selectedTarget, setSelectedTarget] = useState<string>('hk');
   const { colors } = useTheme()!;
+  const notifications = useNotificationContext();
 
   // 获取所有监控目标的数据
   const monitorQueries = useQuery({
@@ -164,23 +165,15 @@ const Home = () => {
 
   const { data: monitorData = [], isLoading, error } = monitorQueries;
 
-  // Handle success and error states
+  // Handle error states only - 移除初始加载成功通知
   React.useEffect(() => {
     if (error) {
-      toast.error(`监控数据加载失败: ${error instanceof Error ? error.message : String(error)}`);
+      notifications.error(
+        '数据加载失败',
+        `监控数据加载失败: ${error instanceof Error ? error.message : String(error)}`
+      );
     }
-  }, [error]);
-
-  // 只在页面初始加载时显示成功提示，手动刷新时不显示
-  const [isInitialLoad, setIsInitialLoad] = React.useState(true);
-
-  React.useEffect(() => {
-    if (monitorQueries.isSuccess && monitorData.length > 0 && isInitialLoad) {
-      const successCount = monitorData.filter((item) => item.data).length;
-      toast.success(`监控数据加载成功！(${successCount}/${MONITOR_TARGETS.length})`);
-      setIsInitialLoad(false);
-    }
-  }, [monitorQueries.isSuccess, monitorData.length, isInitialLoad]);
+  }, [error, notifications]);
 
   // 筛选和搜索逻辑
   const filteredData = useMemo(() => {
@@ -375,12 +368,13 @@ const Home = () => {
                       const result = await monitorQueries.refetch();
                       if (result.data) {
                         const successCount = result.data.filter((item) => item.data).length;
-                        toast.success(
+                        notifications.success(
+                          '数据刷新成功',
                           `监控数据刷新成功！(${successCount}/${MONITOR_TARGETS.length})`
                         );
                       }
                     } catch {
-                      toast.error('刷新失败，请重试');
+                      notifications.error('刷新失败', '刷新失败，请重试');
                     }
                   }}
                   loading={monitorQueries.isFetching}

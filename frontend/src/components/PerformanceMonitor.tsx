@@ -1,6 +1,7 @@
 import { Card, Col, Row, Switch, Typography } from 'antd';
 import { Activity, Clock, Cpu, Zap } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react';
+import { useTheme } from '../hooks/useTheme';
 
 const { Text } = Typography;
 
@@ -12,6 +13,7 @@ interface PerformanceStats {
 }
 
 const PerformanceMonitor: React.FC = () => {
+  const { colors } = useTheme()!;
   const [stats, setStats] = useState<PerformanceStats>({
     fps: 0,
     frameTime: 0,
@@ -105,12 +107,14 @@ const PerformanceMonitor: React.FC = () => {
           bottom: 10,
           right: 10,
           zIndex: 9999,
-          background: 'rgba(0,0,0,0.7)',
-          color: 'white',
+          background: colors.elevated,
+          color: colors.text,
           padding: '4px 8px',
-          borderRadius: 4,
+          borderRadius: 8,
           fontSize: '12px',
           cursor: 'pointer',
+          border: `1px solid ${colors.borderSecondary}`,
+          boxShadow: `0 2px 8px ${colors.shadow}`,
         }}
         onClick={() => {
           setIsVisible(true);
@@ -188,7 +192,7 @@ const PerformanceMonitor: React.FC = () => {
         </Col>
       </Row>
 
-      <div style={{ marginTop: 8, fontSize: '11px', color: '#666' }}>
+      <div style={{ marginTop: 8, fontSize: '11px', color: colors.textSecondary }}>
         <div>• FPS &gt; 55: 流畅 | 30-55: 一般 | &lt; 30: 卡顿</div>
         <div>• 渲染时间 &gt; 16ms 可能导致掉帧</div>
         <div>• Ctrl+Shift+P 切换显示</div>

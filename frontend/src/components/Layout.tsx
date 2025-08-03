@@ -1,10 +1,12 @@
 import type { MenuProps } from 'antd';
 import { Avatar, Dropdown, Layout as AntLayout, Menu, Space } from 'antd';
 import { motion } from 'framer-motion';
-import { Bell, Database, Home, Search, Settings, User, Users } from 'lucide-react';
+import { Database, Home, Search, Settings, User, Users } from 'lucide-react';
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useNotificationContext } from '../contexts/NotificationContext';
 import { useTheme } from '../hooks/useTheme';
+import NotificationDropdown from './NotificationDropdown';
 import ThemeToggle from './ThemeToggle';
 
 const { Header, Sider, Content } = AntLayout;
@@ -25,6 +27,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const { colors } = useTheme()!;
+  const notifications = useNotificationContext();
 
   /**
    * 根据当前URL路径确定侧边栏中应选中的菜单项。
@@ -297,9 +300,13 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           <Space size={16}>
             <ThemeToggle />
 
-            <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
-              <Bell size={20} color={colors.textSecondary} style={{ cursor: 'pointer' }} />
-            </motion.div>
+            <NotificationDropdown
+              notifications={notifications.notifications}
+              onMarkAsRead={notifications.markAsRead}
+              onMarkAllAsRead={notifications.markAllAsRead}
+              onRemove={notifications.removeNotification}
+              onClearAll={notifications.clearAll}
+            />
 
             <Dropdown menu={{ items: userMenuItems }} placement="bottomRight">
               <motion.div whileHover={{ scale: 1.05 }} style={{ cursor: 'pointer' }}>

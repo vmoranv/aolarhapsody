@@ -65,7 +65,9 @@ const fetchPetCard2s = async (): Promise<PetCard2[]> => {
 };
 
 const getVipText = (vip: number) => {
-  if (vip === 0) return '普通';
+  if (vip === 0) {
+    return '普通';
+  }
   return `VIP${vip}`;
 };
 
