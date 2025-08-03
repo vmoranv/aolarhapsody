@@ -115,9 +115,9 @@ export interface Skill {
 export type SkillAttribute = [number, string];
 
 /**
- * 表示一个处理过的属性，包含ID、名称和一个布尔值，指示它是否为超系
+ * 表示一个处理过的属性，包含ID和名称
  */
-export type ProcessedAttribute = { id: number; name: string; isSuper: boolean };
+export type ProcessedAttribute = { id: number; name: string };
 
 /**
  * 定义 pmdatalist.json 文件中已知的顶级子类

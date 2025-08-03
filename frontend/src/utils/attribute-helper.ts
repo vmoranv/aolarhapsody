@@ -5,7 +5,7 @@
  * @param {number} id - 系别ID
  * @returns {boolean} 是否为超系
  */
-function isSuperAttribute(id: number): boolean {
+export function isSuperAttribute(id: number): boolean {
   return id > 22;
 }
 
@@ -70,6 +70,16 @@ export function getAttributeIconUrl(id: number | string): string {
     return 'https://aola.100bt.com/h5/petattribute/attribute999.png';
   }
   if (id === 'origin-tab') {
+    return 'https://aola.100bt.com/h5/petattribute/attribute1000.png';
+  }
+
+  // 特殊处理统一的原系和超系图标
+  if (id === 999) {
+    // 超系统一图标
+    return 'https://aola.100bt.com/h5/petattribute/attribute999.png';
+  }
+  if (id === 1000) {
+    // 原系统一图标
     return 'https://aola.100bt.com/h5/petattribute/attribute1000.png';
   }
 

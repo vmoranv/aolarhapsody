@@ -103,7 +103,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       children: [
         {
           key: '2-1',
-          label: '属性系统',
+          label: '系别克制',
         },
         {
           key: '2-2',

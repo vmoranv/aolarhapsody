@@ -74,8 +74,8 @@ const SearchAndFilter: React.FC<SearchAndFilterProps> = ({
                 suffixIcon={<Filter size={16} color={colors.textSecondary} />}
               >
                 <Option value="all">全部属性</Option>
-                <Option value="super">超级属性</Option>
-                <Option value="normal">普通属性</Option>
+                <Option value="super">超系</Option>
+                <Option value="normal">原系</Option>
               </Select>
             )}
 

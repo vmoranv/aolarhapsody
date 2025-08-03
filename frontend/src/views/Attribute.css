@@ -1,0 +1,287 @@
+/* 系别查询模块样式 - 使用正确的主题系统 */
+
+/* 属性选择区域 */
+.attribute-icons {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 16px;
+  padding: 20px;
+  background: var(--theme-surface);
+  border: 1px solid var(--theme-border);
+  border-radius: 12px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 属性按钮样式 */
+.attribute-button {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  padding: 16px;
+  cursor: pointer;
+  background: transparent;
+  border-radius: 12px;
+  transform-origin: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 增强的hover效果 */
+.attribute-button:hover {
+  transform: scale(1.12) !important;
+}
+
+.attribute-button:hover .attribute-icon {
+  background: rgb(102 126 234 / 30%) !important;
+}
+
+/* 增强的选中状态 */
+.attribute-button.selected {
+  transform: scale(1.15) !important;
+}
+
+/* 属性图标样式 */
+.attribute-icon {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  padding: 8px;
+  background: var(--theme-elevated);
+  border: 2px solid transparent;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px var(--theme-shadow);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 选中状态的图标样式 - 背景变蓝 + 蓝色阴影 */
+.attribute-button.selected .attribute-icon {
+  background: rgb(102 126 234 / 60%) !important;
+  border: 2px solid transparent !important;
+  box-shadow:
+    0 4px 16px rgb(102 126 234 / 40%),
+    0 2px 8px rgb(102 126 234 / 20%) !important;
+}
+
+/* 深色模式下的hover效果 */
+.dark-theme .attribute-button:hover .attribute-icon {
+  background: rgb(100 181 246 / 30%) !important;
+}
+
+/* 深色模式下的选中状态 - 背景变蓝 + 蓝色阴影 */
+.dark-theme .attribute-button.selected .attribute-icon {
+  background: rgb(100 181 246 / 60%) !important;
+  border: 2px solid transparent !important;
+  box-shadow:
+    0 4px 16px rgb(100 181 246 / 40%),
+    0 2px 8px rgb(100 181 246 / 20%) !important;
+}
+
+.attribute-button span {
+  position: relative;
+  z-index: 1;
+  margin-top: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--theme-text);
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.attribute-button.selected span {
+  font-weight: 600;
+  color: var(--theme-primary);
+}
+
+/* 关系显示区域 */
+.relation-container {
+  display: flex;
+  gap: 40px;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.relation-box {
+  flex: 1;
+  max-width: 500px;
+  background: var(--theme-surface);
+  border-radius: 15px;
+  box-shadow: 0 4px 20px var(--theme-shadow);
+  transform-origin: top center;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: fade-in 0.4s ease-out;
+  will-change: opacity, transform;
+}
+
+.box-title {
+  margin-bottom: 20px;
+  font-size: 1.2em;
+  font-weight: 600;
+  color: var(--theme-primary);
+  text-align: center;
+}
+
+/* 关系类型区域 - 蓝色左边框 */
+.relation-type {
+  padding-left: 15px;
+  margin-bottom: 20px;
+  border-left: 4px solid rgb(102 126 234 / 60%);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: slide-in-from-bottom 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  animation-fill-mode: both;
+}
+
+/* 深色模式下的关系类型区域 - 深蓝色左边框 */
+.dark-theme .relation-type {
+  border-left: 4px solid rgb(100 181 246 / 60%);
+}
+
+.relation-type .box-title {
+  margin-bottom: 10px;
+  font-size: 1em;
+  font-weight: bold;
+  color: var(--theme-text);
+  text-align: left;
+}
+
+.type-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 12px;
+}
+
+/* 属性项样式 */
+.attribute-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  cursor: pointer;
+  background: var(--theme-elevated);
+  border: 2px solid transparent;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px var(--theme-shadow);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: scale-in 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform, opacity, background-color;
+  animation-fill-mode: both;
+}
+
+.attribute-item.clickable {
+  cursor: pointer;
+}
+
+/* 关系区域图标的hover效果 - 与属性选择区域保持一致 */
+.attribute-item.clickable:hover {
+  background: rgb(102 126 234 / 30%) !important;
+  box-shadow:
+    0 4px 16px rgb(102 126 234 / 20%),
+    0 2px 8px rgb(102 126 234 / 10%) !important;
+  transform: scale(1.12) !important;
+}
+
+/* 深色模式下关系区域图标的hover效果 */
+.dark-theme .attribute-item.clickable:hover {
+  background: rgb(100 181 246 / 30%) !important;
+  box-shadow:
+    0 4px 16px rgb(100 181 246 / 20%),
+    0 2px 8px rgb(100 181 246 / 10%) !important;
+}
+
+/* 关系图标样式 */
+.relation-icon {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  border-radius: 50%;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 优雅的悬停提示样式 */
+.attribute-item::after {
+  position: absolute;
+  bottom: -24px;
+  left: 50%;
+  z-index: 1000;
+  visibility: hidden;
+  padding: 6px 12px;
+  font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--theme-text);
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  pointer-events: none;
+  content: attr(title);
+  background: var(--theme-elevated);
+  border-radius: 6px;
+  box-shadow: 0 2px 8px var(--theme-shadow);
+  opacity: 0;
+  transform: translateX(-50%) translateY(10px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.attribute-item:hover::after {
+  visibility: visible;
+  opacity: 1;
+  transform: translateX(-50%) translateY(-4px);
+}
+
+/* 图标加载失败时的占位样式 */
+.attribute-icon:not([src]),
+.attribute-icon[src=''],
+.attribute-icon:-moz-loading,
+.attribute-icon:-moz-broken,
+.relation-icon:not([src]),
+.relation-icon[src=''],
+.relation-icon:-moz-loading,
+.relation-icon:-moz-broken {
+  background: var(--theme-fill-secondary);
+  border-radius: 50%;
+  opacity: 0.5;
+}
+
+/* 定义淡入动画 */
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 定义从底部滑入动画 */
+@keyframes slide-in-from-bottom {
+  0% {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 定义缩放动画 */
+@keyframes scale-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

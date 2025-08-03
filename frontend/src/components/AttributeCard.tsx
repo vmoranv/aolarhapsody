@@ -11,7 +11,7 @@ interface AttributeCardProps {
   attribute: {
     id: number; // 属性ID
     name: string; // 属性名称
-    isSuper: boolean; // 是否为超级属性
+    isSuper: boolean; // 是否为超系
   };
   imageUrl: string; // 属性图片URL
   index: number; // 在列表中的索引，用于动画
@@ -19,7 +19,7 @@ interface AttributeCardProps {
 
 /**
  * 属性卡片组件
- * 用于展示单个属性的信息，包括名称、图片和是否为超级属性。
+ * 用于展示单个属性的信息，包括名称、图片和是否为超系。
  * @param attribute - 属性数据对象。
  * @param imageUrl - 属性的图片URL。
  * @param index - 卡片在列表中的索引，用于实现交错动画效果。
@@ -27,7 +27,7 @@ interface AttributeCardProps {
 const AttributeCard: React.FC<AttributeCardProps> = ({ attribute, imageUrl, index }) => {
   const { colors } = useTheme()!;
 
-  // 根据主题调整超级属性的颜色
+  // 根据主题调整超系的颜色
   const superBorderColor = colors.warning;
   const superBgGradient = attribute.isSuper
     ? 'linear-gradient(135deg, #fff9e6 0%, #fff2cc 100%)'
@@ -142,7 +142,7 @@ const AttributeCard: React.FC<AttributeCardProps> = ({ attribute, imageUrl, inde
               }}
             >
               {attribute.isSuper && <Zap size={12} />}
-              {attribute.isSuper ? '超级属性' : '普通属性'}
+              {attribute.isSuper ? '超系' : '原系'}
             </Tag>
           </div>
         </div>

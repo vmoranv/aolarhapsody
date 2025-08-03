@@ -290,15 +290,6 @@ export function getAttributeRelations(): Record<string, string[]> {
 const EXCLUDED_ATTRIBUTE_IDS = [3, 6, 17];
 
 /**
- * 判断一个属性ID是否属于超系
- * @param id - 属性的ID
- * @returns {boolean} 如果是超系则返回true，否则返回false
- */
-function isSuperAttribute(id: number): boolean {
-  return id > 22;
-}
-
-/**
  * 处理所有技能属性，过滤掉不需要的属性并进行格式化
  * @param attributeMap - 从游戏数据中解析出的原始技能属性数组
  * @returns {ProcessedAttribute[]} 处理过的技能属性对象数组
@@ -309,7 +300,6 @@ function processAllAttributes(attributeMap: SkillAttribute[]): ProcessedAttribut
     .map((attr) => ({
       id: attr[0],
       name: attr[1],
-      isSuper: isSuperAttribute(attr[0]),
     }));
 }
 
