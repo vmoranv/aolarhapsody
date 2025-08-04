@@ -179,11 +179,11 @@
 
 /* 关系区域图标的hover效果 - 与属性选择区域保持一致 */
 .attribute-item.clickable:hover {
+  z-index: 10;
   background: rgb(102 126 234 / 30%) !important;
   box-shadow:
     0 4px 16px rgb(102 126 234 / 20%),
     0 2px 8px rgb(102 126 234 / 10%) !important;
-  transform: scale(1.12) !important;
 }
 
 /* 深色模式下关系区域图标的hover效果 */
@@ -203,13 +203,12 @@
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* 优雅的悬停提示样式 */
-.attribute-item::after {
+/* 悬停提示样式 */
+.attribute-tooltip {
   position: absolute;
-  bottom: -24px;
+  bottom: -35px;
   left: 50%;
   z-index: 1000;
-  visibility: hidden;
   padding: 6px 12px;
   font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
   font-size: 12px;
@@ -218,7 +217,6 @@
   letter-spacing: 0.5px;
   white-space: nowrap;
   pointer-events: none;
-  content: attr(title);
   background: var(--theme-elevated);
   border-radius: 6px;
   box-shadow: 0 2px 8px var(--theme-shadow);
@@ -227,8 +225,7 @@
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.attribute-item:hover::after {
-  visibility: visible;
+.attribute-item:hover .attribute-tooltip {
   opacity: 1;
   transform: translateX(-50%) translateY(-4px);
 }

@@ -18,7 +18,7 @@ export const damageMapping: { [key: string]: number } = {
   '1/2': 0.5, // 微弱
   '-1': -1, // 无效
   '2': 2, // 克制
-  '3': 3, // 超克制
+  '3': 3, // 绝对克制
 };
 
 /**
@@ -43,7 +43,7 @@ export const damageDescription: { [key: string]: string } = {
   immune: '无效',
   weak: '微弱',
   strong: '克制',
-  super: '超克制',
+  super: '绝对克制',
 };
 
 /**

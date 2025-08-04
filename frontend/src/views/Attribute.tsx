@@ -37,7 +37,7 @@ interface ApiResponse<T> {
 }
 
 // 定义关系类型
-type RelationType = 'immune' | 'weak' | 'strong' | 'super';
+type RelationType = 'immune' | 'weak' | 'strong' | 'super' | 'superOrImmune';
 
 // 从工具函数导入，不要重复定义
 
@@ -167,12 +167,14 @@ const Attribute = () => {
         weak: [] as AttributeInfo[],
         strong: [] as AttributeInfo[],
         super: [] as AttributeInfo[],
+        superOrImmune: [] as AttributeInfo[],
       },
       defend: {
         immune: [] as AttributeInfo[],
         weak: [] as AttributeInfo[],
         strong: [] as AttributeInfo[],
         super: [] as AttributeInfo[],
+        superOrImmune: [] as AttributeInfo[],
       },
     };
 
@@ -215,6 +217,7 @@ const Attribute = () => {
       switch (damage) {
         case -1: {
           groups.attack.immune.push(targetAttr);
+          groups.attack.superOrImmune.push(targetAttr);
           break;
         }
         case 0.5: {
@@ -227,6 +230,7 @@ const Attribute = () => {
         }
         case 3: {
           groups.attack.super.push(targetAttr);
+          groups.attack.superOrImmune.push(targetAttr);
           break;
         }
       }
@@ -274,6 +278,7 @@ const Attribute = () => {
         switch (damageToMe) {
           case -1: {
             groups.defend.immune.push(sourceAttr);
+            groups.defend.superOrImmune.push(sourceAttr);
             break;
           }
           case 0.5: {
@@ -286,6 +291,7 @@ const Attribute = () => {
           }
           case 3: {
             groups.defend.super.push(sourceAttr);
+            groups.defend.superOrImmune.push(sourceAttr);
             break;
           }
         }
@@ -338,114 +344,100 @@ const Attribute = () => {
         }}
       >
         <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-          {(Object.entries(relations) as [RelationType, AttributeInfo[]][]).map(
-            ([type, typeRelations], typeIndex) => (
-              <motion.div
-                key={type}
-                className="relation-type"
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{
-                  duration: 0.4,
-                  delay: typeIndex * 0.1,
-                  ease: 'easeOut',
-                }}
-                style={{
-                  borderLeft: `4px solid ${damageColors[type]}`,
-                  paddingLeft: 15,
-                }}
-              >
-                <div
-                  className="box-title"
+          {(Object.entries(relations) as [RelationType, AttributeInfo[]][])
+            .filter(([type]) => type !== 'immune' && type !== 'super') // 过滤掉旧的
+            .map(([type, typeRelations], typeIndex) => {
+              if (type === 'superOrImmune' && typeRelations.length === 0) {
+                return null;
+              }
+
+              const isSuper = relations.super.length > 0;
+              const dynamicType = type === 'superOrImmune' ? (isSuper ? 'super' : 'immune') : type;
+
+              return (
+                <motion.div
+                  key={type}
+                  className="relation-type"
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{
+                    duration: 0.4,
+                    delay: typeIndex * 0.1,
+                    ease: 'easeOut',
+                  }}
                   style={{
-                    fontWeight: 'bold',
-                    marginBottom: 10,
-                    color: colors.text,
+                    borderLeft: `4px solid ${damageColors[dynamicType]}`,
+                    paddingLeft: 15,
                   }}
                 >
-                  {damageDescription[type]}
-                </div>
-                <div
-                  style={{
-                    display: 'flex',
-                    flexWrap: 'wrap',
-                    gap: 16,
-                    padding: 12,
-                  }}
-                >
-                  {typeRelations.map((attr, index) => (
-                    <motion.div
-                      key={`${type}-${attr.id}-${index}`}
-                      className="attribute-item clickable"
-                      onClick={() => {
-                        // 特殊图标不可点击跳转
-                        if (attr.id === 999 || attr.id === 1000) return;
-                        handleAttributeSelect(attr.id);
-                      }}
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{
-                        duration: 0.3,
-                        delay: typeIndex * 0.1 + index * 0.05,
-                        ease: 'easeOut',
-                      }}
-                      whileHover={{
-                        y: -3,
-                        scale: 1.08,
-                        transition: { duration: 0.2, ease: 'easeOut' },
-                      }}
-                      whileTap={{ scale: 0.95 }}
-                      style={{
-                        position: 'relative',
-                        padding: 8,
-                        borderRadius: '50%',
-                        cursor: attr.id === 999 || attr.id === 1000 ? 'default' : 'pointer',
-                        background: colors.elevated,
-                        transition: 'all 0.15s cubic-bezier(0.4, 0, 0.2, 1)',
-                        boxShadow: `0 2px 8px ${colors.shadow}15, 0 1px 3px ${colors.shadow}10`,
-                      }}
-                    >
-                      <img
-                        src={getAttributeIconUrl(attr.id)}
-                        alt={attr.name}
-                        title={attr.name}
+                  <div
+                    className="box-title"
+                    style={{
+                      fontWeight: 'bold',
+                      marginBottom: 10,
+                      color: colors.text,
+                    }}
+                  >
+                    {damageDescription[dynamicType]}
+                  </div>
+                  <div
+                    style={{
+                      display: 'flex',
+                      flexWrap: 'wrap',
+                      gap: 16,
+                      padding: 12,
+                    }}
+                  >
+                    {typeRelations.map((attr, index) => (
+                      <motion.div
+                        key={`${type}-${attr.id}-${index}`}
+                        className="attribute-item clickable"
+                        onClick={() => {
+                          // 特殊图标不可点击跳转
+                          if (attr.id === 999 || attr.id === 1000) return;
+                          handleAttributeSelect(attr.id);
+                        }}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{
+                          duration: 0.3,
+                          delay: typeIndex * 0.1 + index * 0.05,
+                          ease: 'easeOut',
+                        }}
+                        whileHover={{
+                          scale: 1.12,
+                          transition: { duration: 0.2, ease: 'easeOut' },
+                        }}
+                        whileTap={{ scale: 0.95 }}
                         style={{
-                          width: 48,
-                          height: 48,
+                          position: 'relative',
+                          padding: 8,
                           borderRadius: '50%',
-                          objectFit: 'contain',
-                          transition: 'filter 0.3s ease',
+                          cursor: attr.id === 999 || attr.id === 1000 ? 'default' : 'pointer',
+                          background: colors.elevated,
+                          transition: 'all 0.15s cubic-bezier(0.4, 0, 0.2, 1)',
+                          boxShadow: `0 2px 8px ${colors.shadow}15, 0 1px 3px ${colors.shadow}10`,
                         }}
-                      />
-                      {/* 悬停提示 */}
-                      <div
-                        style={{
-                          position: 'absolute',
-                          bottom: '-35px',
-                          left: '50%',
-                          transform: 'translateX(-50%)',
-                          background: colors.surface,
-                          color: colors.text,
-                          padding: '4px 8px',
-                          borderRadius: '4px',
-                          fontSize: '12px',
-                          fontWeight: 600,
-                          boxShadow: `0 2px 8px ${colors.shadow}20`,
-                          opacity: 0,
-                          pointerEvents: 'none',
-                          transition: 'opacity 0.2s ease',
-                          zIndex: 1000,
-                        }}
-                        className="attribute-tooltip"
                       >
-                        {attr.name}
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
-              </motion.div>
-            )
-          )}
+                        <img
+                          src={getAttributeIconUrl(attr.id)}
+                          alt={attr.name}
+                          style={{
+                            width: 48,
+                            height: 48,
+                            borderRadius: '50%',
+                            objectFit: 'contain',
+                            transition: 'filter 0.3s ease',
+                          }}
+                        />
+                        {/* 悬停提示 */}
+                        <div className="attribute-tooltip">{attr.name}</div>
+                      </motion.div>
+                    ))}
+                  </div>
+                </motion.div>
+              );
+            })}
         </div>
       </Card>
     </motion.div>
