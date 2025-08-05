@@ -29,7 +29,7 @@ import React, { useMemo, useState } from 'react';
 import ErrorDisplay from '../components/ErrorDisplay';
 import Layout from '../components/Layout';
 import LoadingSpinner from '../components/LoadingSpinner';
-import { useNotificationContext } from '../contexts/NotificationContext';
+import { useNotificationContext } from '../hooks/useNotificationContext';
 import { useTheme } from '../hooks/useTheme';
 
 const { Option } = Select;

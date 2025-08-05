@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { Database, Home, Search, Settings, User, Users } from 'lucide-react';
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useNotificationContext } from '../contexts/NotificationContext';
+import { useNotificationContext } from '../hooks/useNotificationContext';
 import { useTheme } from '../hooks/useTheme';
 import NotificationDropdown from './NotificationDropdown';
 import ThemeToggle from './ThemeToggle';
