@@ -15,6 +15,8 @@ interface SearchAndFilterProps {
   totalCount: number;
   filteredCount: number;
   hideFilter?: boolean;
+  searchPlaceholder?: string;
+  unitText?: string;
 }
 
 const SearchAndFilter: React.FC<SearchAndFilterProps> = ({
@@ -26,6 +28,8 @@ const SearchAndFilter: React.FC<SearchAndFilterProps> = ({
   totalCount,
   filteredCount,
   hideFilter = false,
+  searchPlaceholder = '搜索属性名称...',
+  unitText = '属性',
 }) => {
   const { colors } = useTheme()!;
 
@@ -55,7 +59,7 @@ const SearchAndFilter: React.FC<SearchAndFilterProps> = ({
         >
           <Space size="middle" style={{ flex: 1, minWidth: '300px' }}>
             <Input
-              placeholder="搜索属性名称..."
+              placeholder={searchPlaceholder}
               prefix={<Search size={16} color={colors.textSecondary} />}
               value={searchValue}
               onChange={(e) => onSearchChange(e.target.value)}
@@ -92,7 +96,7 @@ const SearchAndFilter: React.FC<SearchAndFilterProps> = ({
             }}
           >
             显示 <span style={{ color: colors.primary, fontWeight: 600 }}>{filteredCount}</span> /{' '}
-            {totalCount} 个属性
+            {totalCount} 个{unitText}
           </div>
         </div>
       </Space>

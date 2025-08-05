@@ -2,6 +2,7 @@ import type { RouteObject } from 'react-router-dom';
 import AstralSpirit from '@/views/AstralSpirit';
 import Attribute from '@/views/Attribute';
 import CrystalKey from '@/views/CrystalKey';
+import ExistingPackets from '@/views/ExistingPackets';
 import GodCard from '@/views/GodCard';
 import HK from '@/views/HK';
 import Home from '@/views/Home';
@@ -79,6 +80,11 @@ export const constantRoutes: RouteObject[] = [
     path: '/app/tote',
     id: 'Tote',
     element: <Tote />,
+  },
+  {
+    path: '/app/existing-packets',
+    id: 'ExistingPackets',
+    element: <ExistingPackets />,
   },
   {
     path: '/app/miscellaneous',

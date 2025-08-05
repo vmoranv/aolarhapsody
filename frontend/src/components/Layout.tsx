@@ -1,7 +1,7 @@
 import type { MenuProps } from 'antd';
 import { Avatar, Dropdown, Layout as AntLayout, Menu, Space } from 'antd';
 import { motion } from 'framer-motion';
-import { Database, Home, Search, Settings, User, Users } from 'lucide-react';
+import { Database, Home, Package, Search, Settings, User, Users } from 'lucide-react';
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useNotificationContext } from '../hooks/useNotificationContext';
@@ -60,8 +60,10 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         return ['2-10'];
       case '/app/tote':
         return ['2-11'];
+      case '/app/existing-packets':
+        return ['3-1'];
       case '/app/miscellaneous':
-        return ['3'];
+        return ['4'];
       default:
         return ['1'];
     }
@@ -86,6 +88,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       path.startsWith('/app/tote')
     ) {
       return ['2'];
+    }
+    if (path.startsWith('/app/existing-packets')) {
+      return ['3'];
     }
     return [];
   };
@@ -149,11 +154,22 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     },
     {
       key: '3',
+      icon: <Package size={18} />,
+      label: '封包解析',
+      children: [
+        {
+          key: '3-1',
+          label: '现有封包',
+        },
+      ],
+    },
+    {
+      key: '4',
       icon: <Settings size={18} />,
       label: '杂项数据',
     },
     {
-      key: '4',
+      key: '5',
       icon: <Users size={18} />,
       label: '社区',
     },
@@ -201,7 +217,10 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       case '2-11':
         navigate('/app/tote');
         break;
-      case '3':
+      case '3-1':
+        navigate('/app/existing-packets');
+        break;
+      case '4':
         navigate('/app/miscellaneous');
         break;
       default:
