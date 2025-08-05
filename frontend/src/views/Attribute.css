@@ -4,7 +4,7 @@
 .attribute-icons {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-  gap: 16px;
+  gap: 8px;
   padding: 20px;
   background: var(--theme-surface);
   border: 1px solid var(--theme-border);
@@ -17,7 +17,7 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 4px;
   align-items: center;
   padding: 16px;
   cursor: pointer;
@@ -48,14 +48,22 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 64px;
-  height: 64px;
+  width: 72px;
+  height: 72px;
   padding: 8px;
   background: var(--theme-elevated);
   border: 2px solid transparent;
   border-radius: 50%;
   box-shadow: 0 2px 8px var(--theme-shadow);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.attribute-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 50%;
+  transition: filter 0.3s ease;
 }
 
 /* 选中状态的图标样式 - 背景变蓝 + 蓝色阴影 */
@@ -196,8 +204,8 @@
 
 /* 关系图标样式 */
 .relation-icon {
-  width: 48px;
-  height: 48px;
+  width: 56px;
+  height: 56px;
   object-fit: contain;
   border-radius: 50%;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);

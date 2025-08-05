@@ -300,8 +300,8 @@ const Attribute = () => {
 
     return (
       <div style={{ display: 'flex', gap: 40, justifyContent: 'center', marginTop: 30 }}>
-        {renderRelationBox('攻击克制关系', groups.attack)}
-        {renderRelationBox('受击克制关系', groups.defend)}
+        {renderRelationBox('攻击', groups.attack)}
+        {renderRelationBox('防御', groups.defend)}
         {(isLoadingRelations || !allRelations) && (
           <div
             style={{
@@ -422,13 +422,7 @@ const Attribute = () => {
                         <img
                           src={getAttributeIconUrl(attr.id)}
                           alt={attr.name}
-                          style={{
-                            width: 48,
-                            height: 48,
-                            borderRadius: '50%',
-                            objectFit: 'contain',
-                            transition: 'filter 0.3s ease',
-                          }}
+                          className="relation-icon"
                         />
                         {/* 悬停提示 */}
                         <div className="attribute-tooltip">{attr.name}</div>
@@ -611,31 +605,10 @@ const Attribute = () => {
               whileTap={{ scale: 0.98 }}
             >
               <div className="attribute-icon">
-                <img
-                  src={getAttributeIconUrl(attribute.id)}
-                  alt={attribute.name}
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    borderRadius: '50%',
-                    objectFit: 'contain',
-                  }}
-                />
+                <img src={getAttributeIconUrl(attribute.id)} alt={attribute.name} />
               </div>
 
-              <span
-                style={{
-                  fontSize: 14,
-                  fontWeight: selectedAttribute === attribute.id ? 600 : 500,
-                  color: selectedAttribute === attribute.id ? colors.primary : colors.text,
-                  textAlign: 'center',
-                  transition: 'all 0.3s ease',
-                  position: 'relative',
-                  zIndex: 1,
-                }}
-              >
-                {attribute.name}
-              </span>
+              <span>{attribute.name}</span>
             </motion.div>
           ))}
         </motion.div>
