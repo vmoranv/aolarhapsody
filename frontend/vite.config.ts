@@ -4,9 +4,9 @@ import { defineConfig, loadEnv } from 'vite';
 
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
-  // Load env file based on `mode` in the current working directory.
-  // Set the third parameter to '' to load all env regardless of the `VITE_` prefix.
+  // Load all env variables from .env files
   const env = loadEnv(mode, process.cwd(), '');
+
   return {
     plugins: [react()],
     resolve: {
@@ -25,7 +25,10 @@ export default defineConfig(({ mode }) => {
     server: {
       proxy: {
         '/api': {
-          target: env.VITE_API_URL || 'http://localhost:3001',
+          // This proxy is ONLY for local development.
+          // It reads from VITE_PROXY_TARGET in your local .env file.
+          // If not found, it defaults to the local backend.
+          target: env.VITE_PROXY_TARGET || 'http://localhost:3000',
           changeOrigin: true,
         },
       },

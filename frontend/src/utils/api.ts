@@ -20,8 +20,8 @@ export class ApiError extends Error {
 
 // 通用数据获取函数
 export const fetchData = async <T>(endpoint: string): Promise<T[]> => {
-  const apiUrl = import.meta.env.VITE_API_URL || '/api';
-  const response = await fetch(`${apiUrl}/${endpoint}`);
+  const baseUrl = import.meta.env.VITE_API_URL || '';
+  const response = await fetch(`${baseUrl}/api/${endpoint}`);
 
   if (!response.ok) {
     throw new ApiError(`HTTP error! status: ${response.status}`, response.status);
@@ -38,8 +38,8 @@ export const fetchData = async <T>(endpoint: string): Promise<T[]> => {
 
 // 获取单个数据项
 export const fetchDataItem = async <T>(endpoint: string, id: string): Promise<T> => {
-  const apiUrl = import.meta.env.VITE_API_URL || '/api';
-  const response = await fetch(`${apiUrl}/${endpoint}/${id}`);
+  const baseUrl = import.meta.env.VITE_API_URL || '';
+  const response = await fetch(`${baseUrl}/api/${endpoint}/${id}`);
 
   if (!response.ok) {
     throw new ApiError(`HTTP error! status: ${response.status}`, response.status);
@@ -91,7 +91,9 @@ export const filterBySearch = <T extends { name: string; id: number }>(
   searchValue: string,
   additionalFields?: (item: T) => string[]
 ): T[] => {
-  if (!searchValue.trim()) return items;
+  if (!searchValue.trim()) {
+    return items;
+  }
 
   const lowerSearch = searchValue.toLowerCase();
 
@@ -99,13 +101,17 @@ export const filterBySearch = <T extends { name: string; id: number }>(
     const basicMatch =
       item.name.toLowerCase().includes(lowerSearch) || item.id.toString().includes(searchValue);
 
-    if (basicMatch) return true;
+    if (basicMatch) {
+      return true;
+    }
 
     if (additionalFields) {
       const additionalMatch = additionalFields(item).some((field) =>
         field.toLowerCase().includes(lowerSearch)
       );
-      if (additionalMatch) return true;
+      if (additionalMatch) {
+        return true;
+      }
     }
 
     return false;
@@ -118,7 +124,9 @@ export const filterByType = <T extends { [key: string]: any }>(
   qualityField: keyof T,
   threshold: number = 4
 ): T[] => {
-  if (filterType === 'all') return items;
+  if (filterType === 'all') {
+    return items;
+  }
 
   return items.filter((item) => {
     const quality = item[qualityField] as number;
