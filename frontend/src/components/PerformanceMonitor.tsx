@@ -26,6 +26,7 @@ const PerformanceMonitor: React.FC = () => {
   const frameCountRef = useRef(0);
   const lastTimeRef = useRef(performance.now());
   const animationIdRef = useRef<number | undefined>(undefined);
+  const measurementCountRef = useRef(0);
 
   useEffect(() => {
     if (isMonitoring) {
@@ -43,13 +44,37 @@ const PerformanceMonitor: React.FC = () => {
             ? Math.round((performance as any).memory.usedJSHeapSize / 1024 / 1024)
             : 0;
 
-          setStats((prev) => ({
-            ...prev,
-            fps,
-            frameTime: Math.round(frameTime * 100) / 100,
-            memoryUsage,
-          }));
+          setStats((prev) => {
+            const newStats = {
+              ...prev,
+              fps,
+              frameTime: Math.round(frameTime * 100) / 100,
+              memoryUsage,
+            };
 
+            // 预热期（前2次测量）不触发警报，以避免初始误报
+            if (measurementCountRef.current > 2) {
+              if (newStats.fps < 30 && newStats.fps > 0) {
+                console.error(
+                  `性能警报：FPS 过低 (${newStats.fps})。这可能表明某个组件的渲染或逻辑开销过大。请使用 React DevTools Profiler 进行分析。`
+                );
+              }
+              if (newStats.frameTime > 33) {
+                console.error(
+                  `性能警报：帧时间过长 (${newStats.frameTime}ms)。这可能表明某个组件的渲染或逻辑开销过大。请使用 React DevTools Profiler 进行分析。`
+                );
+              }
+              if (prev.memoryUsage > 0 && newStats.memoryUsage > prev.memoryUsage + 50) {
+                console.error(
+                  `性能警报：内存使用量激增（超过50MB）。当前使用量：${newStats.memoryUsage}MB。请检查是否存在内存泄漏。`
+                );
+              }
+            }
+
+            return newStats;
+          });
+
+          measurementCountRef.current++;
           frameCountRef.current = 0;
           lastTimeRef.current = now;
         }
@@ -75,6 +100,13 @@ const PerformanceMonitor: React.FC = () => {
       // 使用 requestAnimationFrame 来测量渲染时间
       requestAnimationFrame(() => {
         const renderTime = performance.now() - startTime;
+        if (renderTime > 16) {
+          console.error(
+            `性能警报：主题切换渲染时间过长 (${renderTime.toFixed(
+              2
+            )}ms)。这可能是由于大量组件重新渲染引起的。请使用 React DevTools Profiler 进行分析。`
+          );
+        }
         setStats((prev) => ({
           ...prev,
           renderTime: Math.round(renderTime * 100) / 100,

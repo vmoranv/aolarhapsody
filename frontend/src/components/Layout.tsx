@@ -1,12 +1,16 @@
 import type { MenuProps } from 'antd';
 import { Avatar, Dropdown, Layout as AntLayout, Menu, Space } from 'antd';
 import { motion } from 'framer-motion';
-import { Database, Home, Package, Search, Settings, User, Users } from 'lucide-react';
-import React from 'react';
+import { Search, Settings, User } from 'lucide-react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useNotificationContext } from '../hooks/useNotificationContext';
 import { useTheme } from '../hooks/useTheme';
+import { menuConfig } from '../router/menuConfig';
+import { useSettingStore } from '../store/setting';
 import NotificationDropdown from './NotificationDropdown';
+import PerformanceMonitor from './PerformanceMonitor';
+import SettingsDrawer from './SettingsDrawer';
 import ThemeToggle from './ThemeToggle';
 
 const { Header, Sider, Content } = AntLayout;
@@ -28,203 +32,67 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const location = useLocation();
   const { colors } = useTheme()!;
   const notifications = useNotificationContext();
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const { betaMode, performanceMonitoring } = useSettingStore();
 
-  /**
-   * 根据当前URL路径确定侧边栏中应选中的菜单项。
-   * @returns 返回一个包含选中菜单项key的数组。
-   */
-  const getSelectedKeys = () => {
+  const { menuItems, selectedKeys, openKeys, currentPageStatus } = useMemo(() => {
     const path = location.pathname;
-    switch (path) {
-      case '/app':
-        return ['1'];
-      case '/app/attribute':
-        return ['2-1'];
-      case '/app/pets':
-        return ['2-2'];
-      case '/app/astralspirit':
-        return ['2-3'];
-      case '/app/crystalkey':
-        return ['2-4'];
-      case '/app/godcard':
-        return ['2-5'];
-      case '/app/hk':
-        return ['2-6'];
-      case '/app/inscription':
-        return ['2-7'];
-      case '/app/petcard':
-        return ['2-8'];
-      case '/app/petcard2':
-        return ['2-9'];
-      case '/app/pmdatalist':
-        return ['2-10'];
-      case '/app/tote':
-        return ['2-11'];
-      case '/app/existing-packets':
-        return ['3-1'];
-      case '/app/miscellaneous':
-        return ['4'];
-      default:
-        return ['1'];
+    let currentItem = menuConfig
+      .flatMap((item) => item.children || item)
+      .find((item) => item.path === path);
+    if (!currentItem) {
+      const fallbackItem = menuConfig.find((item) => item.key === '1');
+      currentItem = fallbackItem!;
     }
-  };
 
-  /**
-   * 根据当前URL路径确定侧边栏中应展开的子菜单。
-   * @returns 返回一个包含展开子菜单key的数组。
-   */
-  const getOpenKeys = () => {
-    const path = location.pathname;
-    if (
-      path.startsWith('/app/attribute') ||
-      path.startsWith('/app/pets') ||
-      path.startsWith('/app/astralspirit') ||
-      path.startsWith('/app/crystalkey') ||
-      path.startsWith('/app/godcard') ||
-      path.startsWith('/app/hk') ||
-      path.startsWith('/app/inscription') ||
-      path.startsWith('/app/petcard') ||
-      path.startsWith('/app/pmdatalist') ||
-      path.startsWith('/app/tote')
-    ) {
-      return ['2'];
-    }
-    if (path.startsWith('/app/existing-packets')) {
-      return ['3'];
-    }
-    return [];
-  };
+    const selectedKeys = [currentItem.key];
+    const openKeys = currentItem.parentKey ? [currentItem.parentKey] : [];
+    const currentPageStatus = currentItem.status;
 
-  const menuItems: MenuProps['items'] = [
-    {
-      key: '1',
-      icon: <Home size={18} />,
-      label: '首页',
-    },
-    {
-      key: '2',
-      icon: <Database size={18} />,
-      label: '核心系统',
-      children: [
-        {
-          key: '2-1',
-          label: '系别克制',
-        },
-        {
-          key: '2-2',
-          label: '亚比图鉴',
-        },
-        {
-          key: '2-3',
-          label: '星灵系统',
-        },
-        {
-          key: '2-4',
-          label: '晶钥系统',
-        },
-        {
-          key: '2-5',
-          label: '神兵系统',
-        },
-        {
-          key: '2-6',
-          label: '魂卡系统',
-        },
-        {
-          key: '2-7',
-          label: '铭文系统',
-        },
-        {
-          key: '2-8',
-          label: '宠物卡系统',
-        },
-        {
-          key: '2-9',
-          label: '特性晶石',
-        },
-        {
-          key: '2-10',
-          label: 'PM数据列表',
-        },
-        {
-          key: '2-11',
-          label: 'Tote系统',
-        },
-      ],
-    },
-    {
-      key: '3',
-      icon: <Package size={18} />,
-      label: '封包解析',
-      children: [
-        {
-          key: '3-1',
-          label: '现有封包',
-        },
-      ],
-    },
-    {
-      key: '4',
-      icon: <Settings size={18} />,
-      label: '杂项数据',
-    },
-    {
-      key: '5',
-      icon: <Users size={18} />,
-      label: '社区',
-    },
-  ];
+    const transformMenuItems = (items: any[]): MenuProps['items'] => {
+      return items
+        .filter((item) => betaMode || item.status !== 'dev')
+        .map((item) => {
+          if (item.children) {
+            const filteredChildren = item.children.filter(
+              (child: any) => betaMode || child.status !== 'dev'
+            );
+            if (filteredChildren.length > 0) {
+              return {
+                key: item.key,
+                icon: item.icon,
+                label: item.label,
+                children: transformMenuItems(filteredChildren),
+              };
+            }
+            return null;
+          }
+          return {
+            key: item.key,
+            icon: item.icon,
+            label: item.label,
+          };
+        })
+        .filter(Boolean);
+    };
 
-  /**
-   * 处理侧边栏菜单的点击事件，根据点击的菜单项key导航到对应的页面。
-   * @param key - 被点击的菜单项的key。
-   */
+    const menuItems = transformMenuItems(menuConfig);
+
+    return { menuItems, selectedKeys, openKeys, currentPageStatus };
+  }, [location.pathname, betaMode]);
+
   const handleMenuClick = ({ key }: { key: string }) => {
-    switch (key) {
-      case '1':
-        navigate('/app');
-        break;
-      case '2-1':
-        navigate('/app/attribute');
-        break;
-      case '2-2':
-        navigate('/app/pets');
-        break;
-      case '2-3':
-        navigate('/app/astralspirit');
-        break;
-      case '2-4':
-        navigate('/app/crystalkey');
-        break;
-      case '2-5':
-        navigate('/app/godcard');
-        break;
-      case '2-6':
-        navigate('/app/hk');
-        break;
-      case '2-7':
-        navigate('/app/inscription');
-        break;
-      case '2-8':
-        navigate('/app/petcard');
-        break;
-      case '2-9':
-        navigate('/app/petcard2');
-        break;
-      case '2-10':
-        navigate('/app/pmdatalist');
-        break;
-      case '2-11':
-        navigate('/app/tote');
-        break;
-      case '3-1':
-        navigate('/app/existing-packets');
-        break;
-      case '4':
-        navigate('/app/miscellaneous');
-        break;
-      default:
-        break;
+    const targetItem = menuConfig
+      .flatMap((item) => item.children || item)
+      .find((item) => item.key === key);
+    if (targetItem && targetItem.path !== '#') {
+      navigate(targetItem.path);
+    }
+  };
+
+  const handleUserMenuClick = ({ key }: { key: string }) => {
+    if (key === 'settings') {
+      setSettingsOpen(true);
     }
   };
 
@@ -247,6 +115,12 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       label: '退出登录',
     },
   ];
+
+  useEffect(() => {
+    if (!betaMode && currentPageStatus === 'dev') {
+      navigate('/app');
+    }
+  }, [betaMode, currentPageStatus, navigate]);
 
   return (
     <AntLayout style={{ minHeight: '100vh' }}>
@@ -287,8 +161,8 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
         <Menu
           mode="inline"
-          selectedKeys={getSelectedKeys()}
-          defaultOpenKeys={getOpenKeys()}
+          selectedKeys={selectedKeys}
+          defaultOpenKeys={openKeys}
           items={menuItems}
           onClick={handleMenuClick}
           style={{ border: 'none' }}
@@ -327,7 +201,10 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               onClearAll={notifications.clearAll}
             />
 
-            <Dropdown menu={{ items: userMenuItems }} placement="bottomRight">
+            <Dropdown
+              menu={{ items: userMenuItems, onClick: handleUserMenuClick }}
+              placement="bottomRight"
+            >
               <motion.div whileHover={{ scale: 1.05 }} style={{ cursor: 'pointer' }}>
                 <Avatar
                   size={36}
@@ -359,6 +236,12 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             {children}
           </motion.div>
         </Content>
+        <SettingsDrawer
+          open={settingsOpen}
+          onClose={() => setSettingsOpen(false)}
+          currentPageStatus={currentPageStatus}
+        />
+        {performanceMonitoring && <PerformanceMonitor />}
       </AntLayout>
     </AntLayout>
   );

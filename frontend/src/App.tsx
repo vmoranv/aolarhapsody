@@ -3,10 +3,12 @@ import { HashRouter } from 'react-router-dom';
 import PerformanceMonitor from './components/PerformanceMonitor';
 import { NotificationProvider } from './contexts/NotificationContext';
 import { useTheme } from './hooks/useTheme';
+import { useSettingStore } from './store/setting';
 import Router from './router';
 
 const App = () => {
   const { theme: currentTheme, colors } = useTheme()!;
+  const { performanceMonitoring } = useSettingStore();
 
   const antdTheme = {
     algorithm: currentTheme === 'dark' ? theme.darkAlgorithm : theme.defaultAlgorithm,
@@ -111,7 +113,7 @@ const App = () => {
       <NotificationProvider>
         <HashRouter>
           <Router />
-          <PerformanceMonitor />
+          {performanceMonitoring && <PerformanceMonitor />}
         </HashRouter>
       </NotificationProvider>
     </ConfigProvider>

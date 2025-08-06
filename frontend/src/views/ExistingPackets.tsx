@@ -58,6 +58,8 @@ const ExistingPacketItem: React.FC<{ packet: ExistingPacket }> = ({ packet }) =>
         borderRadius: 8,
         border: `1px solid ${colors.borderSecondary}`,
         marginBottom: 8,
+        boxShadow: `0 4px 12px ${colors.shadow || 'rgba(0, 0, 0, 0.08)'}`,
+        transition: 'box-shadow 0.3s ease',
       }}
       actions={[
         <Button
@@ -66,6 +68,11 @@ const ExistingPacketItem: React.FC<{ packet: ExistingPacket }> = ({ packet }) =>
           icon={<Copy size={16} />}
           onClick={handleCopyPackage}
           size="small"
+          style={{
+            backgroundColor: colors.surface,
+            borderColor: colors.primary,
+            color: colors.primary,
+          }}
         >
           复制封包
         </Button>,
