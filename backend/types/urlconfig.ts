@@ -1,15 +1,18 @@
 /**
  * 基础URL配置
  */
-const BASE_URL = 'https://aola.100bt.com/h5';
-const DATA_PREFIX = `${BASE_URL}/data`; // JSON数据文件前缀
-const JS_PREFIX = `${BASE_URL}/js`; // JavaScript文件前缀
+const BASE_URL = 'https://aola.100bt.com';
+const H5_BASE_URL = `${BASE_URL}/h5`;
+const DATA_PREFIX = `${H5_BASE_URL}/data`; // JSON数据文件前缀
+const JS_PREFIX = `${H5_BASE_URL}/js`; // JavaScript文件前缀
+const PLAY_PREFIX = `${BASE_URL}/play`; // XML文件前缀
 
 /**
  * 游戏内各种数据资源的URL配置对象
  * 集中管理所有外部数据源的URL，方便维护和修改。
  */
 export const URL_CONFIG = {
+  sceneItem: `${PLAY_PREFIX}/sceneitem.xml`,
   astralSpirit: `${DATA_PREFIX}/astralspiritdata.json`,
   chatFrame: `${DATA_PREFIX}/chatframedata.json`,
   clothesData: `${DATA_PREFIX}/clothesdata.json`,

@@ -1,7 +1,13 @@
 import waitOn from 'wait-on';
 import { exec } from 'child_process';
+import dotenv from 'dotenv';
+import path from 'path';
 
-const backendUrl = 'http://localhost:3000';
+// Load backend .env file
+dotenv.config({ path: path.resolve(process.cwd(), 'backend', '.env') });
+
+const port = process.env.PORT || 3000;
+const backendUrl = `http://localhost:${port}`;
 
 const opts = {
   resources: [backendUrl],

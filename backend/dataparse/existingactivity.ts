@@ -1,14 +1,13 @@
 import axios from 'axios';
 import { parseStringPromise } from 'xml2js';
 import { ExistingActivity } from '../types/existingactivity';
-
-const XML_URL = 'https://aola.100bt.com/play/sceneitem.xml';
+import { URL_CONFIG } from '../types/urlconfig';
 
 const lowerCase = (name: string) => name.toLowerCase();
 
 export async function getExistingActivities(): Promise<ExistingActivity[]> {
   try {
-    const response = await axios.get(XML_URL, {
+    const response = await axios.get(URL_CONFIG.sceneItem, {
       responseType: 'arraybuffer', // 处理不同的编码
     });
 

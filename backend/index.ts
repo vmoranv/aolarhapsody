@@ -1,5 +1,6 @@
 // 导入必要的模块
 import cors from 'cors';
+import dotenv from 'dotenv';
 import express, { Express, Request, Response } from 'express';
 import { initializeMonitors } from './dataparse/subclasschecker';
 // 导入模块
@@ -10,9 +11,12 @@ import * as allTypes from './types';
 // 导出所有类型
 export { allTypes };
 
+// 配置dotenv
+dotenv.config();
+
 // 创建Express应用
 const app: Express = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 // 为所有路由启用CORS
 app.use(cors());

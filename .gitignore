@@ -26,3 +26,9 @@ dist-ssr
 *.sln
 *.sw?
 backend/aoladecompile_h5.md
+
+
+# Local environment variables
+.env
+.env.*
+!.env.example
