@@ -13,6 +13,7 @@ export * from './miracle';
 export * from './petcard';
 export * from './petcard2';
 export * from './petdictionary';
+export * from './petimage';
 export * from './petstone';
 export * from './pettalk';
 export * from './petterritoryfight';

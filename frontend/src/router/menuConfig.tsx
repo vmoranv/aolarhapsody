@@ -21,7 +21,7 @@ export const menuConfig: MenuItemConfig[] = [
   },
   {
     key: '2',
-    path: '#', // Parent items don't navigate
+    path: '#',
     label: '核心系统',
     icon: <Database size={18} />,
     status: 'release',
@@ -64,7 +64,7 @@ export const menuConfig: MenuItemConfig[] = [
   },
   {
     key: '5',
-    path: '#', // This item doesn't navigate anywhere in the original code
+    path: '#',
     label: '社区',
     icon: <Users size={18} />,
     status: 'release',

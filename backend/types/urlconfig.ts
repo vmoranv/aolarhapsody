@@ -12,6 +12,8 @@ const PLAY_PREFIX = `${BASE_URL}/play`; // XML文件前缀
  * 集中管理所有外部数据源的URL，方便维护和修改。
  */
 export const URL_CONFIG = {
+  petIconPrefix: `${H5_BASE_URL}/peticon`,
+  petEggPrefix: `${H5_BASE_URL}/petegg`,
   sceneItem: `${PLAY_PREFIX}/sceneitem.xml`,
   astralSpirit: `${DATA_PREFIX}/astralspiritdata.json`,
   chatFrame: `${DATA_PREFIX}/chatframedata.json`,

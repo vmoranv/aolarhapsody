@@ -15,6 +15,7 @@ import monitorRoutes from './monitor';
 import petCardRoutes from './petcard';
 import petCard2Routes from './petcard2';
 import petDictionaryRoutes from './petdictionary';
+import petimageRoutes from './petimage';
 import petStoneRoutes from './petstone';
 import petTalkRoutes from './pettalk';
 import petTerritoryFightRoutes from './petterritoryfight';
@@ -46,6 +47,7 @@ export default [
   petCard2Routes,
   petCardRoutes,
   petDictionaryRoutes,
+  petimageRoutes,
   petTalkRoutes,
   petTerritoryFightRoutes,
   taskRoutes,

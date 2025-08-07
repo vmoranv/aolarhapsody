@@ -13,6 +13,7 @@ import { initMiracleModule } from './miracle';
 import { initPetCardModule } from './petcard';
 import { initPetCard2Module } from './petcard2';
 import { initPetDictionaryModule } from './petdictionary';
+import { initPetImageModule } from './petimage';
 import { initPetStoneModule } from './petstone';
 import { initPetTalkModule } from './pettalk';
 import { initPetTerritoryFightModule } from './petterritoryfight';
@@ -43,6 +44,7 @@ export const initializers = {
   initPetCard2Module,
   initPetCardModule,
   initPetDictionaryModule,
+  initPetImageModule,
   initPetTalkModule,
   initPetTerritoryFightModule,
   initTaskModule,
