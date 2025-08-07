@@ -57,6 +57,8 @@ export const damageColors: { [key: string]: string } = {
   super: '#f44336',
 };
 
+import { URL_CONFIG } from '../types/url';
+
 /**
  * 获取系别图标URL
  * 根据系别ID生成对应的图标URL
@@ -65,27 +67,28 @@ export const damageColors: { [key: string]: string } = {
  * @returns {string} 系别图标URL
  */
 export function getAttributeIconUrl(id: number | string): string {
+  const { petAttributePrefix } = URL_CONFIG;
   // 特殊处理切换按钮的图标
   if (id === 'super-tab') {
-    return 'https://aola.100bt.com/h5/petattribute/attribute999.png';
+    return `${petAttributePrefix}/attribute999.png`;
   }
   if (id === 'origin-tab') {
-    return 'https://aola.100bt.com/h5/petattribute/attribute1000.png';
+    return `${petAttributePrefix}/attribute1000.png`;
   }
 
   // 特殊处理统一的原系和超系图标
   if (id === 999) {
     // 超系统一图标
-    return 'https://aola.100bt.com/h5/petattribute/attribute999.png';
+    return `${petAttributePrefix}/attribute999.png`;
   }
   if (id === 1000) {
     // 原系统一图标
-    return 'https://aola.100bt.com/h5/petattribute/attribute1000.png';
+    return `${petAttributePrefix}/attribute1000.png`;
   }
 
   // 原有的系别图标逻辑
   if (typeof id === 'number' && isSuperAttribute(id)) {
-    return `https://aola.100bt.com/h5/petattribute/oldattribute${id}.png`;
+    return `${petAttributePrefix}/oldattribute${id}.png`;
   }
-  return `https://aola.100bt.com/h5/petattribute/attribute${id}.png`;
+  return `${petAttributePrefix}/attribute${id}.png`;
 }
