@@ -27,7 +27,7 @@ export const menuConfig: MenuItemConfig[] = [
     status: 'release',
     children: [
       { key: '2-1', path: '/app/attribute', label: '系别克制', status: 'release', parentKey: '2' },
-      { key: '2-2', path: '/app/pets', label: '亚比图鉴', status: 'dev', parentKey: '2' },
+      { key: '2-2', path: '/app/pets', label: '亚比图鉴', status: 'release', parentKey: '2' },
       { key: '2-3', path: '/app/astralspirit', label: '星灵系统', status: 'dev', parentKey: '2' },
       { key: '2-4', path: '/app/crystalkey', label: '晶钥系统', status: 'dev', parentKey: '2' },
       { key: '2-5', path: '/app/godcard', label: '神兵系统', status: 'dev', parentKey: '2' },

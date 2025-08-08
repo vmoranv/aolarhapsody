@@ -1,467 +1,535 @@
-import { useQuery } from '@tanstack/react-query';
+/**
+ * 亚比查询组件
+ * ---------------------------
+ * 精确复刻自原始的 uTools 插件 UI 和逻辑
+ */
 import {
-  Avatar,
-  Card,
-  Col,
-  Empty,
-  Pagination,
-  Row,
-  Space,
-  Tag,
-  theme,
-  Tooltip,
-  Typography,
-} from 'antd';
+  DownloadOutlined,
+  LoadingOutlined,
+  PauseCircleOutlined,
+  SoundOutlined,
+} from '@ant-design/icons';
+import { useQuery } from '@tanstack/react-query';
+import { App, Button, Card, Collapse, Empty, Image, Input, Select, Space, Typography } from 'antd';
 import { motion } from 'framer-motion';
-import { Gift, Heart, MapPin } from 'lucide-react';
-import React, { useMemo, useState } from 'react';
-import toast from 'react-hot-toast';
+import { Filter, Search } from 'lucide-react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import ErrorDisplay from '../components/ErrorDisplay';
 import Layout from '../components/Layout';
 import LoadingSpinner from '../components/LoadingSpinner';
-import SearchAndFilter from '../components/SearchAndFilter';
-import { useTheme } from '../hooks/useTheme';
-import { useStatusColor } from '../theme/colors';
-import { getPetImageUrls } from '../utils/pet-helper';
+import { getAttributeIconUrl, ProcessedAttribute } from '../utils/attribute-helper';
+import {
+  calculateStats,
+  fetchPetDictionaryById,
+  formatTime,
+  generateCollapseSkillItems,
+  generateSearchOptions,
+  getAttributeName,
+  handleDownloadAudio,
+  handlePlayAudio,
+  handleProgressClick,
+  setupAudio,
+  Stat,
+} from '../utils/pet-dictionary-helper';
+import {
+  createAttributeNameMap,
+  fetchPetList,
+  fetchPetRawDataById,
+  fetchSkillAttributes,
+  filterPets,
+  generateSkillItems,
+  getPetImageUrl,
+  PetListItem,
+  splitToArray,
+} from '../utils/pet-helper';
+import './PetDictionary.css';
 
-const { Title, Paragraph, Text } = Typography;
+const { Option } = Select;
+const { Title } = Typography;
 
-// 亚比图鉴数据类型
-interface PetDictionaryItem {
-  petID: number;
-  petName: string;
-  petHeight: string;
-  petWeight: string;
-  defAttribute: string;
-  attAttribute: string;
-  evolutionLevel: string;
-  isNew: string;
-  isRare: string;
-  loc: string;
-  getWay: string;
-  petFavourite: string;
-  petIntro: string;
-  locations: string;
-  securable: string;
-  isHotPet: string;
-  isKingPet: string;
-  canComment: string;
-  isPetSkin: string;
-  skinRaceId: string;
-  taskId: string;
-}
-
-/**
- * 通用API响应结构
- * @template T 响应数据的类型
- */
-interface ApiResponse<T> {
-  success: boolean; // 请求是否成功
-  data?: T; // 响应数据
-  error?: string; // 错误信息
-  count?: number; // 数据总数
-  timestamp: string; // 服务器时间戳
-}
-
-/**
- * 异步获取亚比图鉴数据
- * @returns 返回一个包含所有亚比图鉴项的Promise数组
- * @throws 当网络请求失败或API返回错误时抛出异常
- */
-const fetchPetDictionary = async (): Promise<PetDictionaryItem[]> => {
-  const response = await fetch('/api/petdictionary');
-
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
-  }
-
-  const result: ApiResponse<PetDictionaryItem[]> = await response.json();
-
-  if (result.success && Array.isArray(result.data)) {
-    return result.data;
-  } else {
-    throw new Error(result.error || '获取亚比图鉴数据失败');
-  }
-};
-
-/**
- * 亚比卡片组件
- * @param pet - 单个亚比的数据
- * @param index - 亚比在列表中的索引，用于动画延迟
- */
-const PetCard: React.FC<{ pet: PetDictionaryItem; index: number }> = ({ pet, index }) => {
-  const petImages = getPetImageUrls(pet.petID);
-  const { token } = theme.useToken();
-  const rareColor = useStatusColor('error');
-  const normalColor = useStatusColor('info');
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{
-        duration: 0.4,
-        delay: index * 0.05,
-        ease: 'easeOut',
-      }}
-      whileHover={{
-        y: -8,
-        transition: { duration: 0.2 },
-      }}
-    >
-      <Card
-        hoverable
-        style={{
-          borderRadius: 16,
-          overflow: 'hidden',
-          border:
-            pet.isRare === '1'
-              ? `2px solid ${rareColor}`
-              : `1px solid ${token.colorBorderSecondary}`,
-          background:
-            pet.isRare === '1'
-              ? `linear-gradient(135deg, ${rareColor}10 0%, ${rareColor}08 100%)`
-              : token.colorBgContainer,
-          boxShadow: `0 4px 12px ${token.colorBorderSecondary}`,
-          height: '100%',
-        }}
-        cover={
-          <div
-            style={{
-              height: 200,
-              background: `linear-gradient(135deg, ${pet.isRare === '1' ? rareColor : normalColor}20 0%, ${pet.isRare === '1' ? rareColor : normalColor}10 100%)`,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              position: 'relative',
-              overflow: 'hidden',
-            }}
-          >
-            <motion.img
-              src={petImages.bigImage}
-              alt={pet.petName}
-              style={{
-                maxWidth: '80%',
-                maxHeight: '80%',
-                objectFit: 'contain',
-                filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.2))',
-              }}
-              whileHover={{ scale: 1.1 }}
-              transition={{ duration: 0.3 }}
-              onError={(e) => {
-                const target = e.target as HTMLImageElement;
-                target.src =
-                  'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiByeD0iMTIiIGZpbGw9IiNGNUY1RjUiLz4KPHN2ZyB4PSIzMCIgeT0iMzAiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiNEOUQ5RDkiIHN0cm9rZS13aWR0aD0iMiI+CjxwYXRoIGQ9Im0xNSAxOC0zLTMtMy0zIi8+CjxwYXRoIGQ9Ik05IDEyaDEydjkiLz4KPHN2Zz4KPC9zdmc+';
-              }}
-            />
-
-            {/* 标签 */}
-            <div
-              style={{
-                position: 'absolute',
-                top: 12,
-                right: 12,
-                display: 'flex',
-                flexDirection: 'column',
-                gap: 4,
-              }}
-            >
-              {pet.isNew === '1' && (
-                <Tag color="green" style={{ margin: 0, borderRadius: 12 }}>
-                  新
-                </Tag>
-              )}
-              {pet.isRare === '1' && (
-                <Tag color="red" style={{ margin: 0, borderRadius: 12 }}>
-                  稀有
-                </Tag>
-              )}
-              {pet.isHotPet === '1' && (
-                <Tag color="orange" style={{ margin: 0, borderRadius: 12 }}>
-                  热门
-                </Tag>
-              )}
-              {pet.isKingPet === '1' && (
-                <Tag color="gold" style={{ margin: 0, borderRadius: 12 }}>
-                  王者
-                </Tag>
-              )}
-            </div>
-          </div>
-        }
-      >
-        <Space direction="vertical" size="small" style={{ width: '100%' }}>
-          <div style={{ textAlign: 'center' }}>
-            <Title level={4} style={{ margin: 0, color: token.colorText }}>
-              {pet.petName}
-            </Title>
-            <Text type="secondary" style={{ fontSize: '12px' }}>
-              ID: {pet.petID}
-            </Text>
-          </div>
-
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <Space size={4}>
-              <Avatar size={20} style={{ backgroundColor: token.colorPrimary }}>
-                攻
-              </Avatar>
-              <Text style={{ fontSize: '12px', color: token.colorText }}>{pet.attAttribute}</Text>
-            </Space>
-            <Space size={4}>
-              <Avatar size={20} style={{ backgroundColor: '#52c41a' }}>
-                防
-              </Avatar>
-              <Text style={{ fontSize: '12px', color: token.colorText }}>{pet.defAttribute}</Text>
-            </Space>
-          </div>
-
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <MapPin size={14} color={token.colorTextSecondary} />
-            <Text style={{ fontSize: '12px', color: token.colorTextSecondary }} ellipsis>
-              {pet.locations || pet.loc || '未知地点'}
-            </Text>
-          </div>
-
-          {pet.getWay && (
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <Gift size={14} color={token.colorTextSecondary} />
-              <Text style={{ fontSize: '12px', color: token.colorTextSecondary }} ellipsis>
-                {pet.getWay}
-              </Text>
-            </div>
-          )}
-
-          {pet.petFavourite && (
-            <Tooltip title={pet.petFavourite}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <Heart size={14} color={useStatusColor('error')} />
-                <Text style={{ fontSize: '12px', color: token.colorTextSecondary }} ellipsis>
-                  {pet.petFavourite}
-                </Text>
-              </div>
-            </Tooltip>
-          )}
-
-          {pet.petIntro && (
-            <Tooltip title={pet.petIntro}>
-              <Text
-                style={{
-                  fontSize: '12px',
-                  color: token.colorTextTertiary,
-                  display: '-webkit-box',
-                  WebkitLineClamp: 2,
-                  WebkitBoxOrient: 'vertical',
-                  overflow: 'hidden',
-                }}
-              >
-                {pet.petIntro}
-              </Text>
-            </Tooltip>
-          )}
-        </Space>
-      </Card>
-    </motion.div>
-  );
-};
-
-/**
- * 亚比图鉴页面组件
- * - 使用 React Query 进行数据获取和状态管理
- * - 实现搜索、筛选和分页功能
- * - 使用 Framer Motion 添加动画效果
- */
-const PetDictionary = () => {
-  const { colors } = useTheme()!;
-  const [searchValue, setSearchValue] = useState('');
-  const [filterType, setFilterType] = useState<'all' | 'super' | 'normal'>('all');
-  const [currentPage, setCurrentPage] = useState(1);
-  const pageSize = 24;
-
+const PetDescription: React.FC<{ petId: number }> = ({ petId }) => {
   const {
-    data: pets = [],
+    data: description,
     isLoading,
     error,
-    refetch,
   } = useQuery({
-    queryKey: ['pet-dictionary'],
-    queryFn: fetchPetDictionary,
+    queryKey: ['petDictionary', petId, 'description'],
+    queryFn: () => fetchPetDictionaryById(petId),
+    select: (data) => data.petIntro || '暂无介绍',
+    enabled: !!petId,
   });
 
-  // Handle success and error states
-  React.useEffect(() => {
-    if (error) {
-      toast.error(`加载失败: ${error instanceof Error ? error.message : String(error)}`);
+  if (isLoading) return <div className="description-loading">加载介绍中...</div>;
+  if (error) return <div className="description-error">获取介绍失败</div>;
+  return <div className="description-content">{description}</div>;
+};
+
+export default function PetDictionary() {
+  const { message } = App.useApp();
+  const navigate = useNavigate();
+  const [searchKeyword, setSearchKeyword] = useState('');
+  const [selectedAttribute, setSelectedAttribute] = useState('all');
+  const [selectedPet, setSelectedPet] = useState<PetListItem | null>(null);
+  const [showStats, setShowStats] = useState(false);
+  const [isNewSkillSet, setIsNewSkillSet] = useState(true);
+
+  const [audioState, setAudioState] = useState({
+    isLoading: false,
+    isPlaying: false,
+    error: false,
+    duration: 0,
+    currentTime: 0,
+    progress: 0,
+  });
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const progressRef = useRef<HTMLDivElement | null>(null);
+
+  // --- Data Fetching ---
+  const {
+    data: pets = [],
+    isLoading: isLoadingPets,
+    error: petsError,
+  } = useQuery<PetListItem[], Error>({
+    queryKey: ['pets'],
+    queryFn: fetchPetList,
+    staleTime: Infinity,
+  });
+
+  const { data: skillAttributes = [] } = useQuery<ProcessedAttribute[], Error>({
+    queryKey: ['skillAttributes'],
+    queryFn: fetchSkillAttributes,
+    staleTime: Infinity,
+  });
+
+  const { data: selectedPetRawData } = useQuery({
+    queryKey: ['petRawData', selectedPet?.id],
+    queryFn: () => fetchPetRawDataById(selectedPet!.id),
+    enabled: !!selectedPet,
+  });
+
+  const { data: petDictionaryData } = useQuery({
+    queryKey: ['petDictionary', selectedPet?.id],
+    queryFn: () => fetchPetDictionaryById(Number(selectedPet!.id)),
+    enabled: !!selectedPet,
+  });
+
+  const attributeNameMap = useMemo(
+    () => createAttributeNameMap(skillAttributes),
+    [skillAttributes]
+  );
+
+  // --- Effects ---
+  useEffect(() => {
+    if (!isLoadingPets && pets.length > 0 && !selectedPet) {
+      setSelectedPet(pets[0]);
     }
-  }, [error]);
+  }, [isLoadingPets, pets, selectedPet]);
 
-  React.useEffect(() => {
-    if (pets.length > 0) {
-      toast.success('亚比图鉴加载成功！');
+  useEffect(() => {
+    if (selectedPet) {
+      setShowStats(false);
+      setTimeout(() => setShowStats(true), 100);
     }
-  }, [pets]);
+  }, [selectedPet]);
 
-  // 筛选和搜索逻辑
-  const filteredPets = useMemo(() => {
-    let filtered = pets;
+  useEffect(() => {
+    return () => {
+      audioRef.current?.pause();
+    };
+  }, []);
 
-    // 按类型筛选
-    if (filterType === 'super') {
-      filtered = filtered.filter((pet) => pet.isRare === '1' || pet.isKingPet === '1');
-    } else if (filterType === 'normal') {
-      filtered = filtered.filter((pet) => pet.isRare !== '1' && pet.isKingPet !== '1');
+  // --- Memos ---
+  const handleSelectPet = useCallback((pet: PetListItem) => {
+    setSelectedPet(pet);
+    setSearchKeyword(pet.name);
+  }, []);
+
+  const searchOptions = useMemo(() => {
+    const options = generateSearchOptions(pets, searchKeyword, selectedAttribute, filterPets);
+    return options.map(({ value, pet }) => ({
+      value,
+      pet,
+      label: (
+        <div className="search-option" onClick={() => handleSelectPet(pet)}>
+          <img
+            src={getPetImageUrl(pet.id, 'small')}
+            alt={pet.name}
+            className="search-option-icon"
+            onError={(e) => {
+              (e.target as HTMLImageElement).style.display = 'none';
+            }}
+          />
+          <div className="search-option-info">
+            <span className="search-option-name">{pet.name}</span>
+            <span className="search-option-id">ID: {pet.id}</span>
+          </div>
+          {pet.attribute1 && pet.attribute1 !== '0' && (
+            <div className="search-option-attribute">
+              <img
+                src={getAttributeIconUrl(Number(pet.attribute1))}
+                alt={getAttributeName(pet.attribute1, attributeNameMap)}
+              />
+            </div>
+          )}
+          {pet.attribute2 && pet.attribute2 !== '0' && pet.attribute1 !== pet.attribute2 && (
+            <div className="search-option-attribute">
+              <img
+                src={getAttributeIconUrl(Number(pet.attribute2))}
+                alt={getAttributeName(pet.attribute2, attributeNameMap)}
+              />
+            </div>
+          )}
+        </div>
+      ),
+    }));
+  }, [pets, searchKeyword, selectedAttribute, attributeNameMap, handleSelectPet, getAttributeName]);
+
+  const stats: Stat[] = useMemo(
+    () => calculateStats(selectedPetRawData, petDictionaryData),
+    [selectedPetRawData, petDictionaryData]
+  );
+
+  const skillItems = useMemo(() => {
+    const items = generateCollapseSkillItems(selectedPetRawData, isNewSkillSet, generateSkillItems);
+    if (items.length === 0 || items[0].children === null) {
+      return [
+        {
+          key: '1',
+          label: '技能列表',
+          children: <Empty description="暂无技能数据" />,
+        },
+      ];
     }
+    return items.map((item) => ({
+      ...item,
+      children: (
+        <div className="skills-grid">
+          {(item.children as string[]).map((skill, index) => {
+            let level, skillId;
+            if (isNewSkillSet && skill.includes('-')) {
+              [level, skillId] = skill.split('-');
+            } else {
+              skillId = skill;
+            }
 
-    // 按名称搜索
-    if (searchValue.trim()) {
-      filtered = filtered.filter(
-        (pet) =>
-          pet.petName.toLowerCase().includes(searchValue.toLowerCase()) ||
-          pet.petID.toString().includes(searchValue) ||
-          (pet.attAttribute &&
-            pet.attAttribute.toLowerCase().includes(searchValue.toLowerCase())) ||
-          (pet.defAttribute && pet.defAttribute.toLowerCase().includes(searchValue.toLowerCase()))
-      );
+            return (
+              <Card size="small" className="skill-item" key={`skill-${index}`}>
+                <Space direction="vertical" size={0}>
+                  {level && <Typography.Text>等级 {level}</Typography.Text>}
+                  <Typography.Text>技能ID: {skillId}</Typography.Text>
+                </Space>
+              </Card>
+            );
+          })}
+        </div>
+      ),
+    }));
+  }, [selectedPetRawData, isNewSkillSet]);
+
+  // --- Handlers ---
+  const setupAudioCallback = useCallback(() => {
+    setupAudio(audioRef, setAudioState, message);
+  }, [message]);
+
+  useEffect(() => {
+    if (selectedPet && Number(selectedPet.id) >= 3923) {
+      setupAudioCallback();
+      const audio = audioRef.current!;
+      audio.pause();
+      const petId = selectedPet.id.toString().replace('_0', '');
+      const audioSrc = `http://aola.100bt.com/play/music/petsound/petsound${petId}.mp3`;
+      if (audio.src !== audioSrc) {
+        setAudioState({
+          isLoading: true,
+          isPlaying: false,
+          error: false,
+          duration: 0,
+          currentTime: 0,
+          progress: 0,
+        });
+        audio.src = audioSrc;
+        audio.load();
+      } else {
+        setAudioState({
+          isLoading: false,
+          isPlaying: false,
+          error: false,
+          duration: audio.duration,
+          currentTime: 0,
+          progress: 0,
+        });
+      }
     }
+  }, [selectedPet, setupAudioCallback]);
 
-    return filtered;
-  }, [pets, searchValue, filterType]);
+  const handlePlayAudioCallback = useCallback(() => {
+    handlePlayAudio(selectedPet, audioRef, audioState, setupAudioCallback, setAudioState, message);
+  }, [selectedPet, audioState, setupAudioCallback, message]);
 
-  // 分页数据
-  const paginatedPets = useMemo(() => {
-    const startIndex = (currentPage - 1) * pageSize;
-    return filteredPets.slice(startIndex, startIndex + pageSize);
-  }, [filteredPets, currentPage, pageSize]);
+  const handleProgressClickCallback = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      handleProgressClick(e, audioRef, audioState, progressRef);
+    },
+    [audioState]
+  );
 
-  // 重置搜索和筛选
-  const handleReset = () => {
-    setSearchValue('');
-    setFilterType('all');
-    setCurrentPage(1);
-  };
+  const handleDownloadAudioCallback = useCallback(() => {
+    handleDownloadAudio(selectedPet);
+  }, [selectedPet]);
 
-  if (isLoading) {
+  // --- Render ---
+  if (isLoadingPets) {
     return (
       <Layout>
-        <LoadingSpinner text="正在加载亚比图鉴数据..." />
+        <LoadingSpinner text="加载亚比列表中..." />
       </Layout>
     );
   }
 
-  if (error) {
+  if (petsError) {
     return (
       <Layout>
-        <ErrorDisplay
-          error={error instanceof Error ? error.message : String(error)}
-          onRetry={() => refetch()}
-        />
+        <ErrorDisplay error={petsError.message} onRetry={() => window.location.reload()} />
       </Layout>
     );
   }
 
   return (
     <Layout>
-      <Space direction="vertical" size="large" style={{ width: '100%' }}>
-        {/* 页面标题 */}
+      <div className="pet-container">
+        <Title level={1} style={{ textAlign: 'center', margin: '20px 0' }}>
+          亚比查询
+        </Title>
         <motion.div
-          initial={{ opacity: 0, y: -20 }}
+          initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.3 }}
+          style={{
+            background: 'var(--color-surface)',
+            padding: '20px',
+            borderRadius: '12px',
+            boxShadow: '0 2px 8px var(--color-shadow)',
+            marginBottom: '24px',
+            border: '1px solid var(--border-dark)',
+          }}
         >
-          <Title
-            level={1}
-            style={{
-              margin: 0,
-              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              fontSize: '32px',
-            }}
-          >
-            亚比图鉴
-          </Title>
-          <Paragraph style={{ fontSize: '16px', color: colors.textSecondary, marginTop: 8 }}>
-            探索奥拉星世界中所有可爱的亚比伙伴，了解它们的属性和特征
-          </Paragraph>
-        </motion.div>
-
-        {/* 搜索和筛选 */}
-        <SearchAndFilter
-          searchValue={searchValue}
-          onSearchChange={setSearchValue}
-          filterType={filterType}
-          onFilterChange={setFilterType}
-          onReset={handleReset}
-          totalCount={pets.length}
-          filteredCount={filteredPets.length}
-        />
-
-        {/* 亚比网格 */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-        >
-          {paginatedPets.length > 0 ? (
-            <>
-              <Row gutter={[16, 16]}>
-                {paginatedPets.map((pet, index) => (
-                  <Col xs={24} sm={12} md={8} lg={6} xl={4} key={pet.petID}>
-                    <PetCard pet={pet} index={index} />
-                  </Col>
-                ))}
-              </Row>
-
-              {filteredPets.length > pageSize && (
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3, delay: 0.5 }}
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    marginTop: 32,
-                  }}
-                >
-                  <Pagination
-                    current={currentPage}
-                    total={filteredPets.length}
-                    pageSize={pageSize}
-                    onChange={setCurrentPage}
-                    showSizeChanger={false}
-                    showQuickJumper
-                    showTotal={(total, range) =>
-                      `第 ${range[0]}-${range[1]} 条，共 ${total} 只亚比`
-                    }
-                  />
-                </motion.div>
-              )}
-            </>
-          ) : (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.3 }}
+          <Space direction="vertical" size="middle" style={{ width: '100%' }}>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                flexWrap: 'wrap',
+                gap: '16px',
+              }}
             >
-              <Empty
-                image={Empty.PRESENTED_IMAGE_SIMPLE}
-                description={
-                  <span style={{ color: colors.textSecondary }}>
-                    {searchValue || filterType !== 'all' ? '没有找到匹配的亚比' : '暂无亚比数据'}
-                  </span>
-                }
-                style={{
-                  padding: '60px 20px',
-                  background: colors.surface,
-                  borderRadius: 12,
-                  border: `1px solid ${colors.borderSecondary}`,
-                }}
-              />
-            </motion.div>
-          )}
+              <div className="search-filter-wrapper">
+                <Input
+                  placeholder="搜索亚比..."
+                  prefix={<Search size={16} />}
+                  value={searchKeyword}
+                  onChange={(e) => setSearchKeyword(e.target.value)}
+                  style={{
+                    borderRadius: 8,
+                    minWidth: '200px',
+                  }}
+                  allowClear
+                  size="large"
+                />
+                <Select
+                  value={selectedAttribute}
+                  onChange={setSelectedAttribute}
+                  style={{ minWidth: '120px' }}
+                  suffixIcon={<Filter size={16} />}
+                  size="large"
+                >
+                  <Option value="all">
+                    <span>全部系别</span>
+                  </Option>
+                  {skillAttributes.map((attr) => (
+                    <Option key={attr.id} value={attr.id.toString()}>
+                      <div className="attribute-option">
+                        <img
+                          src={getAttributeIconUrl(attr.id)}
+                          alt={attr.name}
+                          className="attribute-option-icon"
+                        />
+                        <span>{attr.name}</span>
+                      </div>
+                    </Option>
+                  ))}
+                </Select>
+                {searchOptions.length > 0 && (
+                  <div className="search-results-dropdown">
+                    {searchOptions.map((option) => (
+                      <div key={option.value} className="search-result-item">
+                        {option.label}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          </Space>
         </motion.div>
-      </Space>
+
+        {selectedPet ? (
+          <Card>
+            <div className="pet-info-container">
+              <div className="pet-avatar">
+                <Image
+                  width="100%"
+                  height="100%"
+                  style={{ objectFit: 'contain' }}
+                  src={getPetImageUrl(selectedPet.id, 'big')}
+                  alt={selectedPet.name}
+                  fallback={getPetImageUrl(selectedPet.id, 'small')}
+                  preview={false}
+                />
+              </div>
+              <div className="pet-detail-area">
+                <div className="pet-detail-header">
+                  <div className="pet-name-container">
+                    <h2 className="pet-name">{selectedPet.name}</h2>
+                    <div className="pet-attributes">
+                      {selectedPet.attribute1 && selectedPet.attribute1 !== '0' && (
+                        <div
+                          className="pet-attribute clickable"
+                          title={`${getAttributeName(selectedPet.attribute1, attributeNameMap)}系`}
+                          onClick={() =>
+                            navigate(`/app/attribute?attrId=${selectedPet.attribute1}`)
+                          }
+                        >
+                          <img
+                            src={getAttributeIconUrl(Number(selectedPet.attribute1))}
+                            alt={getAttributeName(selectedPet.attribute1, attributeNameMap)}
+                            className="attribute-icon"
+                          />
+                        </div>
+                      )}
+                      {selectedPet.attribute2 &&
+                        selectedPet.attribute2 !== '0' &&
+                        selectedPet.attribute1 !== selectedPet.attribute2 && (
+                          <div
+                            className="pet-attribute clickable"
+                            title={`${getAttributeName(selectedPet.attribute2, attributeNameMap)}系`}
+                            onClick={() =>
+                              navigate(`/app/attribute?attrId=${selectedPet.attribute2}`)
+                            }
+                          >
+                            <img
+                              src={getAttributeIconUrl(Number(selectedPet.attribute2))}
+                              alt={getAttributeName(selectedPet.attribute2, attributeNameMap)}
+                              className="attribute-icon"
+                            />
+                          </div>
+                        )}
+                    </div>
+                  </div>
+                  <div className="pet-audio-container">
+                    <div className="pet-id">
+                      种族值ID: <span className="pet-id-value">{selectedPet.id}</span>
+                    </div>
+                    {Number(selectedPet.id) >= 3923 && (
+                      <div className="pet-audio-player">
+                        <button
+                          className="audio-play-button"
+                          onClick={handlePlayAudioCallback}
+                          disabled={audioState.isLoading || audioState.error}
+                          title={audioState.isPlaying ? '暂停' : '播放'}
+                        >
+                          {audioState.isLoading ? (
+                            <LoadingOutlined className="audio-icon loading" />
+                          ) : audioState.isPlaying ? (
+                            <PauseCircleOutlined className="audio-icon playing" />
+                          ) : (
+                            <SoundOutlined className="audio-icon" />
+                          )}
+                        </button>
+                        <div
+                          className="audio-progress-container"
+                          ref={progressRef}
+                          onClick={handleProgressClickCallback}
+                        >
+                          <div
+                            className="audio-progress-bar"
+                            style={{ width: `${audioState.progress}%` }}
+                          />
+                        </div>
+                        <span className="audio-time">
+                          {formatTime(audioState.currentTime)} / {formatTime(audioState.duration)}
+                        </span>
+                        <button
+                          className="audio-download"
+                          onClick={handleDownloadAudioCallback}
+                          title="下载语音"
+                        >
+                          <DownloadOutlined style={{ color: '#1890ff' }} />
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </div>
+                <PetDescription petId={Number(selectedPet.id)} />
+                <Card title="种族值" style={{ marginTop: '20px' }}>
+                  <div className="stats-grid">
+                    {stats.map((stat) => (
+                      <div className="stat-item" key={stat.key}>
+                        <span className="stat-label">{stat.label}</span>
+                        <div className="stat-bar-container">
+                          <motion.div
+                            className="stat-bar"
+                            initial={{ width: '0%' }}
+                            animate={{ width: showStats ? `${stat.percent || 0}%` : '0%' }}
+                            transition={{ duration: 0.5, ease: 'easeOut' }}
+                          />
+                          <span className="stat-value">{stat.display || stat.value}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </Card>
+                <div className="pet-detail-content">
+                  <div className="skill-set-toggle">
+                    <Button
+                      shape="circle"
+                      onClick={() => setIsNewSkillSet((p) => !p)}
+                      title={isNewSkillSet ? '切换到旧技能组' : '切换到新技能组'}
+                    >
+                      {isNewSkillSet ? '新' : '旧'}
+                    </Button>
+                  </div>
+                  <Collapse items={skillItems} />
+                  {selectedPetRawData && selectedPetRawData[26] && (
+                    <div className="evolution-section">
+                      <h3>进化路径</h3>
+                      <div className="evolution-path">
+                        {splitToArray(selectedPetRawData[26]).map((evo, index) => {
+                          const [level, evoId] = evo.split('-');
+                          return (
+                            <React.Fragment key={`evo-${index}`}>
+                              {index > 0 && <span className="evolution-arrow">→</span>}
+                              <Card size="small" className="evolution-item">
+                                <div>Lv.{level}</div>
+                                <div>ID: {evoId}</div>
+                              </Card>
+                            </React.Fragment>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          </Card>
+        ) : (
+          <div className="error-container">
+            <Empty description="请从左侧列表选择或搜索一个亚比来查看详情" />
+          </div>
+        )}
+      </div>
     </Layout>
   );
-};
-
-export default PetDictionary;
+}

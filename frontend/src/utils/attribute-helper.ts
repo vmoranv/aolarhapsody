@@ -1,4 +1,9 @@
 /**
+ * 表示一个处理过的属性，包含ID和名称
+ */
+export type ProcessedAttribute = { id: number; name: string };
+
+/**
  * 判断是否是超系
  * 使用ID>22作为判断标准
  *

@@ -1,0 +1,1023 @@
+/**
+ * 亚比查询模块样式
+ * ---------------------------
+ * 定义亚比查询页面的布局和样式
+ */
+
+/* 亚比容器 - 页面主容器 */
+.pet-container {
+  max-width: 1200px;
+  padding: 20px;
+  margin: 0 auto;
+  font-family: 'Microsoft YaHei', sans-serif;
+  color: #ccc;
+}
+
+/* 亚比页面顶部区域 */
+.pet-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.pet-title {
+  width: 100%;
+  margin: 0;
+  font-size: 24px;
+  font-weight: 500;
+  color: #fff;
+  text-align: center;
+}
+
+.loading-container,
+.error-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+  height: 60vh;
+  padding: 30px;
+  background: #222;
+  border-radius: 8px;
+}
+
+.search-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto 20px;
+}
+
+.search-filter-wrapper {
+  position: relative;
+  display: flex;
+  flex: 1;
+  gap: 16px;
+  align-items: center;
+  min-width: 300px;
+}
+
+.search-results-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  left: 0;
+  z-index: 1000;
+  max-height: 300px;
+  margin-top: 8px;
+  overflow-y: auto;
+  background: rgb(34 34 34 / 80%);
+  border: 1px solid var(--color-border-secondary);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px var(--color-shadow);
+  backdrop-filter: blur(10px);
+}
+
+.search-result-item {
+  padding: 10px 16px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.search-result-item:hover {
+  background-color: var(--color-surface-hover);
+}
+
+/* Enlarge the clear icon */
+.ant-input-clear-icon {
+  font-size: 16px !important;
+  transform: scale(1.2);
+}
+
+/* 下拉选项样式 */
+.pet-option {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 8px 0;
+}
+
+.pet-option-image-placeholder {
+  width: 30px;
+  height: 30px;
+  background: #333;
+  border-radius: 4px;
+}
+
+.pet-option-name {
+  flex: 1;
+  color: #eee;
+}
+
+.pet-option-attribute {
+  width: 24px;
+  height: 24px;
+}
+
+.pet-info-container {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 30px;
+}
+
+.pet-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 400px;
+  height: 400px;
+  overflow: hidden;
+  background: transparent;
+  border: 1px solid var(--border-dark);
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgb(0 0 0 / 20%);
+}
+
+.pet-name-container {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.pet-name {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.pet-attributes {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  height: 36px;
+  margin-left: 10px;
+}
+
+.pet-attribute {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  overflow: hidden;
+  cursor: pointer;
+  background-color: rgb(0 0 0 / 20%);
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgb(0 0 0 / 30%);
+  transition: all 0.3s ease;
+}
+
+.attribute-icon {
+  width: 100%;
+  height: 100%;
+  padding: 2px; /* 增加一点内边距，避免图标紧贴边缘 */
+  object-fit: contain;
+}
+
+.pet-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.stat-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.stat-label {
+  width: 60px;
+  color: #888;
+  text-align: right;
+}
+
+.stat-bar-container {
+  flex: 1;
+  height: 10px;
+  overflow: hidden;
+  background: #333;
+  border-radius: 5px;
+}
+
+.stat-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary-light), var(--secondary-light));
+  border-radius: 5px;
+}
+
+[data-theme='dark'] .stat-bar {
+  background: linear-gradient(90deg, var(--primary-dark), var(--secondary-dark));
+}
+
+.stat-value {
+  min-width: 50px;
+  margin-left: 5px;
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* 详细数据部分 */
+.pet-detail-data {
+  margin-top: 30px;
+}
+
+.detail-section-title {
+  margin-bottom: 20px;
+  font-size: 20px;
+  font-weight: 500;
+  color: #fff;
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.detail-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 15px;
+  background-color: rgb(30 30 30 / 70%);
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgb(0 0 0 / 20%);
+}
+
+.detail-label {
+  color: #888;
+}
+
+.detail-value {
+  font-weight: 500;
+  color: #fff;
+}
+
+/* 技能部分 */
+.skills-section {
+  margin-top: 30px;
+}
+
+.skills-section h3,
+.evolution-section h3 {
+  margin-bottom: 15px;
+  font-size: 18px;
+  font-weight: 500;
+  color: #fff;
+}
+
+/* 技能折叠面板样式 */
+.skills-collapse {
+  margin-top: 20px;
+  background: #2a2a2a !important;
+  border: none !important;
+}
+
+.skills-collapse .ant-collapse-header {
+  color: #ccc !important;
+  background: #333;
+  border-radius: 4px !important;
+}
+
+.skills-collapse .ant-collapse-content {
+  background: #2a2a2a !important;
+  border-top: 1px solid #444 !important;
+}
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+  padding: 10px;
+}
+
+.skill-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  background: #333;
+  border-radius: 4px;
+}
+
+/* 进化部分 */
+.evolution-section {
+  margin-top: 30px;
+}
+
+.evolution-path {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.evolution-step {
+  display: flex;
+  align-items: center;
+}
+
+.evolution-arrow {
+  margin: 0 10px;
+  font-size: 20px;
+  color: #888;
+}
+
+.evolution-item.ant-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 70px;
+  height: 70px;
+  text-align: center;
+}
+
+.evolution-item .ant-card-body {
+  padding: 0;
+}
+
+/* 自定义下拉样式 */
+.ant-select-dropdown {
+  background-color: #282828 !important;
+  border: 1px solid #333 !important;
+}
+
+.ant-select-item {
+  color: #ccc !important;
+}
+
+.ant-select-item-option-active {
+  background-color: #333 !important;
+}
+
+.ant-select-item-option-selected {
+  background-color: #444 !important;
+}
+
+/* ID范围提示样式 */
+.id-range-hint {
+  margin-top: 10px;
+  font-size: 13px;
+  font-style: italic;
+  color: #888;
+  text-align: center;
+}
+
+/* 响应式设计 */
+@media (width <= 768px) {
+  .pet-info-container {
+    grid-template-columns: 1fr;
+  }
+
+  .pet-avatar {
+    margin-bottom: 20px;
+  }
+
+  .detail-grid,
+  .skills-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .skill-set-toggle {
+    text-align: center; /* 在移动设备上居中显示 */
+  }
+
+  .toggle-button {
+    width: 100%; /* 在移动设备上占据整个宽度 */
+    margin-bottom: 20px; /* 增加下边距，与技能数据保持距离 */
+  }
+}
+
+/* 搜索选项样式 */
+.search-option {
+  display: flex;
+  align-items: center;
+  padding: 8px 10px;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background-color 0.2s;
+}
+
+.search-option:hover {
+  background-color: #3a3a3a;
+}
+
+.search-option-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 35px;
+  height: 35px;
+  padding: 3px;
+  margin-right: 12px;
+  background: rgb(0 0 0 / 20%);
+  border-radius: 8px;
+}
+
+.search-option-icon img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.search-option-info {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.search-option-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: #eee;
+}
+
+.search-option-id {
+  margin-top: 2px;
+  font-size: 12px;
+  color: #888;
+}
+
+.search-option-attribute {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  margin-left: 10px;
+}
+
+.search-option-attribute img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+/* 搜索框提示文本 */
+.search-tip {
+  padding-right: 10px;
+  font-size: 12px;
+  color: #888;
+}
+
+/* 种族值进度条样式 */
+
+.description-content {
+  padding: 10px;
+  border: 1px solid var(--border-dark);
+  border-radius: 8px;
+}
+
+.ant-collapse-header {
+  border: 1px solid var(--border-dark);
+  border-radius: 8px !important;
+}
+
+.evolution-section {
+  padding: 10px;
+  border: 1px solid var(--border-dark);
+  border-radius: 8px;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-rows: repeat(4, auto);
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  width: 100%;
+}
+
+/* 确保身高体重在最后一行 */
+.stats-grid .stat-item:nth-child(7),
+.stats-grid .stat-item:nth-child(8) {
+  grid-row: 4;
+}
+
+.stats-grid .stat-item:nth-child(7) {
+  grid-column: 1;
+}
+
+.stats-grid .stat-item:nth-child(8) {
+  grid-column: 2;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+}
+
+.stat-label {
+  width: 50px;
+  margin-right: 15px;
+  font-size: 14px;
+  color: #ddd;
+  text-align: right;
+}
+
+.stat-bar-container {
+  position: relative;
+  display: flex;
+  flex: 1;
+  align-items: center;
+  height: 25px;
+  overflow: hidden;
+  background: #333;
+  border-radius: 50px;
+  box-shadow: inset 0 2px 4px rgb(0 0 0 / 30%);
+}
+
+.stat-bar {
+  height: 100%;
+  border-radius: 50px;
+  transition: width 1s ease;
+}
+
+.stat-value {
+  position: absolute;
+  right: 10px;
+  z-index: 1;
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+  text-shadow: 0 0 3px rgb(0 0 0 / 80%);
+}
+
+/* 响应式调整 */
+@media (width >= 768px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* 修改种族值ID样式 */
+.pet-id {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  margin-top: 5px;
+  font-size: 14px;
+  color: #aaa;
+}
+
+.pet-id-value {
+  display: inline; /* 从块级改为内联 */
+  font-weight: 500;
+  color: #fff;
+}
+
+/* 种族值标题样式 */
+.stats-title {
+  margin-bottom: 15px;
+  font-size: 18px;
+  font-weight: 500;
+  color: #eee;
+}
+
+.detail-section h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 18px;
+  font-weight: 500;
+  color: #fff;
+}
+
+/* 修改基本属性区样式，完全与种族值统一但更加精致 */
+.basic-attributes-section {
+  position: relative;
+  padding: 15px 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  overflow: hidden;
+  background-color: rgb(34 34 34 / 80%);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 20%);
+}
+
+/* 添加微妙的渐变背景效果 */
+.basic-attributes-section::before {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  content: '';
+  background: linear-gradient(135deg, rgb(60 60 60 / 5%) 0%, rgb(20 20 20 / 0%) 100%);
+}
+
+/* 优化详细信息布局 */
+.detail-grid {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* 美化详细信息行样式 */
+.detail-item {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 6px 0;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.detail-item:hover {
+  padding-right: 5px;
+  padding-left: 5px;
+  background-color: rgb(60 60 60 / 20%);
+}
+
+/* 标签样式微调 */
+.detail-label {
+  width: 70px;
+  margin-right: 12px;
+  font-size: 14px;
+  color: #aaa;
+  text-align: right;
+  transition: color 0.2s ease;
+}
+
+.detail-item:hover .detail-label {
+  color: #bbb;
+}
+
+/* 优化数值样式 */
+.detail-value {
+  margin-left: auto;
+  font-weight: 500;
+  color: #fff;
+  text-shadow: 0 1px 2px rgb(0 0 0 / 30%);
+  transition: all 0.2s ease;
+}
+
+.detail-item:hover .detail-value {
+  transform: scale(1.02);
+}
+
+/* 美化中间空白区域 */
+.detail-spacer {
+  flex: 1;
+  align-self: center;
+  min-width: 200px;
+  height: 2px;
+  margin: 0 8px;
+  background: linear-gradient(90deg, rgb(80 80 80 / 10%), rgb(80 80 80 / 20%), rgb(80 80 80 / 10%));
+  border-radius: 1px;
+}
+
+/* 移除详情内容区域的分割线 */
+.pet-detail-content {
+  padding-top: 20px;
+  margin-top: 0;
+  border-top: none; /* 移除分割线 */
+}
+
+/* 调整整体布局比例 */
+@media (width >= 768px) {
+  .pet-card-container {
+    grid-template-columns: 250px 1fr;
+  }
+}
+
+/* 调整宠物图片区域大小 */
+.pet-image-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: auto;
+  max-height: 220px;
+  margin-bottom: 15px;
+  overflow: hidden;
+}
+
+.pet-image {
+  max-width: 80%;
+  max-height: 200px;
+  object-fit: contain;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-rows: repeat(4, auto);
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  width: 100%;
+}
+
+/* 确保在小屏幕上也能保持2列布局 */
+@media (width <= 576px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* 搜索区域整体样式 */
+.search-area {
+  margin-bottom: 30px;
+}
+
+/* 搜索过滤容器样式调整 */
+.search-filter-container {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* 搜索输入框占据更多空间 */
+.search-input {
+  flex: 1;
+}
+
+/* 统一系别筛选器样式与搜索框一致 */
+.attribute-filter {
+  width: 150px;
+  overflow: hidden;
+  background: #333;
+  border-radius: 50px;
+  box-shadow: 0 4px 10px rgb(0 0 0 / 20%);
+  transition: all 0.3s ease;
+}
+
+/* 添加悬停效果与搜索框一致 */
+.attribute-filter:hover,
+.attribute-filter.ant-select-focused {
+  box-shadow: 0 4px 15px rgb(0 0 0 / 30%);
+  transform: translateY(-2px);
+}
+
+/* 覆盖Ant Design Select组件的默认样式，与搜索框统一 */
+.attribute-filter .ant-select-selector,
+.attribute-filter.ant-select-focused .ant-select-selector,
+.attribute-filter .ant-select-selection-item,
+.attribute-filter .ant-select-selection-search {
+  height: 34px !important;
+  color: #fff !important;
+  background-color: #333 !important;
+  border-color: #444 !important;
+  border-radius: 50px !important;
+  box-shadow: none !important;
+}
+
+/* 覆盖Select组件的各种状态，提高优先级 */
+.attribute-filter .ant-select-selector:hover,
+.attribute-filter.ant-select-focused .ant-select-selector,
+.attribute-filter .ant-select-selector:active,
+.attribute-filter.ant-select-open .ant-select-selector {
+  border-color: #555 !important;
+  box-shadow: none !important;
+}
+
+/* 确保系别选择框内容垂直居中 */
+.attribute-filter .ant-select-selection-item {
+  display: flex !important;
+  align-items: center !important;
+  font-size: 16px !important;
+  line-height: 34px !important;
+  color: #fff !important;
+}
+
+/* 系别筛选箭头颜色修正 */
+.attribute-filter .ant-select-arrow {
+  color: #aaa !important;
+  transition: color 0.2s;
+}
+
+.attribute-filter:hover .ant-select-arrow {
+  color: #bbb !important;
+}
+
+/* 系别选项样式调整 */
+.attribute-option {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 5px 0;
+}
+
+.attribute-option-icon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+/* 亚比语音播放器 - 更新为水平布局 */
+.pet-audio-container {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+
+.pet-id {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  min-width: 120px;
+  font-size: 14px;
+  color: #aaa;
+}
+
+.pet-audio-player {
+  display: flex;
+  flex: 1;
+  gap: 10px;
+  align-items: center;
+  padding: 5px 15px;
+  background: linear-gradient(to right, #3330, #2a2a2a);
+  border-radius: 50px;
+  box-shadow: 0 2px 5px rgb(0 0 0 / 20%);
+}
+
+.audio-controls {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.audio-play-button {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  color: #eee;
+  cursor: pointer;
+  border: none;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.audio-play-button:hover {
+  background: #444;
+  transform: scale(1.05);
+}
+
+.audio-play-button:disabled {
+  cursor: wait;
+  opacity: 0.7;
+  transform: none;
+}
+
+.audio-icon {
+  font-size: 18px;
+  color: #1890ff;
+}
+
+.audio-icon.loading {
+  color: #faad14;
+  animation: spin 1s infinite linear;
+}
+
+.audio-icon.playing {
+  color: #52c41a;
+}
+
+.audio-progress-container {
+  position: relative;
+  flex: 1;
+  height: 6px;
+  overflow: hidden;
+  cursor: pointer;
+  background: #444;
+  border-radius: 3px;
+}
+
+.audio-progress-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: linear-gradient(90deg, #1890ff, #52c41a);
+  border-radius: 3px;
+  transition: width 0.1s linear;
+}
+
+.audio-time {
+  min-width: 80px;
+  font-size: 12px;
+  color: #bbb;
+  text-align: center;
+}
+
+.audio-download {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.audio-download:hover {
+  background: rgb(255 255 255 / 10%);
+}
+
+.audio-error-message {
+  margin-left: 10px;
+  font-size: 13px;
+  font-style: italic;
+  color: #ff7875;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* 响应式布局调整 */
+@media (width <= 768px) {
+  .pet-audio-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .pet-audio-player {
+    width: 100%;
+  }
+}
+
+/* 亚比介绍样式 */
+.pet-description {
+  padding: 15px;
+  margin: 15px 0;
+  background: #2a2a2a;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgb(0 0 0 / 20%);
+}
+
+.description-content {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #eee;
+  text-align: justify;
+}
+
+/* 修改选择器高度 */
+:where(.css-dev-only-do-not-override-1a3rktk).ant-select-single.ant-select-lg {
+  height: 33px;
+  font-size: 16px;
+}
+
+/* 确保内部元素也相应调整 */
+:where(.css-dev-only-do-not-override-1a3rktk).ant-select-single.ant-select-lg .ant-select-selector {
+  height: 33px !important;
+  line-height: 31px !important;
+}
+
+:where(.css-dev-only-do-not-override-1a3rktk).ant-select-single.ant-select-lg
+  .ant-select-selection-item {
+  line-height: 31px !important;
+}
+
+/* 修改系别选择器边框样式 */
+:where(.css-dev-only-do-not-override-1a3rktk).ant-select-outlined:not(.ant-select-customize-input)
+  .ant-select-selector {
+  background: #333;
+  border: 1px solid #2a2a2a;
+}
+
+.attribute-filter .ant-select-selector,
+.attribute-filter.ant-select-focused .ant-select-selector,
+.attribute-filter .ant-select-selection-item,
+.attribute-filter .ant-select-selection-search {
+  height: 34px !important;
+  color: #fff !important;
+  background-color: #333 !important;
+  border-color: #2a2a2a !important;
+  border-radius: 50px !important;
+  box-shadow: none !important;
+}
+
+/* 调整技能组切换按钮的容器 */
+.skill-set-toggle {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+}
+
+/* 技能参数样式 */
+.skill-params {
+  margin-left: 10px;
+  font-size: 12px;
+  color: #888;
+}

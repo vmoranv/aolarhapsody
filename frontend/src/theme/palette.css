@@ -32,6 +32,8 @@
   --stat-sp-attack-light: #807dba;
   --stat-sp-defense-light: #6a51a3;
   --stat-speed-light: #54278f;
+  --stat-height-light: #807dba;
+  --stat-weight-light: #9e9ac8;
   --status-success-light: #9e9ac8;
   --status-warning-light: #807dba;
   --status-error-light: #6a51a3;
@@ -39,7 +41,7 @@
 
   /* Dark Theme */
   --primary-dark: #58a6ff;
-  --secondary-dark: #3ddc84;
+  --secondary-dark: #9e9ac8;
   --background-dark: #0d1117;
   --surface-dark: #161b22;
   --elevated-dark: #21262d;
@@ -64,12 +66,14 @@
   --quality-3-dark: #9e9ac8;
   --quality-4-dark: #bcbddc;
   --quality-5-dark: #dadaeb;
-  --stat-hp-dark: #54278f;
-  --stat-attack-dark: #6a51a3;
-  --stat-defense-dark: #807dba;
-  --stat-sp-attack-dark: #9e9ac8;
-  --stat-sp-defense-dark: #bcbddc;
-  --stat-speed-dark: #dadaeb;
+  --stat-hp-dark: #6a51a3;
+  --stat-attack-dark: #807dba;
+  --stat-defense-dark: #9e9ac8;
+  --stat-sp-attack-dark: #bcbddc;
+  --stat-sp-defense-dark: #dadaeb;
+  --stat-speed-dark: #6a51a3;
+  --stat-height-dark: #807dba;
+  --stat-weight-dark: #9e9ac8;
   --status-success-dark: #807dba;
   --status-warning-dark: #9e9ac8;
   --status-error-dark: #dadaeb;

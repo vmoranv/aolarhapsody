@@ -1,4 +1,4 @@
-import { ConfigProvider, theme } from 'antd';
+import { App as AntApp, ConfigProvider, theme } from 'antd';
 import { HashRouter } from 'react-router-dom';
 import PerformanceMonitor from './components/PerformanceMonitor';
 import { NotificationProvider } from './contexts/NotificationContext';
@@ -110,12 +110,14 @@ const App = () => {
 
   return (
     <ConfigProvider theme={antdTheme}>
-      <NotificationProvider>
-        <HashRouter>
-          <Router />
-          {performanceMonitoring && <PerformanceMonitor />}
-        </HashRouter>
-      </NotificationProvider>
+      <AntApp>
+        <NotificationProvider>
+          <HashRouter>
+            <Router />
+            {performanceMonitoring && <PerformanceMonitor />}
+          </HashRouter>
+        </NotificationProvider>
+      </AntApp>
     </ConfigProvider>
   );
 };

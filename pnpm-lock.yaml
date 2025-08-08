@@ -144,6 +144,9 @@ importers:
       '@ant-design/colors':
         specifier: ^7.2.1
         version: 7.2.1
+      '@ant-design/icons':
+        specifier: ^5.3.7
+        version: 5.6.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@tanstack/react-query':
         specifier: ^5.83.0
         version: 5.83.0(react@19.1.0)

@@ -103,51 +103,49 @@ export const transitionColors = {
   // 从浅色模式切换到深色模式时，中间色为浅蓝紫（参考暗色模式主色）
   lightToDark: '#aed6f1',
   // 从深色模式切换到浅色模式时，中间色为深蓝紫（参考亮色模式主色）
-    darkToLight: '#6C3483',
-  } as const;
-  
-  // 品质等级颜色映射
-  export const getQualityColor = (quality: number, isDark = false) => {
-    const theme = isDark ? 'dark' : 'light';
-    if (quality >= 1 && quality <= 5) {
-      return `var(--quality-${quality}-${theme})`;
-    }
-    return 'var(--surface-light)';
-  };
-  
-  // 属性统计颜色映射
-  export const getStatColor = (
-    stat: 'hp' | 'attack' | 'defense' | 'spAttack' | 'spDefense' | 'speed',
-    isDark = false
-  ) => {
-    const theme = isDark ? 'dark' : 'light';
-    const statName = stat.replace('sp', 'sp-');
-    return `var(--stat-${statName}-${theme})`;
-  };
-  
-  // 状态颜色映射
-  export const getStatusColor = (
-    status: 'success' | 'warning' | 'error' | 'info',
-    isDark = false
-  ) => {
-    const theme = isDark ? 'dark' : 'light';
-    return `var(--status-${status}-${theme})`;
-  };
-  
-  // Hook 版本的颜色获取函数
-  export const useQualityColor = (quality: number) => {
-    const { theme } = useTheme()!;
-    return getQualityColor(quality, theme === 'dark');
-  };
-  
-  export const useStatColor = (
-    stat: 'hp' | 'attack' | 'defense' | 'spAttack' | 'spDefense' | 'speed'
-  ) => {
-    const { theme } = useTheme()!;
-    return getStatColor(stat, theme === 'dark');
-  };
-  
-  export const useStatusColor = (status: 'success' | 'warning' | 'error' | 'info') => {
-    const { theme } = useTheme()!;
-    return getStatusColor(status, theme === 'dark');
-  };
+  darkToLight: '#6C3483',
+} as const;
+
+// 品质等级颜色映射
+export const getQualityColor = (quality: number, isDark = false) => {
+  const theme = isDark ? 'dark' : 'light';
+  if (quality >= 1 && quality <= 5) {
+    return `var(--quality-${quality}-${theme})`;
+  }
+  return 'var(--surface-light)';
+};
+
+import { StatKey } from '../utils/pet-dictionary-helper';
+
+// 属性统计颜色映射
+export const getStatColor = (stat: StatKey, isDark = false) => {
+  const theme = isDark ? 'dark' : 'light';
+  // 将驼峰命名转换为 kebab-case，例如 spAtk -> sp-attack
+  const statName = stat.replace(/([A-Z])/g, '-$1').toLowerCase();
+  return `var(--stat-${statName}-${theme})`;
+};
+
+// 状态颜色映射
+export const getStatusColor = (
+  status: 'success' | 'warning' | 'error' | 'info',
+  isDark = false
+) => {
+  const theme = isDark ? 'dark' : 'light';
+  return `var(--status-${status}-${theme})`;
+};
+
+// Hook 版本的颜色获取函数
+export const useQualityColor = (quality: number) => {
+  const { theme } = useTheme()!;
+  return getQualityColor(quality, theme === 'dark');
+};
+
+export const useStatColor = (stat: StatKey) => {
+  const { theme } = useTheme()!;
+  return getStatColor(stat, theme === 'dark');
+};
+
+export const useStatusColor = (status: 'success' | 'warning' | 'error' | 'info') => {
+  const { theme } = useTheme()!;
+  return getStatusColor(status, theme === 'dark');
+};

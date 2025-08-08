@@ -9,8 +9,8 @@ const { Option } = Select;
 interface SearchAndFilterProps {
   searchValue: string;
   onSearchChange: (value: string) => void;
-  filterType: 'all' | 'super' | 'normal';
-  onFilterChange: (value: 'all' | 'super' | 'normal') => void;
+  filterType: string;
+  onFilterChange: (value: string) => void;
   onReset: () => void;
   totalCount: number;
   filteredCount: number;

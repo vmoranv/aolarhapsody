@@ -176,12 +176,19 @@ export function parseAndCacheFullPetData(rawData: {
 
 /**
  * 获取简化的亚比列表
- * @returns {{ id: string | number; name: string }[]} 一个包含亚比ID和名称的对象数组
+ * @returns {{ id: string | number; name: string; attribute1: string | number; attribute2: string | number }[]} 一个包含亚比ID、名称和系别的对象数组
  */
-export function getPetList(): { id: string | number; name: string }[] {
+export function getPetList(): {
+  id: string | number;
+  name: string;
+  attribute1: string | number;
+  attribute2: string | number;
+}[] {
   return fullPetDataCache.map((pet) => ({
     id: pet.id,
     name: String(pet.rawData[1] || '未知'),
+    attribute1: pet.rawData[16] || '0',
+    attribute2: pet.rawData[17] || '0',
   }));
 }
 
