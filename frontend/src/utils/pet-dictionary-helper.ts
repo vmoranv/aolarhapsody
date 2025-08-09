@@ -47,6 +47,13 @@ export interface PetDictionaryDataItem {
   skinRaceId: string;
   /** 任务ID */
   taskId: string;
+  /** 亚比时代信息 */
+  petEra?: {
+    eraName: 'legend' | 'degenerator' | 'xinghui' | 'gq';
+    systemName: string;
+    displayName: string;
+    typeId: number;
+  };
 }
 
 /**

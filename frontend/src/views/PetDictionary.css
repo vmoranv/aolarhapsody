@@ -143,6 +143,24 @@
   margin-bottom: 5px;
 }
 
+.pet-era-tag {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  overflow: hidden;
+  background-color: rgb(0 0 0 / 20%);
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgb(0 0 0 / 30%);
+}
+
+.era-icon {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
 .pet-name {
   margin: 0;
   font-size: 24px;

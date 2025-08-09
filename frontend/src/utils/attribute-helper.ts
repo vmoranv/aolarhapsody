@@ -97,3 +97,26 @@ export function getAttributeIconUrl(id: number | string): string {
   }
   return `${petAttributePrefix}/attribute${id}.png`;
 }
+
+/**
+ * 获取时代/体系图标URL
+ * @param eraName 时代/体系名称 ('gq', 'xinghui', etc.)
+ * @param typeId 系统类型的数字ID
+ * @returns 时代/体系图标的URL，如果不支持则返回空字符串
+ */
+export function getEraIconUrl(
+  eraName: 'gq' | 'xinghui' | 'legend' | 'degenerator',
+  typeId: number
+): string {
+  const { guangqiIconPrefix, xinghuiIconPrefix } = URL_CONFIG;
+  const index = 0; // 硬编码为0
+
+  switch (eraName) {
+    case 'gq':
+      return `${guangqiIconPrefix}/icon_${typeId}_${index}.png`;
+    case 'xinghui':
+      return `${xinghuiIconPrefix}/icon_${typeId}_${index}.png`;
+    default:
+      return ''; // legend 和 degenerator 没有特定图标
+  }
+}

@@ -364,19 +364,22 @@ export async function fetchAndCacheGameMainData(): Promise<void> {
       const buildEraData = (eraKey: string, nameArr: string[]): EraData => {
         const regex = new RegExp(`${eraKey}\\.([A-Z_\\d]+)\\s*=\\s*(-?\\d+);`, 'g');
         const idToSystemNameMap: Record<string, string> = {};
+        const systemNameToIdMap: Record<string, number> = {};
         let match;
         while ((match = regex.exec(jsContent)) !== null) {
           const systemName = match[1];
           const id = match[2];
-          if (parseInt(id, 10) >= 0) {
+          const numId = parseInt(id, 10);
+          if (numId >= 0) {
             idToSystemNameMap[id] = systemName;
+            systemNameToIdMap[systemName] = numId;
           }
         }
         const arrForMapping = nameArr[0] === '' ? nameArr.slice(1) : nameArr;
         const idToDisplayNameMap = Object.fromEntries(
           arrForMapping.map((name, i) => [(i + 1).toString(), name])
         );
-        return { idToSystemNameMap, idToDisplayNameMap };
+        return { idToSystemNameMap, idToDisplayNameMap, systemNameToIdMap };
       };
 
       const degeneratorNames = extractDictionary(
@@ -389,7 +392,11 @@ export async function fetchAndCacheGameMainData(): Promise<void> {
       ) as string[];
       const gqNames = extractDictionary(jsContent, 'GQPetType.SystemNameArr') as string[];
 
-      const legend: EraData = { idToSystemNameMap: {}, idToDisplayNameMap: {} };
+      const legend: EraData = {
+        idToSystemNameMap: {},
+        idToDisplayNameMap: {},
+        systemNameToIdMap: {},
+      };
       const legendRegex = /LegendPetType\.([A-Z_]+)\s*=\s*(\d+);/g;
       const legendNameMap: Record<string, string> = {
         KILL: '必杀型传奇（KILL）',
@@ -400,7 +407,9 @@ export async function fetchAndCacheGameMainData(): Promise<void> {
       while ((match = legendRegex.exec(jsContent)) !== null) {
         const systemName = match[1];
         const id = match[2];
+        const numId = parseInt(id, 10);
         legend.idToSystemNameMap[id] = systemName;
+        legend.systemNameToIdMap[systemName] = numId;
         if (legendNameMap[systemName]) {
           legend.idToDisplayNameMap[id] = legendNameMap[systemName];
         }

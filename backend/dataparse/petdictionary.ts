@@ -25,11 +25,14 @@ export async function initPetDictionaryModule(): Promise<boolean> {
     const getType = (
       era: keyof typeof petTypeData,
       id: string
-    ): { systemName: string; displayName: string } => {
+    ): { systemName: string; displayName: string; typeId: number } => {
       const eraData = petTypeData[era];
+      const systemName = eraData.idToSystemNameMap[id] || id;
+      const typeId = eraData.systemNameToIdMap[systemName] || 0;
       return {
-        systemName: eraData.idToSystemNameMap[id] || id,
+        systemName,
         displayName: eraData.idToDisplayNameMap[id] || id,
+        typeId,
       };
     };
 

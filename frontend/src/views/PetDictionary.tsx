@@ -18,7 +18,7 @@ import { useNavigate } from 'react-router-dom';
 import ErrorDisplay from '../components/ErrorDisplay';
 import Layout from '../components/Layout';
 import LoadingSpinner from '../components/LoadingSpinner';
-import { getAttributeIconUrl, ProcessedAttribute } from '../utils/attribute-helper';
+import { getAttributeIconUrl, getEraIconUrl, ProcessedAttribute } from '../utils/attribute-helper';
 import {
   calculateStats,
   fetchPetDictionaryById,
@@ -71,6 +71,7 @@ export default function PetDictionary() {
   const [searchKeyword, setSearchKeyword] = useState('');
   const [selectedAttribute, setSelectedAttribute] = useState('all');
   const [selectedPet, setSelectedPet] = useState<PetListItem | null>(null);
+  const [showSearchResults, setShowSearchResults] = useState(false);
   const [showStats, setShowStats] = useState(false);
   const [isNewSkillSet, setIsNewSkillSet] = useState(true);
 
@@ -143,6 +144,7 @@ export default function PetDictionary() {
   const handleSelectPet = useCallback((pet: PetListItem) => {
     setSelectedPet(pet);
     setSearchKeyword(pet.name);
+    setShowSearchResults(false);
   }, []);
 
   const searchOptions = useMemo(() => {
@@ -329,7 +331,10 @@ export default function PetDictionary() {
                   placeholder="搜索亚比..."
                   prefix={<Search size={16} />}
                   value={searchKeyword}
-                  onChange={(e) => setSearchKeyword(e.target.value)}
+                  onChange={(e) => {
+                    setSearchKeyword(e.target.value);
+                    setShowSearchResults(true);
+                  }}
                   style={{
                     borderRadius: 8,
                     minWidth: '200px',
@@ -360,7 +365,7 @@ export default function PetDictionary() {
                     </Option>
                   ))}
                 </Select>
-                {searchOptions.length > 0 && (
+                {showSearchResults && searchOptions.length > 0 && (
                   <div className="search-results-dropdown">
                     {searchOptions.map((option) => (
                       <div key={option.value} className="search-result-item">
@@ -392,6 +397,27 @@ export default function PetDictionary() {
                 <div className="pet-detail-header">
                   <div className="pet-name-container">
                     <h2 className="pet-name">{selectedPet.name}</h2>
+                    {petDictionaryData?.petEra &&
+                      (() => {
+                        const iconUrl = getEraIconUrl(
+                          petDictionaryData.petEra.eraName,
+                          petDictionaryData.petEra.typeId
+                        );
+                        return (
+                          iconUrl && (
+                            <div
+                              className="pet-era-tag"
+                              title={petDictionaryData.petEra.displayName}
+                            >
+                              <img
+                                src={iconUrl}
+                                alt={petDictionaryData.petEra.displayName}
+                                className="era-icon"
+                              />
+                            </div>
+                          )
+                        );
+                      })()}
                     <div className="pet-attributes">
                       {selectedPet.attribute1 && selectedPet.attribute1 !== '0' && (
                         <div

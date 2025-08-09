@@ -1,6 +1,7 @@
 export interface EraData {
   idToSystemNameMap: Record<string, string>;
   idToDisplayNameMap: Record<string, string>;
+  systemNameToIdMap: Record<string, number>;
 }
 
 /**
@@ -54,6 +55,7 @@ export interface PetDictionaryDataItem {
     eraName: 'legend' | 'degenerator' | 'xinghui' | 'gq';
     systemName: string;
     displayName: string;
+    typeId: number;
   };
 }
 /**
