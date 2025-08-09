@@ -18,6 +18,7 @@ import { useNavigate } from 'react-router-dom';
 import ErrorDisplay from '../components/ErrorDisplay';
 import Layout from '../components/Layout';
 import LoadingSpinner from '../components/LoadingSpinner';
+import SkillCard from '../components/SkillCard';
 import { getAttributeIconUrl, getEraIconUrl, ProcessedAttribute } from '../utils/attribute-helper';
 import {
   calculateStats,
@@ -208,21 +209,15 @@ export default function PetDictionary() {
       children: (
         <div className="skills-grid">
           {(item.children as string[]).map((skill, index) => {
-            let level, skillId;
-            if (isNewSkillSet && skill.includes('-')) {
-              [level, skillId] = skill.split('-');
+            let skillId;
+            const parts = skill.split('-');
+            if (isNewSkillSet && parts.length >= 3) {
+              skillId = parts[parts.length - 1];
             } else {
               skillId = skill;
             }
 
-            return (
-              <Card size="small" className="skill-item" key={`skill-${index}`}>
-                <Space direction="vertical" size={0}>
-                  {level && <Typography.Text>等级 {level}</Typography.Text>}
-                  <Typography.Text>技能ID: {skillId}</Typography.Text>
-                </Space>
-              </Card>
-            );
+            return <SkillCard key={`skill-${index}`} skillId={skillId} />;
           })}
         </div>
       ),
@@ -422,7 +417,6 @@ export default function PetDictionary() {
                       {selectedPet.attribute1 && selectedPet.attribute1 !== '0' && (
                         <div
                           className="pet-attribute clickable"
-                          title={`${getAttributeName(selectedPet.attribute1, attributeNameMap)}系`}
                           onClick={() =>
                             navigate(`/app/attribute?attrId=${selectedPet.attribute1}`)
                           }
@@ -439,7 +433,6 @@ export default function PetDictionary() {
                         selectedPet.attribute1 !== selectedPet.attribute2 && (
                           <div
                             className="pet-attribute clickable"
-                            title={`${getAttributeName(selectedPet.attribute2, attributeNameMap)}系`}
                             onClick={() =>
                               navigate(`/app/attribute?attrId=${selectedPet.attribute2}`)
                             }

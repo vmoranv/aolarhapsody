@@ -1,0 +1,47 @@
+.skill-item {
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.skill-item:hover {
+  box-shadow: 0 6px 12px rgb(0 0 0 / 10%);
+  transform: translateY(-4px);
+}
+
+.skill-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.skill-card-body {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.skill-attribute-tag {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.skill-attribute-tag .attribute-icon {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+}
+
+.skill-details-popover .ant-descriptions-item-label,
+.skill-details-popover .ant-descriptions-item-content {
+  border-bottom: 1px solid var(--border-dark);
+}
+
+.skill-details-popover {
+  width: 280px;
+}
+
+.skill-item-error {
+  border-color: #ff4d4f;
+}

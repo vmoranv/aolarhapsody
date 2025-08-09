@@ -249,22 +249,41 @@ export const generateSkillItems = (
   if (!selectedPetRawData) {
     return [];
   }
-  const skillDataSource = isNewSkillSet ? selectedPetRawData[88] : selectedPetRawData[29];
-  if (!skillDataSource) {
+
+  // 根据 isNewSkillSet 确定技能数据源
+  const exclusiveSkills = isNewSkillSet ? selectedPetRawData[88] : selectedPetRawData[29];
+  const commonSkills = isNewSkillSet ? selectedPetRawData[89] : ''; // 旧版可能没有通用技能
+
+  // 合并专属技能和通用技能
+  const combinedSkills = [exclusiveSkills, commonSkills].filter(Boolean).join('#');
+
+  if (!combinedSkills) {
     return [
       {
         key: '1',
         label: '技能列表',
-        children: null, // 使用 null 代替 Empty 组件
+        children: null,
       },
     ];
   }
-  const skillArray = splitToArray(skillDataSource);
+
+  const skillArray = splitToArray(combinedSkills);
+
+  const processedSkills = skillArray.map((skillString) => {
+    const parts = skillString.split('-');
+    // 新格式: level-unknow-skillId or level-unknow-unknow-skillId
+    if (parts.length >= 3) {
+      return skillString; // 返回原始字符串，让调用处处理
+    }
+    // 旧格式: skillId
+    return skillString;
+  });
+
   return [
     {
       key: '1',
-      label: `技能列表 (${skillArray.length}个)`,
-      children: skillArray, // 直接返回技能数组
+      label: `技能列表 (${processedSkills.length}个)`,
+      children: processedSkills,
     },
   ];
 };
