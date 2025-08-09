@@ -100,7 +100,7 @@ export async function run(options: RunOptions) {
         throw new Error(`Could not find package data for ${targetPackage}`);
       }
 
-      const subprocess = execa('pnpm', ['exec', 'ts-node', 'index.ts'], {
+      const subprocess = execa('pnpm', [script], {
         stdio: 'inherit',
         cwd: targetPackageData.path,
       });
