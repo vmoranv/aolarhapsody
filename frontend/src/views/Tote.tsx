@@ -376,7 +376,7 @@ const Tote = () => {
           searchValue={searchValue}
           onSearchChange={setSearchValue}
           filterType={filterType}
-          onFilterChange={setFilterType}
+          onFilterChange={(value) => setFilterType(value as 'all' | 'super' | 'normal')}
           onReset={handleReset}
           totalCount={totes.length}
           filteredCount={filteredTotes.length}

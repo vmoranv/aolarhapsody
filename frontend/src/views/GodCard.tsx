@@ -537,7 +537,7 @@ const GodCard = () => {
           searchValue={searchValue}
           onSearchChange={setSearchValue}
           filterType={filterType}
-          onFilterChange={setFilterType}
+          onFilterChange={(value) => setFilterType(value as 'all' | 'super' | 'normal')}
           onReset={handleReset}
           totalCount={viewMode === 'cards' ? godCards.length : suits.length}
           filteredCount={filteredData.length}

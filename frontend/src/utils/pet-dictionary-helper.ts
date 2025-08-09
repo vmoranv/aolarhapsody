@@ -188,8 +188,8 @@ export type StatKey =
   | 'hp'
   | 'attack'
   | 'defense'
-  | 'spAtk'
-  | 'spDef'
+  | 'spAttack'
+  | 'spDefense'
   | 'speed'
   | 'height'
   | 'weight';
@@ -220,12 +220,12 @@ export const calculateStats = (
     hp: Number(pmd[4]) || 0,
     attack: Number(pmd[5]) || 0,
     defense: Number(pmd[6]) || 0,
-    spAtk: Number(pmd[7]) || 0,
-    spDef: Number(pmd[8]) || 0,
+    spAttack: Number(pmd[7]) || 0,
+    spDefense: Number(pmd[8]) || 0,
     speed: Number(pmd[9]) || 0,
   };
 
-  const baseStatKeys: StatKey[] = ['hp', 'attack', 'defense', 'spAtk', 'spDef', 'speed'];
+  const baseStatKeys: StatKey[] = ['hp', 'attack', 'defense', 'spAttack', 'spDefense', 'speed'];
   const baseValues = baseStatKeys.map((key) => statsData[key as keyof typeof statsData]);
   const maxBaseStat = Math.max(...baseValues, 1); // Avoid division by zero
 
@@ -237,8 +237,8 @@ export const calculateStats = (
     hp: 'HP',
     attack: '攻击',
     defense: '防御',
-    spAtk: '特攻',
-    spDef: '特防',
+    spAttack: '特攻',
+    spDefense: '特防',
     speed: '速度',
     height: '身高',
     weight: '体重',

@@ -575,7 +575,7 @@ const PetCard = () => {
           searchValue={searchValue}
           onSearchChange={setSearchValue}
           filterType={filterType}
-          onFilterChange={setFilterType}
+          onFilterChange={(value) => setFilterType(value as 'all' | 'super' | 'normal')}
           onReset={handleReset}
           totalCount={viewMode === 'cards' ? petCards.length : suits.length}
           filteredCount={filteredData.length}
