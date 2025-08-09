@@ -13,6 +13,7 @@ router.get('/petdictionary', (req: Request, res: Response) => {
   const simplifiedItems = items.map((item) => ({
     petID: item.petID,
     petName: item.petName,
+    petEra: item.petEra,
   }));
   res.json({
     success: true,
@@ -32,6 +33,7 @@ router.get('/petdictionary', (req: Request, res: Response) => {
 router.get('/petdictionary/:id', (req: Request, res: Response) => {
   const id = parseInt(req.params.id, 10);
   const item = getPetDictionaryDataById(id);
+
   if (item) {
     res.json({
       success: true,

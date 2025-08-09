@@ -1,6 +1,7 @@
 import { PetDictionaryDataItem } from '../types/petdictionary';
 import { URL_CONFIG } from '../types/urlconfig';
 import { fetchAndParseJSON } from './gamedataparser';
+import { getPetFullDataById, getPetTypeData } from './pmdatalist';
 
 const cachedPetDictionaryData: Record<string, PetDictionaryDataItem> = {};
 
@@ -9,18 +10,31 @@ const cachedPetDictionaryData: Record<string, PetDictionaryDataItem> = {};
  */
 export async function initPetDictionaryModule(): Promise<boolean> {
   try {
-    const responseData = (await fetchAndParseJSON(URL_CONFIG.petDictionary)) as {
-      data: Record<string, string[]>;
-    };
+    const [responseData, petTypeData] = await Promise.all([
+      fetchAndParseJSON(URL_CONFIG.petDictionary) as Promise<{
+        data: Record<string, string[]>;
+      }>,
+      getPetTypeData(),
+    ]);
 
     if (!responseData || !responseData.data) {
       console.error('亚比图鉴数据为空或格式不正确');
       return false;
     }
 
-    Object.values(responseData.data).forEach((item) => {
+    const getType = (
+      era: keyof typeof petTypeData,
+      id: string
+    ): { systemName: string; displayName: string } => {
+      const eraData = petTypeData[era];
+      return {
+        systemName: eraData.idToSystemNameMap[id] || id,
+        displayName: eraData.idToDisplayNameMap[id] || id,
+      };
+    };
+
+    for (const item of Object.values(responseData.data)) {
       if (item.length >= 22) {
-        // Based on the markdown file structure
         const dictItem: PetDictionaryDataItem = {
           petID: parseInt(item[0], 10),
           petName: item[1],
@@ -42,12 +56,29 @@ export async function initPetDictionaryModule(): Promise<boolean> {
           canComment: item[17],
           isPetSkin: item[18],
           skinRaceId: item[19],
-          // Index 20 is an unknown field and is ignored
           taskId: item[21],
         };
+
+        const fullData = getPetFullDataById(dictItem.petID.toString());
+        if (fullData) {
+          const fullDataItem = fullData.rawData;
+          if (fullDataItem.length > 75 && fullDataItem[75]) {
+            const eraData = getType('gq', String(fullDataItem[75]));
+            dictItem.petEra = { eraName: 'gq', ...eraData };
+          } else if (fullDataItem.length > 60 && fullDataItem[60]) {
+            const eraData = getType('xinghui', String(fullDataItem[60]));
+            dictItem.petEra = { eraName: 'xinghui', ...eraData };
+          } else if (fullDataItem.length > 48 && fullDataItem[48]) {
+            const eraData = getType('degenerator', String(fullDataItem[48]));
+            dictItem.petEra = { eraName: 'degenerator', ...eraData };
+          } else if (fullDataItem.length > 45 && fullDataItem[45]) {
+            const eraData = getType('legend', String(fullDataItem[45]));
+            dictItem.petEra = { eraName: 'legend', ...eraData };
+          }
+        }
         cachedPetDictionaryData[dictItem.petID] = dictItem;
       }
-    });
+    }
 
     return true;
   } catch (error) {

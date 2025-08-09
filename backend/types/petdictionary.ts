@@ -1,3 +1,8 @@
+export interface EraData {
+  idToSystemNameMap: Record<string, string>;
+  idToDisplayNameMap: Record<string, string>;
+}
+
 /**
  * 表示亚比图鉴数据项
  */
@@ -44,6 +49,12 @@ export interface PetDictionaryDataItem {
   skinRaceId: string;
   /** 任务ID */
   taskId: string;
+  /** 亚比时代信息 */
+  petEra?: {
+    eraName: 'legend' | 'degenerator' | 'xinghui' | 'gq';
+    systemName: string;
+    displayName: string;
+  };
 }
 /**
  * 定义 petdictionarydata.json 文件中已知的顶级子类

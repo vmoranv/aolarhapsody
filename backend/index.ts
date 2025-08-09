@@ -41,10 +41,7 @@ async function startServer() {
   await initializeMonitors();
   for (const moduleName in initializers) {
     const initFunction = initializers[moduleName as keyof typeof initializers];
-    const success = await initFunction();
-    if (!success) {
-      process.exit(1);
-    }
+    await initFunction();
   }
 
   const listenWithRetry = (portToTry: number) => {

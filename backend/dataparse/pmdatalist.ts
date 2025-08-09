@@ -1,6 +1,7 @@
+import { EraData } from '../types/petdictionary';
 import { Pet, ProcessedAttribute, Skill, SkillAttribute, Weather } from '../types/pmdatalist';
 import { URL_CONFIG } from '../types/urlconfig';
-import { fetchAndParseDictionary, fetchAndParseJSON } from './gamedataparser';
+import { extractDictionary, fetchAndParseJSON } from './gamedataparser';
 
 // =================================
 // 核心逻辑
@@ -16,6 +17,12 @@ let weatherMapCache: Record<string, Weather> = {};
 const skillMapCache: Record<string, Skill> = {};
 let attributeRelationsCache: Record<string, string[]> = {};
 const skillAttributesCache: ProcessedAttribute[] = [];
+let petTypeDataCache: {
+  legend: EraData;
+  degenerator: EraData;
+  xinghui: EraData;
+  gq: EraData;
+} | null = null;
 
 /**
  * 解析并缓存所有亚比数据
@@ -290,8 +297,24 @@ export function getAttributeRelations(): Record<string, string[]> {
   return attributeRelationsCache;
 }
 
+/**
+ * 获取亚比的时代/体系数据
+ * @returns {Promise<{ legend: EraData; degenerator: EraData; xinghui: EraData; gq: EraData }>}
+ */
+export async function getPetTypeData(): Promise<{
+  legend: EraData;
+  degenerator: EraData;
+  xinghui: EraData;
+  gq: EraData;
+}> {
+  if (!petTypeDataCache) {
+    await fetchAndCacheGameMainData();
+  }
+  return petTypeDataCache!;
+}
+
 // =================================================================
-// 技能属性解析逻辑
+// 技能属性及时代/体系解析逻辑
 // =================================================================
 
 const EXCLUDED_ATTRIBUTE_IDS = [3, 6, 17];
@@ -311,46 +334,100 @@ function processAllAttributes(attributeMap: SkillAttribute[]): ProcessedAttribut
 }
 
 /**
- * 从远程获取、解析并缓存所有技能属性数据
- * 如果缓存中已存在数据，则直接返回缓存数据
- * @returns {Promise<ProcessedAttribute[]>} 一个包含所有已处理技能属性的Promise
+ * 从远程获取、解析并缓存所有技能属性和时代/体系数据
+ * 如果缓存中已存在数据，则直接返回
+ * @returns {Promise<void>}
  * @throws {Error} 当获取或解析数据失败时抛出错误
  */
-export async function fetchAndGetAllSkillAttributes(): Promise<ProcessedAttribute[]> {
-  if (skillAttributesCache.length > 0) {
-    return skillAttributesCache;
+export async function fetchAndCacheGameMainData(): Promise<void> {
+  if (skillAttributesCache.length > 0 && petTypeDataCache) {
+    return;
   }
 
   try {
-    const rawData = (await fetchAndParseDictionary(
-      URL_CONFIG.gameMainJs,
-      'PMAttributeMap._skillAttributeData'
-    )) as SkillAttribute[];
+    const response = await fetch(URL_CONFIG.gameMainJs);
+    const jsContent = await response.text();
 
-    // 验证解析后的数据结构
-    if (!Array.isArray(rawData)) {
-      throw new Error('解析结果不是数组');
+    // 解析技能属性
+    if (skillAttributesCache.length === 0) {
+      const rawSkillData = extractDictionary(
+        jsContent,
+        'PMAttributeMap._skillAttributeData'
+      ) as SkillAttribute[];
+      // 验证...
+      const processedData = processAllAttributes(rawSkillData);
+      skillAttributesCache.push(...processedData);
     }
-    for (const item of rawData) {
-      if (
-        !Array.isArray(item) ||
-        item.length !== 2 ||
-        typeof item[0] !== 'number' ||
-        typeof item[1] !== 'string'
-      ) {
-        throw new Error('数组元素格式不正确');
+
+    // 解析时代/体系数据
+    if (!petTypeDataCache) {
+      const buildEraData = (eraKey: string, nameArr: string[]): EraData => {
+        const regex = new RegExp(`${eraKey}\\.([A-Z_\\d]+)\\s*=\\s*(-?\\d+);`, 'g');
+        const idToSystemNameMap: Record<string, string> = {};
+        let match;
+        while ((match = regex.exec(jsContent)) !== null) {
+          const systemName = match[1];
+          const id = match[2];
+          if (parseInt(id, 10) >= 0) {
+            idToSystemNameMap[id] = systemName;
+          }
+        }
+        const arrForMapping = nameArr[0] === '' ? nameArr.slice(1) : nameArr;
+        const idToDisplayNameMap = Object.fromEntries(
+          arrForMapping.map((name, i) => [(i + 1).toString(), name])
+        );
+        return { idToSystemNameMap, idToDisplayNameMap };
+      };
+
+      const degeneratorNames = extractDictionary(
+        jsContent,
+        'DegeneratorPetType.PetTypeNameArr'
+      ) as string[];
+      const xinghuiNames = extractDictionary(
+        jsContent,
+        'XinghuiPetType.PetTypeNameArr'
+      ) as string[];
+      const gqNames = extractDictionary(jsContent, 'GQPetType.SystemNameArr') as string[];
+
+      const legend: EraData = { idToSystemNameMap: {}, idToDisplayNameMap: {} };
+      const legendRegex = /LegendPetType\.([A-Z_]+)\s*=\s*(\d+);/g;
+      const legendNameMap: Record<string, string> = {
+        KILL: '必杀型传奇（KILL）',
+        FIELD: '领域型传奇（FIELD）',
+        TOTEM: '图腾型传奇（TOTEM）',
+      };
+      let match;
+      while ((match = legendRegex.exec(jsContent)) !== null) {
+        const systemName = match[1];
+        const id = match[2];
+        legend.idToSystemNameMap[id] = systemName;
+        if (legendNameMap[systemName]) {
+          legend.idToDisplayNameMap[id] = legendNameMap[systemName];
+        }
       }
+
+      petTypeDataCache = {
+        legend,
+        degenerator: buildEraData('DegeneratorPetType', degeneratorNames),
+        xinghui: buildEraData('XinghuiPetType', xinghuiNames),
+        gq: buildEraData('GQPetType', gqNames),
+      };
     }
-
-    const processedData = processAllAttributes(rawData);
-
-    skillAttributesCache.push(...processedData); // 缓存结果
-
-    return processedData;
   } catch (error) {
-    console.error('获取或处理技能属性数据时出错:', error);
-    throw error; // 向上抛出错误，让调用者处理
+    console.error('获取或处理gameMain.js数据时出错:', error);
+    throw error;
   }
+}
+
+/**
+ * 获取所有技能属性数据
+ * @returns {Promise<ProcessedAttribute[]>}
+ */
+export async function fetchAndGetAllSkillAttributes(): Promise<ProcessedAttribute[]> {
+  if (skillAttributesCache.length === 0) {
+    await fetchAndCacheGameMainData();
+  }
+  return skillAttributesCache;
 }
 
 /**

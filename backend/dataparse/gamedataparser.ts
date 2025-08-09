@@ -21,15 +21,15 @@ function safeParse(content: string) {
  * @returns 解析后的字典数据
  */
 export function extractDictionary(jsContent: string, dictionaryKey: string): unknown {
-  // 构建一个正则表达式来匹配 "key = { ... }" 或 "key = [ ... ]"
-  // 这个正则表达式会寻找变量赋值，并捕获括号内的所有内容
   const keyPath = dictionaryKey.replace(/\./g, '\\.');
-  const regex = new RegExp(`${keyPath}\\s*=\\s*(\\[[\\s\\S]*?\\]|\\{[\\s\\S]*?\\});`);
-
+  const regex = new RegExp(`${keyPath}\\s*=\\s*(\\[[\\s\\S]*?\\]);`);
   const match = jsContent.match(regex);
 
   if (match && match[1]) {
-    const dataString = match[1];
+    let dataString = match[1];
+    // 移除注释和多余的逗号
+    dataString = dataString.replace(/\/\*[\s\S]*?\*\/|\/\/.*/g, '');
+    dataString = dataString.replace(/,\s*]/g, ']');
     return safeParse(dataString);
   }
 
