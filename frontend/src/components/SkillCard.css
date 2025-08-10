@@ -45,3 +45,17 @@
 .skill-item-error {
   border-color: #ff4d4f;
 }
+
+.skill-modal .ant-descriptions-item-label,
+.skill-modal .ant-descriptions-item-content {
+  border-bottom: 1px solid var(--border-dark);
+}
+
+.skill-modal .ant-descriptions-item-label {
+  width: 80px;
+  min-width: 80px;
+}
+
+.skill-modal .ant-descriptions-item-content {
+  width: auto;
+}

@@ -103,7 +103,8 @@ const SkillCard: React.FC<{ skillId: string; unlockLevel: string }> = ({
         open={isModalVisible}
         onCancel={handleCancel}
         footer={null}
-        width={600}
+        width={700}
+        className="skill-modal"
       >
         <div style={{ maxHeight: '60vh', overflowY: 'auto', paddingRight: '16px' }}>
           <Descriptions bordered column={2} size="small">
@@ -116,12 +117,10 @@ const SkillCard: React.FC<{ skillId: string; unlockLevel: string }> = ({
               {skill.hitRate === 0 ? '必中' : skill.hitRate}
             </Descriptions.Item>
             <Descriptions.Item label="先发度">{skill.PRI}</Descriptions.Item>
-            <Descriptions.Item label="类型" span={2}>
+            <Descriptions.Item label="类型">
               {skill.attackType === 1 ? '物理' : '特殊'}
             </Descriptions.Item>
-            <Descriptions.Item label="暴击率" span={2}>
-              {skill.critRate}%
-            </Descriptions.Item>
+            <Descriptions.Item label="暴击率">{skill.critRate}%</Descriptions.Item>
             <Descriptions.Item label="效果" span={2}>
               <div
                 dangerouslySetInnerHTML={{
