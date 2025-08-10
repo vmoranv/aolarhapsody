@@ -245,47 +245,77 @@ export const createAttributeNameMap = (
 export const generateSkillItems = (
   selectedPetRawData: (string | number)[] | undefined,
   isNewSkillSet: boolean
-) => {
+): {
+  items: { key: string; label: string; children: string[] | null }[];
+  fallback: boolean;
+  hasNewSkills: boolean;
+  hasOldSkills: boolean;
+} => {
   if (!selectedPetRawData) {
-    return [];
+    return { items: [], fallback: false, hasNewSkills: false, hasOldSkills: false };
   }
 
-  // 根据 isNewSkillSet 确定技能数据源
-  const exclusiveSkills = isNewSkillSet ? selectedPetRawData[88] : selectedPetRawData[29];
-  const commonSkills = isNewSkillSet ? selectedPetRawData[89] : ''; // 旧版可能没有通用技能
-
-  // 合并专属技能和通用技能
-  const combinedSkills = [exclusiveSkills, commonSkills].filter(Boolean).join('#');
-
-  if (!combinedSkills) {
-    return [
-      {
-        key: '1',
-        label: '技能列表',
-        children: null,
-      },
-    ];
-  }
-
-  const skillArray = splitToArray(combinedSkills);
-
-  const processedSkills = skillArray.map((skillString) => {
-    const parts = skillString.split('-');
-    // 新格式: level-unknow-skillId or level-unknow-unknow-skillId
-    if (parts.length >= 3) {
-      return skillString; // 返回原始字符串，让调用处处理
+  const getSkills = (exclusiveIndex: number, commonIndex?: number) => {
+    const items: { key: string; label: string; children: string[] | null }[] = [];
+    const exclusiveSkillsRaw = selectedPetRawData[exclusiveIndex];
+    const exclusiveSkills = splitToArray(exclusiveSkillsRaw);
+    if (exclusiveSkills.length > 0) {
+      items.push({
+        key: 'exclusive',
+        label: `专属技能 (${exclusiveSkills.length}个)`,
+        children: exclusiveSkills,
+      });
     }
-    // 旧格式: skillId
-    return skillString;
-  });
 
-  return [
-    {
-      key: '1',
-      label: `技能列表 (${processedSkills.length}个)`,
-      children: processedSkills,
-    },
-  ];
+    if (commonIndex && selectedPetRawData[commonIndex]) {
+      const commonSkillsRaw = selectedPetRawData[commonIndex];
+      const commonSkills = splitToArray(commonSkillsRaw);
+      if (commonSkills.length > 0) {
+        items.push({
+          key: 'common',
+          label: `通用技能 (${commonSkills.length}个)`,
+          children: commonSkills,
+        });
+      }
+    }
+    return items;
+  };
+
+  const newSkillItems = getSkills(87, 88);
+  const oldSkillItems = getSkills(29);
+  const hasNewSkills = newSkillItems.length > 0;
+  const hasOldSkills = oldSkillItems.length > 0;
+
+  let items: { key: string; label: string; children: string[] | null }[] = [];
+  let fallback = false;
+
+  if (isNewSkillSet) {
+    if (hasNewSkills) {
+      items = newSkillItems;
+    } else if (hasOldSkills) {
+      items = oldSkillItems;
+      fallback = true;
+    }
+  } else {
+    items = oldSkillItems;
+  }
+
+  if (items.length === 0) {
+    return {
+      items: [
+        {
+          key: '1',
+          label: '技能列表',
+          children: null,
+        },
+      ],
+      fallback: false,
+      hasNewSkills,
+      hasOldSkills,
+    };
+  }
+
+  return { items, fallback, hasNewSkills, hasOldSkills };
 };
 
 /**

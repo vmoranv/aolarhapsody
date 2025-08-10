@@ -430,7 +430,12 @@ export const generateCollapseSkillItems = (
   generateSkillItems: (
     selectedPetRawData: (string | number)[] | undefined,
     isNewSkillSet: boolean
-  ) => { key: string; label: string; children: string[] | null }[]
+  ) => {
+    items: { key: string; label: string; children: string[] | null }[];
+    fallback: boolean;
+    hasNewSkills: boolean;
+    hasOldSkills: boolean;
+  }
 ) => {
   return generateSkillItems(selectedPetRawData, isNewSkillSet);
 };

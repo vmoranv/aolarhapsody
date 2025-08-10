@@ -10,7 +10,7 @@ import {
   SoundOutlined,
 } from '@ant-design/icons';
 import { useQuery } from '@tanstack/react-query';
-import { App, Button, Card, Collapse, Empty, Image, Input, Select, Space, Typography } from 'antd';
+import { App, Card, Collapse, Empty, Image, Input, Select, Space, Switch, Typography } from 'antd';
 import { motion } from 'framer-motion';
 import { Filter, Search } from 'lucide-react';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -42,7 +42,6 @@ import {
   generateSkillItems,
   getPetImageUrl,
   PetListItem,
-  splitToArray,
 } from '../utils/pet-helper';
 import './PetDictionary.css';
 
@@ -73,7 +72,6 @@ export default function PetDictionary() {
   const [selectedAttribute, setSelectedAttribute] = useState('all');
   const [selectedPet, setSelectedPet] = useState<PetListItem | null>(null);
   const [showSearchResults, setShowSearchResults] = useState(false);
-  const [showStats, setShowStats] = useState(false);
   const [isNewSkillSet, setIsNewSkillSet] = useState(true);
 
   const [audioState, setAudioState] = useState({
@@ -130,8 +128,7 @@ export default function PetDictionary() {
 
   useEffect(() => {
     if (selectedPet) {
-      setShowStats(false);
-      setTimeout(() => setShowStats(true), 100);
+      setIsNewSkillSet(true); // 每次选择新亚比时，重置为优先显示新技能
     }
   }, [selectedPet]);
 
@@ -193,38 +190,70 @@ export default function PetDictionary() {
     [selectedPetRawData, petDictionaryData]
   );
 
-  const skillItems = useMemo(() => {
-    const items = generateCollapseSkillItems(selectedPetRawData, isNewSkillSet, generateSkillItems);
-    if (items.length === 0 || items[0].children === null) {
-      return [
-        {
-          key: '1',
-          label: '技能列表',
-          children: <Empty description="暂无技能数据" />,
-        },
-      ];
-    }
-    return items.map((item) => ({
-      ...item,
-      children: (
-        <div className="skills-grid">
-          {(item.children as string[]).map((skill, index) => {
-            let skillId;
-            const parts = skill.split('-');
-            if (isNewSkillSet && parts.length >= 3) {
-              skillId = parts[parts.length - 1];
-            } else {
-              skillId = skill;
-            }
+  const { skillItems, hasNewSkills, hasOldSkills } = useMemo(() => {
+    const { items, fallback, hasNewSkills, hasOldSkills } = generateCollapseSkillItems(
+      selectedPetRawData,
+      isNewSkillSet,
+      generateSkillItems
+    );
 
-            return <SkillCard key={`skill-${index}`} skillId={skillId} />;
-          })}
-        </div>
-      ),
-    }));
-  }, [selectedPetRawData, isNewSkillSet]);
+    if (fallback) {
+      setTimeout(() => setIsNewSkillSet(false), 0);
+    }
+
+    if (items.length === 0 || items[0].children === null) {
+      return {
+        skillItems: [
+          {
+            key: '1',
+            label: '技能列表',
+            children: <Empty description="暂无技能数据" />,
+          },
+        ],
+        hasNewSkills,
+        hasOldSkills,
+      };
+    }
+
+    const mappedItems = items.map(
+      (item: { key: string; label: string; children: string[] | null }) => ({
+        ...item,
+        children: (
+          <div className="skills-grid">
+            {(item.children as string[]).map((skill, index) => {
+              let skillId;
+              const parts = skill.split('-');
+              if (isNewSkillSet && parts.length >= 3) {
+                skillId = parts[parts.length - 1];
+              } else {
+                skillId = skill;
+              }
+              return <SkillCard key={`skill-${index}`} skillId={skillId} />;
+            })}
+          </div>
+        ),
+      })
+    );
+    return { skillItems: mappedItems, hasNewSkills, hasOldSkills };
+  }, [selectedPetRawData, isNewSkillSet, message]);
 
   // --- Handlers ---
+  const handleSkillSetChange = (checked: boolean) => {
+    if (checked) {
+      if (hasNewSkills) {
+        setIsNewSkillSet(true);
+      } else {
+        message.info('该亚比没有新版技能组。');
+      }
+    } else {
+      if (hasOldSkills) {
+        setIsNewSkillSet(false);
+      } else {
+        message.info('该亚比没有旧版技能组。');
+      }
+    }
+  };
+
   const setupAudioCallback = useCallback(() => {
     setupAudio(audioRef, setAudioState, message);
   }, [message]);
@@ -500,7 +529,7 @@ export default function PetDictionary() {
                           <motion.div
                             className="stat-bar"
                             initial={{ width: '0%' }}
-                            animate={{ width: showStats ? `${stat.percent || 0}%` : '0%' }}
+                            animate={{ width: `${stat.percent || 0}%` }}
                             transition={{ duration: 0.5, ease: 'easeOut' }}
                           />
                           <span className="stat-value">{stat.display || stat.value}</span>
@@ -509,36 +538,23 @@ export default function PetDictionary() {
                     ))}
                   </div>
                 </Card>
-                <div className="pet-detail-content">
-                  <div className="skill-set-toggle">
-                    <Button
-                      shape="circle"
-                      onClick={() => setIsNewSkillSet((p) => !p)}
-                      title={isNewSkillSet ? '切换到旧技能组' : '切换到新技能组'}
-                    >
-                      {isNewSkillSet ? '新' : '旧'}
-                    </Button>
-                  </div>
-                  <Collapse items={skillItems} />
-                  {selectedPetRawData && selectedPetRawData[26] && (
-                    <div className="evolution-section">
-                      <h3>进化路径</h3>
-                      <div className="evolution-path">
-                        {splitToArray(selectedPetRawData[26]).map((evo, index) => {
-                          const [level, evoId] = evo.split('-');
-                          return (
-                            <React.Fragment key={`evo-${index}`}>
-                              {index > 0 && <span className="evolution-arrow">→</span>}
-                              <Card size="small" className="evolution-item">
-                                <div>Lv.{level}</div>
-                                <div>ID: {evoId}</div>
-                              </Card>
-                            </React.Fragment>
-                          );
-                        })}
-                      </div>
+                <div className="skills-section">
+                  <div className="skills-header">
+                    <h3>技能</h3>
+                    <div className="skill-toggle">
+                      <Space>
+                        <span>旧版</span>
+                        <Switch
+                          checked={isNewSkillSet}
+                          onChange={handleSkillSetChange}
+                          checkedChildren="新版"
+                          unCheckedChildren="旧版"
+                        />
+                        <span>新版</span>
+                      </Space>
                     </div>
-                  )}
+                  </div>
+                  <Collapse items={skillItems} defaultActiveKey={['exclusive', 'common']} />
                 </div>
               </div>
             </div>
