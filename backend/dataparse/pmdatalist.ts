@@ -112,7 +112,7 @@ export function parseAndCacheFullPetData(rawData: {
         skillMapCache,
         Object.entries(combinedSkillMap).reduce(
           (acc, [key, value]) => {
-            if (Array.isArray(value) && value.length >= 30) {
+            if (Array.isArray(value) && value.length >= 29) {
               const getPars = (index: number) => String(value[index] || '');
               const getSkillType = () => {
                 const str = getPars(29);

@@ -221,14 +221,12 @@ export default function PetDictionary() {
         children: (
           <div className="skills-grid">
             {(item.children as string[]).map((skill, index) => {
-              let skillId;
               const parts = skill.split('-');
-              if (isNewSkillSet && parts.length >= 3) {
-                skillId = parts[parts.length - 1];
-              } else {
-                skillId = skill;
-              }
-              return <SkillCard key={`skill-${index}`} skillId={skillId} />;
+              const skillId = parts[parts.length - 1];
+              const unlockLevel = parts[0];
+              return (
+                <SkillCard key={`skill-${index}`} skillId={skillId} unlockLevel={unlockLevel} />
+              );
             })}
           </div>
         ),

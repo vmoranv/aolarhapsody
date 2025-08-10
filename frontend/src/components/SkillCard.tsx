@@ -13,7 +13,10 @@ import './SkillCard.css';
 
 const { Text } = Typography;
 
-const SkillCard: React.FC<{ skillId: string }> = ({ skillId }) => {
+const SkillCard: React.FC<{ skillId: string; unlockLevel: string }> = ({
+  skillId,
+  unlockLevel,
+}) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const {
@@ -46,11 +49,7 @@ const SkillCard: React.FC<{ skillId: string }> = ({ skillId }) => {
   }
 
   if (error) {
-    return (
-      <Card size="small" className="skill-item skill-item-error">
-        <Text type="danger">加载失败</Text>
-      </Card>
-    );
+    return null;
   }
 
   if (!skill) {
@@ -65,13 +64,21 @@ const SkillCard: React.FC<{ skillId: string }> = ({ skillId }) => {
     setIsModalVisible(false);
   };
 
+  const formatDescription = (desc: string) => {
+    if (!desc) return '';
+    return desc.replace(/\n/g, '<br />').replace(/#([^#]+)#/g, '<strong>$1</strong>');
+  };
+
   const attributeName = getAttributeName(skill.attributeType, attributeNameMap);
   const attributeIconUrl = getAttributeIconUrl(skill.attributeType);
 
   const popoverContent = (
-    <div className="skill-details-popover">
-      <p>{skill.newEffectDesc || skill.oldEffectDesc}</p>
-    </div>
+    <div
+      className="skill-details-popover"
+      dangerouslySetInnerHTML={{
+        __html: formatDescription(skill.newEffectDesc || skill.oldEffectDesc || skill.clientDesc),
+      }}
+    />
   );
 
   return (
@@ -87,12 +94,13 @@ const SkillCard: React.FC<{ skillId: string }> = ({ skillId }) => {
           <div className="skill-card-body">
             <Text type="secondary">威力: {skill.power}</Text>
             <Text type="secondary">PP: {skill.allPP}</Text>
+            <Text type="secondary">等级: {unlockLevel}</Text>
           </div>
         </Card>
       </Popover>
       <Modal
         title={skill.newCnName}
-        visible={isModalVisible}
+        open={isModalVisible}
         onCancel={handleCancel}
         footer={null}
         width={600}
@@ -115,7 +123,13 @@ const SkillCard: React.FC<{ skillId: string }> = ({ skillId }) => {
               {skill.critRate}%
             </Descriptions.Item>
             <Descriptions.Item label="效果" span={2}>
-              <div dangerouslySetInnerHTML={{ __html: skill.clientDesc }} />
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: formatDescription(
+                    skill.newEffectDesc || skill.oldEffectDesc || skill.clientDesc
+                  ),
+                }}
+              />
             </Descriptions.Item>
           </Descriptions>
         </div>

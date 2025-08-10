@@ -262,7 +262,7 @@ export const generateSkillItems = (
     if (exclusiveSkills.length > 0) {
       items.push({
         key: 'exclusive',
-        label: `专属技能 (${exclusiveSkills.length}个)`,
+        label: '专属技能',
         children: exclusiveSkills,
       });
     }
@@ -273,7 +273,7 @@ export const generateSkillItems = (
       if (commonSkills.length > 0) {
         items.push({
           key: 'common',
-          label: `通用技能 (${commonSkills.length}个)`,
+          label: '通用技能',
           children: commonSkills,
         });
       }
