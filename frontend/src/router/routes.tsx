@@ -6,6 +6,7 @@ import ExistingPackets from '@/views/ExistingPackets';
 import GodCard from '@/views/GodCard';
 import HK from '@/views/HK';
 import Home from '@/views/Home';
+import ImageCompressor from '@/views/ImageCompressor';
 import Inscription from '@/views/Inscription';
 import Miscellaneous from '@/views/Miscellaneous';
 import PetCard from '@/views/PetCard';
@@ -96,5 +97,10 @@ export const constantRoutes: RouteObject[] = [
     path: '/app/poster',
     id: 'Poster',
     element: <PosterPage />,
+  },
+  {
+    path: '/app/image-compressor',
+    id: 'ImageCompressor',
+    element: <ImageCompressor />,
   },
 ];

@@ -64,10 +64,26 @@ export const menuConfig: MenuItemConfig[] = [
   },
   {
     key: '4',
-    path: '/app/miscellaneous',
+    path: '#',
     label: '杂项数据',
     icon: <Settings size={18} />,
     status: 'release',
+    children: [
+      {
+        key: '4-1',
+        path: '/app/miscellaneous',
+        label: '数据总览',
+        status: 'release',
+        parentKey: '4',
+      },
+      {
+        key: '4-2',
+        path: '/app/image-compressor',
+        label: '图片工具',
+        status: 'release',
+        parentKey: '4',
+      },
+    ],
   },
   {
     key: '5',

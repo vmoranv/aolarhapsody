@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import {
   Alert,
   Avatar,
+  Button,
   Card,
   Col,
   Collapse,
@@ -17,6 +18,7 @@ import { motion } from 'framer-motion';
 import {
   Award,
   CheckSquare,
+  Crop,
   Gem,
   Image,
   Link,
@@ -166,6 +168,14 @@ const dataConfigs = [
     color: '#36cfc9',
     endpoint: 'tasks/starters',
     description: '游戏任务系统',
+  },
+  {
+    key: 'image-compressor',
+    title: '图片裁剪压缩',
+    icon: Crop,
+    color: '#f759ab',
+    endpoint: '', // No endpoint for this tool
+    description: '一个用于裁剪和压缩图片的前端工具',
   },
 ];
 
@@ -322,6 +332,9 @@ const Miscellaneous = () => {
 
   // 为每个数据类型创建查询
   const queries = dataConfigs.map((config) => {
+    if (!config.endpoint) {
+      return { data: [], isLoading: false, error: null };
+    }
     const fetcher = createFetcher(config.endpoint);
     return useQuery({
       queryKey: [config.key],
@@ -437,14 +450,21 @@ const Miscellaneous = () => {
                     </div>
                   </div>
                 ),
-                children: (
-                  <DataSection
-                    config={config}
-                    data={query.data || []}
-                    loading={query.isLoading}
-                    error={query.error}
-                  />
-                ),
+                children:
+                  config.key === 'image-compressor' ? (
+                    <div style={{ padding: '16px' }}>
+                      <a href="/app/image-compressor" target="_blank" rel="noopener noreferrer">
+                        <Button type="primary">打开图片裁剪压缩工具</Button>
+                      </a>
+                    </div>
+                  ) : (
+                    <DataSection
+                      config={config}
+                      data={query.data || []}
+                      loading={query.isLoading}
+                      error={query.error}
+                    />
+                  ),
                 style: {
                   marginBottom: 16,
                   borderRadius: 12,

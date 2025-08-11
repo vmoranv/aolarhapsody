@@ -13,17 +13,19 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@ant-design/icons": "^5.3.7",
     "@ant-design/colors": "^7.2.1",
+    "@ant-design/icons": "^5.3.7",
     "@tanstack/react-query": "^5.83.0",
     "@types/gsap": "^3.0.0",
     "antd": "^5.26.7",
+    "browser-image-compression": "^2.0.2",
     "framer-motion": "^12.23.12",
     "gsap": "^3.13.0",
     "lucide-react": "^0.534.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-hot-toast": "^2.5.2",
+    "react-image-crop": "^11.0.10",
     "react-router-dom": "^7.7.0",
     "zustand": "^5.0.6"
   },
