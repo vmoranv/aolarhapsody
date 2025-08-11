@@ -15,7 +15,6 @@ router.get('/posters', (req: Request, res: Response) => {
     id: p.id,
     name: p.name,
     labelName: p.labelName,
-    url: p.url,
   }));
   res.json({
     code: 200,

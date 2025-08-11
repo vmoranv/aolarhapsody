@@ -262,7 +262,7 @@ export default function PetDictionary() {
       const audio = audioRef.current!;
       audio.pause();
       const petId = selectedPet.id.toString().replace('_0', '');
-      const audioSrc = `http://aola.100bt.com/play/music/petsound/petsound${petId}.mp3`;
+      const audioSrc = `/proxy/play/music/petsound/petsound${petId}.mp3`;
       if (audio.src !== audioSrc) {
         setAudioState({
           isLoading: true,
@@ -299,8 +299,8 @@ export default function PetDictionary() {
   );
 
   const handleDownloadAudioCallback = useCallback(() => {
-    handleDownloadAudio(selectedPet);
-  }, [selectedPet]);
+    handleDownloadAudio(selectedPet, message);
+  }, [selectedPet, message]);
 
   // --- Render ---
   if (isLoadingPets) {

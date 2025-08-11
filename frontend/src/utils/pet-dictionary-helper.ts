@@ -333,7 +333,7 @@ export const handlePlayAudio = (
     audio.pause();
   } else {
     const petId = selectedPet.id.toString().replace('_0', '');
-    const audioSrc = `http://aola.100bt.com/play/music/petsound/petsound${petId}.mp3`;
+    const audioSrc = `/proxy/play/music/petsound/petsound${petId}.mp3`;
     if (audio.src !== audioSrc) {
       setAudioState({
         isLoading: true,
@@ -382,23 +382,31 @@ export const handleProgressClick = (
  * 下载音频
  * @param selectedPet 选中的亚比
  */
-export const handleDownloadAudio = (selectedPet: any) => {
-  if (!selectedPet) {
-    return;
+export const handleDownloadAudio = async (
+  selectedPet: PetListItem | null,
+  message: { error: (msg: string) => void; success: (msg: string) => void }
+) => {
+  if (selectedPet) {
+    const petId = selectedPet.id.toString().replace('_0', '');
+    const audioUrl = `/proxy/play/music/petsound/petsound${petId}.mp3`;
+    try {
+      const response = await fetch(audioUrl);
+      if (!response.ok) throw new Error('音频文件下载失败');
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `${selectedPet.name}_语音.mp3`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+      message.success('开始下载语音...');
+    } catch (error) {
+      message.error('下载失败，请稍后重试');
+      console.error('下载语音时出错:', error);
+    }
   }
-  const petId = selectedPet.id.toString().replace('_0', '');
-  const petName = selectedPet.name;
-  // Construct the URL to our backend proxy
-  const downloadUrl = `/api/download/audio/${petId}/${encodeURIComponent(petName)}`;
-
-  // Create a temporary link to trigger the download
-  const a = document.createElement('a');
-  a.href = downloadUrl;
-  // The 'download' attribute is a good fallback, but the backend's Content-Disposition header is what really forces the download.
-  a.download = `${petName}_语音.mp3`;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
 };
 
 /**

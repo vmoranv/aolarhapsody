@@ -8,7 +8,6 @@
  */
 export interface Poster extends RawPosterData {
   labelName: string;
-  url: string;
 }
 
 /**
@@ -18,7 +17,6 @@ export interface SimplifiedPoster {
   id: number;
   name: string;
   labelName: string;
-  url: string;
 }
 
 /**

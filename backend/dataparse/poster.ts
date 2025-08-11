@@ -144,9 +144,7 @@ export async function initPosterModule(): Promise<void> {
       .map((p) => ({
         ...p,
         labelName: labelMap.get(p.labelId) || '未知',
-        url: constructPosterUrl(p.id),
       }));
-    console.warn('海报数据模块初始化完成');
   } catch (error) {
     console.error('海报数据模块初始化失败:', error);
   }

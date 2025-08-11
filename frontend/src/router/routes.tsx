@@ -12,6 +12,7 @@ import PetCard from '@/views/PetCard';
 import PetCard2 from '@/views/PetCard2';
 import PetDictionary from '@/views/PetDictionary';
 import PMDataList from '@/views/PMDataList';
+import PosterPage from '@/views/Poster';
 import Tote from '@/views/Tote';
 
 /**
@@ -90,5 +91,10 @@ export const constantRoutes: RouteObject[] = [
     path: '/app/miscellaneous',
     id: 'Miscellaneous',
     element: <Miscellaneous />,
+  },
+  {
+    path: '/app/poster',
+    id: 'Poster',
+    element: <PosterPage />,
   },
 ];

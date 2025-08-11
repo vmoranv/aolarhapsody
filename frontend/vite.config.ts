@@ -31,6 +31,11 @@ export default defineConfig(({ mode }) => {
           target: env.VITE_PROXY_TARGET || 'http://localhost:3000',
           changeOrigin: true,
         },
+        '/proxy': {
+          target: 'https://aola.100bt.com',
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/proxy/, ''),
+        },
       },
     },
   };
