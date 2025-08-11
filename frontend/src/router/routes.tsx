@@ -1,6 +1,7 @@
 import type { RouteObject } from 'react-router-dom';
 import AstralSpirit from '@/views/AstralSpirit';
 import Attribute from '@/views/Attribute';
+import CharacterAnalyzer from '@/views/CharacterAnalyzer';
 import CrystalKey from '@/views/CrystalKey';
 import ExistingPackets from '@/views/ExistingPackets';
 import GodCard from '@/views/GodCard';
@@ -92,6 +93,11 @@ export const constantRoutes: RouteObject[] = [
     path: '/app/miscellaneous',
     id: 'Miscellaneous',
     element: <Miscellaneous />,
+  },
+  {
+    path: '/app/miscellaneous/character-analyzer',
+    id: 'CharacterAnalyzer',
+    element: <CharacterAnalyzer />,
   },
   {
     path: '/app/poster',

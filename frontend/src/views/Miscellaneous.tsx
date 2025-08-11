@@ -17,6 +17,7 @@ import {
 import { motion } from 'framer-motion';
 import {
   Award,
+  BrainCircuit,
   CheckSquare,
   Crop,
   Gem,
@@ -176,6 +177,14 @@ const dataConfigs = [
     color: '#f759ab',
     endpoint: '', // No endpoint for this tool
     description: '一个用于裁剪和压缩图片的前端工具',
+  },
+  {
+    key: 'character-analyzer',
+    title: '性格解析',
+    icon: BrainCircuit,
+    color: '#13a8a8',
+    endpoint: '', // No endpoint for this tool
+    description: '分析宠物性格对战斗属性的影响',
   },
 ];
 
@@ -455,6 +464,12 @@ const Miscellaneous = () => {
                     <div style={{ padding: '16px' }}>
                       <a href="/app/image-compressor" target="_blank" rel="noopener noreferrer">
                         <Button type="primary">打开图片裁剪压缩工具</Button>
+                      </a>
+                    </div>
+                  ) : config.key === 'character-analyzer' ? (
+                    <div style={{ padding: '16px' }}>
+                      <a href="/app/miscellaneous/character-analyzer" target="_blank" rel="noopener noreferrer">
+                        <Button type="primary">打开性格解析工具</Button>
                       </a>
                     </div>
                   ) : (

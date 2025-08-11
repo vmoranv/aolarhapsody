@@ -83,6 +83,13 @@ export const menuConfig: MenuItemConfig[] = [
         status: 'release',
         parentKey: '4',
       },
+      {
+        key: '4-3',
+        path: '/app/miscellaneous/character-analyzer',
+        label: '性格解析',
+        status: 'release',
+        parentKey: '4',
+      },
     ],
   },
   {
