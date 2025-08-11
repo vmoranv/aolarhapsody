@@ -18,12 +18,14 @@ import { initPetTalkModule } from './pettalk';
 import { initPetTerritoryFightModule } from './petterritoryfight';
 import { initPetDataModule } from './pmdatalist';
 import { initSpEvoModule } from './pmevolink';
+import { initPosterModule } from './poster';
 import { initSummonerModule } from './summoner';
 import { initTaskModule } from './task';
 import { initTitleModule } from './title';
 import { initToteModule } from './tote';
 
 export const initializers = {
+  initPosterModule,
   initPetDataModule,
   initAstralSpiritDataModule,
   initClothesModule,

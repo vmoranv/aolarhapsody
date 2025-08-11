@@ -14,6 +14,7 @@ const PLAY_PREFIX = `${BASE_URL}/play`; // XML文件前缀
 export const URL_CONFIG = {
   petIconPrefix: `${H5_BASE_URL}/peticon`,
   petEggPrefix: `${H5_BASE_URL}/petegg`,
+  posterBackgroundPrefix: `${H5_BASE_URL}/pet/petskin/background/bg`,
   sceneItem: `${PLAY_PREFIX}/sceneitem.xml`,
   astralSpirit: `${DATA_PREFIX}/astralspiritdata.json`,
   chatFrame: `${DATA_PREFIX}/chatframedata.json`,

@@ -19,6 +19,7 @@ export * from './pettalk';
 export * from './petterritoryfight';
 export * from './pmdatalist';
 export * from './pmevolink';
+export * from './poster';
 export * from './summoner';
 export * from './task';
 export * from './title';

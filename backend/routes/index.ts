@@ -21,6 +21,7 @@ import petTalkRoutes from './pettalk';
 import petTerritoryFightRoutes from './petterritoryfight';
 import pmRoutes from './pmdatalist';
 import spEvoRoutes from './pmevolink';
+import posterRoutes from './poster';
 import summonerRoutes from './summoner';
 import taskRoutes from './task';
 import titleRoutes from './title';
@@ -54,4 +55,5 @@ export default [
   titleRoutes,
   toteRoutes,
   monitorRoutes,
+  posterRoutes,
 ];

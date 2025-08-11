@@ -65,7 +65,9 @@ const SkillCard: React.FC<{ skillId: string; unlockLevel: string }> = ({
   };
 
   const formatDescription = (desc: string) => {
-    if (!desc) return '';
+    if (!desc) {
+      return '';
+    }
     return desc.replace(/\n/g, '<br />').replace(/#([^#]+)#/g, '<strong>$1</strong>');
   };
 

@@ -124,3 +124,28 @@ export async function fetchAndParseData<T>(url: string, truncate = false): Promi
   const data = await fetchAndParseJSON(url, truncate);
   return data as T;
 }
+
+/**
+ * 从给定的URL获取JavaScript文件内容
+ * @param url - JavaScript文件的URL
+ * @returns JavaScript文件的文本内容
+ */
+export async function fetchJavaScriptFile(url: string): Promise<string> {
+  try {
+    const response = await axios.get(url, {
+      headers: {
+        'User-Agent':
+          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36',
+      },
+    });
+
+    if (response.status !== 200) {
+      throw new Error(`HTTP错误: ${response.status} ${response.statusText}`);
+    }
+
+    return response.data;
+  } catch (error) {
+    console.error(`获取JavaScript文件时出错:`, error);
+    throw error;
+  }
+}
