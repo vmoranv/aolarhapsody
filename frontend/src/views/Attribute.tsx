@@ -44,7 +44,8 @@ type RelationType = 'immune' | 'weak' | 'strong' | 'super' | 'superOrImmune';
 
 // 获取属性列表
 const fetchAttributes = async (): Promise<AttributeInfo[]> => {
-  const response = await fetch('/api/skill-attributes');
+  const baseUrl = import.meta.env.VITE_API_URL || '';
+  const response = await fetch(`${baseUrl}/api/skill-attributes`);
   if (!response.ok) {
     throw new Error('Failed to fetch attribute list');
   }
@@ -57,7 +58,8 @@ const fetchAttributes = async (): Promise<AttributeInfo[]> => {
 
 // 获取特定属性的克制关系
 const fetchAttributeRelations = async (id: number): Promise<AttributeRelations> => {
-  const response = await fetch(`/api/attribute-relations/${id}`);
+  const baseUrl = import.meta.env.VITE_API_URL || '';
+  const response = await fetch(`${baseUrl}/api/attribute-relations/${id}`);
   if (!response.ok) {
     throw new Error('Failed to fetch attribute relations');
   }
