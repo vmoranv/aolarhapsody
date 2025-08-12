@@ -100,7 +100,7 @@ export const constantRoutes: RouteObject[] = [
     element: <CharacterAnalyzer />,
   },
   {
-    path: '/app/poster',
+    path: '/app/miscellaneous/poster',
     id: 'Poster',
     element: <PosterPage />,
   },

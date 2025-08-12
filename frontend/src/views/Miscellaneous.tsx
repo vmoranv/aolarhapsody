@@ -186,6 +186,14 @@ const dataConfigs = [
     endpoint: '', // No endpoint for this tool
     description: '分析宠物性格对战斗属性的影响',
   },
+  {
+    key: 'poster',
+    title: '海报解析',
+    icon: Image,
+    color: '#d4380d',
+    endpoint: '', // No endpoint for this tool
+    description: '解析游戏海报，提取信息',
+  },
 ];
 
 // 数据展示组件
@@ -468,8 +476,18 @@ const Miscellaneous = () => {
                     </div>
                   ) : config.key === 'character-analyzer' ? (
                     <div style={{ padding: '16px' }}>
-                      <a href="/app/miscellaneous/character-analyzer" target="_blank" rel="noopener noreferrer">
+                      <a
+                        href="/app/miscellaneous/character-analyzer"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
                         <Button type="primary">打开性格解析工具</Button>
+                      </a>
+                    </div>
+                  ) : config.key === 'poster' ? (
+                    <div style={{ padding: '16px' }}>
+                      <a href="/app/miscellaneous/poster" target="_blank" rel="noopener noreferrer">
+                        <Button type="primary">打开海报解析工具</Button>
                       </a>
                     </div>
                   ) : (

@@ -53,13 +53,6 @@ export const menuConfig: MenuItemConfig[] = [
         status: 'release',
         parentKey: '3',
       },
-      {
-        key: '3-2',
-        path: '/app/poster',
-        label: '海报解析',
-        status: 'release',
-        parentKey: '3',
-      },
     ],
   },
   {
@@ -87,6 +80,13 @@ export const menuConfig: MenuItemConfig[] = [
         key: '4-3',
         path: '/app/miscellaneous/character-analyzer',
         label: '性格解析',
+        status: 'release',
+        parentKey: '4',
+      },
+      {
+        key: '4-4',
+        path: '/app/miscellaneous/poster',
+        label: '海报解析',
         status: 'release',
         parentKey: '4',
       },
