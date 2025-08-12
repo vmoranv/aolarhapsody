@@ -81,6 +81,7 @@ const CrystalKeyCard: React.FC<{
   index: number;
   onDetail: (id: number) => void;
 }> = ({ crystalKey, index, onDetail }) => {
+  const { t } = useTranslation('crystalKey');
   const { token } = theme.useToken();
 
   return (
@@ -141,7 +142,7 @@ const CrystalKeyCard: React.FC<{
               {crystalKey.name}
             </Title>
             <Text type="secondary" style={{ fontSize: '12px' }}>
-              ID: {crystalKey.id}
+              {t('id', { id: crystalKey.id })}
             </Text>
           </div>
 
@@ -345,7 +346,7 @@ const CrystalKey = () => {
                     {selectedKey.name}
                   </Text>
                   <Text type="secondary" style={{ marginLeft: 12 }}>
-                    ID: {selectedKey.id}
+                    {t('id', { id: selectedKey.id })}
                   </Text>
                 </div>
                 {selectedKey.description && (

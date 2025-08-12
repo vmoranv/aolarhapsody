@@ -44,8 +44,8 @@ import { useSettingStore } from './store/setting';
 const kimiPostProcessor = {
   type: 'postProcessor' as const,
   name: 'kimi',
-  process: (value: string, key: string[], options: any, translator: any) => {
-    const kimiMode = useSettingStore.getState().kimiMode;
+  process: (value: string, _key: string[], _options: any, translator: any) => {
+    const { kimiMode } = useSettingStore.getState();
     if (kimiMode) {
       const descriptions = translator.resourceStore.data[translator.language].common
         .kimiModeDescription as string[];
