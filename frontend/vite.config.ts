@@ -9,7 +9,9 @@ export default defineConfig(({ mode }) => {
 
   return {
     define: {
-      'import.meta.env.VITE_API_URL': JSON.stringify(mode === 'production' ? '' : env.VITE_API_URL),
+      'import.meta.env.VITE_API_URL': JSON.stringify(
+        mode === 'production' ? process.env.VITE_API_URL : env.VITE_API_URL
+      ),
     },
     plugins: [react()],
     resolve: {
