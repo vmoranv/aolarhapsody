@@ -20,7 +20,7 @@ export class ApiError extends Error {
 
 // 通用数据获取函数
 export const fetchData = async <T>(endpoint: string): Promise<T[]> => {
-  const baseUrl = import.meta.env.VITE_API_URL || '';
+  const baseUrl = import.meta.env.PROD ? import.meta.env.VITE_API_URL : '';
   const response = await fetch(`${baseUrl}/api/${endpoint}`);
 
   if (!response.ok) {
@@ -38,7 +38,7 @@ export const fetchData = async <T>(endpoint: string): Promise<T[]> => {
 
 // 获取单个数据项
 export const fetchDataItem = async <T>(endpoint: string, id: string): Promise<T> => {
-  const baseUrl = import.meta.env.VITE_API_URL || '';
+  const baseUrl = import.meta.env.PROD ? import.meta.env.VITE_API_URL : '';
   const response = await fetch(`${baseUrl}/api/${endpoint}/${id}`);
 
   if (!response.ok) {
