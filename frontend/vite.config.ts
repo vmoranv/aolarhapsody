@@ -26,9 +26,9 @@ export default defineConfig(({ mode }) => {
       proxy: {
         '/api': {
           // This proxy is ONLY for local development.
-          // It reads from VITE_PROXY_TARGET in your local .env file.
+          // It reads from VITE_API_URL in your local .env file.
           // If not found, it defaults to the local backend.
-          target: env.VITE_PROXY_TARGET || 'http://localhost:3000',
+          target: env.VITE_API_URL || 'http://localhost:3000',
           changeOrigin: true,
         },
         '/proxy': {

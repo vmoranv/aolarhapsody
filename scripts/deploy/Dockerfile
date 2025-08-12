@@ -8,19 +8,23 @@ WORKDIR /app
 COPY package*.json ./
 COPY pnpm-lock.yaml ./
 COPY pnpm-workspace.yaml ./
+COPY .npmrc ./
 
 # Copy frontend and backend package.json
 COPY frontend/package.json ./frontend/
 COPY backend/package.json ./backend/
 
 # Install dependencies
-RUN npm install -g pnpm && pnpm install --frozen-lockfile
+RUN npm install -g pnpm && apt-get update && apt-get install -y git
+RUN git init
+RUN pnpm install --frozen-lockfile
 
 # Copy the rest of the application source code
 COPY . .
 
-# Build the frontend application
+# Build the frontend and backend applications
 RUN pnpm --filter frontend build
+RUN pnpm --filter backend build
 
 # Stage 2: Production environment
 FROM nginx:alpine
