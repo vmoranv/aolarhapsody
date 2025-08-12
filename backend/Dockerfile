@@ -26,7 +26,7 @@ RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 RUN pnpm --filter backend build
 
 # Create a deployment bundle for the backend
-RUN pnpm --filter backend deploy --legacy /app/deploy
+RUN pnpm --filter backend deploy /app/deploy
 
 # Stage 2: Production environment
 FROM node:22-slim AS production
