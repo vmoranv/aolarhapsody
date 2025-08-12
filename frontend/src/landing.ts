@@ -429,10 +429,18 @@ const updateFavicon = (isKimiMode: boolean) => {
 
   const basePath = isKimiMode ? '/favicon_maodie' : '/favicon_yinhe';
 
-  if (appleTouchIcon) appleTouchIcon.href = `${basePath}/apple-touch-icon.png`;
-  if (icon32x32) icon32x32.href = `${basePath}/favicon-32x32.png`;
-  if (icon16x16) icon16x16.href = `${basePath}/favicon-16x16.png`;
-  if (manifest) manifest.href = `${basePath}/site.webmanifest`;
+  if (appleTouchIcon) {
+    appleTouchIcon.href = `${basePath}/apple-touch-icon.png`;
+  }
+  if (icon32x32) {
+    icon32x32.href = `${basePath}/favicon-32x32.png`;
+  }
+  if (icon16x16) {
+    icon16x16.href = `${basePath}/favicon-16x16.png`;
+  }
+  if (manifest) {
+    manifest.href = `${basePath}/site.webmanifest`;
+  }
 };
 
 // 监听 localStorage 中 kimiMode 的变化

@@ -1,7 +1,33 @@
+# Ignore node_modules
 node_modules
+**/node_modules
+
+# Ignore build output
+dist
+**/dist
+
+# Ignore logs
+*.log
+logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Ignore local env files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Ignore version control
 .git
 .gitignore
+
+# Ignore documentation
 *.md
-dist
+
+# Ignore build artifacts
 .turbo
 dist.zip

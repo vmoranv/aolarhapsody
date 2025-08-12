@@ -7,6 +7,8 @@
     "build:all": "pnpm --parallel --filter \"./**\" build",
     "build:front": "pnpm --filter frontend build",
     "build:backend": "pnpm --filter backend build",
+    "build:docker": "bash ./scripts/deploy/build-local-docker-image.sh",
+    "build:docker:backend": "docker build -t aolarhapsody-backend -f backend/Dockerfile .",
     "preview": "pnpm build:all && pnpm --parallel --filter \"./**\" preview",
     "preview:front": "pnpm --filter frontend preview",
     "preview:backend": "pnpm --filter backend preview",

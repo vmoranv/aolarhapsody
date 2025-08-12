@@ -18,12 +18,12 @@ This project is a monorepo based on pnpm workspaces to manage all the code for A
 
 ## ✨ Tech Stack
 
--   **Frontend**: `React`, `TypeScript`, `Vite`
--   **Backend**: `Node.js`, `TypeScript`, `Express` (or a similar framework)
--   **Package Manager**: `pnpm`
--   **Code Quality**: `ESLint`, `Prettier`, `Stylelint`, `Commitlint`, `Cspell`
--   **Git Hooks**: `lefthook`
--   **Internal Tools**: Custom CLI tools built with `cac`, `@clack/prompts`, and `unbuild`.
+- **Frontend**: `React`, `TypeScript`, `Vite`
+- **Backend**: `Node.js`, `TypeScript`, `Express` (or a similar framework)
+- **Package Manager**: `pnpm`
+- **Code Quality**: `ESLint`, `Prettier`, `Stylelint`, `Commitlint`, `Cspell`
+- **Git Hooks**: `lefthook`
+- **Internal Tools**: Custom CLI tools built with `cac`, `@clack/prompts`, and `unbuild`.
 
 ## 📂 Project Structure
 
@@ -42,18 +42,22 @@ This project is a monorepo based on pnpm workspaces to manage all the code for A
 ## 🚀 Quick Start
 
 1.  **Clone the project**
+
     ```bash
     git clone <repository-url> aolarhapsody-monorepo
     cd aolarhapsody-monorepo
     ```
 
 2.  **Install dependencies**
+
     > This project enforces the use of pnpm as the package manager.
+
     ```bash
     pnpm install
     ```
 
 3.  **Start the development environment**
+
     ```bash
     # Start development mode for all services
     pnpm dev
@@ -67,11 +71,41 @@ This project is a monorepo based on pnpm workspaces to manage all the code for A
 
 ## 🛠️ Available Scripts
 
--   `pnpm dev`: Starts the development mode for all packages.
--   `pnpm build`: Builds all packages.
--   `pnpm check`: Runs all code checks (linting, cspell).
--   `pnpm format`: Formats all code.
--   `pnpm clean`: Cleans all build artifacts and `node_modules`.
+- `pnpm dev`: Starts the development mode for all packages.
+- `pnpm build`: Builds all packages.
+- `pnpm check`: Runs all code checks (linting, cspell).
+- `pnpm format`: Formats all code.
+- `pnpm clean`: Cleans all build artifacts and `node_modules`.
+
+## Deployment
+
+### Deploying the Backend Service with Docker
+
+This project supports containerizing the backend service using Docker.
+
+1.  **Build the Docker Image**
+
+    Use the following command to build the Docker image for the backend service. This command utilizes the `backend/Dockerfile`.
+
+    ```bash
+    pnpm build:docker:backend
+    ```
+
+    After a successful build, you can use `docker images` to see the image named `aolarhapsody-backend`.
+
+2.  **Run the Docker Container**
+
+    Use the following command to start the container:
+
+    ```bash
+    docker run -d -p 3000:3000 --name aolarhapsody-backend-container aolarhapsody-backend
+    ```
+
+    - `-d`: Run the container in detached mode.
+    - `-p 3000:3000`: Map port 3000 of the host to port 3000 of the container.
+    - `--name`: Assign a name to the container.
+
+    Once the service is running, it can be accessed at `http://localhost:3000`.
 
 ## 📄 License
 
