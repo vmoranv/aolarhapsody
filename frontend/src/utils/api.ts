@@ -21,7 +21,7 @@ export class ApiError extends Error {
 // 通用数据获取函数
 export const fetchData = async <T>(endpoint: string): Promise<T[]> => {
   const baseUrl = import.meta.env.VITE_API_URL || '';
-  const response = await fetch(`${baseUrl}/${endpoint}`);
+  const response = await fetch(`${baseUrl}/api/${endpoint}`);
 
   if (!response.ok) {
     throw new ApiError(`HTTP error! status: ${response.status}`, response.status);
@@ -39,7 +39,7 @@ export const fetchData = async <T>(endpoint: string): Promise<T[]> => {
 // 获取单个数据项
 export const fetchDataItem = async <T>(endpoint: string, id: string): Promise<T> => {
   const baseUrl = import.meta.env.VITE_API_URL || '';
-  const response = await fetch(`${baseUrl}/${endpoint}/${id}`);
+  const response = await fetch(`${baseUrl}/api/${endpoint}/${id}`);
 
   if (!response.ok) {
     throw new ApiError(`HTTP error! status: ${response.status}`, response.status);

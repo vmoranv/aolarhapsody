@@ -8,6 +8,9 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
 
   return {
+    define: {
+      'import.meta.env.VITE_API_URL': JSON.stringify(mode === 'production' ? '' : env.VITE_API_URL),
+    },
     plugins: [react()],
     resolve: {
       alias: {
