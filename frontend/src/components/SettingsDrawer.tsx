@@ -8,8 +8,14 @@ interface SettingsDrawerProps {
 }
 
 const SettingsDrawer: React.FC<SettingsDrawerProps> = ({ open, onClose, currentPageStatus }) => {
-  const { betaMode, setBetaMode, performanceMonitoring, setPerformanceMonitoring } =
-    useSettingStore();
+  const {
+    betaMode,
+    setBetaMode,
+    performanceMonitoring,
+    setPerformanceMonitoring,
+    kimiMode,
+    setKimiMode,
+  } = useSettingStore();
 
   const data = [
     {
@@ -40,6 +46,17 @@ const SettingsDrawer: React.FC<SettingsDrawerProps> = ({ open, onClose, currentP
           checked={performanceMonitoring}
           onChange={setPerformanceMonitoring}
           style={{ backgroundColor: performanceMonitoring ? '#7e57c2' : '' }}
+        />
+      ),
+    },
+    {
+      title: '基米模式',
+      description: '哈!',
+      action: (
+        <Switch
+          checked={kimiMode}
+          onChange={setKimiMode}
+          style={{ backgroundColor: kimiMode ? '#7e57c2' : '' }}
         />
       ),
     },

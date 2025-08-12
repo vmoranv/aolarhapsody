@@ -420,5 +420,34 @@ function preloadResources() {
   });
 }
 
+// 动态切换 Favicon
+const updateFavicon = (isKimiMode: boolean) => {
+  const appleTouchIcon = document.getElementById('apple-touch-icon') as HTMLLinkElement;
+  const icon32x32 = document.getElementById('icon-32x32') as HTMLLinkElement;
+  const icon16x16 = document.getElementById('icon-16x16') as HTMLLinkElement;
+  const manifest = document.getElementById('manifest') as HTMLLinkElement;
+
+  const basePath = isKimiMode ? '/favicon_maodie' : '/favicon_yinhe';
+
+  if (appleTouchIcon) appleTouchIcon.href = `${basePath}/apple-touch-icon.png`;
+  if (icon32x32) icon32x32.href = `${basePath}/favicon-32x32.png`;
+  if (icon16x16) icon16x16.href = `${basePath}/favicon-16x16.png`;
+  if (manifest) manifest.href = `${basePath}/site.webmanifest`;
+};
+
+// 监听 localStorage 中 kimiMode 的变化
+window.addEventListener('storage', (event) => {
+  if (event.key === 'kimiMode' && event.newValue) {
+    updateFavicon(JSON.parse(event.newValue));
+  }
+});
+
 // DOM加载完成后执行初始化
-document.addEventListener('DOMContentLoaded', init);
+document.addEventListener('DOMContentLoaded', () => {
+  init();
+  // 初始化时检查 kimiMode
+  const kimiMode = localStorage.getItem('kimiMode');
+  if (kimiMode) {
+    updateFavicon(JSON.parse(kimiMode));
+  }
+});

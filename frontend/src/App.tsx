@@ -1,4 +1,5 @@
 import { App as AntApp, ConfigProvider, theme } from 'antd';
+import { useEffect } from 'react';
 import { HashRouter } from 'react-router-dom';
 import PerformanceMonitor from './components/PerformanceMonitor';
 import { NotificationProvider } from './contexts/NotificationContext';
@@ -8,7 +9,26 @@ import Router from './router';
 
 const App = () => {
   const { theme: currentTheme, colors } = useTheme()!;
-  const { performanceMonitoring } = useSettingStore();
+  const { performanceMonitoring, kimiMode } = useSettingStore();
+
+  useEffect(() => {
+    const appleTouchIcon = document.getElementById('apple-touch-icon') as HTMLLinkElement;
+    const icon32x32 = document.getElementById('icon-32x32') as HTMLLinkElement;
+    const icon16x16 = document.getElementById('icon-16x16') as HTMLLinkElement;
+    const manifest = document.getElementById('manifest') as HTMLLinkElement;
+
+    if (kimiMode) {
+      appleTouchIcon.href = '/favicon_maodie/apple-touch-icon.png';
+      icon32x32.href = '/favicon_maodie/favicon-32x32.png';
+      icon16x16.href = '/favicon_maodie/favicon-16x16.png';
+      manifest.href = '/favicon_maodie/site.webmanifest';
+    } else {
+      appleTouchIcon.href = '/favicon_yinhe/apple-touch-icon.png';
+      icon32x32.href = '/favicon_yinhe/favicon-32x32.png';
+      icon16x16.href = '/favicon_yinhe/favicon-16x16.png';
+      manifest.href = '/favicon_yinhe/site.webmanifest';
+    }
+  }, [kimiMode]);
 
   const antdTheme = {
     algorithm: currentTheme === 'dark' ? theme.darkAlgorithm : theme.defaultAlgorithm,
