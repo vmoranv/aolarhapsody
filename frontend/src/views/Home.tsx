@@ -84,8 +84,28 @@ const MONITOR_TARGETS = [
   'title',
 ];
 
+// 获取基础URL
+const getApiBaseUrl = (): string => {
+  // 检查是否存在环境变量指定的API基础URL
+  const apiUrl = import.meta.env.VITE_API_URL;
+  if (apiUrl) {
+    return apiUrl;
+  }
+
+  // 在开发环境中默认使用本地后端地址
+  if (import.meta.env.DEV) {
+    return 'http://localhost:3000';
+  }
+
+  // 在生产环境中，如果未指定VITE_API_URL，则使用相对路径
+  return '';
+};
+
 const fetchSubclassData = async (name: string): Promise<SubclassMonitorData> => {
-  const response = await fetch(`/api/monitor/${name}`);
+  const baseUrl = getApiBaseUrl();
+  const url = baseUrl ? `${baseUrl}/api/monitor/${name}` : `/api/monitor/${name}`;
+
+  const response = await fetch(url);
 
   if (!response.ok) {
     throw new Error(`HTTP error! status: ${response.status}`);

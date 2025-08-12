@@ -18,10 +18,29 @@ export class ApiError extends Error {
   }
 }
 
+// 获取基础URL
+const getBaseUrl = (): string => {
+  // 优先使用环境变量指定的API地址
+  const apiUrl = import.meta.env.VITE_API_URL;
+  if (apiUrl) {
+    return apiUrl;
+  }
+
+  // 在开发环境中默认使用本地后端地址
+  if (import.meta.env.DEV) {
+    return 'http://localhost:3000';
+  }
+
+  // 在生产环境中，如果未指定VITE_API_URL，则使用相对路径
+  return '';
+};
+
 // 通用数据获取函数
 export const fetchData = async <T>(endpoint: string): Promise<T[]> => {
-  const baseUrl = import.meta.env.VITE_API_URL || '';
-  const response = await fetch(`${baseUrl}/api/${endpoint}`);
+  const baseUrl = getBaseUrl();
+  const url = `${baseUrl}/api/${endpoint}`;
+
+  const response = await fetch(url);
 
   if (!response.ok) {
     throw new ApiError(`HTTP error! status: ${response.status}`, response.status);
@@ -38,8 +57,10 @@ export const fetchData = async <T>(endpoint: string): Promise<T[]> => {
 
 // 获取单个数据项
 export const fetchDataItem = async <T>(endpoint: string, id: string): Promise<T> => {
-  const baseUrl = import.meta.env.VITE_API_URL || '';
-  const response = await fetch(`${baseUrl}/api/${endpoint}/${id}`);
+  const baseUrl = getBaseUrl();
+  const url = `${baseUrl}/api/${endpoint}/${id}`;
+
+  const response = await fetch(url);
 
   if (!response.ok) {
     throw new ApiError(`HTTP error! status: ${response.status}`, response.status);
