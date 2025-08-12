@@ -98,10 +98,6 @@ const App = () => {
         colorBgContainer: colors.elevated,
         colorBorder: colors.border,
       },
-      Select: {
-        colorBgContainer: colors.elevated,
-        colorBgElevated: colors.elevated,
-      },
       Dropdown: {
         colorBgElevated: colors.elevated,
       },

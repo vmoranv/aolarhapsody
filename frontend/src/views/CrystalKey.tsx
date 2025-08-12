@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { Key, Sparkles } from 'lucide-react';
 import React, { useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 import ErrorDisplay from '../components/ErrorDisplay';
 import Layout from '../components/Layout';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -46,7 +47,7 @@ const fetchCrystalKeys = async (): Promise<CrystalKey[]> => {
   if (result.success && Array.isArray(result.data)) {
     return result.data;
   } else {
-    throw new Error(result.error || '获取晶钥数据失败');
+    throw new Error(result.error || 'Failed to fetch crystal key data');
   }
 };
 
@@ -65,7 +66,7 @@ const fetchCrystalKeyDetail = async (id: string): Promise<CrystalKey> => {
   if (result.success && result.data) {
     return result.data;
   } else {
-    throw new Error(result.error || '获取晶钥详情失败');
+    throw new Error(result.error || 'Failed to fetch crystal key detail');
   }
 };
 
@@ -147,7 +148,7 @@ const CrystalKeyCard: React.FC<{
           <div style={{ display: 'flex', justifyContent: 'center', marginTop: 8 }}>
             <Tag color="#722ed1" style={{ borderRadius: 12 }}>
               <Key size={12} style={{ marginRight: 4 }} />
-              晶钥
+              {t('crystal_key')}
             </Tag>
           </div>
 
@@ -181,6 +182,7 @@ const CrystalKeyCard: React.FC<{
  * - 点击卡片可查看晶钥详情
  */
 const CrystalKey = () => {
+  const { t } = useTranslation('crystalKey');
   const [searchValue, setSearchValue] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedKey, setSelectedKey] = useState<CrystalKey | null>(null);
@@ -199,15 +201,15 @@ const CrystalKey = () => {
   // Handle success and error states
   React.useEffect(() => {
     if (error) {
-      toast.error(`加载失败: ${error instanceof Error ? error.message : String(error)}`);
+      toast.error(`${t('load_failed')}: ${error instanceof Error ? error.message : String(error)}`);
     }
-  }, [error]);
+  }, [error, t]);
 
   React.useEffect(() => {
     if (crystalKeys.length > 0) {
-      toast.success('晶钥数据加载成功！');
+      toast.success(t('load_success'));
     }
-  }, [crystalKeys]);
+  }, [crystalKeys, t]);
 
   // 筛选和搜索逻辑
   const filteredKeys = useMemo(() => {
@@ -243,16 +245,18 @@ const CrystalKey = () => {
     try {
       const detail = await fetchCrystalKeyDetail(id.toString());
       setSelectedKey(detail);
-      toast.success('晶钥详情加载成功！');
+      toast.success(t('detail_load_success'));
     } catch (error) {
-      toast.error(`加载详情失败: ${error instanceof Error ? error.message : String(error)}`);
+      toast.error(
+        `${t('detail_load_failed')}: ${error instanceof Error ? error.message : String(error)}`
+      );
     }
   };
 
   if (isLoading) {
     return (
       <Layout>
-        <LoadingSpinner text="正在加载晶钥数据..." />
+        <LoadingSpinner text={t('loading_data')} />
       </Layout>
     );
   }
@@ -287,10 +291,10 @@ const CrystalKey = () => {
               fontSize: '32px',
             }}
           >
-            晶钥系统
+            {t('title')}
           </Title>
           <Paragraph style={{ fontSize: '16px', color: 'var(--text-color)', marginTop: 8 }}>
-            收集神秘的晶钥，解锁更多可能性
+            {t('subtitle')}
           </Paragraph>
         </motion.div>
 
@@ -317,7 +321,7 @@ const CrystalKey = () => {
               title={
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                   <Key size={20} color="#722ed1" />
-                  <span>晶钥详情</span>
+                  <span>{t('key_details')}</span>
                 </div>
               }
               extra={
@@ -326,7 +330,7 @@ const CrystalKey = () => {
                   onClick={() => setSelectedKey(null)}
                   style={{ cursor: 'pointer' }}
                 >
-                  关闭
+                  {t('close')}
                 </Tag>
               }
               style={{
@@ -346,7 +350,7 @@ const CrystalKey = () => {
                 </div>
                 {selectedKey.description && (
                   <div>
-                    <Text strong>描述：</Text>
+                    <Text strong>{t('description')}:</Text>
                     <Paragraph style={{ marginTop: 8, marginBottom: 0 }}>
                       {selectedKey.description}
                     </Paragraph>
@@ -392,7 +396,7 @@ const CrystalKey = () => {
                     showSizeChanger={false}
                     showQuickJumper
                     showTotal={(total, range) =>
-                      `第 ${range[0]}-${range[1]} 条，共 ${total} 个晶钥`
+                      t('pagination_total', { start: range[0], end: range[1], total })
                     }
                   />
                 </motion.div>
@@ -408,7 +412,7 @@ const CrystalKey = () => {
                 image={Empty.PRESENTED_IMAGE_SIMPLE}
                 description={
                   <span style={{ color: '#666' }}>
-                    {searchValue ? '没有找到匹配的晶钥' : '暂无晶钥数据'}
+                    {searchValue ? t('no_match_found') : t('no_data')}
                   </span>
                 }
                 style={{

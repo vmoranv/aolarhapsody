@@ -1,0 +1,15 @@
+{
+  "title": "性格分析器",
+  "label_speed": "速度",
+  "label_character": "性格",
+  "label_level": "等级",
+  "button_recommend": "推荐性格",
+  "modal_title": "推荐性格",
+  "modal_speed_line": "速度线",
+  "modal_character_info": "性格信息",
+  "modal_close": "关闭",
+  "select_placeholder": "选择性格",
+  "level_placeholder": "输入等级",
+  "speed_placeholder": "输入速度",
+  "no_recommendation": "未找到合适的性格推荐。"
+}

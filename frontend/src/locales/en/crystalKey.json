@@ -1,0 +1,18 @@
+{
+  "title": "Crystal Key Calculator",
+  "subtitle": "Calculate the number of crystal keys required for leveling up",
+  "key_type_label": "Key Type",
+  "current_level_label": "Current Level",
+  "current_exp_label": "Current EXP",
+  "target_level_label": "Target Level",
+  "calculate_button": "Calculate",
+  "reset_button": "Reset",
+  "result_title": "Calculation Result",
+  "keys_needed": "Keys Needed",
+  "gold_coins_needed": "Gold Coins Needed",
+  "input_placeholder_level": "Enter level (1-100)",
+  "input_placeholder_exp": "Enter current EXP",
+  "key_type_primary": "Primary",
+  "key_type_intermediate": "Intermediate",
+  "key_type_advanced": "Advanced"
+}

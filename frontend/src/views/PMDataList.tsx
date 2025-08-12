@@ -17,6 +17,7 @@ import { motion } from 'framer-motion';
 import { Database, Shield, Star, TrendingUp, Users, Zap } from 'lucide-react';
 import React, { useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 import ErrorDisplay from '../components/ErrorDisplay';
 import Layout from '../components/Layout';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -52,18 +53,19 @@ interface PMDataListItem {
  * @param rarity - 稀有度值 (1-5)
  * @returns 返回稀有度的文本描述
  */
-const getRarityText = (rarity: number) => {
-  const texts = {
-    1: '普通',
-    2: '优秀',
-    3: '稀有',
-    4: '史诗',
-    5: '传说',
+const getRarityText = (rarity: number, t: (key: string) => string) => {
+  const texts: { [key: number]: string } = {
+    1: t('rarity_common'),
+    2: t('rarity_excellent'),
+    3: t('rarity_rare'),
+    4: t('rarity_epic'),
+    5: t('rarity_legendary'),
   };
-  return texts[rarity as keyof typeof texts] || '未知';
+  return texts[rarity] || t('rarity_unknown');
 };
 
 const PMDataListCard: React.FC<{ pmData: PMDataListItem; index: number }> = ({ pmData, index }) => {
+  const { t } = useTranslation('pmDataList');
   const { token } = theme.useToken();
   const rarityColor = useQualityColor(pmData.rarity);
   const elementColor = 'transparent';
@@ -152,7 +154,7 @@ const PMDataListCard: React.FC<{ pmData: PMDataListItem; index: number }> = ({ p
           <div style={{ display: 'flex', justifyContent: 'center', gap: 8, marginTop: 8 }}>
             <Tag color={rarityColor} style={{ borderRadius: 12 }}>
               <Star size={12} style={{ marginRight: 4 }} />
-              {getRarityText(pmData.rarity)}
+              {getRarityText(pmData.rarity, t)}
             </Tag>
             {pmData.element && (
               <Tag color={elementColor} style={{ borderRadius: 12 }}>
@@ -222,7 +224,7 @@ const PMDataListCard: React.FC<{ pmData: PMDataListItem; index: number }> = ({ p
             }}
           >
             <Text style={{ fontSize: '12px', color: token.colorTextSecondary }}>
-              总战力: {totalPower}
+              {t('total_power')}: {totalPower}
             </Text>
             {pmData.category && (
               <Tag color="geekblue" style={{ fontSize: '12px' }}>
@@ -260,6 +262,7 @@ const PMDataListCard: React.FC<{ pmData: PMDataListItem; index: number }> = ({ p
  * - 实现搜索、筛选和分页功能
  */
 const PMDataList = () => {
+  const { t } = useTranslation('pmDataList');
   const { colors } = useTheme()!;
   const [searchValue, setSearchValue] = useState('');
   const [filterType, setFilterType] = useState<'all' | 'super' | 'normal'>('all');
@@ -279,15 +282,17 @@ const PMDataList = () => {
   // Handle success and error states
   React.useEffect(() => {
     if (error) {
-      toast.error(`加载失败: ${error instanceof Error ? error.message : String(error)}`);
+      toast.error(
+        t('load_error', { message: error instanceof Error ? error.message : String(error) })
+      );
     }
-  }, [error]);
+  }, [error, t]);
 
   React.useEffect(() => {
     if (pmDataList.length > 0) {
-      toast.success('PM数据列表加载成功！');
+      toast.success(t('load_success'));
     }
-  }, [pmDataList]);
+  }, [pmDataList, t]);
 
   // 筛选和搜索逻辑
   const filteredPMData = useMemo(() => {
@@ -345,7 +350,7 @@ const PMDataList = () => {
   if (isLoading) {
     return (
       <Layout>
-        <LoadingSpinner text="正在加载PM数据列表..." />
+        <LoadingSpinner text={t('loading_data')} />
       </Layout>
     );
   }
@@ -380,10 +385,10 @@ const PMDataList = () => {
               fontSize: '32px',
             }}
           >
-            PM数据列表
+            {t('page_title')}
           </Title>
           <Paragraph style={{ fontSize: '16px', color: colors.textSecondary, marginTop: 8 }}>
-            探索完整的PM数据库，了解每个PM的详细属性
+            {t('page_subtitle')}
           </Paragraph>
         </motion.div>
 
@@ -397,7 +402,7 @@ const PMDataList = () => {
             <Col xs={24} sm={12} md={6}>
               <Card style={{ borderRadius: 12 }}>
                 <Statistic
-                  title="总数量"
+                  title={t('stat_total')}
                   value={stats.total}
                   prefix={<Database size={20} color={colors.info} />}
                   valueStyle={{ color: colors.info }}
@@ -407,7 +412,7 @@ const PMDataList = () => {
             <Col xs={24} sm={12} md={6}>
               <Card style={{ borderRadius: 12 }}>
                 <Statistic
-                  title="高稀有度"
+                  title={t('stat_high_rarity')}
                   value={stats.super}
                   prefix={<Star size={20} color={colors.warning} />}
                   valueStyle={{ color: colors.warning }}
@@ -417,7 +422,7 @@ const PMDataList = () => {
             <Col xs={24} sm={12} md={6}>
               <Card style={{ borderRadius: 12 }}>
                 <Statistic
-                  title="平均战力"
+                  title={t('stat_avg_power')}
                   value={stats.avgPower}
                   prefix={<TrendingUp size={20} color={colors.secondary} />}
                   valueStyle={{ color: colors.secondary }}
@@ -427,7 +432,7 @@ const PMDataList = () => {
             <Col xs={24} sm={12} md={6}>
               <Card style={{ borderRadius: 12 }}>
                 <Statistic
-                  title="属性种类"
+                  title={t('stat_element_types')}
                   value={stats.elements}
                   prefix={<Users size={20} color={colors.success} />}
                   valueStyle={{ color: colors.success }}
@@ -482,7 +487,13 @@ const PMDataList = () => {
                     onChange={setCurrentPage}
                     showSizeChanger={false}
                     showQuickJumper
-                    showTotal={(total, range) => `第 ${range[0]}-${range[1]} 条，共 ${total} 个PM`}
+                    showTotal={(total, range) =>
+                      t('pagination_total', {
+                        rangeStart: range[0],
+                        rangeEnd: range[1],
+                        total,
+                      })
+                    }
                   />
                 </motion.div>
               )}
@@ -497,7 +508,7 @@ const PMDataList = () => {
                 image={Empty.PRESENTED_IMAGE_SIMPLE}
                 description={
                   <span style={{ color: colors.textSecondary }}>
-                    {searchValue || filterType !== 'all' ? '没有找到匹配的PM数据' : '暂无PM数据'}
+                    {searchValue || filterType !== 'all' ? t('no_results') : t('no_data')}
                   </span>
                 }
                 style={{

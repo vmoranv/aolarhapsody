@@ -1,0 +1,18 @@
+{
+  "title": "God Card Inquiry",
+  "subtitle": "Check the enhancement effects of god cards on pet attributes",
+  "search_placeholder": "Search by card name...",
+  "filter_all": "All",
+  "total_cards": "Total Cards",
+  "filtered_cards": "Filtered",
+  "no_match_found": "No matching god cards found.",
+  "no_data": "No god card data available.",
+  "load_failed": "Failed to load god card data",
+  "load_success": "God card data loaded successfully!",
+  "attack": "Attack",
+  "special_attack": "Sp. Atk",
+  "defense": "Defense",
+  "special_defense": "Sp. Def",
+  "speed": "Speed",
+  "hp": "HP"
+}

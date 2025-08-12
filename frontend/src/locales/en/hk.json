@@ -1,0 +1,14 @@
+{
+  "title": "HK Trait Stone Calculator",
+  "subtitle": "Calculate the materials needed to exchange for HK trait stones",
+  "target_stone_label": "Target Trait Stone",
+  "current_material_label": "Current Materials",
+  "calculate_button": "Calculate",
+  "reset_button": "Reset",
+  "result_title": "Calculation Result",
+  "materials_needed": "Materials Needed",
+  "stone_placeholder": "Select target stone",
+  "material_placeholder": "Enter quantity",
+  "no_stone_selected": "Please select a target trait stone",
+  "calculation_error": "Calculation error, please check input"
+}

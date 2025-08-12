@@ -1,0 +1,18 @@
+{
+  "title": "铭文信息查询",
+  "subtitle": "查询各种铭文的信息和效果",
+  "search_placeholder": "按铭文名称或效果搜索...",
+  "filter_all": "全部",
+  "total_inscriptions": "总铭文数",
+  "filtered_inscriptions": "已筛选",
+  "no_match_found": "未找到匹配的铭文。",
+  "no_data": "暂无铭文数据。",
+  "load_failed": "加载铭文数据失败",
+  "load_success": "铭文数据加载成功！",
+  "inscription_id": "ID",
+  "inscription_name": "名称",
+  "quality": "品质",
+  "effect": "效果",
+  "type": "类型",
+  "level": "等级"
+}

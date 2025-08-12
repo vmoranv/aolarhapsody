@@ -3,6 +3,7 @@ import { Avatar, Dropdown, Layout as AntLayout, Menu, Space } from 'antd';
 import { motion } from 'framer-motion';
 import { Search, Settings, User } from 'lucide-react';
 import React, { useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useNotificationContext } from '../hooks/useNotificationContext';
 import { useTheme } from '../hooks/useTheme';
@@ -33,7 +34,8 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const { colors } = useTheme()!;
   const notifications = useNotificationContext();
   const [settingsOpen, setSettingsOpen] = useState(false);
-  const { betaMode, performanceMonitoring } = useSettingStore();
+  const { betaMode, performanceMonitoring, kimiMode } = useSettingStore();
+  const { t } = useTranslation('common');
 
   const { menuItems, selectedKeys, openKeys, currentPageStatus } = useMemo(() => {
     const path = location.pathname;
@@ -61,7 +63,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               return {
                 key: item.key,
                 icon: item.icon,
-                label: item.label,
+                label: t(item.label),
                 children: transformMenuItems(filteredChildren),
               };
             }
@@ -70,7 +72,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           return {
             key: item.key,
             icon: item.icon,
-            label: item.label,
+            label: t(item.label),
           };
         })
         .filter(Boolean);
@@ -79,7 +81,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     const menuItems = transformMenuItems(menuConfig);
 
     return { menuItems, selectedKeys, openKeys, currentPageStatus };
-  }, [location.pathname, betaMode]);
+  }, [location.pathname, betaMode, t, kimiMode]);
 
   const handleMenuClick = ({ key }: { key: string }) => {
     const targetItem = menuConfig
@@ -99,12 +101,12 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const userMenuItems: MenuProps['items'] = [
     {
       key: 'profile',
-      label: '个人资料',
+      label: t('profile'),
       icon: <User size={16} />,
     },
     {
       key: 'settings',
-      label: '设置',
+      label: t('settings'),
       icon: <Settings size={16} />,
     },
     {
@@ -112,7 +114,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     },
     {
       key: 'logout',
-      label: '退出登录',
+      label: t('logout'),
     },
   ];
 
@@ -143,8 +145,14 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             justifyContent: 'center',
             borderBottom: `1px solid ${colors.borderSecondary}`,
             marginBottom: 16,
+            gap: '12px',
           }}
         >
+          <img
+            src={kimiMode ? '/favicon_maodie/favicon.ico' : '/favicon-64x64.ico'}
+            alt="logo"
+            style={{ width: '32px', height: '32px' }}
+          />
           <h2
             style={{
               margin: 0,
@@ -155,7 +163,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               fontWeight: 'bold',
             }}
           >
-            奥拉狂想曲
+            {t('aola_rhapsody')}
           </h2>
         </motion.div>
 
@@ -187,7 +195,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             style={{ display: 'flex', alignItems: 'center', gap: 16 }}
           >
             <Search size={20} color={colors.textSecondary} />
-            <span style={{ color: colors.textSecondary, fontSize: '16px' }}>探索奥拉世界</span>
+            <span style={{ color: colors.textSecondary, fontSize: '16px' }}>{t('explore')}</span>
           </motion.div>
 
           <Space size={16}>

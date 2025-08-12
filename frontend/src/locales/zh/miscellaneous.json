@@ -1,0 +1,13 @@
+{
+  "title": "杂项工具",
+  "subtitle": "一些实用的小工具集合",
+  "packet_parser_title": "数据包解析器",
+  "packet_parser_subtitle": "解析并查看数据包内容",
+  "packet_input_placeholder": "在此处输入数据包内容",
+  "parse_button": "解析",
+  "parse_result": "解析结果",
+  "no_result": "暂无结果",
+  "json_format_error": "JSON格式错误",
+  "copy_success": "已复制到剪贴板",
+  "copy_failed": "复制失败"
+}

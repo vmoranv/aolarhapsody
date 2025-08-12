@@ -1,0 +1,20 @@
+{
+  "title": "Image Compressor",
+  "subtitle": "Quickly compress images to reduce file size",
+  "upload_area_text": "Click or drag file to this area to upload",
+  "upload_hint": "Support for a single upload. Strictly prohibit from uploading company data or other band files",
+  "quality_label": "Image Quality",
+  "compress_button": "Compress Image",
+  "download_button": "Download Compressed Image",
+  "re_upload_button": "Upload Another Image",
+  "original_image": "Original Image",
+  "compressed_image": "Compressed Image",
+  "no_image": "No Image",
+  "size": "Size",
+  "dimensions": "Dimensions",
+  "compressing": "Compressing...",
+  "compression_success": "Image compressed successfully!",
+  "compression_error": "Image compression failed.",
+  "upload_error_type": "You can only upload JPG/JPEG/PNG file!",
+  "upload_error_size": "Image must smaller than 2MB!"
+}

@@ -14,6 +14,7 @@ import { App, Card, Collapse, Empty, Image, Input, Select, Space, Switch, Typogr
 import { motion } from 'framer-motion';
 import { Filter, Search } from 'lucide-react';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import ErrorDisplay from '../components/ErrorDisplay';
 import Layout from '../components/Layout';
@@ -49,6 +50,7 @@ const { Option } = Select;
 const { Title } = Typography;
 
 const PetDescription: React.FC<{ petId: number }> = ({ petId }) => {
+  const { t } = useTranslation('petDictionary');
   const {
     data: description,
     isLoading,
@@ -56,16 +58,17 @@ const PetDescription: React.FC<{ petId: number }> = ({ petId }) => {
   } = useQuery({
     queryKey: ['petDictionary', petId, 'description'],
     queryFn: () => fetchPetDictionaryById(petId),
-    select: (data) => data.petIntro || '暂无介绍',
+    select: (data) => data.petIntro || t('no_description'),
     enabled: !!petId,
   });
 
-  if (isLoading) return <div className="description-loading">加载介绍中...</div>;
-  if (error) return <div className="description-error">获取介绍失败</div>;
+  if (isLoading) return <div className="description-loading">{t('description_loading')}</div>;
+  if (error) return <div className="description-error">{t('description_error')}</div>;
   return <div className="description-content">{description}</div>;
 };
 
 export default function PetDictionary() {
+  const { t } = useTranslation('petDictionary');
   const { message } = App.useApp();
   const navigate = useNavigate();
   const [searchKeyword, setSearchKeyword] = useState('');
@@ -206,8 +209,8 @@ export default function PetDictionary() {
         skillItems: [
           {
             key: '1',
-            label: '技能列表',
-            children: <Empty description="暂无技能数据" />,
+            label: t('skill_list'),
+            children: <Empty description={t('no_skill_data')} />,
           },
         ],
         hasNewSkills,
@@ -241,13 +244,13 @@ export default function PetDictionary() {
       if (hasNewSkills) {
         setIsNewSkillSet(true);
       } else {
-        message.info('该亚比没有新版技能组。');
+        message.info(t('no_new_skills'));
       }
     } else {
       if (hasOldSkills) {
         setIsNewSkillSet(false);
       } else {
-        message.info('该亚比没有旧版技能组。');
+        message.info(t('no_old_skills'));
       }
     }
   };
@@ -306,7 +309,7 @@ export default function PetDictionary() {
   if (isLoadingPets) {
     return (
       <Layout>
-        <LoadingSpinner text="加载亚比列表中..." />
+        <LoadingSpinner text={t('loading_pets')} />
       </Layout>
     );
   }
@@ -323,7 +326,7 @@ export default function PetDictionary() {
     <Layout>
       <div className="pet-container">
         <Title level={1} style={{ textAlign: 'center', margin: '20px 0' }}>
-          亚比查询
+          {t('page_title')}
         </Title>
         <motion.div
           initial={{ opacity: 0, y: -10 }}
@@ -350,7 +353,7 @@ export default function PetDictionary() {
             >
               <div className="search-filter-wrapper">
                 <Input
-                  placeholder="搜索亚比..."
+                  placeholder={t('search_placeholder')}
                   prefix={<Search size={16} />}
                   value={searchKeyword}
                   onChange={(e) => {
@@ -372,7 +375,7 @@ export default function PetDictionary() {
                   size="large"
                 >
                   <Option value="all">
-                    <span>全部系别</span>
+                    <span>{t('all_attributes')}</span>
                   </Option>
                   {skillAttributes.map((attr) => (
                     <Option key={attr.id} value={attr.id.toString()}>
@@ -475,7 +478,7 @@ export default function PetDictionary() {
                   </div>
                   <div className="pet-audio-container">
                     <div className="pet-id">
-                      种族值ID: <span className="pet-id-value">{selectedPet.id}</span>
+                      {t('race_id')}: <span className="pet-id-value">{selectedPet.id}</span>
                     </div>
                     {Number(selectedPet.id) >= 3923 && (
                       <div className="pet-audio-player">
@@ -483,7 +486,7 @@ export default function PetDictionary() {
                           className="audio-play-button"
                           onClick={handlePlayAudioCallback}
                           disabled={audioState.isLoading || audioState.error}
-                          title={audioState.isPlaying ? '暂停' : '播放'}
+                          title={audioState.isPlaying ? t('pause') : t('play')}
                         >
                           {audioState.isLoading ? (
                             <LoadingOutlined className="audio-icon loading" />

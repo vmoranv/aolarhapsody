@@ -1,0 +1,15 @@
+{
+  "title": "Character Analyzer",
+  "label_speed": "Speed",
+  "label_character": "Character",
+  "label_level": "Level",
+  "button_recommend": "Recommend Character",
+  "modal_title": "Recommended Character",
+  "modal_speed_line": "Speed Line",
+  "modal_character_info": "Character Info",
+  "modal_close": "Close",
+  "select_placeholder": "Select Character",
+  "level_placeholder": "Enter Level",
+  "speed_placeholder": "Enter Speed",
+  "no_recommendation": "No suitable character recommendation found."
+}

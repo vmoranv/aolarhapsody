@@ -6,6 +6,7 @@ import { themePrerender } from './utils/themePrerender';
 import App from './App';
 import './theme/palette.css';
 import './index.css';
+import './i18n';
 
 // 预热主题系统
 themePrerender.warmup();

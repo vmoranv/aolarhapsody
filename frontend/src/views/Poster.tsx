@@ -1,8 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
-import { App, Button, Card, Empty, Image,List, Pagination, Space, Typography } from 'antd';
+import { App, Button, Card, Empty, Image, List, Pagination, Space, Typography } from 'antd';
 import { motion } from 'framer-motion';
 import { Download, Image as ImageIcon } from 'lucide-react';
 import React, { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import ErrorDisplay from '../components/ErrorDisplay';
 import Layout from '../components/Layout';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -31,6 +32,7 @@ const fetchPosters = async (): Promise<Poster[]> => {
  * @param poster - 单个海报的数据
  */
 const PosterItem: React.FC<{ poster: Poster }> = ({ poster }) => {
+  const { t } = useTranslation('poster');
   const { colors } = useTheme()!;
   const { message } = App.useApp();
   const imageUrl = `/proxy/h5/pet/petskin/background/bg/img_petskinbackground_${poster.id}.png`;
@@ -47,9 +49,9 @@ const PosterItem: React.FC<{ poster: Poster }> = ({ poster }) => {
       link.click();
       document.body.removeChild(link);
       window.URL.revokeObjectURL(url);
-      message.success('开始下载海报...');
+      message.success(t('download_start'));
     } catch (error) {
-      message.error('下载失败，请稍后重试');
+      message.error(t('download_error'));
       console.error('下载海报时出错:', error);
     }
   };
@@ -83,7 +85,7 @@ const PosterItem: React.FC<{ poster: Poster }> = ({ poster }) => {
                     color: 'white',
                   }}
                 >
-                  点击预览
+                  {t('preview')}
                 </div>
               ),
             }}
@@ -111,7 +113,7 @@ const PosterItem: React.FC<{ poster: Poster }> = ({ poster }) => {
             onClick={handleDownload}
             style={{ color: colors.textSecondary }}
           >
-            下载
+            {t('download')}
           </Button>,
         ]}
       >
@@ -132,6 +134,7 @@ const PosterItem: React.FC<{ poster: Poster }> = ({ poster }) => {
  * 海报页面组件内部实现
  */
 const PosterContent = () => {
+  const { t } = useTranslation('poster');
   const { colors } = useTheme()!;
   const [searchValue, setSearchValue] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
@@ -168,7 +171,7 @@ const PosterContent = () => {
   if (isLoading) {
     return (
       <Layout>
-        <LoadingSpinner text="正在加载海报数据..." />
+        <LoadingSpinner text={t('loading_posters')} />
       </Layout>
     );
   }
@@ -202,10 +205,10 @@ const PosterContent = () => {
               fontSize: '32px',
             }}
           >
-            海报解析
+            {t('page_title')}
           </Title>
           <Paragraph style={{ fontSize: '16px', color: colors.textSecondary, marginTop: 8 }}>
-            浏览和搜索奥拉星游戏中的所有海报。
+            {t('page_subtitle')}
           </Paragraph>
         </motion.div>
 
@@ -218,8 +221,8 @@ const PosterContent = () => {
           totalCount={posters.length}
           filteredCount={filteredData.length}
           hideFilter={true}
-          searchPlaceholder="搜索海报名称或标签..."
-          unitText="张海报"
+          searchPlaceholder={t('search_placeholder')}
+          unitText={t('unit_text')}
         />
 
         {paginatedData.length > 0 ? (
@@ -260,7 +263,9 @@ const PosterContent = () => {
                   onChange={setCurrentPage}
                   showSizeChanger={false}
                   showQuickJumper
-                  showTotal={(total, range) => `第 ${range[0]}-${range[1]} 条，共 ${total} 张海报`}
+                  showTotal={(total, range) =>
+                    t('pagination_total', { rangeStart: range[0], rangeEnd: range[1], total })
+                  }
                 />
               </motion.div>
             )}
@@ -275,7 +280,7 @@ const PosterContent = () => {
               image={Empty.PRESENTED_IMAGE_SIMPLE}
               description={
                 <span style={{ color: colors.textSecondary }}>
-                  {searchValue ? '没有找到匹配的海报' : '暂无海报数据'}
+                  {searchValue ? t('no_results') : t('no_data')}
                 </span>
               }
               style={{

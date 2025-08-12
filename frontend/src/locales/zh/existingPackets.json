@@ -1,0 +1,21 @@
+{
+  "title": "已有数据包",
+  "subtitle": "查看和管理已有的数据包",
+  "search_placeholder": "按数据包名称或内容搜索...",
+  "filter_all": "全部",
+  "filter_parsed": "已解析",
+  "filter_unparsed": "未解析",
+  "total_packets": "总数据包",
+  "filtered_packets": "已筛选",
+  "packet_id": "数据包ID",
+  "packet_name": "数据包名称",
+  "parsed_status": "解析状态",
+  "timestamp": "时间戳",
+  "details": "详情",
+  "no_packets_found": "未找到匹配的数据包。",
+  "no_data": "暂无数据包数据。",
+  "load_failed": "加载数据包数据失败",
+  "load_success": "数据包数据加载成功！",
+  "true": "是",
+  "false": "否"
+}

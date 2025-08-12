@@ -32,6 +32,7 @@ import {
   Zap,
 } from 'lucide-react';
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 // import toast from 'react-hot-toast';
 import Layout from '../components/Layout';
 
@@ -50,7 +51,7 @@ interface ApiResponse<T> {
 
 // 数据获取函数
 const createFetcher =
-  <T,>(endpoint: string) =>
+  <T,>(endpoint: string, t: (key: string, options?: any) => string) =>
   async (): Promise<T[]> => {
     const response = await fetch(`/api/${endpoint}`);
     if (!response.ok) {
@@ -60,149 +61,150 @@ const createFetcher =
     if (result.success && Array.isArray(result.data)) {
       return result.data;
     } else {
-      throw new Error(result.error || `获取${endpoint}数据失败`);
+      throw new Error(result.error || t('fetch_error', { endpoint }));
     }
   };
 
 // 数据配置
-const dataConfigs = [
+const getDataConfigs = (t: (key: string) => string) => [
   {
     key: 'chatframes',
-    title: '聊天框',
+    title: t('chat_frames'),
     icon: MessageCircle,
     color: '#1890ff',
     endpoint: 'chatframes',
-    description: '各种聊天框装饰',
+    description: t('chat_frames_desc'),
   },
   {
     key: 'clothes',
-    title: '服装',
+    title: t('clothes'),
     icon: Shirt,
     color: '#722ed1',
     endpoint: 'clothes',
-    description: '亚比服装装扮',
+    description: t('clothes_desc'),
   },
   {
     key: 'galaxyfleetmarks',
-    title: '银河舰队徽章',
+    title: t('galaxy_fleet_marks'),
     icon: Award,
     color: '#fa8c16',
     endpoint: 'galaxyfleetmarks',
-    description: '银河舰队专属徽章',
+    description: t('galaxy_fleet_marks_desc'),
   },
   {
     key: 'headframes',
-    title: '头像框',
+    title: t('head_frames'),
     icon: Image,
     color: '#52c41a',
     endpoint: 'headframes',
-    description: '个性化头像框',
+    description: t('head_frames_desc'),
   },
   {
     key: 'icondata',
-    title: '图标数据',
+    title: t('icon_data'),
     icon: Package,
     color: '#13c2c2',
     endpoint: 'headicons',
-    description: '游戏内图标资源',
+    description: t('icon_data_desc'),
   },
   {
     key: 'items',
-    title: '道具',
+    title: t('items'),
     icon: Sparkles,
     color: '#eb2f96',
     endpoint: 'items',
-    description: '各种游戏道具',
+    description: t('items_desc'),
   },
   {
     key: 'miracles',
-    title: '奇迹',
+    title: t('miracles'),
     icon: Gem,
     color: '#f5222d',
     endpoint: 'miracle/awake',
-    description: '神秘的奇迹力量',
+    description: t('miracles_desc'),
   },
   {
     key: 'petstones',
-    title: '宠物石',
+    title: t('pet_stones'),
     icon: Gem,
     color: '#faad14',
     endpoint: 'evolutionstones',
-    description: '亚比进化石头',
+    description: t('pet_stones_desc'),
   },
   {
     key: 'pettalks',
-    title: '宠物对话',
+    title: t('pet_talks'),
     icon: MessageSquare,
     color: '#a0d911',
     endpoint: 'pettalks',
-    description: '亚比的对话内容',
+    description: t('pet_talks_desc'),
   },
   {
     key: 'petterritoryfights',
-    title: '宠物领地战',
+    title: t('pet_territory_fights'),
     icon: Swords,
     color: '#ff4d4f',
     endpoint: 'petterritoryfights',
-    description: '领地争夺战数据',
+    description: t('pet_territory_fights_desc'),
   },
   {
     key: 'pmevolinks',
-    title: '进化链接',
+    title: t('pmevo_links'),
     icon: Link,
     color: '#9254de',
     endpoint: 'spevo',
-    description: '亚比进化关联',
+    description: t('pmevo_links_desc'),
   },
   {
     key: 'summoners',
-    title: '召唤师技能',
+    title: t('summoners'),
     icon: Zap,
     color: '#ff7a45',
     endpoint: 'summonerskills',
-    description: '召唤师专属技能',
+    description: t('summoners_desc'),
   },
   {
     key: 'tasks',
-    title: '任务',
+    title: t('tasks'),
     icon: CheckSquare,
     color: '#36cfc9',
     endpoint: 'tasks/starters',
-    description: '游戏任务系统',
+    description: t('tasks_desc'),
   },
   {
     key: 'image-compressor',
-    title: '图片裁剪压缩',
+    title: t('image_compressor'),
     icon: Crop,
     color: '#f759ab',
     endpoint: '', // No endpoint for this tool
-    description: '一个用于裁剪和压缩图片的前端工具',
+    description: t('image_compressor_desc'),
   },
   {
     key: 'character-analyzer',
-    title: '性格解析',
+    title: t('character_analyzer'),
     icon: BrainCircuit,
     color: '#13a8a8',
     endpoint: '', // No endpoint for this tool
-    description: '分析宠物性格对战斗属性的影响',
+    description: t('character_analyzer_desc'),
   },
   {
     key: 'poster',
-    title: '海报解析',
+    title: t('poster'),
     icon: Image,
     color: '#d4380d',
     endpoint: '', // No endpoint for this tool
-    description: '解析游戏海报，提取信息',
+    description: t('poster_desc'),
   },
 ];
 
 // 数据展示组件
 const DataSection: React.FC<{
-  config: (typeof dataConfigs)[0];
+  config: ReturnType<typeof getDataConfigs>[0];
   data: any[];
   loading: boolean;
   error: any;
 }> = ({ config, data, loading, error }) => {
+  const { t } = useTranslation('miscellaneous');
   const IconComponent = config.icon;
 
   if (loading) {
@@ -219,7 +221,7 @@ const DataSection: React.FC<{
         <div style={{ textAlign: 'center', padding: '40px 0' }}>
           <Spin size="large" />
           <div style={{ marginTop: 16 }}>
-            <Text type="secondary">正在加载{config.title}数据...</Text>
+            <Text type="secondary">{t('loading_data', { title: config.title })}</Text>
           </div>
         </div>
       </Card>
@@ -238,7 +240,7 @@ const DataSection: React.FC<{
         style={{ marginBottom: 16 }}
       >
         <Alert
-          message="加载失败"
+          message={t('load_failed')}
           description={error instanceof Error ? error.message : String(error)}
           type="error"
           showIcon
@@ -305,23 +307,23 @@ const DataSection: React.FC<{
                   {item.price && (
                     <div style={{ marginTop: 4 }}>
                       <Tag color="gold" style={{ fontSize: '12px' }}>
-                        金币: {item.price}
+                        {t('price')}: {item.price}
                       </Tag>
                       {item.rmb && (
                         <Tag color="red" style={{ fontSize: '12px' }}>
-                          RMB: {item.rmb}
+                          {t('rmb')}: {item.rmb}
                         </Tag>
                       )}
                     </div>
                   )}
                   {item.cost && (
                     <Tag color="purple" style={{ fontSize: '12px' }}>
-                      消耗: {item.cost}
+                      {t('cost')}: {item.cost}
                     </Tag>
                   )}
                   {item.levelLimit && (
                     <Tag color="green" style={{ fontSize: '12px' }}>
-                      等级限制: {item.levelLimit}
+                      {t('level_limit')}: {item.levelLimit}
                     </Tag>
                   )}
                 </div>
@@ -331,13 +333,16 @@ const DataSection: React.FC<{
         )}
         locale={{
           emptyText: (
-            <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={`暂无${config.title}数据`} />
+            <Empty
+              image={Empty.PRESENTED_IMAGE_SIMPLE}
+              description={t('no_data', { title: config.title })}
+            />
           ),
         }}
       />
       {data.length > 10 && (
         <div style={{ textAlign: 'center', marginTop: 16 }}>
-          <Text type="secondary">还有 {data.length - 10} 条数据未显示...</Text>
+          <Text type="secondary">{t('more_data_hidden', { count: data.length - 10 })}</Text>
         </div>
       )}
     </Card>
@@ -345,14 +350,16 @@ const DataSection: React.FC<{
 };
 
 const Miscellaneous = () => {
+  const { t } = useTranslation('miscellaneous');
   const [activeKeys, setActiveKeys] = useState<string[]>(['chatframes']);
+  const dataConfigs = getDataConfigs(t);
 
   // 为每个数据类型创建查询
   const queries = dataConfigs.map((config) => {
     if (!config.endpoint) {
       return { data: [], isLoading: false, error: null };
     }
-    const fetcher = createFetcher(config.endpoint);
+    const fetcher = createFetcher(config.endpoint, t);
     return useQuery({
       queryKey: [config.key],
       queryFn: fetcher,
@@ -385,10 +392,10 @@ const Miscellaneous = () => {
               fontSize: '32px',
             }}
           >
-            杂项数据
+            {t('title')}
           </Title>
           <Paragraph style={{ fontSize: '16px', color: 'var(--text-color)', marginTop: 8 }}>
-            探索奥拉星世界中的各种辅助数据和系统信息
+            {t('subtitle')}
           </Paragraph>
         </motion.div>
 
@@ -418,7 +425,7 @@ const Miscellaneous = () => {
                         </Text>
                         <br />
                         <Text type="secondary" style={{ fontSize: '12px' }}>
-                          {query.data?.length || 0} 条数据
+                          {t('data_count', { count: query.data?.length || 0 })}
                         </Text>
                       </div>
                     </Space>

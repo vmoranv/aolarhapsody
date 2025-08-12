@@ -1,0 +1,21 @@
+{
+  "description_loading": "加载介绍中...",
+  "description_error": "获取介绍失败",
+  "no_description": "暂无介绍",
+  "skill_list": "技能列表",
+  "no_skill_data": "暂无技能数据",
+  "no_new_skills": "该亚比没有新版技能组。",
+  "no_old_skills": "该亚比没有旧版技能组。",
+  "loading_pets": "加载亚比列表中...",
+  "page_title": "亚比查询",
+  "search_placeholder": "搜索亚比...",
+  "all_attributes": "全部系别",
+  "race_id": "种族值ID",
+  "pause": "暂停",
+  "play": "播放",
+  "base_stats": "种族值",
+  "show_new_skills": "显示新技能",
+  "show_old_skills": "显示旧技能",
+  "no_pet_selected": "未选择亚比",
+  "pet_not_found": "未找到亚比"
+}

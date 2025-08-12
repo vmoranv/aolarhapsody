@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { Heart, Sparkles, Zap } from 'lucide-react';
 import React, { useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 import ErrorDisplay from '../components/ErrorDisplay';
 import Layout from '../components/Layout';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -64,7 +65,7 @@ const fetchHKData = async (): Promise<HKData[]> => {
   if (result.success && Array.isArray(result.data)) {
     return result.data;
   } else {
-    throw new Error(result.error || '获取魂卡数据失败');
+    throw new Error(result.error || 'Failed to fetch soul card data');
   }
 };
 
@@ -82,7 +83,7 @@ const fetchHKBuffs = async (): Promise<HKBuff[]> => {
   if (result.success && Array.isArray(result.data)) {
     return result.data;
   } else {
-    throw new Error(result.error || '获取魂卡Buff数据失败');
+    throw new Error(result.error || 'Failed to fetch soul card buff data');
   }
 };
 
@@ -91,14 +92,14 @@ const fetchHKBuffs = async (): Promise<HKBuff[]> => {
  * @param type - 产出类型值
  * @returns 返回产出类型的文本描述
  */
-const getProduceTypeText = (type: number) => {
-  const types = {
-    1: '普通产出',
-    2: '稀有产出',
-    3: '特殊产出',
-    4: '限时产出',
+const getProduceTypeText = (type: number, t: (key: string) => string) => {
+  const types: { [key: number]: string } = {
+    1: t('produce_type_common'),
+    2: t('produce_type_rare'),
+    3: t('produce_type_special'),
+    4: t('produce_type_limited'),
   };
-  return types[type as keyof typeof types] || '未知产出';
+  return types[type] || t('produce_type_unknown');
 };
 
 /**
@@ -107,6 +108,7 @@ const getProduceTypeText = (type: number) => {
  * @param index - 卡片在列表中的索引，用于动画延迟
  */
 const HKDataCard: React.FC<{ hkData: HKData; index: number }> = ({ hkData, index }) => {
+  const { t } = useTranslation('hk');
   const { token } = theme.useToken();
   const cardColor = useQualityColor(hkData.color);
 
@@ -172,17 +174,17 @@ const HKDataCard: React.FC<{ hkData: HKData; index: number }> = ({ hkData, index
 
           <div style={{ display: 'flex', justifyContent: 'center', gap: 8, marginTop: 8 }}>
             <Tag color={cardColor} style={{ borderRadius: 12 }}>
-              颜色: {hkData.color}
+              {t('color')}: {hkData.color}
             </Tag>
             <Tag color="blue" style={{ borderRadius: 12 }}>
-              {getProduceTypeText(hkData.produceType)}
+              {getProduceTypeText(hkData.produceType, t)}
             </Tag>
           </div>
 
           {hkData.wordBar && (
             <div style={{ textAlign: 'center' }}>
               <Text style={{ fontSize: '12px', fontWeight: 'bold', color: token.colorText }}>
-                词条:
+                {t('word_bar')}:
               </Text>
               <div style={{ marginTop: 4 }}>
                 <Tag color="geekblue" style={{ borderRadius: 8 }}>
@@ -203,6 +205,7 @@ const HKDataCard: React.FC<{ hkData: HKData; index: number }> = ({ hkData, index
  * @param index - 卡片在列表中的索引，用于动画延迟
  */
 const HKBuffCard: React.FC<{ hkBuff: HKBuff; index: number }> = ({ hkBuff, index }) => {
+  const { t } = useTranslation('hk');
   const { token } = theme.useToken();
   const buffColor = useQualityColor(hkBuff.color);
 
@@ -248,7 +251,7 @@ const HKBuffCard: React.FC<{ hkBuff: HKBuff; index: number }> = ({ hkBuff, index
           {hkBuff.decs.length > 0 && (
             <div>
               <Text style={{ fontSize: '12px', fontWeight: 'bold', color: token.colorText }}>
-                效果描述:
+                {t('effect_description')}:
               </Text>
               <div style={{ marginTop: 4 }}>
                 {hkBuff.decs.map((desc, idx) => (
@@ -266,7 +269,7 @@ const HKBuffCard: React.FC<{ hkBuff: HKBuff; index: number }> = ({ hkBuff, index
           {hkBuff.costs.length > 0 && (
             <div>
               <Text style={{ fontSize: '12px', fontWeight: 'bold', color: token.colorText }}>
-                消耗:
+                {t('cost')}:
               </Text>
               <div style={{ marginTop: 4 }}>
                 {hkBuff.costs.map((cost, idx) => (
@@ -282,7 +285,7 @@ const HKBuffCard: React.FC<{ hkBuff: HKBuff; index: number }> = ({ hkBuff, index
           {hkBuff.buffNames.length > 0 && (
             <div>
               <Text style={{ fontSize: '12px', fontWeight: 'bold', color: token.colorText }}>
-                Buff名称:
+                {t('buff_name')}:
               </Text>
               <div style={{ marginTop: 4 }}>
                 {hkBuff.buffNames.map((name, idx) => (
@@ -298,7 +301,7 @@ const HKBuffCard: React.FC<{ hkBuff: HKBuff; index: number }> = ({ hkBuff, index
           {hkBuff.values.length > 0 && (
             <div>
               <Text style={{ fontSize: '12px', fontWeight: 'bold', color: token.colorText }}>
-                数值:
+                {t('value')}:
               </Text>
               <div style={{ marginTop: 4 }}>
                 {hkBuff.values.map((value, idx) => (
@@ -322,6 +325,7 @@ const HKBuffCard: React.FC<{ hkBuff: HKBuff; index: number }> = ({ hkBuff, index
  * - 实现搜索、筛选和分页
  */
 const HK = () => {
+  const { t } = useTranslation('hk');
   const { colors } = useTheme()!;
   const [searchValue, setSearchValue] = useState('');
   const [filterType, setFilterType] = useState<'all' | 'super' | 'normal'>('all');
@@ -355,15 +359,15 @@ const HK = () => {
   // Handle success and error states
   React.useEffect(() => {
     if (error) {
-      toast.error(`加载失败: ${error instanceof Error ? error.message : String(error)}`);
+      toast.error(`${t('load_failed')}: ${error instanceof Error ? error.message : String(error)}`);
     }
-  }, [error]);
+  }, [error, t]);
 
   React.useEffect(() => {
     if (hkData.length > 0 || hkBuffs.length > 0) {
-      toast.success('魂卡数据加载成功！');
+      toast.success(t('load_success'));
     }
-  }, [hkData, hkBuffs]);
+  }, [hkData, hkBuffs, t]);
 
   // 筛选和搜索逻辑
   const filteredData = useMemo(() => {
@@ -422,7 +426,7 @@ const HK = () => {
   if (isLoading) {
     return (
       <Layout>
-        <LoadingSpinner text="正在加载魂卡数据..." />
+        <LoadingSpinner text={t('loading_data')} />
       </Layout>
     );
   }

@@ -26,6 +26,7 @@ import {
   Search,
 } from 'lucide-react';
 import React, { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import ErrorDisplay from '../components/ErrorDisplay';
 import Layout from '../components/Layout';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -83,40 +84,6 @@ const MONITOR_TARGETS = [
   'title',
 ];
 
-// 监控目标中文名称映射
-const TARGET_NAME_MAP: Record<string, string> = {
-  hk: '魂卡',
-  tote: '魂器',
-  astralSpirit: '星灵',
-  chatFrame: '聊天框',
-  clothesData: '服装数据',
-  crystalKey: '晶钥',
-  galaxyFleetMark: '星舰头衔',
-  godCard: '神兵',
-  headFrame: '头像框',
-  petIcon: '亚比图标',
-  headIcon: '头像图标',
-  inscription: '铭文',
-  item: '道具',
-  miracle: '奇迹',
-  petCard: '装备',
-  petCard2: '特性晶石',
-  petDictionary: '字典',
-  petStone: '进化石',
-  petTalk: '台词',
-  petTerritoryFight: '领域战',
-  pmDataList: 'PM数据列表',
-  pmEvoLink: 'PM进化链',
-  summoner: '召唤师',
-  task: '任务',
-  title: '称号',
-};
-
-// 获取中文名称的辅助函数
-const getChineseName = (englishName: string): string => {
-  return TARGET_NAME_MAP[englishName] || englishName;
-};
-
 const fetchSubclassData = async (name: string): Promise<SubclassMonitorData> => {
   const response = await fetch(`/api/monitor/${name}`);
 
@@ -134,6 +101,7 @@ const fetchSubclassData = async (name: string): Promise<SubclassMonitorData> => 
 };
 
 const Home = () => {
+  const { t } = useTranslation('home');
   const [searchValue, setSearchValue] = useState('');
   const [filterType, setFilterType] = useState<'all' | 'changed' | 'stable'>('all');
   const [selectedTarget, setSelectedTarget] = useState<string>('hk');
@@ -169,8 +137,8 @@ const Home = () => {
   React.useEffect(() => {
     if (error) {
       notifications.error(
-        '数据加载失败',
-        `监控数据加载失败: ${error instanceof Error ? error.message : String(error)}`
+        t('dataLoadFailed'),
+        `${t('dataLoadFailed')}: ${error instanceof Error ? error.message : String(error)}`
       );
     }
   }, [error, notifications]);
@@ -213,7 +181,7 @@ const Home = () => {
   if (isLoading) {
     return (
       <Layout>
-        <LoadingSpinner text="正在加载子类监控数据..." />
+        <LoadingSpinner text={t('loadingSubclassData')} />
       </Layout>
     );
   }
@@ -248,10 +216,10 @@ const Home = () => {
               fontSize: '32px',
             }}
           >
-            子类监控仪表板
+            {t('subclassMonitoringDashboard')}
           </Title>
           <Paragraph style={{ fontSize: '16px', color: colors.textSecondary, marginTop: 8 }}>
-            实时监控奥拉星系统中各个模块的子类变化，追踪代码结构演进
+            {t('subclassMonitoringDashboardDescription')}
           </Paragraph>
         </motion.div>
 
@@ -265,7 +233,7 @@ const Home = () => {
             <Col xs={24} sm={12} md={6}>
               <Card style={{ borderRadius: 12 }}>
                 <Statistic
-                  title="监控目标"
+                  title={t('monitoringTargets')}
                   value={validData.length}
                   prefix={<Monitor size={20} color={colors.primary} />}
                   valueStyle={{ color: colors.primary }}
@@ -275,7 +243,7 @@ const Home = () => {
             <Col xs={24} sm={12} md={6}>
               <Card style={{ borderRadius: 12 }}>
                 <Statistic
-                  title="有变化"
+                  title={t('hasChange')}
                   value={changedData.length}
                   prefix={<AlertTriangle size={20} color="#faad14" />}
                   valueStyle={{ color: '#faad14' }}
@@ -285,7 +253,7 @@ const Home = () => {
             <Col xs={24} sm={12} md={6}>
               <Card style={{ borderRadius: 12 }}>
                 <Statistic
-                  title="稳定状态"
+                  title={t('stableState')}
                   value={stableData.length}
                   prefix={<Activity size={20} color="#52c41a" />}
                   valueStyle={{ color: '#52c41a' }}
@@ -295,7 +263,7 @@ const Home = () => {
             <Col xs={24} sm={12} md={6}>
               <Card style={{ borderRadius: 12 }}>
                 <Statistic
-                  title="总子类数"
+                  title={t('totalSubclasses')}
                   value={totalSubclasses}
                   prefix={<Database size={20} color="#722ed1" />}
                   valueStyle={{ color: '#722ed1' }}
@@ -331,7 +299,7 @@ const Home = () => {
             >
               <Space size="middle" style={{ flex: 1, minWidth: '300px' }}>
                 <Input
-                  placeholder="搜索监控目标..."
+                  placeholder={t('searchMonitoringTarget')}
                   prefix={<Search size={16} color={colors.textSecondary} />}
                   value={searchValue}
                   onChange={(e) => setSearchValue(e.target.value)}
@@ -348,9 +316,9 @@ const Home = () => {
                   style={{ minWidth: '120px' }}
                   suffixIcon={<Filter size={16} color={colors.textSecondary} />}
                 >
-                  <Option value="all">全部状态</Option>
-                  <Option value="changed">有变化</Option>
-                  <Option value="stable">稳定状态</Option>
+                  <Option value="all">{t('allStates')}</Option>
+                  <Option value="changed">{t('hasChange')}</Option>
+                  <Option value="stable">{t('stableState')}</Option>
                 </Select>
 
                 <Button
@@ -358,7 +326,7 @@ const Home = () => {
                   onClick={handleReset}
                   style={{ borderRadius: 8 }}
                 >
-                  重置
+                  {t('reset')}
                 </Button>
 
                 <Button
@@ -369,18 +337,21 @@ const Home = () => {
                       if (result.data) {
                         const successCount = result.data.filter((item) => item.data).length;
                         notifications.success(
-                          '数据刷新成功',
-                          `监控数据刷新成功！(${successCount}/${MONITOR_TARGETS.length})`
+                          t('dataRefreshSuccess'),
+                          `${t('dataRefreshSuccess')}！(${successCount}/${MONITOR_TARGETS.length})`
                         );
                       }
                     } catch {
-                      notifications.error('刷新失败', '刷新失败，请重试');
+                      notifications.error(
+                        t('dataRefreshFailed'),
+                        `${t('dataRefreshFailed')}，请重试`
+                      );
                     }
                   }}
                   loading={monitorQueries.isFetching}
                   style={{ borderRadius: 8 }}
                 >
-                  刷新
+                  {t('refresh')}
                 </Button>
               </Space>
 
@@ -391,11 +362,11 @@ const Home = () => {
                   whiteSpace: 'nowrap',
                 }}
               >
-                显示{' '}
+                {t('show')}{' '}
                 <span style={{ color: colors.primary, fontWeight: 600 }}>
                   {filteredData.length}
                 </span>{' '}
-                / {validData.length} 个目标
+                / {validData.length} {t('targets')}
               </div>
             </div>
           </Space>
@@ -408,7 +379,7 @@ const Home = () => {
           transition={{ duration: 0.5, delay: 0.4 }}
         >
           <Title level={3} style={{ marginBottom: 24, color: colors.text }}>
-            监控目标列表
+            {t('monitoringTargetList')}
           </Title>
 
           {filteredData.length > 0 ? (
@@ -441,11 +412,11 @@ const Home = () => {
                           }}
                         >
                           <Title level={5} style={{ margin: 0, color: colors.text }}>
-                            {getChineseName(item.name)}
+                            {t(item.name)}
                           </Title>
                           <Badge
                             status={item.data?.hasChange ? 'warning' : 'success'}
-                            text={item.data?.hasChange ? '有变化' : '稳定'}
+                            text={item.data?.hasChange ? t('hasChange') : t('stableState')}
                           />
                         </div>
 
@@ -470,13 +441,13 @@ const Home = () => {
                           }}
                         >
                           <Statistic
-                            title="子类数量"
+                            title={t('subclassCount')}
                             value={item.data?.subclassCount || 0}
                             valueStyle={{ fontSize: '18px', color: colors.primary }}
                           />
                           {item.data?.hasChange && item.data.newSubclasses.length > 0 && (
                             <Tag color="orange" style={{ fontSize: '10px' }}>
-                              +{item.data.newSubclasses.length} 新增
+                              +{item.data.newSubclasses.length} {t('new')}
                             </Tag>
                           )}
                         </div>
@@ -490,7 +461,7 @@ const Home = () => {
                                 marginBottom: 4,
                               }}
                             >
-                              子类列表:
+                              {t('subclassList')}:
                             </div>
                             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
                               {item.data.subclasses.slice(0, 3).map((subclass) => (

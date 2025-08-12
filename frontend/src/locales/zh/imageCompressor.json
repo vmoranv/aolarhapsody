@@ -1,0 +1,20 @@
+{
+  "title": "图片压缩器",
+  "subtitle": "快速压缩图片以减小文件大小",
+  "upload_area_text": "点击或拖拽文件到此区域上传",
+  "upload_hint": "支持单次上传。严禁上传公司数据或其他波段文件",
+  "quality_label": "图片质量",
+  "compress_button": "压缩图片",
+  "download_button": "下载压缩图片",
+  "re_upload_button": "上传另一张图片",
+  "original_image": "原始图片",
+  "compressed_image": "压缩后图片",
+  "no_image": "无图片",
+  "size": "大小",
+  "dimensions": "尺寸",
+  "compressing": "压缩中...",
+  "compression_success": "图片压缩成功！",
+  "compression_error": "图片压缩失败。",
+  "upload_error_type": "只能上传 JPG/JPEG/PNG 文件！",
+  "upload_error_size": "图片必须小于 2MB！"
+}

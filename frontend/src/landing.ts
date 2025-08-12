@@ -442,6 +442,21 @@ window.addEventListener('storage', (event) => {
   }
 });
 
+import i18n from './i18n';
+
+// 翻译函数
+const t = (key: string) => i18n.t(key, { ns: 'landing' });
+
+// 更新页面文本
+const updateTexts = () => {
+  document.querySelectorAll('[data-i18n]').forEach((element) => {
+    const key = element.getAttribute('data-i18n');
+    if (key) {
+      element.innerHTML = t(key);
+    }
+  });
+};
+
 // DOM加载完成后执行初始化
 document.addEventListener('DOMContentLoaded', () => {
   init();
@@ -450,4 +465,10 @@ document.addEventListener('DOMContentLoaded', () => {
   if (kimiMode) {
     updateFavicon(JSON.parse(kimiMode));
   }
+
+  // 初始化语言
+  i18n.on('languageChanged', () => {
+    updateTexts();
+  });
+  updateTexts();
 });

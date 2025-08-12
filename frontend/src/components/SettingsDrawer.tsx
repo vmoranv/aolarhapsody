@@ -1,4 +1,6 @@
-import { Drawer, List, Switch, Tag, Typography } from 'antd';
+import { Drawer, List, Select, Switch, Tag, Typography } from 'antd';
+import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useSettingStore } from '../store/setting';
 
 interface SettingsDrawerProps {
@@ -8,6 +10,7 @@ interface SettingsDrawerProps {
 }
 
 const SettingsDrawer: React.FC<SettingsDrawerProps> = ({ open, onClose, currentPageStatus }) => {
+  const { t, i18n } = useTranslation('common');
   const {
     betaMode,
     setBetaMode,
@@ -16,12 +19,23 @@ const SettingsDrawer: React.FC<SettingsDrawerProps> = ({ open, onClose, currentP
     kimiMode,
     setKimiMode,
   } = useSettingStore();
+  const [kimiDescription, setKimiDescription] = useState('');
+
+  useEffect(() => {
+    const descriptions = t('kimiModeDescription', { returnObjects: true }) as string[];
+    const randomIndex = Math.floor(Math.random() * descriptions.length);
+    setKimiDescription(descriptions[randomIndex]);
+  }, [t]);
+
+  const handleLanguageChange = (value: string) => {
+    i18n.changeLanguage(value);
+  };
 
   const data = [
     {
       title: (
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <span>开启测试版</span>
+          <span>{t('betaMode')}</span>
           {betaMode && (
             <Tag color={currentPageStatus === 'dev' ? 'volcano' : 'green'}>
               {currentPageStatus.toUpperCase()}
@@ -29,7 +43,7 @@ const SettingsDrawer: React.FC<SettingsDrawerProps> = ({ open, onClose, currentP
           )}
         </div>
       ),
-      description: '预览开发中的页面和功能',
+      description: t('betaModeDescription'),
       action: (
         <Switch
           checked={betaMode}
@@ -39,8 +53,8 @@ const SettingsDrawer: React.FC<SettingsDrawerProps> = ({ open, onClose, currentP
       ),
     },
     {
-      title: '启用性能监测',
-      description: '显示性能监测组件',
+      title: t('performanceMonitoring'),
+      description: t('performanceMonitoringDescription'),
       action: (
         <Switch
           checked={performanceMonitoring}
@@ -50,8 +64,8 @@ const SettingsDrawer: React.FC<SettingsDrawerProps> = ({ open, onClose, currentP
       ),
     },
     {
-      title: '基米模式',
-      description: '哈!',
+      title: t('kimiMode'),
+      description: kimiDescription,
       action: (
         <Switch
           checked={kimiMode}
@@ -60,10 +74,20 @@ const SettingsDrawer: React.FC<SettingsDrawerProps> = ({ open, onClose, currentP
         />
       ),
     },
+    {
+      title: t('language'),
+      description: t('languageDescription'),
+      action: (
+        <Select defaultValue={i18n.language} onChange={handleLanguageChange}>
+          <Select.Option value="en">English</Select.Option>
+          <Select.Option value="zh">中文</Select.Option>
+        </Select>
+      ),
+    },
   ];
 
   return (
-    <Drawer title="设置" placement="right" onClose={onClose} open={open}>
+    <Drawer title={t('settings')} placement="right" onClose={onClose} open={open}>
       <List
         itemLayout="horizontal"
         dataSource={data}

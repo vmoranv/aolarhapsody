@@ -1,0 +1,18 @@
+{
+  "title": "晶石钥匙计算器",
+  "subtitle": "计算升级所需的晶石钥匙数量",
+  "key_type_label": "钥匙类型",
+  "current_level_label": "当前等级",
+  "current_exp_label": "当前经验",
+  "target_level_label": "目标等级",
+  "calculate_button": "计算",
+  "reset_button": "重置",
+  "result_title": "计算结果",
+  "keys_needed": "所需钥匙",
+  "gold_coins_needed": "所需金币",
+  "input_placeholder_level": "输入等级 (1-100)",
+  "input_placeholder_exp": "输入当前经验",
+  "key_type_primary": "初级",
+  "key_type_intermediate": "中级",
+  "key_type_advanced": "高级"
+}

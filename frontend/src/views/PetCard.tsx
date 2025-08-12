@@ -17,6 +17,7 @@ import { motion } from 'framer-motion';
 import { CreditCard, Crown, Shield, Star, Zap } from 'lucide-react';
 import React, { useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 import ErrorDisplay from '../components/ErrorDisplay';
 import Layout from '../components/Layout';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -75,7 +76,7 @@ interface ApiResponse<T> {
  * @returns 返回一个包含所有宠物卡的Promise数组
  * @throws 当网络请求失败或API返回错误时抛出异常
  */
-const fetchPetCards = async (): Promise<PetCard[]> => {
+const fetchPetCards = async (t: (key: string) => string): Promise<PetCard[]> => {
   const response = await fetch('/api/petcards');
   if (!response.ok) {
     throw new Error(`HTTP error! status: ${response.status}`);
@@ -84,7 +85,7 @@ const fetchPetCards = async (): Promise<PetCard[]> => {
   if (result.success && Array.isArray(result.data)) {
     return result.data;
   } else {
-    throw new Error(result.error || '获取宠物卡数据失败');
+    throw new Error(result.error || t('fetch_cards_error'));
   }
 };
 
@@ -93,7 +94,7 @@ const fetchPetCards = async (): Promise<PetCard[]> => {
  * @returns 返回一个包含所有宠物卡套装的Promise数组
  * @throws 当网络请求失败或API返回错误时抛出异常
  */
-const fetchPetCardSuits = async (): Promise<PetCardSuit[]> => {
+const fetchPetCardSuits = async (t: (key: string) => string): Promise<PetCardSuit[]> => {
   const response = await fetch('/api/petcardsuits');
   if (!response.ok) {
     throw new Error(`HTTP error! status: ${response.status}`);
@@ -102,7 +103,7 @@ const fetchPetCardSuits = async (): Promise<PetCardSuit[]> => {
   if (result.success && Array.isArray(result.data)) {
     return result.data;
   } else {
-    throw new Error(result.error || '获取宠物卡套装数据失败');
+    throw new Error(result.error || t('fetch_suits_error'));
   }
 };
 
@@ -127,15 +128,15 @@ const getQualityColor = (quality: number) => {
  * @param quality - 品质值 (1-5)
  * @returns 返回品质的文本描述
  */
-const getQualityText = (quality: number) => {
-  const texts = {
-    1: '普通',
-    2: '优秀',
-    3: '稀有',
-    4: '史诗',
-    5: '传说',
+const getQualityText = (quality: number, t: (key: string) => string) => {
+  const texts: { [key: number]: string } = {
+    1: t('quality_common'),
+    2: t('quality_excellent'),
+    3: t('quality_rare'),
+    4: t('quality_epic'),
+    5: t('quality_legendary'),
   };
-  return texts[quality as keyof typeof texts] || '未知';
+  return texts[quality] || t('quality_unknown');
 };
 
 /**
@@ -144,6 +145,7 @@ const getQualityText = (quality: number) => {
  * @param index - 卡片在列表中的索引，用于动画延迟
  */
 const PetCardCard: React.FC<{ petCard: PetCard; index: number }> = ({ petCard, index }) => {
+  const { t } = useTranslation('petCard');
   const { token } = theme.useToken();
   const qualityColor = getQualityColor(petCard.quality);
 
@@ -209,7 +211,7 @@ const PetCardCard: React.FC<{ petCard: PetCard; index: number }> = ({ petCard, i
             <div style={{ marginTop: 8 }}>
               <Tag color={qualityColor} style={{ borderRadius: 12 }}>
                 <Star size={12} style={{ marginRight: 4 }} />
-                {getQualityText(petCard.quality)}
+                {getQualityText(petCard.quality, t)}
               </Tag>
             </div>
           </div>
@@ -223,7 +225,9 @@ const PetCardCard: React.FC<{ petCard: PetCard; index: number }> = ({ petCard, i
                 <Avatar size={16} style={{ backgroundColor: '#f5222d' }}>
                   <Zap size={10} />
                 </Avatar>
-                <Text style={{ fontSize: '12px' }}>攻击: {petCard.attack}</Text>
+                <Text style={{ fontSize: '12px' }}>
+                  {t('attack')}: {petCard.attack}
+                </Text>
               </div>
             </Col>
             <Col span={12}>
@@ -231,7 +235,9 @@ const PetCardCard: React.FC<{ petCard: PetCard; index: number }> = ({ petCard, i
                 <Avatar size={16} style={{ backgroundColor: '#52c41a' }}>
                   <Shield size={10} />
                 </Avatar>
-                <Text style={{ fontSize: '12px' }}>防御: {petCard.defend}</Text>
+                <Text style={{ fontSize: '12px' }}>
+                  {t('defense')}: {petCard.defend}
+                </Text>
               </div>
             </Col>
             <Col span={12}>
@@ -239,7 +245,9 @@ const PetCardCard: React.FC<{ petCard: PetCard; index: number }> = ({ petCard, i
                 <Avatar size={16} style={{ backgroundColor: '#722ed1' }}>
                   <Zap size={10} />
                 </Avatar>
-                <Text style={{ fontSize: '12px' }}>特攻: {petCard.sAttack}</Text>
+                <Text style={{ fontSize: '12px' }}>
+                  {t('s_attack')}: {petCard.sAttack}
+                </Text>
               </div>
             </Col>
             <Col span={12}>
@@ -247,33 +255,35 @@ const PetCardCard: React.FC<{ petCard: PetCard; index: number }> = ({ petCard, i
                 <Avatar size={16} style={{ backgroundColor: '#1890ff' }}>
                   <Shield size={10} />
                 </Avatar>
-                <Text style={{ fontSize: '12px' }}>特防: {petCard.sDefend}</Text>
+                <Text style={{ fontSize: '12px' }}>
+                  {t('s_defense')}: {petCard.sDefend}
+                </Text>
               </div>
             </Col>
           </Row>
 
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <Text style={{ fontSize: '12px', color: token.colorTextSecondary }}>
-              生命: {petCard.hp}
+              {t('hp')}: {petCard.hp}
             </Text>
             <Text style={{ fontSize: '12px', color: token.colorTextSecondary }}>
-              速度: {petCard.speed}
+              {t('speed')}: {petCard.speed}
             </Text>
           </div>
 
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <Text style={{ fontSize: '12px', color: token.colorTextSecondary }}>
-              等级: {petCard.level}
+              {t('level')}: {petCard.level}
             </Text>
             <Text style={{ fontSize: '12px', color: token.colorTextSecondary }}>
-              视图: {petCard.viewId}
+              {t('view')}: {petCard.viewId}
             </Text>
           </div>
 
           {petCard.limitRaceId && petCard.limitRaceId.length > 0 && (
             <div>
               <Text style={{ fontSize: '12px', fontWeight: 'bold', color: token.colorText }}>
-                限制种族:
+                {t('limit_race')}:
               </Text>
               <div style={{ marginTop: 4 }}>
                 {petCard.limitRaceId.slice(0, 3).map((raceId) => (
@@ -318,6 +328,7 @@ const PetCardCard: React.FC<{ petCard: PetCard; index: number }> = ({ petCard, i
  * @param index - 卡片在列表中的索引，用于动画延迟
  */
 const PetCardSuitCard: React.FC<{ suit: PetCardSuit; index: number }> = ({ suit, index }) => {
+  const { t } = useTranslation('petCard');
   const { token } = theme.useToken();
 
   return (
@@ -352,11 +363,11 @@ const PetCardSuitCard: React.FC<{ suit: PetCardSuit; index: number }> = ({ suit,
               {suit.name}
             </Title>
             <Text type="secondary" style={{ fontSize: '12px' }}>
-              套装ID: {suit.id}
+              {t('suit_id')}: {suit.id}
             </Text>
             <div style={{ marginTop: 8 }}>
               <Tag color="#fa8c16" style={{ borderRadius: 12 }}>
-                类型: {suit.suitType}
+                {t('type')}: {suit.suitType}
               </Tag>
             </div>
           </div>
@@ -365,7 +376,7 @@ const PetCardSuitCard: React.FC<{ suit: PetCardSuit; index: number }> = ({ suit,
 
           <div>
             <Text style={{ fontSize: '12px', fontWeight: 'bold', color: token.colorText }}>
-              包含卡牌: {suit.petCardIdList.length} 张
+              {t('cards_included')}: {suit.petCardIdList.length} {t('cards_unit')}
             </Text>
             <div style={{ marginTop: 8 }}>
               {suit.petCardIdList.map((id) => (
@@ -405,6 +416,7 @@ const PetCardSuitCard: React.FC<{ suit: PetCardSuit; index: number }> = ({ suit,
  * - 实现搜索、筛选和分页
  */
 const PetCard = () => {
+  const { t } = useTranslation('petCard');
   const [searchValue, setSearchValue] = useState('');
   const [filterType, setFilterType] = useState<'all' | 'super' | 'normal'>('all');
   const [currentPage, setCurrentPage] = useState(1);
@@ -418,7 +430,7 @@ const PetCard = () => {
     refetch: refetchCards,
   } = useQuery({
     queryKey: ['pet-cards'],
-    queryFn: fetchPetCards,
+    queryFn: () => fetchPetCards(t),
   });
 
   const {
@@ -428,7 +440,7 @@ const PetCard = () => {
     refetch: refetchSuits,
   } = useQuery({
     queryKey: ['pet-card-suits'],
-    queryFn: fetchPetCardSuits,
+    queryFn: () => fetchPetCardSuits(t),
   });
 
   const isLoading = cardsLoading || suitsLoading;
@@ -437,15 +449,17 @@ const PetCard = () => {
   // Handle success and error states
   React.useEffect(() => {
     if (error) {
-      toast.error(`加载失败: ${error instanceof Error ? error.message : String(error)}`);
+      toast.error(
+        t('load_error', { message: error instanceof Error ? error.message : String(error) })
+      );
     }
-  }, [error]);
+  }, [error, t]);
 
   React.useEffect(() => {
     if (petCards.length > 0 || suits.length > 0) {
-      toast.success('宠物卡数据加载成功！');
+      toast.success(t('load_success'));
     }
-  }, [petCards, suits]);
+  }, [petCards, suits, t]);
 
   // 筛选和搜索逻辑
   const filteredData = useMemo(() => {

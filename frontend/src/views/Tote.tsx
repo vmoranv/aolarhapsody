@@ -16,6 +16,7 @@ import { motion } from 'framer-motion';
 import { Database, Package, Star, TrendingUp } from 'lucide-react';
 import React, { useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 import ErrorDisplay from '../components/ErrorDisplay';
 import Layout from '../components/Layout';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -40,29 +41,30 @@ interface Tote {
   rarity: number;
 }
 
-const getQualityText = (quality: number) => {
-  const texts = {
-    1: '普通',
-    2: '优秀',
-    3: '稀有',
-    4: '史诗',
-    5: '传说',
+const getQualityText = (quality: number, t: (key: string) => string) => {
+  const texts: { [key: number]: string } = {
+    1: t('quality_common'),
+    2: t('quality_excellent'),
+    3: t('quality_rare'),
+    4: t('quality_epic'),
+    5: t('quality_legendary'),
   };
-  return texts[quality as keyof typeof texts] || '未知';
+  return texts[quality] || t('quality_unknown');
 };
 
-const getRarityText = (rarity: number) => {
-  const texts = {
-    1: '常见',
-    2: '少见',
-    3: '稀有',
-    4: '极稀有',
-    5: '传说',
+const getRarityText = (rarity: number, t: (key: string) => string) => {
+  const texts: { [key: number]: string } = {
+    1: t('rarity_common'),
+    2: t('rarity_uncommon'),
+    3: t('rarity_rare'),
+    4: t('rarity_very_rare'),
+    5: t('rarity_legendary'),
   };
-  return texts[rarity as keyof typeof texts] || '未知';
+  return texts[rarity] || t('rarity_unknown');
 };
 
 const ToteCard: React.FC<{ tote: Tote; index: number }> = ({ tote, index }) => {
+  const { t } = useTranslation('tote');
   const { token } = theme.useToken();
   const qualityColor = useQualityColor(tote.quality);
 
@@ -121,7 +123,7 @@ const ToteCard: React.FC<{ tote: Tote; index: number }> = ({ tote, index }) => {
                 color="white"
                 style={{ color: qualityColor, fontWeight: 'bold', fontSize: '10px' }}
               >
-                类型 {tote.type}
+                {t('type', { type: tote.type })}
               </Tag>
             </div>
           </div>
@@ -140,10 +142,10 @@ const ToteCard: React.FC<{ tote: Tote; index: number }> = ({ tote, index }) => {
           <div style={{ display: 'flex', justifyContent: 'center', gap: 8, marginTop: 8 }}>
             <Tag color={qualityColor} style={{ borderRadius: 12 }}>
               <Star size={12} style={{ marginRight: 4 }} />
-              {getQualityText(tote.quality)}
+              {getQualityText(tote.quality, t)}
             </Tag>
             <Tag color="blue" style={{ borderRadius: 12 }}>
-              {getRarityText(tote.rarity)}
+              {getRarityText(tote.rarity, t)}
             </Tag>
           </div>
 
@@ -151,7 +153,7 @@ const ToteCard: React.FC<{ tote: Tote; index: number }> = ({ tote, index }) => {
           <Row gutter={[8, 8]} style={{ marginTop: 12 }}>
             <Col span={12}>
               <Statistic
-                title="金币"
+                title={t('coins')}
                 value={tote.price}
                 valueStyle={{ fontSize: '14px', color: useStatusColor('warning') }}
                 prefix="💰"
@@ -159,7 +161,7 @@ const ToteCard: React.FC<{ tote: Tote; index: number }> = ({ tote, index }) => {
             </Col>
             <Col span={12}>
               <Statistic
-                title="RMB"
+                title={t('rmb')}
                 value={tote.rmb}
                 valueStyle={{ fontSize: '14px', color: useStatusColor('error') }}
                 prefix="¥"
@@ -169,7 +171,7 @@ const ToteCard: React.FC<{ tote: Tote; index: number }> = ({ tote, index }) => {
 
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <Text style={{ fontSize: '12px', color: token.colorTextSecondary }}>
-              等级: {tote.level}
+              {t('level')}: {tote.level}
             </Text>
             {tote.category && (
               <Tag color="geekblue" style={{ fontSize: '12px' }}>
@@ -201,6 +203,7 @@ const ToteCard: React.FC<{ tote: Tote; index: number }> = ({ tote, index }) => {
 };
 
 const Tote = () => {
+  const { t } = useTranslation('tote');
   const { colors } = useTheme()!;
   const [searchValue, setSearchValue] = useState('');
   const [filterType, setFilterType] = useState<'all' | 'super' | 'normal'>('all');
@@ -220,15 +223,17 @@ const Tote = () => {
   // Handle success and error states
   React.useEffect(() => {
     if (error) {
-      toast.error(`加载失败: ${error instanceof Error ? error.message : String(error)}`);
+      toast.error(
+        t('load_error', { message: error instanceof Error ? error.message : String(error) })
+      );
     }
-  }, [error]);
+  }, [error, t]);
 
   React.useEffect(() => {
     if (totes.length > 0) {
-      toast.success('Tote数据加载成功！');
+      toast.success(t('load_success'));
     }
-  }, [totes]);
+  }, [totes, t]);
 
   // 筛选和搜索逻辑
   const filteredTotes = useMemo(() => {
@@ -278,7 +283,7 @@ const Tote = () => {
   if (isLoading) {
     return (
       <Layout>
-        <LoadingSpinner text="正在加载Tote数据..." />
+        <LoadingSpinner text={t('loading_data')} />
       </Layout>
     );
   }
@@ -313,10 +318,10 @@ const Tote = () => {
               fontSize: '32px',
             }}
           >
-            Tote系统
+            {t('page_title')}
           </Title>
           <Paragraph style={{ fontSize: '16px', color: colors.textSecondary, marginTop: 8 }}>
-            收集各种珍贵的Tote物品，丰富你的收藏
+            {t('page_subtitle')}
           </Paragraph>
         </motion.div>
 
@@ -330,7 +335,7 @@ const Tote = () => {
             <Col xs={24} sm={12} md={6}>
               <Card style={{ borderRadius: 12 }}>
                 <Statistic
-                  title="总数量"
+                  title={t('stat_total')}
                   value={stats.total}
                   prefix={<Database size={20} color={colors.info} />}
                   valueStyle={{ color: colors.info }}
@@ -340,7 +345,7 @@ const Tote = () => {
             <Col xs={24} sm={12} md={6}>
               <Card style={{ borderRadius: 12 }}>
                 <Statistic
-                  title="高品质"
+                  title={t('stat_high_quality')}
                   value={stats.super}
                   prefix={<Star size={20} color={colors.warning} />}
                   valueStyle={{ color: colors.warning }}
@@ -350,7 +355,7 @@ const Tote = () => {
             <Col xs={24} sm={12} md={6}>
               <Card style={{ borderRadius: 12 }}>
                 <Statistic
-                  title="普通品质"
+                  title={t('stat_normal_quality')}
                   value={stats.normal}
                   prefix={<Package size={20} color={colors.success} />}
                   valueStyle={{ color: colors.success }}
@@ -360,11 +365,11 @@ const Tote = () => {
             <Col xs={24} sm={12} md={6}>
               <Card style={{ borderRadius: 12 }}>
                 <Statistic
-                  title="平均价格"
+                  title={t('stat_avg_price')}
                   value={stats.avgPrice}
                   prefix={<TrendingUp size={20} color={colors.secondary} />}
                   valueStyle={{ color: colors.secondary }}
-                  suffix="金币"
+                  suffix={t('coins_suffix')}
                 />
               </Card>
             </Col>
@@ -417,7 +422,11 @@ const Tote = () => {
                     showSizeChanger={false}
                     showQuickJumper
                     showTotal={(total, range) =>
-                      `第 ${range[0]}-${range[1]} 条，共 ${total} 个Tote`
+                      t('pagination_total', {
+                        rangeStart: range[0],
+                        rangeEnd: range[1],
+                        total,
+                      })
                     }
                   />
                 </motion.div>
@@ -433,7 +442,7 @@ const Tote = () => {
                 image={Empty.PRESENTED_IMAGE_SIMPLE}
                 description={
                   <span style={{ color: colors.textSecondary }}>
-                    {searchValue || filterType !== 'all' ? '没有找到匹配的Tote' : '暂无Tote数据'}
+                    {searchValue || filterType !== 'all' ? t('no_results') : t('no_data')}
                   </span>
                 }
                 style={{

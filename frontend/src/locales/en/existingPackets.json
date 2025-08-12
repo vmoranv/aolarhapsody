@@ -1,0 +1,21 @@
+{
+  "title": "Existing Packets",
+  "subtitle": "View and manage existing data packets",
+  "search_placeholder": "Search by packet name or content...",
+  "filter_all": "All",
+  "filter_parsed": "Parsed",
+  "filter_unparsed": "Unparsed",
+  "total_packets": "Total Packets",
+  "filtered_packets": "Filtered",
+  "packet_id": "Packet ID",
+  "packet_name": "Packet Name",
+  "parsed_status": "Parsed Status",
+  "timestamp": "Timestamp",
+  "details": "Details",
+  "no_packets_found": "No matching packets found.",
+  "no_data": "No packet data available.",
+  "load_failed": "Failed to load packet data",
+  "load_success": "Packet data loaded successfully!",
+  "true": "True",
+  "false": "False"
+}

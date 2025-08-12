@@ -1,0 +1,14 @@
+{
+  "preview": "Click to preview",
+  "download": "Download",
+  "download_start": "Starting download...",
+  "download_error": "Download failed, please try again later",
+  "loading_posters": "Loading posters...",
+  "page_title": "Poster Analysis",
+  "page_subtitle": "Browse and search all posters in the game.",
+  "search_placeholder": "Search poster name or label...",
+  "unit_text": "posters",
+  "pagination_total": "Items {{rangeStart}}-{{rangeEnd}} of {{total}} posters",
+  "no_results": "No matching posters found",
+  "no_data": "No poster data available"
+}

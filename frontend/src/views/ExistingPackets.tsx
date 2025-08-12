@@ -3,6 +3,7 @@ import { App, Button, Empty, List, Pagination, Space, Typography } from 'antd';
 import { motion } from 'framer-motion';
 import { Copy, Package } from 'lucide-react';
 import React, { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import ErrorDisplay from '../components/ErrorDisplay';
 import Layout from '../components/Layout';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -38,15 +39,16 @@ const fetchExistingPackets = async (): Promise<ExistingPacket[]> => {
  * @param packet - 单个封包的数据
  */
 const ExistingPacketItem: React.FC<{ packet: ExistingPacket }> = ({ packet }) => {
+  const { t } = useTranslation('existingPackets');
   const { colors } = useTheme()!;
   const { message } = App.useApp();
 
   const handleCopyPackage = async () => {
     try {
       await navigator.clipboard.writeText(packet.packet);
-      message.success('封包内容已复制到剪贴板');
+      message.success(t('copy_success'));
     } catch {
-      message.error('复制失败，请手动复制');
+      message.error(t('copy_failed'));
     }
   };
 
@@ -74,7 +76,7 @@ const ExistingPacketItem: React.FC<{ packet: ExistingPacket }> = ({ packet }) =>
             color: colors.primary,
           }}
         >
-          复制封包
+          {t('copy_packet')}
         </Button>,
       ]}
     >
@@ -109,7 +111,7 @@ const ExistingPacketItem: React.FC<{ packet: ExistingPacket }> = ({ packet }) =>
                 display: 'block',
               }}
             >
-              封包内容:
+              {t('packet_content')}:
             </Text>
             <div
               style={{
@@ -139,6 +141,7 @@ const ExistingPacketItem: React.FC<{ packet: ExistingPacket }> = ({ packet }) =>
  * - 实现搜索和分页功能
  */
 const ExistingPacketsContent = () => {
+  const { t } = useTranslation('existingPackets');
   const { colors } = useTheme()!;
   const [searchValue, setSearchValue] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
@@ -185,7 +188,7 @@ const ExistingPacketsContent = () => {
   if (isLoading) {
     return (
       <Layout>
-        <LoadingSpinner text="正在加载现有封包数据..." />
+        <LoadingSpinner text={t('loading_data')} />
       </Layout>
     );
   }
@@ -220,10 +223,10 @@ const ExistingPacketsContent = () => {
               fontSize: '32px',
             }}
           >
-            现有封包
+            {t('title')}
           </Title>
           <Paragraph style={{ fontSize: '16px', color: colors.textSecondary, marginTop: 8 }}>
-            查看和管理奥拉星中的现有活动封包，快速获取封包信息
+            {t('subtitle')}
           </Paragraph>
         </motion.div>
 
@@ -237,8 +240,8 @@ const ExistingPacketsContent = () => {
           totalCount={packets.length}
           filteredCount={filteredData.length}
           hideFilter={true}
-          searchPlaceholder="搜索封包名称或内容..."
-          unitText="封包"
+          searchPlaceholder={t('search_placeholder')}
+          unitText={t('packet_unit')}
         />
 
         {/* 数据列表 */}
@@ -284,7 +287,7 @@ const ExistingPacketsContent = () => {
                     showSizeChanger={false}
                     showQuickJumper
                     showTotal={(total, range) =>
-                      `第 ${range[0]}-${range[1]} 条，共 ${total} 个封包`
+                      t('pagination_total', { start: range[0], end: range[1], total })
                     }
                   />
                 </motion.div>
@@ -300,7 +303,7 @@ const ExistingPacketsContent = () => {
                 image={Empty.PRESENTED_IMAGE_SIMPLE}
                 description={
                   <span style={{ color: colors.textSecondary }}>
-                    {searchValue ? '没有找到匹配的封包' : '暂无封包数据'}
+                    {searchValue ? t('no_match_found') : t('no_data')}
                   </span>
                 }
                 style={{

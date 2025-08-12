@@ -17,6 +17,7 @@ import { motion } from 'framer-motion';
 import { Crown, Shield, Star, Zap } from 'lucide-react';
 import React, { useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 import ErrorDisplay from '../components/ErrorDisplay';
 import Layout from '../components/Layout';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -73,7 +74,7 @@ const fetchAstralSpirits = async (): Promise<AstralSpirit[]> => {
   if (result.success && Array.isArray(result.data)) {
     return result.data;
   } else {
-    throw new Error(result.error || '获取星灵数据失败');
+    throw new Error(result.error || 'Failed to fetch astral spirit data');
   }
 };
 
@@ -86,7 +87,7 @@ const fetchAstralSpiritSuits = async (): Promise<AstralSpiritSuit[]> => {
   if (result.success && Array.isArray(result.data)) {
     return result.data;
   } else {
-    throw new Error(result.error || '获取星灵套装数据失败');
+    throw new Error(result.error || 'Failed to fetch astral spirit suit data');
   }
 };
 
@@ -95,15 +96,16 @@ const fetchAstralSpiritSuits = async (): Promise<AstralSpiritSuit[]> => {
  * @param quality - 品质值 (1-5)
  * @returns 返回品质的文本描述
  */
-const getQualityText = (quality: number) => {
-  const texts = {
-    1: '普通',
-    2: '优秀',
-    3: '稀有',
-    4: '史诗',
-    5: '传说',
+const getQualityText = (t: (key: string) => string, quality: number) => {
+  const qualityMap: { [key: number]: string } = {
+    1: 'quality_normal',
+    2: 'quality_excellent',
+    3: 'quality_rare',
+    4: 'quality_epic',
+    5: 'quality_legendary',
   };
-  return texts[quality as keyof typeof texts] || '';
+  const key = qualityMap[quality];
+  return key ? t(key) : t('unknown_quality');
 };
 
 /**
@@ -112,6 +114,7 @@ const getQualityText = (quality: number) => {
  * @param index - 卡片在列表中的索引，用于动画延迟
  */
 const AstralSpiritCard: React.FC<{ spirit: AstralSpirit; index: number }> = ({ spirit, index }) => {
+  const { t } = useTranslation('astralSpirit');
   const { token } = theme.useToken();
   const qualityColor = useQualityColor(spirit.quality);
   const attackColor = useStatColor('attack');
@@ -152,11 +155,11 @@ const AstralSpiritCard: React.FC<{ spirit: AstralSpirit; index: number }> = ({ s
             <Text type="secondary" style={{ fontSize: '12px' }}>
               ID: {spirit.id}
             </Text>
-            {getQualityText(spirit.quality) && (
+            {getQualityText(t, spirit.quality) && (
               <div style={{ marginTop: 8 }}>
                 <Tag color={qualityColor} style={{ borderRadius: 12 }}>
                   <Star size={12} style={{ marginRight: 4 }} />
-                  {getQualityText(spirit.quality)}
+                  {getQualityText(t, spirit.quality)}
                 </Tag>
               </div>
             )}
@@ -171,7 +174,9 @@ const AstralSpiritCard: React.FC<{ spirit: AstralSpirit; index: number }> = ({ s
                 <Avatar size={16} style={{ backgroundColor: attackColor }}>
                   <Zap size={10} />
                 </Avatar>
-                <Text style={{ fontSize: '12px' }}>攻击: {spirit.attack}</Text>
+                <Text style={{ fontSize: '12px' }}>
+                  {t('attack')}: {spirit.attack}
+                </Text>
               </div>
             </Col>
             <Col span={12}>
@@ -179,7 +184,9 @@ const AstralSpiritCard: React.FC<{ spirit: AstralSpirit; index: number }> = ({ s
                 <Avatar size={16} style={{ backgroundColor: defenseColor }}>
                   <Shield size={10} />
                 </Avatar>
-                <Text style={{ fontSize: '12px' }}>防御: {spirit.defend}</Text>
+                <Text style={{ fontSize: '12px' }}>
+                  {t('defense')}: {spirit.defend}
+                </Text>
               </div>
             </Col>
             <Col span={12}>
@@ -187,7 +194,9 @@ const AstralSpiritCard: React.FC<{ spirit: AstralSpirit; index: number }> = ({ s
                 <Avatar size={16} style={{ backgroundColor: spAttackColor }}>
                   <Zap size={10} />
                 </Avatar>
-                <Text style={{ fontSize: '12px' }}>特攻: {spirit.sAttack}</Text>
+                <Text style={{ fontSize: '12px' }}>
+                  {t('sp_attack')}: {spirit.sAttack}
+                </Text>
               </div>
             </Col>
             <Col span={12}>
@@ -195,17 +204,19 @@ const AstralSpiritCard: React.FC<{ spirit: AstralSpirit; index: number }> = ({ s
                 <Avatar size={16} style={{ backgroundColor: spDefenseColor }}>
                   <Shield size={10} />
                 </Avatar>
-                <Text style={{ fontSize: '12px' }}>特防: {spirit.sDefend}</Text>
+                <Text style={{ fontSize: '12px' }}>
+                  {t('sp_defense')}: {spirit.sDefend}
+                </Text>
               </div>
             </Col>
           </Row>
 
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <Text style={{ fontSize: '12px', color: token.colorTextSecondary }}>
-              生命: {spirit.hp}
+              {t('hp')}: {spirit.hp}
             </Text>
             <Text style={{ fontSize: '12px', color: token.colorTextSecondary }}>
-              速度: {spirit.speed}
+              {t('speed')}: {spirit.speed}
             </Text>
           </div>
 
@@ -235,6 +246,7 @@ const AstralSpiritSuitCard: React.FC<{ suit: AstralSpiritSuit; index: number }> 
   suit,
   index,
 }) => {
+  const { t } = useTranslation('astralSpirit');
   const { token } = theme.useToken();
   const suitColor = useStatusColor('warning'); // 使用警告色作为套装颜色
 
@@ -270,7 +282,7 @@ const AstralSpiritSuitCard: React.FC<{ suit: AstralSpiritSuit; index: number }> 
               {suit.name}
             </Title>
             <Text type="secondary" style={{ fontSize: '12px' }}>
-              套装ID: {suit.id}
+              {t('suit_id')}: {suit.id}
             </Text>
           </div>
 
@@ -278,7 +290,7 @@ const AstralSpiritSuitCard: React.FC<{ suit: AstralSpiritSuit; index: number }> 
 
           <div>
             <Text style={{ fontSize: '12px', fontWeight: 'bold', color: token.colorText }}>
-              包含星灵: {suit.astralSpiritIdList.length} 个
+              {t('includes_spirits', { count: suit.astralSpiritIdList.length })}
             </Text>
             <div style={{ marginTop: 8 }}>
               {suit.astralSpiritIdList.map((id) => (
@@ -312,6 +324,7 @@ const AstralSpiritSuitCard: React.FC<{ suit: AstralSpiritSuit; index: number }> 
 };
 
 const AstralSpirit = () => {
+  const { t } = useTranslation('astralSpirit');
   const { colors } = useTheme()!;
   const [searchValue, setSearchValue] = useState('');
   const [filterType, setFilterType] = useState<'all' | 'super' | 'normal'>('all');
@@ -345,15 +358,15 @@ const AstralSpirit = () => {
   // Handle success and error states
   React.useEffect(() => {
     if (error) {
-      toast.error(`加载失败: ${error instanceof Error ? error.message : String(error)}`);
+      toast.error(`${t('load_failed')}: ${error instanceof Error ? error.message : String(error)}`);
     }
-  }, [error]);
+  }, [error, t]);
 
   React.useEffect(() => {
     if (spirits.length > 0 || suits.length > 0) {
-      toast.success('星灵数据加载成功！');
+      toast.success(t('spirit_data_loaded'));
     }
-  }, [spirits, suits]);
+  }, [spirits, suits, t]);
 
   // 筛选和搜索逻辑
   const filteredData = useMemo(() => {
@@ -409,7 +422,7 @@ const AstralSpirit = () => {
   if (isLoading) {
     return (
       <Layout>
-        <LoadingSpinner text="正在加载星灵数据..." />
+        <LoadingSpinner text={t('loading_spirits')} />
       </Layout>
     );
   }
@@ -447,10 +460,10 @@ const AstralSpirit = () => {
               fontSize: '32px',
             }}
           >
-            星灵系统
+            {t('title')}
           </Title>
           <Paragraph style={{ fontSize: '16px', color: colors.textSecondary, marginTop: 8 }}>
-            探索强大的星灵伙伴，了解它们的属性和套装效果
+            {t('description')}
           </Paragraph>
         </motion.div>
 
@@ -464,7 +477,7 @@ const AstralSpirit = () => {
             }}
             style={{ padding: '8px 16px', borderRadius: 20 }}
           >
-            星灵列表 ({spirits.length})
+            {t('spirits_list')} ({spirits.length})
           </Tag.CheckableTag>
           <Tag.CheckableTag
             checked={viewMode === 'suits'}
@@ -474,7 +487,7 @@ const AstralSpirit = () => {
             }}
             style={{ padding: '8px 16px', borderRadius: 20 }}
           >
-            套装列表 ({suits.length})
+            {t('suits_list')} ({suits.length})
           </Tag.CheckableTag>
         </div>
 
@@ -540,7 +553,11 @@ const AstralSpirit = () => {
                     showSizeChanger={false}
                     showQuickJumper
                     showTotal={(total, range) =>
-                      `第 ${range[0]}-${range[1]} 条，共 ${total} 个${viewMode === 'spirits' ? '星灵' : '套装'}`
+                      t(viewMode === 'spirits' ? 'pagination_info' : 'pagination_info_suits', {
+                        start: range[0],
+                        end: range[1],
+                        total,
+                      })
                     }
                   />
                 </motion.div>
@@ -556,7 +573,9 @@ const AstralSpirit = () => {
                 image={Empty.PRESENTED_IMAGE_SIMPLE}
                 description={
                   <span style={{ color: colors.textSecondary }}>
-                    {searchValue || filterType !== 'all' ? '没有找到匹配的数据' : '暂无数据'}
+                    {searchValue
+                      ? t(viewMode === 'spirits' ? 'no_spirits_found' : 'no_suits_found')
+                      : t(viewMode === 'spirits' ? 'no_spirits_data' : 'no_suits_data')}
                   </span>
                 }
                 style={{

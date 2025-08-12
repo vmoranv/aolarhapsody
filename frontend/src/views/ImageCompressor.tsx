@@ -14,6 +14,7 @@ import {
 } from 'antd';
 import imageCompression from 'browser-image-compression';
 import React, { useLayoutEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch';
 import Layout from '../components/Layout';
 
@@ -28,75 +29,79 @@ const SettingsPanel: React.FC<{
   disabled: boolean;
   isBatchProcessing: boolean;
   setIsBatchProcessing: (isBatch: boolean) => void;
-}> = ({ options, setOptions, onCompress, disabled, isBatchProcessing, setIsBatchProcessing }) => (
-  <div style={{ width: 300 }}>
-    <Space direction="vertical" style={{ width: '100%' }}>
-      <Row align="middle">
-        <Col span={8}>
-          <Text>批量模式</Text>
-        </Col>
-        <Col span={16}>
-          <Switch checked={isBatchProcessing} onChange={setIsBatchProcessing} />
-        </Col>
-      </Row>
-      <Row align="middle">
-        <Col span={8}>
-          <Text>宽度 (px)</Text>
-        </Col>
-        <Col span={16}>
-          <InputNumber
-            value={options.width}
-            onChange={(value) => setOptions({ ...options, width: value || 0 })}
-          />
-        </Col>
-      </Row>
-      <Row align="middle">
-        <Col span={8}>
-          <Text>高度 (px)</Text>
-        </Col>
-        <Col span={16}>
-          <InputNumber
-            value={options.height}
-            onChange={(value) => setOptions({ ...options, height: value || 0 })}
-          />
-        </Col>
-      </Row>
-      <Row align="middle">
-        <Col span={8}>
-          <Text>最大文件大小 (MB)</Text>
-        </Col>
-        <Col span={16}>
-          <InputNumber
-            min={0.1}
-            max={10}
-            step={0.1}
-            value={options.maxSizeMB}
-            onChange={(value) => setOptions({ ...options, maxSizeMB: value || 1 })}
-          />
-        </Col>
-      </Row>
-      <Row align="middle">
-        <Col span={8}>
-          <Text>图片质量</Text>
-        </Col>
-        <Col span={16}>
-          <Slider
-            min={0.1}
-            max={1}
-            step={0.01}
-            value={options.quality}
-            onChange={(value) => setOptions({ ...options, quality: value })}
-          />
-        </Col>
-      </Row>
-      <Button onClick={onCompress} disabled={disabled || isBatchProcessing}>
-        压缩图片
-      </Button>
-    </Space>
-  </div>
-);
+}> = ({ options, setOptions, onCompress, disabled, isBatchProcessing, setIsBatchProcessing }) => {
+  const { t } = useTranslation('imageCompressor');
+  return (
+    <div style={{ width: 300 }}>
+      <Space direction="vertical" style={{ width: '100%' }}>
+        <Row align="middle">
+          <Col span={8}>
+            <Text>{t('batch_mode')}</Text>
+          </Col>
+          <Col span={16}>
+            <Switch checked={isBatchProcessing} onChange={setIsBatchProcessing} />
+          </Col>
+        </Row>
+        <Row align="middle">
+          <Col span={8}>
+            <Text>{t('width_px')}</Text>
+          </Col>
+          <Col span={16}>
+            <InputNumber
+              value={options.width}
+              onChange={(value) => setOptions({ ...options, width: value || 0 })}
+            />
+          </Col>
+        </Row>
+        <Row align="middle">
+          <Col span={8}>
+            <Text>{t('height_px')}</Text>
+          </Col>
+          <Col span={16}>
+            <InputNumber
+              value={options.height}
+              onChange={(value) => setOptions({ ...options, height: value || 0 })}
+            />
+          </Col>
+        </Row>
+        <Row align="middle">
+          <Col span={8}>
+            <Text>{t('max_size_mb')}</Text>
+          </Col>
+          <Col span={16}>
+            <InputNumber
+              min={0.1}
+              max={10}
+              step={0.1}
+              value={options.maxSizeMB}
+              onChange={(value) => setOptions({ ...options, maxSizeMB: value || 1 })}
+            />
+          </Col>
+        </Row>
+        <Row align="middle">
+          <Col span={8}>
+            <Text>{t('quality_label')}</Text>
+          </Col>
+          <Col span={16}>
+            <Slider
+              min={0.1}
+              max={1}
+              step={0.01}
+              value={options.quality}
+              onChange={(value) => setOptions({ ...options, quality: value })}
+            />
+          </Col>
+        </Row>
+        <Button onClick={onCompress} disabled={disabled || isBatchProcessing}>
+          {t('compress_button')}
+        </Button>
+      </Space>
+    </div>
+  );
+};
 
 const ImageCompressor: React.FC = () => {
+  const { t } = useTranslation('imageCompressor');
   const { message } = App.useApp();
   const [src, setSrc] = useState<string | null>(null);
   const [output, setOutput] = useState<string | null>(null);
@@ -153,7 +158,7 @@ const ImageCompressor: React.FC = () => {
       onSelectFile(nextFile);
     } else {
       setIsBatchProcessing(false);
-      message.success('批量处理完成！');
+      message.success(t('batch_complete'));
     }
   };
 
@@ -166,7 +171,7 @@ const ImageCompressor: React.FC = () => {
 
   const handleCompress = async () => {
     if (!src || !imgRef.current) {
-      message.error('请先上传图片');
+      message.error(t('upload_first'));
       return;
     }
 
@@ -177,7 +182,7 @@ const ImageCompressor: React.FC = () => {
     const ctx = canvas.getContext('2d');
 
     if (!ctx) {
-      message.error('无法获取画布上下文');
+      message.error(t('canvas_error'));
       return;
     }
 
@@ -197,7 +202,7 @@ const ImageCompressor: React.FC = () => {
     );
 
     if (!imageBlob) {
-      message.error('裁剪失败');
+      message.error(t('crop_failed'));
       return;
     }
 
@@ -216,7 +221,7 @@ const ImageCompressor: React.FC = () => {
       // For batch processing, we can handle the output differently, e.g., store in a list
       if (isBatchProcessing) {
         // In a real scenario, you'd collect these outputs
-        message.info(`压缩成功: ${originalFile!.name}`);
+        message.info(`${t('compression_success')}: ${originalFile!.name}`);
         const updatedList = fileList.slice(1);
         setFileList(updatedList);
         processNextFileInQueue(updatedList);
@@ -226,10 +231,10 @@ const ImageCompressor: React.FC = () => {
           setOutput(reader.result as string);
         };
         reader.readAsDataURL(compressedFile);
-        message.success('压缩成功');
+        message.success(t('compression_success'));
       }
     } catch (error) {
-      message.error('压缩失败');
+      message.error(t('compression_error'));
       console.error(error);
     }
   };
@@ -246,11 +251,11 @@ const ImageCompressor: React.FC = () => {
   return (
     <Layout>
       <div style={{ padding: '24px' }}>
-        <Title level={2}>图片裁剪与压缩</Title>
+        <Title level={2}>{t('title')}</Title>
         <Row gutter={16}>
           <Col span={24}>
             <Card
-              title="上传与裁剪"
+              title={t('upload_and_crop')}
               extra={
                 <Popover
                   content={
@@ -263,7 +268,7 @@ const ImageCompressor: React.FC = () => {
                       setIsBatchProcessing={setIsBatchProcessing}
                     />
                   }
-                  title="设置"
+                  title={t('settings')}
                   trigger="click"
                 >
                   <Button icon={<SettingOutlined />} shape="circle" />
@@ -284,9 +289,9 @@ const ImageCompressor: React.FC = () => {
                   }}
                   showUploadList={false}
                 >
-                  <Button icon={<UploadOutlined />}>选择图片</Button>
+                  <Button icon={<UploadOutlined />}>{t('select_image')}</Button>
                 </Upload>
-                {src && <Button onClick={handleClear}>清除</Button>}
+                {src && <Button onClick={handleClear}>{t('clear')}</Button>}
               </Space>
               {src && (
                 <div
@@ -399,10 +404,10 @@ const ImageCompressor: React.FC = () => {
           </Col>
         </Row>
         {output && (
-          <Card title="预览与下载" style={{ marginTop: 16 }}>
-            <img src={output} alt="Compressed" style={{ maxWidth: '100%' }} />
+          <Card title={t('preview_and_download')} style={{ marginTop: 16 }}>
+            <img src={output} alt={t('compressed_image_alt')} style={{ maxWidth: '100%' }} />
             <Button onClick={handleDownload} style={{ marginTop: 16 }}>
-              下载图片
+              {t('download_button')}
             </Button>
           </Card>
         )}

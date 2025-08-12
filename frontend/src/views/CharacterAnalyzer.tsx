@@ -18,6 +18,7 @@ import {
 } from 'chart.js';
 import { motion } from 'framer-motion';
 import React, { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import Layout from '../components/Layout';
 import { useTheme } from '../hooks/useTheme';
 import { characterEffects } from '../utils/character-helper';
@@ -35,27 +36,35 @@ Chart.register(
   Filler
 );
 
-type Attribute = '攻击' | '特攻' | '防御' | '特防' | '速度';
+type AttributeKey = 'attack' | 'special_attack' | 'defense' | 'special_defense' | 'speed';
+type Attribute = { key: AttributeKey; label: string };
 
 const CharacterAnalyzer: React.FC = () => {
+  const { t } = useTranslation('characterAnalyzer');
   const chartRef = useRef<HTMLCanvasElement>(null);
   const chartInstance = useRef<Chart<'radar'> | null>(null);
   const [selectedIncrease, setSelectedIncrease] = useState<Attribute | null>(null);
   const [selectedDecrease, setSelectedDecrease] = useState<Attribute | null>(null);
-  const [currentCharacter, setCurrentCharacter] = useState('平衡');
+  const [currentCharacter, setCurrentCharacter] = useState(t('balanced'));
 
   // 游戏属性列表
-  const attributes: Attribute[] = ['攻击', '特攻', '防御', '特防', '速度'];
+  const attributes: Attribute[] = [
+    { key: 'attack', label: t('attack') },
+    { key: 'special_attack', label: t('special_attack') },
+    { key: 'defense', label: t('defense') },
+    { key: 'special_defense', label: t('special_defense') },
+    { key: 'speed', label: t('speed') },
+  ];
 
   // 处理属性选择
   const handleAttributeSelect = (attribute: Attribute, type: 'increase' | 'decrease') => {
     if (type === 'increase') {
       // 如果点击了已选中的属性，则取消选择
-      if (selectedIncrease === attribute) {
+      if (selectedIncrease?.key === attribute.key) {
         setSelectedIncrease(null);
         // 如果没有降低属性被选中，则性格为平衡
         if (!selectedDecrease) {
-          setCurrentCharacter('平衡');
+          setCurrentCharacter(t('balanced'));
         }
       } else {
         setSelectedIncrease(attribute);
@@ -66,11 +75,11 @@ const CharacterAnalyzer: React.FC = () => {
       }
     } else if (type === 'decrease') {
       // 如果点击了已选中的属性，则取消选择
-      if (selectedDecrease === attribute) {
+      if (selectedDecrease?.key === attribute.key) {
         setSelectedDecrease(null);
         // 如果没有提高属性被选中，则性格为平衡
         if (!selectedIncrease) {
-          setCurrentCharacter('平衡');
+          setCurrentCharacter(t('balanced'));
         }
       } else {
         setSelectedDecrease(attribute);
@@ -84,13 +93,13 @@ const CharacterAnalyzer: React.FC = () => {
 
   // 查找对应性格
   const findCharacter = (increase: Attribute, decrease: Attribute) => {
-    if (increase === decrease) {
-      setCurrentCharacter('平衡');
+    if (increase.key === decrease.key) {
+      setCurrentCharacter(t('balanced'));
       return;
     }
 
-    const character = characterEffects[increase]?.[decrease];
-    setCurrentCharacter(character || '未知');
+    const character = characterEffects[increase.key]?.[decrease.key];
+    setCurrentCharacter(character ? t(character) : t('unknown'));
   };
 
   // 使用项目的颜色系统
@@ -111,14 +120,14 @@ const CharacterAnalyzer: React.FC = () => {
   // 生成五边形图表数据
   const generateChartData = () => {
     return {
-      labels: attributes,
+      labels: attributes.map((attr) => attr.label),
       datasets: [
         {
-          label: '属性值',
+          label: t('attribute_value'),
           data: attributes.map((attr) => {
-            if (selectedIncrease === attr) {
+            if (selectedIncrease?.key === attr.key) {
               return 15; // 直接到顶
-            } else if (selectedDecrease === attr) {
+            } else if (selectedDecrease?.key === attr.key) {
               return 5; // 缩回到底
             }
             return 10; // 保持中间
@@ -127,9 +136,9 @@ const CharacterAnalyzer: React.FC = () => {
           backgroundColor: `${chartColors.primary}30`,
           borderColor: chartColors.primary,
           pointBackgroundColor: attributes.map((attr) => {
-            if (selectedIncrease === attr) {
+            if (selectedIncrease?.key === attr.key) {
               return chartColors.error;
-            } else if (selectedDecrease === attr) {
+            } else if (selectedDecrease?.key === attr.key) {
               return chartColors.info;
             }
             return chartColors.primary;
@@ -175,9 +184,9 @@ const CharacterAnalyzer: React.FC = () => {
                 },
                 color: (context) => {
                   const attr = attributes[context.index];
-                  if (selectedIncrease === attr) {
+                  if (selectedIncrease?.key === attr.key) {
                     return chartColors.error;
-                  } else if (selectedDecrease === attr) {
+                  } else if (selectedDecrease?.key === attr.key) {
                     return chartColors.info;
                   }
                   return chartColors.text;
@@ -203,17 +212,17 @@ const CharacterAnalyzer: React.FC = () => {
               borderWidth: 1,
               callbacks: {
                 label: function (context) {
-                  const label = attributes[context.dataIndex];
+                  const attr = attributes[context.dataIndex];
                   const value = context.raw as number;
-                  let status = '正常';
+                  let status = t('normal');
 
-                  if (selectedIncrease === label) {
-                    status = '提高';
-                  } else if (selectedDecrease === label) {
-                    status = '降低';
+                  if (selectedIncrease?.key === attr.key) {
+                    status = t('increase');
+                  } else if (selectedDecrease?.key === attr.key) {
+                    status = t('decrease');
                   }
 
-                  return `${label}: ${value} (${status})`;
+                  return `${attr.label}: ${value} (${status})`;
                 },
               },
             },
@@ -260,7 +269,7 @@ const CharacterAnalyzer: React.FC = () => {
               color: 'transparent !important' as any,
             }}
           >
-            性格解析工具
+            {t('title')}
           </div>
         </motion.div>
 
@@ -279,7 +288,9 @@ const CharacterAnalyzer: React.FC = () => {
             }}
           >
             <Space direction="vertical" size="small">
-              <Text style={{ color: colors.textSecondary, fontSize: '16px' }}>当前性格</Text>
+              <Text style={{ color: colors.textSecondary, fontSize: '16px' }}>
+                {t('current_character')}
+              </Text>
               <Title
                 level={2}
                 style={{
@@ -292,8 +303,12 @@ const CharacterAnalyzer: React.FC = () => {
               </Title>
               {selectedIncrease && selectedDecrease && (
                 <Space size="large">
-                  <Text style={{ color: colors.error }}>提高 {selectedIncrease}</Text>
-                  <Text style={{ color: colors.info }}>降低 {selectedDecrease}</Text>
+                  <Text style={{ color: colors.error }}>
+                    {t('increase')} {selectedIncrease.label}
+                  </Text>
+                  <Text style={{ color: colors.info }}>
+                    {t('decrease')} {selectedDecrease.label}
+                  </Text>
                 </Space>
               )}
             </Space>
@@ -310,7 +325,7 @@ const CharacterAnalyzer: React.FC = () => {
             style={{ flex: 1 }}
           >
             <Card
-              title="属性雷达图"
+              title={t('attribute_radar_chart')}
               style={{
                 background: colors.surface,
                 borderRadius: 12,
@@ -332,7 +347,7 @@ const CharacterAnalyzer: React.FC = () => {
                 <Text
                   style={{ color: colors.textSecondary, textAlign: 'center', display: 'block' }}
                 >
-                  先选择要提高的属性，再选择要降低的属性
+                  {t('selection_helper_text')}
                 </Text>
 
                 <div>
@@ -344,23 +359,24 @@ const CharacterAnalyzer: React.FC = () => {
                       display: 'block',
                     }}
                   >
-                    提高属性：
+                    {t('increase_attribute')}:
                   </Text>
                   <Space wrap>
                     {attributes.map((attribute) => (
                       <Button
-                        key={`increase-${attribute}`}
-                        type={selectedIncrease === attribute ? 'primary' : 'default'}
-                        danger={selectedIncrease === attribute}
+                        key={`increase-${attribute.key}`}
+                        type={selectedIncrease?.key === attribute.key ? 'primary' : 'default'}
+                        danger={selectedIncrease?.key === attribute.key}
                         onClick={() => handleAttributeSelect(attribute, 'increase')}
                         style={{
                           borderRadius: 6,
                           backgroundColor:
-                            selectedIncrease === attribute ? colors.error : undefined,
-                          borderColor: selectedIncrease === attribute ? colors.error : undefined,
+                            selectedIncrease?.key === attribute.key ? colors.error : undefined,
+                          borderColor:
+                            selectedIncrease?.key === attribute.key ? colors.error : undefined,
                         }}
                       >
-                        {attribute}
+                        {attribute.label}
                       </Button>
                     ))}
                   </Space>
@@ -375,21 +391,23 @@ const CharacterAnalyzer: React.FC = () => {
                       display: 'block',
                     }}
                   >
-                    降低属性：
+                    {t('decrease_attribute')}:
                   </Text>
                   <Space wrap>
                     {attributes.map((attribute) => (
                       <Button
-                        key={`decrease-${attribute}`}
-                        type={selectedDecrease === attribute ? 'primary' : 'default'}
+                        key={`decrease-${attribute.key}`}
+                        type={selectedDecrease?.key === attribute.key ? 'primary' : 'default'}
                         onClick={() => handleAttributeSelect(attribute, 'decrease')}
                         style={{
                           borderRadius: 6,
-                          backgroundColor: selectedDecrease === attribute ? colors.info : undefined,
-                          borderColor: selectedDecrease === attribute ? colors.info : undefined,
+                          backgroundColor:
+                            selectedDecrease?.key === attribute.key ? colors.info : undefined,
+                          borderColor:
+                            selectedDecrease?.key === attribute.key ? colors.info : undefined,
                         }}
                       >
-                        {attribute}
+                        {attribute.label}
                       </Button>
                     ))}
                   </Space>

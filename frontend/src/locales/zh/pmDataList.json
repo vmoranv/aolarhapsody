@@ -1,0 +1,21 @@
+{
+  "rarity_common": "普通",
+  "rarity_excellent": "优秀",
+  "rarity_rare": "稀有",
+  "rarity_epic": "史诗",
+  "rarity_legendary": "传说",
+  "rarity_unknown": "未知",
+  "total_power": "总战力",
+  "loading_data": "正在加载PM数据列表...",
+  "load_error": "加载失败: {{message}}",
+  "load_success": "PM数据列表加载成功！",
+  "page_title": "PM数据列表",
+  "page_subtitle": "探索完整的PM数据库，了解每个PM的详细属性",
+  "stat_total": "总数量",
+  "stat_high_rarity": "高稀有度",
+  "stat_avg_power": "平均战力",
+  "stat_element_types": "属性种类",
+  "pagination_total": "第 {{rangeStart}}-{{rangeEnd}} 条，共 {{total}} 个PM",
+  "no_results": "没有找到匹配的PM数据",
+  "no_data": "暂无PM数据"
+}

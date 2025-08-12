@@ -1,0 +1,18 @@
+{
+  "title": "神卡查询",
+  "subtitle": "查询神卡对宠物属性的增强效果",
+  "search_placeholder": "按卡牌名称搜索...",
+  "filter_all": "全部",
+  "total_cards": "总卡牌数",
+  "filtered_cards": "已筛选",
+  "no_match_found": "未找到匹配的神卡。",
+  "no_data": "暂无神卡数据。",
+  "load_failed": "加载神卡数据失败",
+  "load_success": "神卡数据加载成功！",
+  "attack": "攻击",
+  "special_attack": "特攻",
+  "defense": "防御",
+  "special_defense": "特防",
+  "speed": "速度",
+  "hp": "体力"
+}

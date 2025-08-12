@@ -17,6 +17,7 @@ import { motion } from 'framer-motion';
 import { ArrowDown, ArrowUp, Coins, DollarSign, Scroll } from 'lucide-react';
 import React, { useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 import ErrorDisplay from '../components/ErrorDisplay';
 import Layout from '../components/Layout';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -54,7 +55,7 @@ const fetchInscriptions = async (): Promise<Inscription[]> => {
   if (result.success && Array.isArray(result.data)) {
     return result.data;
   } else {
-    throw new Error(result.error || '获取铭文数据失败');
+    throw new Error(result.error || 'Failed to fetch inscription data');
   }
 };
 
@@ -69,15 +70,15 @@ const getTypeColor = (type: number) => {
   return colors[type as keyof typeof colors] || '#d9d9d9';
 };
 
-const getTypeText = (type: number) => {
-  const texts = {
-    1: '基础铭文',
-    2: '进阶铭文',
-    3: '高级铭文',
+const getTypeText = (type: number, t: (key: string) => string) => {
+  const texts: { [key: number]: string } = {
+    1: t('type_basic'),
+    2: t('type_intermediate'),
+    3: t('type_advanced'),
     4: '史诗铭文',
-    5: '传说铭文',
+    5: t('type_legendary'),
   };
-  return texts[type as keyof typeof texts] || '未知类型';
+  return texts[type] || t('type_unknown');
 };
 
 const InscriptionCard: React.FC<{
@@ -85,6 +86,7 @@ const InscriptionCard: React.FC<{
   index: number;
   onViewEvolution: (inscription: Inscription) => void;
 }> = ({ inscription, index, onViewEvolution }) => {
+  const { t } = useTranslation('inscription');
   const { token } = theme.useToken();
   const typeColor = getTypeColor(inscription.inscriptionType);
 
@@ -144,7 +146,7 @@ const InscriptionCard: React.FC<{
             onClick={() => onViewEvolution(inscription)}
             disabled={inscription.preLevelId === 0 && inscription.nextLevelId === 0}
           >
-            进化链
+            {t('evolution_chain')}
           </Button>,
         ]}
       >
@@ -160,7 +162,7 @@ const InscriptionCard: React.FC<{
 
           <div style={{ display: 'flex', justifyContent: 'center', marginTop: 8 }}>
             <Tag color={typeColor} style={{ borderRadius: 12 }}>
-              {getTypeText(inscription.inscriptionType)}
+              {getTypeText(inscription.inscriptionType, t)}
             </Tag>
           </div>
 
@@ -171,13 +173,17 @@ const InscriptionCard: React.FC<{
             <Col span={12}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
                 <Coins size={14} color="#faad14" />
-                <Text style={{ fontSize: '12px' }}>金币: {inscription.price}</Text>
+                <Text style={{ fontSize: '12px' }}>
+                  {t('price')}: {inscription.price}
+                </Text>
               </div>
             </Col>
             <Col span={12}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
                 <DollarSign size={14} color="#f5222d" />
-                <Text style={{ fontSize: '12px' }}>RMB: {inscription.rmb}</Text>
+                <Text style={{ fontSize: '12px' }}>
+                  {t('rmb')}: {inscription.rmb}
+                </Text>
               </div>
             </Col>
           </Row>
@@ -189,11 +195,13 @@ const InscriptionCard: React.FC<{
                 <>
                   <ArrowUp size={12} color="#52c41a" />
                   <Text style={{ fontSize: '11px', color: token.colorTextSecondary }}>
-                    前置: {inscription.preLevelId}
+                    {t('pre_level')}: {inscription.preLevelId}
                   </Text>
                 </>
               ) : (
-                <Text style={{ fontSize: '11px', color: token.colorTextTertiary }}>基础铭文</Text>
+                <Text style={{ fontSize: '11px', color: token.colorTextTertiary }}>
+                  {t('base_inscription')}
+                </Text>
               )}
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
@@ -201,11 +209,13 @@ const InscriptionCard: React.FC<{
                 <>
                   <ArrowDown size={12} color="#1890ff" />
                   <Text style={{ fontSize: '11px', color: token.colorTextSecondary }}>
-                    进化: {inscription.nextLevelId}
+                    {t('next_level')}: {inscription.nextLevelId}
                   </Text>
                 </>
               ) : (
-                <Text style={{ fontSize: '11px', color: token.colorTextTertiary }}>最高级</Text>
+                <Text style={{ fontSize: '11px', color: token.colorTextTertiary }}>
+                  {t('max_level')}
+                </Text>
               )}
             </div>
           </div>
@@ -233,6 +243,7 @@ const InscriptionCard: React.FC<{
 };
 
 const Inscription = () => {
+  const { t } = useTranslation('inscription');
   const [searchValue, setSearchValue] = useState('');
   const [filterType, setFilterType] = useState<'all' | 'super' | 'normal'>('all');
   const [currentPage, setCurrentPage] = useState(1);
@@ -253,15 +264,15 @@ const Inscription = () => {
   // Handle success and error states
   React.useEffect(() => {
     if (error) {
-      toast.error(`加载失败: ${error instanceof Error ? error.message : String(error)}`);
+      toast.error(`${t('load_failed')}: ${error instanceof Error ? error.message : String(error)}`);
     }
-  }, [error]);
+  }, [error, t]);
 
   React.useEffect(() => {
     if (inscriptions.length > 0) {
-      toast.success('铭文数据加载成功！');
+      toast.success(t('load_success'));
     }
-  }, [inscriptions]);
+  }, [inscriptions, t]);
 
   // 筛选和搜索逻辑
   const filteredInscriptions = useMemo(() => {
@@ -351,7 +362,7 @@ const Inscription = () => {
   if (isLoading) {
     return (
       <Layout>
-        <LoadingSpinner text="正在加载铭文数据..." />
+        <LoadingSpinner text={t('loading_data')} />
       </Layout>
     );
   }
@@ -386,10 +397,10 @@ const Inscription = () => {
               fontSize: '32px',
             }}
           >
-            铭文系统
+            {t('title')}
           </Title>
           <Paragraph style={{ fontSize: '16px', color: 'var(--text-color)', marginTop: 8 }}>
-            收集强大的铭文，提升亚比的战斗能力
+            {t('subtitle')}
           </Paragraph>
         </motion.div>
 
@@ -415,10 +426,12 @@ const Inscription = () => {
               title={
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                   <Scroll size={20} color="#722ed1" />
-                  <span>{selectedInscription.name} 的进化链</span>
+                  <span>{t('evolution_chain_title', { name: selectedInscription.name })}</span>
                 </div>
               }
-              extra={<Button onClick={() => setSelectedInscription(null)}>关闭</Button>}
+              extra={
+                <Button onClick={() => setSelectedInscription(null)}>{t('close_button')}</Button>
+              }
               style={{
                 borderRadius: 12,
                 border: '2px solid #722ed1',
@@ -452,7 +465,7 @@ const Inscription = () => {
                           color={getTypeColor(inscription.inscriptionType)}
                           style={{ alignSelf: 'center' }}
                         >
-                          {getTypeText(inscription.inscriptionType)}
+                          {getTypeText(inscription.inscriptionType, t)}
                         </Tag>
                         {index < evolutionChain.length - 1 && (
                           <div style={{ textAlign: 'center', marginTop: 8 }}>

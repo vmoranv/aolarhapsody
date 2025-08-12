@@ -1,0 +1,18 @@
+{
+  "title": "Inscription Information Inquiry",
+  "subtitle": "Query information and effects of various inscriptions",
+  "search_placeholder": "Search by inscription name or effect...",
+  "filter_all": "All",
+  "total_inscriptions": "Total Inscriptions",
+  "filtered_inscriptions": "Filtered",
+  "no_match_found": "No matching inscriptions found.",
+  "no_data": "No inscription data available.",
+  "load_failed": "Failed to load inscription data",
+  "load_success": "Inscription data loaded successfully!",
+  "inscription_id": "ID",
+  "inscription_name": "Name",
+  "quality": "Quality",
+  "effect": "Effect",
+  "type": "Type",
+  "level": "Level"
+}

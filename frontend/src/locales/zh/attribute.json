@@ -1,0 +1,16 @@
+{
+  "fetch_attributes_error": "获取属性列表失败",
+  "fetch_relations_error": "获取属性关系失败",
+  "super_attribute": "超系",
+  "origin_attribute": "原系",
+  "attack": "攻击",
+  "defend": "防御",
+  "loading_relations": "加载关系数据...",
+  "title": "奥拉星系别克制查询",
+  "origin_attributes": "原系",
+  "super_attributes": "超系",
+  "loading_attributes": "正在加载属性数据...",
+  "no_attribute_data": "暂无属性数据",
+  "data_load_failed": "数据加载失败",
+  "data_load_failed_desc": "获取属性数据失败，请稍后重试"
+}

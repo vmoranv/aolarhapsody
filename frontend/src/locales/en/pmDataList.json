@@ -1,0 +1,21 @@
+{
+  "rarity_common": "Common",
+  "rarity_excellent": "Excellent",
+  "rarity_rare": "Rare",
+  "rarity_epic": "Epic",
+  "rarity_legendary": "Legendary",
+  "rarity_unknown": "Unknown",
+  "total_power": "Total Power",
+  "loading_data": "Loading PM data list...",
+  "load_error": "Load failed: {{message}}",
+  "load_success": "PM data list loaded successfully!",
+  "page_title": "PM Data List",
+  "page_subtitle": "Explore the complete PM database and understand the detailed attributes of each PM",
+  "stat_total": "Total Count",
+  "stat_high_rarity": "High Rarity",
+  "stat_avg_power": "Avg. Power",
+  "stat_element_types": "Element Types",
+  "pagination_total": "Items {{rangeStart}}-{{rangeEnd}} of {{total}} PMs",
+  "no_results": "No matching PM data found",
+  "no_data": "No PM data available"
+}

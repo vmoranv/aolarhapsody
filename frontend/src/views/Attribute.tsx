@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Card, Empty, Space, Typography } from 'antd';
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import ErrorDisplay from '../components/ErrorDisplay';
 import Layout from '../components/Layout';
@@ -45,11 +46,11 @@ type RelationType = 'immune' | 'weak' | 'strong' | 'super' | 'superOrImmune';
 const fetchAttributes = async (): Promise<AttributeInfo[]> => {
   const response = await fetch('/api/skill-attributes');
   if (!response.ok) {
-    throw new Error('获取属性列表失败');
+    throw new Error('Failed to fetch attribute list');
   }
   const result: ApiResponse<AttributeInfo[]> = await response.json();
   if (!result.success) {
-    throw new Error('获取属性列表失败');
+    throw new Error('Failed to fetch attribute list');
   }
   return result.data;
 };
@@ -58,16 +59,17 @@ const fetchAttributes = async (): Promise<AttributeInfo[]> => {
 const fetchAttributeRelations = async (id: number): Promise<AttributeRelations> => {
   const response = await fetch(`/api/attribute-relations/${id}`);
   if (!response.ok) {
-    throw new Error('获取属性关系失败');
+    throw new Error('Failed to fetch attribute relations');
   }
   const result: ApiResponse<AttributeRelations> = await response.json();
   if (!result.success) {
-    throw new Error('获取属性关系失败');
+    throw new Error('Failed to fetch attribute relations');
   }
   return result.data;
 };
 
 const Attribute = () => {
+  const { t } = useTranslation('attribute');
   const [selectedAttribute, setSelectedAttribute] = useState<number | null>(null);
   const [showSuper, setShowSuper] = useState(false);
   const { colors } = useTheme()!;
@@ -139,9 +141,9 @@ const Attribute = () => {
   // 处理错误
   useEffect(() => {
     if (error) {
-      notifications.error('数据加载失败', '获取属性数据失败，请稍后重试');
+      notifications.error(t('data_load_failed'), t('data_load_failed_desc'));
     }
-  }, [error, notifications.error]);
+  }, [error, notifications.error, t]);
 
   // 处理属性选择
   const handleAttributeSelect = (id: number) => {
@@ -196,7 +198,7 @@ const Attribute = () => {
       // 如果当前是原系，对超系的关系统一处理
       if (isCurrentOrigin && isTargetSuper) {
         // 原系攻击超系固定是1/2倍伤害，统一归为weak类别
-        const superIcon = { id: 999, name: '超系' }; // 使用特殊ID表示超系图标
+        const superIcon = { id: 999, name: t('super_attribute') }; // 使用特殊ID表示超系图标
         if (!groups.attack.weak.find((attr) => attr.id === 999)) {
           groups.attack.weak.push(superIcon);
         }
@@ -206,7 +208,7 @@ const Attribute = () => {
       // 如果当前是超系，对原系的关系统一处理
       if (isCurrentSuper && isTargetOrigin) {
         // 超系攻击原系固定是2倍伤害，统一归为strong类别
-        const originIcon = { id: 1000, name: '原系' }; // 使用特殊ID表示原系图标
+        const originIcon = { id: 1000, name: t('origin_attribute') }; // 使用特殊ID表示原系图标
         if (!groups.attack.strong.find((attr) => attr.id === 1000)) {
           groups.attack.strong.push(originIcon);
         }
@@ -255,7 +257,7 @@ const Attribute = () => {
         // 如果当前是原系，被超系攻击的关系统一处理
         if (isCurrentOrigin && isSourceSuper) {
           // 超系攻击原系固定是2倍伤害，统一归为strong类别
-          const superIcon = { id: 999, name: '超系' }; // 使用特殊ID表示超系图标
+          const superIcon = { id: 999, name: t('super_attribute') }; // 使用特殊ID表示超系图标
           if (!groups.defend.strong.find((attr) => attr.id === 999)) {
             groups.defend.strong.push(superIcon);
           }
@@ -265,7 +267,7 @@ const Attribute = () => {
         // 如果当前是超系，被原系攻击的关系统一处理
         if (isCurrentSuper && isSourceOrigin) {
           // 原系攻击超系固定是1/2倍伤害，统一归为weak类别
-          const originIcon = { id: 1000, name: '原系' }; // 使用特殊ID表示原系图标
+          const originIcon = { id: 1000, name: t('origin_attribute') }; // 使用特殊ID表示原系图标
           if (!groups.defend.weak.find((attr) => attr.id === 1000)) {
             groups.defend.weak.push(originIcon);
           }
@@ -300,8 +302,8 @@ const Attribute = () => {
 
     return (
       <div style={{ display: 'flex', gap: 40, justifyContent: 'center', marginTop: 30 }}>
-        {renderRelationBox('攻击', groups.attack)}
-        {renderRelationBox('防御', groups.defend)}
+        {renderRelationBox(t('attack'), groups.attack)}
+        {renderRelationBox(t('defend'), groups.defend)}
         {(isLoadingRelations || !allRelations) && (
           <div
             style={{
@@ -311,7 +313,7 @@ const Attribute = () => {
               minHeight: 200,
             }}
           >
-            <LoadingSpinner text="加载关系数据..." />
+            <LoadingSpinner text={t('loading_relations')} />
           </div>
         )}
       </div>
@@ -440,7 +442,7 @@ const Attribute = () => {
   if (isLoading) {
     return (
       <Layout>
-        <LoadingSpinner text="正在加载属性数据..." />
+        <LoadingSpinner text={t('loading_attributes')} />
       </Layout>
     );
   }
@@ -459,7 +461,7 @@ const Attribute = () => {
   if (!attributes) {
     return (
       <Layout>
-        <Empty description="暂无属性数据" />
+        <Empty description={t('no_attribute_data')} />
       </Layout>
     );
   }
@@ -492,7 +494,7 @@ const Attribute = () => {
               fontSize: '32px',
             }}
           >
-            奥拉星系别克制查询
+            {t('title')}
           </Title>
 
           {/* 标签切换 */}
@@ -522,7 +524,7 @@ const Attribute = () => {
             >
               <img
                 src={getAttributeIconUrl('origin-tab')}
-                alt="原系"
+                alt={t('origin_attributes')}
                 style={{
                   width: 36,
                   height: 36,
@@ -564,7 +566,7 @@ const Attribute = () => {
             >
               <img
                 src={getAttributeIconUrl('super-tab')}
-                alt="超系"
+                alt={t('super_attributes')}
                 style={{
                   width: 36,
                   height: 36,

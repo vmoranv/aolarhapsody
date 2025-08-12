@@ -1,0 +1,13 @@
+{
+  "title": "Miscellaneous Tools",
+  "subtitle": "A collection of useful small tools",
+  "packet_parser_title": "Packet Parser",
+  "packet_parser_subtitle": "Parse and view packet content",
+  "packet_input_placeholder": "Enter packet content here",
+  "parse_button": "Parse",
+  "parse_result": "Parse Result",
+  "no_result": "No result yet",
+  "json_format_error": "JSON format error",
+  "copy_success": "Copied to clipboard",
+  "copy_failed": "Copy failed"
+}

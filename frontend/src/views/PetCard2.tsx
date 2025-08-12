@@ -17,6 +17,7 @@ import { motion } from 'framer-motion';
 import { Clock, Coins, DollarSign, Gem, Star, Users } from 'lucide-react';
 import React, { useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 import ErrorDisplay from '../components/ErrorDisplay';
 import Layout from '../components/Layout';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -51,7 +52,7 @@ interface ApiResponse<T> {
   timestamp: string;
 }
 
-const fetchPetCard2s = async (): Promise<PetCard2[]> => {
+const fetchPetCard2s = async (t: (key: string) => string): Promise<PetCard2[]> => {
   const response = await fetch('/api/petcard2s');
   if (!response.ok) {
     throw new Error(`HTTP error! status: ${response.status}`);
@@ -60,13 +61,13 @@ const fetchPetCard2s = async (): Promise<PetCard2[]> => {
   if (result.success && Array.isArray(result.data)) {
     return result.data;
   } else {
-    throw new Error(result.error || '获取特性晶石数据失败');
+    throw new Error(result.error || t('fetch_error'));
   }
 };
 
-const getVipText = (vip: number) => {
+const getVipText = (vip: number, t: (key: string) => string) => {
   if (vip === 0) {
-    return '普通';
+    return t('vip_normal');
   }
   return `VIP${vip}`;
 };
@@ -77,6 +78,7 @@ const getVipText = (vip: number) => {
  * @param index - 卡片在列表中的索引，用于动画延迟
  */
 const PetCard2Card: React.FC<{ petCard2: PetCard2; index: number }> = ({ petCard2, index }) => {
+  const { t } = useTranslation('petCard2');
   const { token } = theme.useToken();
   const vipColor = useQualityColor(petCard2.vip);
 
@@ -123,7 +125,7 @@ const PetCard2Card: React.FC<{ petCard2: PetCard2; index: number }> = ({ petCard
             {/* VIP标识 */}
             <div style={{ position: 'absolute', top: 10, right: 10 }}>
               <Tag color="white" style={{ color: vipColor, fontWeight: 'bold' }}>
-                {getVipText(petCard2.vip)}
+                {getVipText(petCard2.vip, t)}
               </Tag>
             </div>
 
@@ -132,7 +134,7 @@ const PetCard2Card: React.FC<{ petCard2: PetCard2; index: number }> = ({ petCard
               <div style={{ position: 'absolute', top: 10, left: 10 }}>
                 <Tag color="red" style={{ fontSize: '10px' }}>
                   <Clock size={10} style={{ marginRight: 2 }} />
-                  限时
+                  {t('limited_time')}
                 </Tag>
               </div>
             )}
@@ -152,11 +154,11 @@ const PetCard2Card: React.FC<{ petCard2: PetCard2; index: number }> = ({ petCard
           <div style={{ display: 'flex', justifyContent: 'center', gap: 8, marginTop: 8 }}>
             <Tag color={vipColor} style={{ borderRadius: 12 }}>
               <Star size={12} style={{ marginRight: 4 }} />
-              等级 {petCard2.level}
+              {t('level', { level: petCard2.level })}
             </Tag>
             {petCard2.trade && (
               <Tag color="green" style={{ borderRadius: 12 }}>
-                可交易
+                {t('tradeable')}
               </Tag>
             )}
           </div>
@@ -168,13 +170,17 @@ const PetCard2Card: React.FC<{ petCard2: PetCard2; index: number }> = ({ petCard
             <Col span={12}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
                 <Coins size={14} color={useStatusColor('warning')} />
-                <Text style={{ fontSize: '12px' }}>金币: {petCard2.price}</Text>
+                <Text style={{ fontSize: '12px' }}>
+                  {t('coins')}: {petCard2.price}
+                </Text>
               </div>
             </Col>
             <Col span={12}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
                 <DollarSign size={14} color={useStatusColor('error')} />
-                <Text style={{ fontSize: '12px' }}>RMB: {petCard2.rmb}</Text>
+                <Text style={{ fontSize: '12px' }}>
+                  {t('rmb')}: {petCard2.rmb}
+                </Text>
               </div>
             </Col>
           </Row>
@@ -182,10 +188,10 @@ const PetCard2Card: React.FC<{ petCard2: PetCard2; index: number }> = ({ petCard
           {/* 经验信息 */}
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <Text style={{ fontSize: '12px', color: token.colorTextSecondary }}>
-              基础经验: {petCard2.baseExp}
+              {t('base_exp')}: {petCard2.baseExp}
             </Text>
             <Text style={{ fontSize: '12px', color: token.colorTextSecondary }}>
-              应用ID: {petCard2.applyId}
+              {t('apply_id')}: {petCard2.applyId}
             </Text>
           </div>
 
@@ -194,7 +200,7 @@ const PetCard2Card: React.FC<{ petCard2: PetCard2; index: number }> = ({ petCard
             <div>
               <Text style={{ fontSize: '12px', fontWeight: 'bold', color: token.colorText }}>
                 <Users size={12} style={{ marginRight: 4 }} />
-                适用种族: {petCard2.raceList.length} 个
+                {t('applicable_races')}: {t('races_count', { count: petCard2.raceList.length })}
               </Text>
               <div style={{ marginTop: 4 }}>
                 {petCard2.raceList.slice(0, 5).map((raceId) => (
@@ -213,10 +219,10 @@ const PetCard2Card: React.FC<{ petCard2: PetCard2; index: number }> = ({ petCard
 
           {/* 经验区间 */}
           {petCard2.levelExpArea && petCard2.levelExpArea.length > 0 && (
-            <Tooltip title={`经验区间: ${petCard2.levelExpArea.join(', ')}`}>
+            <Tooltip title={`${t('exp_range')}: ${petCard2.levelExpArea.join(', ')}`}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
                 <Text style={{ fontSize: '12px', color: token.colorTextTertiary }}>
-                  经验区间: {petCard2.levelExpArea.length} 个等级
+                  {t('exp_range')}: {t('levels_count', { count: petCard2.levelExpArea.length })}
                 </Text>
               </div>
             </Tooltip>
@@ -224,7 +230,7 @@ const PetCard2Card: React.FC<{ petCard2: PetCard2; index: number }> = ({ petCard
 
           <div style={{ display: 'flex', justifyContent: 'center', marginTop: 8 }}>
             <Text style={{ fontSize: '11px', color: token.colorTextTertiary }}>
-              视图ID: {petCard2.viewId}
+              {t('view_id')}: {petCard2.viewId}
             </Text>
           </div>
         </Space>
@@ -234,6 +240,7 @@ const PetCard2Card: React.FC<{ petCard2: PetCard2; index: number }> = ({ petCard
 };
 
 const PetCard2 = () => {
+  const { t } = useTranslation('petCard2');
   const { colors } = useTheme()!;
   const [searchValue, setSearchValue] = useState('');
   const [filterType, setFilterType] = useState<'all' | 'super' | 'normal'>('all');
@@ -249,21 +256,23 @@ const PetCard2 = () => {
     refetch,
   } = useQuery({
     queryKey: ['pet-card2s'],
-    queryFn: fetchPetCard2s,
+    queryFn: () => fetchPetCard2s(t),
   });
 
   // Handle success and error states
   React.useEffect(() => {
     if (error) {
-      toast.error(`加载失败: ${error instanceof Error ? error.message : String(error)}`);
+      toast.error(
+        t('load_error', { message: error instanceof Error ? error.message : String(error) })
+      );
     }
-  }, [error]);
+  }, [error, t]);
 
   React.useEffect(() => {
     if (petCard2s.length > 0) {
-      toast.success('特性晶石数据加载成功！');
+      toast.success(t('load_success'));
     }
-  }, [petCard2s]);
+  }, [petCard2s, t]);
 
   // 筛选和搜索逻辑
   const filteredPetCard2s = useMemo(() => {
@@ -317,7 +326,7 @@ const PetCard2 = () => {
   if (isLoading) {
     return (
       <Layout>
-        <LoadingSpinner text="正在加载特性晶石数据..." />
+        <LoadingSpinner text={t('loading_data')} />
       </Layout>
     );
   }
@@ -352,10 +361,10 @@ const PetCard2 = () => {
               fontSize: '32px',
             }}
           >
-            特性晶石系统
+            {t('page_title')}
           </Title>
           <Paragraph style={{ fontSize: '16px', color: colors.textSecondary, marginTop: 8 }}>
-            收集珍贵的特性晶石，提升亚比的特殊能力
+            {t('page_subtitle')}
           </Paragraph>
         </motion.div>
 
@@ -368,11 +377,11 @@ const PetCard2 = () => {
           <Card style={{ borderRadius: 12 }}>
             <Space wrap>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <Text>仅显示可交易:</Text>
+                <Text>{t('show_tradeable_only')}:</Text>
                 <Switch checked={showTradeableOnly} onChange={setShowTradeableOnly} size="small" />
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <Text>仅显示限时:</Text>
+                <Text>{t('show_limited_time_only')}:</Text>
                 <Switch
                   checked={showLimitedTimeOnly}
                   onChange={setShowLimitedTimeOnly}
@@ -381,8 +390,10 @@ const PetCard2 = () => {
               </div>
               <div>
                 <Text type="secondary" style={{ fontSize: '12px' }}>
-                  可交易: {petCard2s.filter((c) => c.trade).length} | 限时:{' '}
-                  {petCard2s.filter((c) => c.isLimitedTime).length}
+                  {t('tradeable_count', { count: petCard2s.filter((c) => c.trade).length })} |{' '}
+                  {t('limited_time_count', {
+                    count: petCard2s.filter((c) => c.isLimitedTime).length,
+                  })}
                 </Text>
               </div>
             </Space>
@@ -435,7 +446,11 @@ const PetCard2 = () => {
                     showSizeChanger={false}
                     showQuickJumper
                     showTotal={(total, range) =>
-                      `第 ${range[0]}-${range[1]} 条，共 ${total} 个特性晶石`
+                      t('pagination_total', {
+                        rangeStart: range[0],
+                        rangeEnd: range[1],
+                        total,
+                      })
                     }
                   />
                 </motion.div>
@@ -452,8 +467,8 @@ const PetCard2 = () => {
                 description={
                   <span style={{ color: colors.textSecondary }}>
                     {searchValue || filterType !== 'all' || showTradeableOnly || showLimitedTimeOnly
-                      ? '没有找到匹配的特性晶石'
-                      : '暂无特性晶石数据'}
+                      ? t('no_results')
+                      : t('no_data')}
                   </span>
                 }
                 style={{

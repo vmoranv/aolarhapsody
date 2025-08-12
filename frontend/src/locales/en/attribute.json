@@ -1,0 +1,16 @@
+{
+  "fetch_attributes_error": "Failed to fetch attribute list",
+  "fetch_relations_error": "Failed to fetch attribute relations",
+  "super_attribute": "Super",
+  "origin_attribute": "Origin",
+  "attack": "Attack",
+  "defend": "Defend",
+  "loading_relations": "Loading relations data...",
+  "title": "Aola Star Attribute Relations Query",
+  "origin_attributes": "Origin Attributes",
+  "super_attributes": "Super Attributes",
+  "loading_attributes": "Loading attribute data...",
+  "no_attribute_data": "No attribute data available",
+  "data_load_failed": "Data Load Failed",
+  "data_load_failed_desc": "Failed to get attribute data, please try again later"
+}

@@ -1,0 +1,21 @@
+{
+  "description_loading": "Loading description...",
+  "description_error": "Failed to fetch description",
+  "no_description": "No description available",
+  "skill_list": "Skill List",
+  "no_skill_data": "No skill data available",
+  "no_new_skills": "This pet has no new skill set.",
+  "no_old_skills": "This pet has no old skill set.",
+  "loading_pets": "Loading pet list...",
+  "page_title": "Pet Dictionary",
+  "search_placeholder": "Search for a pet...",
+  "all_attributes": "All Attributes",
+  "race_id": "Race ID",
+  "pause": "Pause",
+  "play": "Play",
+  "base_stats": "Base Stats",
+  "show_new_skills": "Show New Skills",
+  "show_old_skills": "Show Old Skills",
+  "no_pet_selected": "No pet selected",
+  "pet_not_found": "Pet not found"
+}

@@ -1,0 +1,14 @@
+{
+  "title": "HK特性石计算器",
+  "subtitle": "计算兑换HK特性石所需材料",
+  "target_stone_label": "目标特性石",
+  "current_material_label": "现有材料",
+  "calculate_button": "计算",
+  "reset_button": "重置",
+  "result_title": "计算结果",
+  "materials_needed": "所需材料",
+  "stone_placeholder": "选择目标石头",
+  "material_placeholder": "输入数量",
+  "no_stone_selected": "请选择目标特性石",
+  "calculation_error": "计算出错，请检查输入"
+}

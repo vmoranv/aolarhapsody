@@ -17,6 +17,7 @@ import { motion } from 'framer-motion';
 import { Crown, Shield, Star, Sword, Zap } from 'lucide-react';
 import React, { useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 import ErrorDisplay from '../components/ErrorDisplay';
 import Layout from '../components/Layout';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -72,7 +73,7 @@ const fetchGodCards = async (): Promise<GodCard[]> => {
   if (result.success && Array.isArray(result.data)) {
     return result.data;
   } else {
-    throw new Error(result.error || '获取神兵卡数据失败');
+    throw new Error(result.error || 'Failed to fetch god card data');
   }
 };
 
@@ -85,7 +86,7 @@ const fetchGodCardSuits = async (): Promise<GodCardSuit[]> => {
   if (result.success && Array.isArray(result.data)) {
     return result.data;
   } else {
-    throw new Error(result.error || '获取神兵套装数据失败');
+    throw new Error(result.error || 'Failed to fetch god card suit data');
   }
 };
 
@@ -94,15 +95,15 @@ const fetchGodCardSuits = async (): Promise<GodCardSuit[]> => {
  * @param quality - 品质值 (1-5)
  * @returns 返回品质的文本描述
  */
-const getQualityText = (quality: number) => {
-  const texts = {
-    1: '普通',
-    2: '优秀',
-    3: '稀有',
-    4: '史诗',
-    5: '传说',
+const getQualityText = (quality: number, t: (key: string) => string) => {
+  const texts: { [key: number]: string } = {
+    1: t('quality_common'),
+    2: t('quality_uncommon'),
+    3: t('quality_rare'),
+    4: t('quality_epic'),
+    5: t('quality_legendary'),
   };
-  return texts[quality as keyof typeof texts] || '未知';
+  return texts[quality] || t('quality_unknown');
 };
 
 /**
@@ -111,6 +112,7 @@ const getQualityText = (quality: number) => {
  * @param index - 卡片在列表中的索引，用于动画延迟
  */
 const GodCardCard: React.FC<{ godCard: GodCard; index: number }> = ({ godCard, index }) => {
+  const { t } = useTranslation('godCard');
   const { token } = theme.useToken();
   const qualityColor = useQualityColor(godCard.quality);
   const attackColor = useStatColor('attack');
@@ -180,7 +182,7 @@ const GodCardCard: React.FC<{ godCard: GodCard; index: number }> = ({ godCard, i
             <div style={{ marginTop: 8 }}>
               <Tag color={qualityColor} style={{ borderRadius: 12 }}>
                 <Star size={12} style={{ marginRight: 4 }} />
-                {getQualityText(godCard.quality)}
+                {getQualityText(godCard.quality, t)}
               </Tag>
             </div>
           </div>
@@ -194,7 +196,9 @@ const GodCardCard: React.FC<{ godCard: GodCard; index: number }> = ({ godCard, i
                 <Avatar size={16} style={{ backgroundColor: attackColor }}>
                   <Zap size={10} />
                 </Avatar>
-                <Text style={{ fontSize: '12px' }}>攻击: {godCard.attack}</Text>
+                <Text style={{ fontSize: '12px' }}>
+                  {t('attack')}: {godCard.attack}
+                </Text>
               </div>
             </Col>
             <Col span={12}>
@@ -202,7 +206,9 @@ const GodCardCard: React.FC<{ godCard: GodCard; index: number }> = ({ godCard, i
                 <Avatar size={16} style={{ backgroundColor: defenseColor }}>
                   <Shield size={10} />
                 </Avatar>
-                <Text style={{ fontSize: '12px' }}>防御: {godCard.defend}</Text>
+                <Text style={{ fontSize: '12px' }}>
+                  {t('defense')}: {godCard.defend}
+                </Text>
               </div>
             </Col>
             <Col span={12}>
@@ -210,7 +216,9 @@ const GodCardCard: React.FC<{ godCard: GodCard; index: number }> = ({ godCard, i
                 <Avatar size={16} style={{ backgroundColor: spAttackColor }}>
                   <Zap size={10} />
                 </Avatar>
-                <Text style={{ fontSize: '12px' }}>特攻: {godCard.sAttack}</Text>
+                <Text style={{ fontSize: '12px' }}>
+                  {t('special_attack')}: {godCard.sAttack}
+                </Text>
               </div>
             </Col>
             <Col span={12}>
@@ -218,33 +226,35 @@ const GodCardCard: React.FC<{ godCard: GodCard; index: number }> = ({ godCard, i
                 <Avatar size={16} style={{ backgroundColor: spDefenseColor }}>
                   <Shield size={10} />
                 </Avatar>
-                <Text style={{ fontSize: '12px' }}>特防: {godCard.sDefend}</Text>
+                <Text style={{ fontSize: '12px' }}>
+                  {t('special_defense')}: {godCard.sDefend}
+                </Text>
               </div>
             </Col>
           </Row>
 
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <Text style={{ fontSize: '12px', color: token.colorTextSecondary }}>
-              生命: {godCard.hp}
+              {t('hp')}: {godCard.hp}
             </Text>
             <Text style={{ fontSize: '12px', color: token.colorTextSecondary }}>
-              速度: {godCard.speed}
+              {t('speed')}: {godCard.speed}
             </Text>
           </div>
 
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <Text style={{ fontSize: '12px', color: token.colorTextSecondary }}>
-              等级: {godCard.level}
+              {t('level')}: {godCard.level}
             </Text>
             <Text style={{ fontSize: '12px', color: token.colorTextSecondary }}>
-              视图: {godCard.viewId}
+              {t('view_id')}: {godCard.viewId}
             </Text>
           </div>
 
           {godCard.limitRaceId && godCard.limitRaceId.length > 0 && (
             <div>
               <Text style={{ fontSize: '12px', fontWeight: 'bold', color: token.colorText }}>
-                限制种族:
+                {t('limit_race')}:
               </Text>
               <div style={{ marginTop: 4 }}>
                 {godCard.limitRaceId.slice(0, 3).map((raceId) => (
@@ -284,6 +294,7 @@ const GodCardCard: React.FC<{ godCard: GodCard; index: number }> = ({ godCard, i
 };
 
 const GodCardSuitCard: React.FC<{ suit: GodCardSuit; index: number }> = ({ suit, index }) => {
+  const { t } = useTranslation('godCard');
   const { token } = theme.useToken();
   const suitColor = useStatusColor('warning'); // 使用警告色作为套装颜色
 
@@ -319,11 +330,11 @@ const GodCardSuitCard: React.FC<{ suit: GodCardSuit; index: number }> = ({ suit,
               {suit.name}
             </Title>
             <Text type="secondary" style={{ fontSize: '12px' }}>
-              套装ID: {suit.id}
+              {t('suit_id')}: {suit.id}
             </Text>
             <div style={{ marginTop: 8 }}>
               <Tag color={suitColor} style={{ borderRadius: 12 }}>
-                类型: {suit.suitType}
+                {t('suit_type')}: {suit.suitType}
               </Tag>
             </div>
           </div>
@@ -332,7 +343,7 @@ const GodCardSuitCard: React.FC<{ suit: GodCardSuit; index: number }> = ({ suit,
 
           <div>
             <Text style={{ fontSize: '12px', fontWeight: 'bold', color: token.colorText }}>
-              包含神兵: {suit.godCardidList.length} 张
+              {t('includes_cards', { count: suit.godCardidList.length })}
             </Text>
             <div style={{ marginTop: 8 }}>
               {suit.godCardidList.map((id) => (
@@ -366,6 +377,7 @@ const GodCardSuitCard: React.FC<{ suit: GodCardSuit; index: number }> = ({ suit,
 };
 
 const GodCard = () => {
+  const { t } = useTranslation('godCard');
   const { colors } = useTheme()!;
   const [searchValue, setSearchValue] = useState('');
   const [filterType, setFilterType] = useState<'all' | 'super' | 'normal'>('all');
@@ -399,15 +411,15 @@ const GodCard = () => {
   // Handle success and error states
   React.useEffect(() => {
     if (error) {
-      toast.error(`加载失败: ${error instanceof Error ? error.message : String(error)}`);
+      toast.error(`${t('load_failed')}: ${error instanceof Error ? error.message : String(error)}`);
     }
-  }, [error]);
+  }, [error, t]);
 
   React.useEffect(() => {
     if (godCards.length > 0 || suits.length > 0) {
-      toast.success('神兵数据加载成功！');
+      toast.success(t('load_success'));
     }
-  }, [godCards, suits]);
+  }, [godCards, suits, t]);
 
   // 筛选和搜索逻辑
   const filteredData = useMemo(() => {
@@ -463,7 +475,7 @@ const GodCard = () => {
   if (isLoading) {
     return (
       <Layout>
-        <LoadingSpinner text="正在加载神兵数据..." />
+        <LoadingSpinner text={t('loading_data')} />
       </Layout>
     );
   }
