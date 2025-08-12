@@ -1,55 +1,23 @@
 #!/bin/bash
 
+set -e
+
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 LOG_FILE=${SCRIPT_DIR}/build-local-docker-image.log
-ERROR=""
-IMAGE_NAME="aolarhapsody"
+PROJECT_ROOT=${SCRIPT_DIR}/../../
 
-function stop_and_remove_container() {
-    # Stop and remove the existing container
-    docker stop ${IMAGE_NAME} >/dev/null 2>&1
-    docker rm ${IMAGE_NAME} >/dev/null 2>&1
-}
+echo "Info: Starting Docker Compose build" | tee ${LOG_FILE}
 
-function remove_image() {
-    # Remove the existing image
-    docker rmi ${IMAGE_NAME} >/dev/null 2>&1
-}
+cd ${PROJECT_ROOT}
 
-function install_dependencies() {
-    # Install all dependencies
-    cd ${SCRIPT_DIR}/../../
-    pnpm install || ERROR="install_dependencies failed"
-}
+# Build and run the services in detached mode
+docker-compose up --build -d 1>> ${LOG_FILE} 2>> ${LOG_FILE}
 
-function build_image() {
-    # build docker
-    docker build ../../ -f Dockerfile -t ${IMAGE_NAME} || ERROR="build_image failed"
-}
-
-function log_message() {
-    if [[ ${ERROR} != "" ]];
-    then
-        >&2 echo "build failed, Please check build-local-docker-image.log for more details"
-        >&2 echo "ERROR: ${ERROR}"
-        exit 1
-    else
-        echo "docker image with tag '${IMAGE_NAME}' built sussessfully. Use below sample command to run the container"
-        echo ""
-        echo "docker run -d -p 8080:80 --name ${IMAGE_NAME} ${IMAGE_NAME}"
-    fi
-}
-
-echo "Info: Stopping and removing existing container and image" | tee ${LOG_FILE}
-stop_and_remove_container
-remove_image
-
-echo "Info: Installing dependencies" | tee -a ${LOG_FILE}
-install_dependencies 1>> ${LOG_FILE} 2>> ${LOG_FILE}
-
-if [[ ${ERROR} == "" ]]; then
-    echo "Info: Building docker image" | tee -a ${LOG_FILE}
-    build_image 1>> ${LOG_FILE} 2>> ${LOG_FILE}
+if [ $? -eq 0 ]; then
+    echo "Docker containers built and started successfully." | tee -a ${LOG_FILE}
+    echo "Frontend should be available at http://localhost" | tee -a ${LOG_FILE}
+    echo "Backend is running on port 3000" | tee -a ${LOG_FILE}
+else
+    echo "Error: Docker Compose build failed. Check ${LOG_FILE} for details." | tee -a ${LOG_FILE}
+    exit 1
 fi
-
-log_message | tee -a ${LOG_FILE}
