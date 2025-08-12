@@ -85,7 +85,8 @@ const MONITOR_TARGETS = [
 ];
 
 const fetchSubclassData = async (name: string): Promise<SubclassMonitorData> => {
-  const response = await fetch(`/api/monitor/${name}`);
+  const baseUrl = import.meta.env.VITE_API_URL || '';
+  const response = await fetch(`${baseUrl}/api/monitor/${name}`);
 
   if (!response.ok) {
     throw new Error(`HTTP error! status: ${response.status}`);
