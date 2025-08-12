@@ -1,9 +1,9 @@
 export const characterEffects: { [key: string]: { [key: string]: string } } = {
-  攻击: { 防御: '孤僻', 速度: '勇敢', 特攻: '固执', 特防: '调皮' },
-  防御: { 攻击: '大胆', 速度: '悠闲', 特攻: '淘气', 特防: '无虑' },
-  特攻: { 攻击: '保守', 防御: '稳重', 速度: '冷静', 特防: '马虎' },
-  特防: { 攻击: '沉着', 防御: '温顺', 速度: '狂妄', 特攻: '慎重' },
-  速度: { 攻击: '胆小', 防御: '急躁', 特攻: '开朗', 特防: '天真' },
+  attack: { defense: '孤僻', speed: '勇敢', special_attack: '固执', special_defense: '调皮' },
+  defense: { attack: '大胆', speed: '悠闲', special_attack: '淘气', special_defense: '无虑' },
+  special_attack: { attack: '保守', defense: '稳重', speed: '冷静', special_defense: '马虎' },
+  special_defense: { attack: '沉着', defense: '温顺', speed: '狂妄', special_attack: '慎重' },
+  speed: { attack: '胆小', defense: '急躁', special_attack: '开朗', special_defense: '天真' },
 };
 
 export const balancedCharacters = ['浮躁', '认真', '害羞', '实干', '坦率'];

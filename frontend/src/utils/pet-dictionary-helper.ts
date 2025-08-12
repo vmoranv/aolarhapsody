@@ -391,7 +391,9 @@ export const handleDownloadAudio = async (
     const audioUrl = `/proxy/play/music/petsound/petsound${petId}.mp3`;
     try {
       const response = await fetch(audioUrl);
-      if (!response.ok) throw new Error('音频文件下载失败');
+      if (!response.ok) {
+        throw new Error('音频文件下载失败');
+      }
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement('a');

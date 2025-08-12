@@ -17,5 +17,10 @@
   "show_new_skills": "显示新技能",
   "show_old_skills": "显示旧技能",
   "no_pet_selected": "未选择亚比",
-  "pet_not_found": "未找到亚比"
+  "pet_not_found": "未找到亚比",
+  "skills": "技能",
+  "old_version": "旧版",
+  "new_version": "新版",
+  "exclusive_skills": "专属技能",
+  "common_skills": "通用技能"
 }

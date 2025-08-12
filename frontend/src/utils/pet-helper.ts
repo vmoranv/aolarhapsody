@@ -244,7 +244,8 @@ export const createAttributeNameMap = (
  */
 export const generateSkillItems = (
   selectedPetRawData: (string | number)[] | undefined,
-  isNewSkillSet: boolean
+  isNewSkillSet: boolean,
+  t: (key: string) => string
 ): {
   items: { key: string; label: string; children: string[] | null }[];
   fallback: boolean;
@@ -262,7 +263,7 @@ export const generateSkillItems = (
     if (exclusiveSkills.length > 0) {
       items.push({
         key: 'exclusive',
-        label: '专属技能',
+        label: t('exclusive_skills'),
         children: exclusiveSkills,
       });
     }
@@ -273,7 +274,7 @@ export const generateSkillItems = (
       if (commonSkills.length > 0) {
         items.push({
           key: 'common',
-          label: '通用技能',
+          label: t('common_skills'),
           children: commonSkills,
         });
       }
@@ -305,7 +306,7 @@ export const generateSkillItems = (
       items: [
         {
           key: '1',
-          label: '技能列表',
+          label: t('skill_list'),
           children: null,
         },
       ],

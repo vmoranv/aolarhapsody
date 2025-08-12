@@ -478,7 +478,7 @@ const Miscellaneous = () => {
                   config.key === 'image-compressor' ? (
                     <div style={{ padding: '16px' }}>
                       <a href="/app/image-compressor" target="_blank" rel="noopener noreferrer">
-                        <Button type="primary">打开图片裁剪压缩工具</Button>
+                        <Button type="primary">{t('open_image_compressor')}</Button>
                       </a>
                     </div>
                   ) : config.key === 'character-analyzer' ? (
@@ -488,13 +488,13 @@ const Miscellaneous = () => {
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        <Button type="primary">打开性格解析工具</Button>
+                        <Button type="primary">{t('open_character_analyzer')}</Button>
                       </a>
                     </div>
                   ) : config.key === 'poster' ? (
                     <div style={{ padding: '16px' }}>
                       <a href="/app/miscellaneous/poster" target="_blank" rel="noopener noreferrer">
-                        <Button type="primary">打开海报解析工具</Button>
+                        <Button type="primary">{t('open_poster_analyzer')}</Button>
                       </a>
                     </div>
                   ) : (

@@ -424,7 +424,7 @@ const CharacterAnalyzer: React.FC = () => {
             style={{ flex: 1 }}
           >
             <Card
-              title="性格属性对照表"
+              title={t('character_attribute_table')}
               style={{
                 background: colors.surface,
                 borderRadius: 12,
@@ -460,7 +460,7 @@ const CharacterAnalyzer: React.FC = () => {
                       ></th>
                       {attributes.map((attr) => (
                         <th
-                          key={attr}
+                          key={attr.key}
                           style={{
                             padding: '8px',
                             textAlign: 'center',
@@ -470,14 +470,14 @@ const CharacterAnalyzer: React.FC = () => {
                             fontWeight: 'bold',
                           }}
                         >
-                          {attr}
+                          {attr.label}
                         </th>
                       ))}
                     </tr>
                   </thead>
                   <tbody>
                     {attributes.map((increase) => (
-                      <tr key={increase}>
+                      <tr key={increase.key}>
                         <td
                           style={{
                             padding: '8px',
@@ -488,11 +488,11 @@ const CharacterAnalyzer: React.FC = () => {
                             fontWeight: 'bold',
                           }}
                         >
-                          {increase}
+                          {increase.label}
                         </td>
                         {attributes.map((decrease) => (
                           <td
-                            key={`${increase}-${decrease}`}
+                            key={`${increase.key}-${decrease.key}`}
                             onClick={() => {
                               if (increase !== decrease) {
                                 setSelectedIncrease(increase);
@@ -533,7 +533,9 @@ const CharacterAnalyzer: React.FC = () => {
                               }
                             }}
                           >
-                            {characterEffects[increase]?.[decrease] || '-'}
+                            {characterEffects[increase.key]?.[decrease.key]
+                              ? t(characterEffects[increase.key][decrease.key])
+                              : '-'}
                           </td>
                         ))}
                       </tr>
@@ -550,7 +552,7 @@ const CharacterAnalyzer: React.FC = () => {
                   textAlign: 'center',
                 }}
               >
-                表格行表示提高的属性，列表示降低的属性
+                {t('table_helper_text')}
               </Text>
             </Card>
           </motion.div>

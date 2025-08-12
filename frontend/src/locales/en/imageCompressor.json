@@ -16,5 +16,12 @@
   "compression_success": "Image compressed successfully!",
   "compression_error": "Image compression failed.",
   "upload_error_type": "You can only upload JPG/JPEG/PNG file!",
-  "upload_error_size": "Image must smaller than 2MB!"
+  "upload_error_size": "Image must smaller than 2MB!",
+  "upload_and_crop": "Upload and Crop",
+  "settings": "Settings",
+  "select_image": "Select Image",
+  "batch_mode": "Batch Mode",
+  "width_px": "Width (px)",
+  "height_px": "Height (px)",
+  "max_size_mb": "Max Size (MB)"
 }

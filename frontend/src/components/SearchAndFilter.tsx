@@ -2,6 +2,7 @@ import { Button, Input, Select, Space } from 'antd';
 import { motion } from 'framer-motion';
 import { Filter, RotateCcw, Search } from 'lucide-react';
 import React from 'react';
+import { Trans, useTranslation } from 'react-i18next';
 import { useTheme } from '../hooks/useTheme';
 
 const { Option } = Select;
@@ -28,10 +29,11 @@ const SearchAndFilter: React.FC<SearchAndFilterProps> = ({
   totalCount,
   filteredCount,
   hideFilter = false,
-  searchPlaceholder = '搜索属性名称...',
-  unitText = '属性',
+  searchPlaceholder,
+  unitText,
 }) => {
   const { colors } = useTheme()!;
+  const { t } = useTranslation('poster');
 
   return (
     <motion.div
@@ -59,7 +61,7 @@ const SearchAndFilter: React.FC<SearchAndFilterProps> = ({
         >
           <Space size="middle" style={{ flex: 1, minWidth: '300px' }}>
             <Input
-              placeholder={searchPlaceholder}
+              placeholder={searchPlaceholder || t('search_placeholder')}
               prefix={<Search size={16} color={colors.textSecondary} />}
               value={searchValue}
               onChange={(e) => onSearchChange(e.target.value)}
@@ -77,14 +79,14 @@ const SearchAndFilter: React.FC<SearchAndFilterProps> = ({
                 style={{ minWidth: '120px' }}
                 suffixIcon={<Filter size={16} color={colors.textSecondary} />}
               >
-                <Option value="all">全部属性</Option>
-                <Option value="super">超系</Option>
-                <Option value="normal">原系</Option>
+                <Option value="all">{t('filter_all')}</Option>
+                <Option value="super">{t('filter_super')}</Option>
+                <Option value="normal">{t('filter_normal')}</Option>
               </Select>
             )}
 
             <Button icon={<RotateCcw size={16} />} onClick={onReset} style={{ borderRadius: 8 }}>
-              重置
+              {t('reset')}
             </Button>
           </Space>
 
@@ -95,8 +97,18 @@ const SearchAndFilter: React.FC<SearchAndFilterProps> = ({
               whiteSpace: 'nowrap',
             }}
           >
-            显示 <span style={{ color: colors.primary, fontWeight: 600 }}>{filteredCount}</span> /{' '}
-            {totalCount} 个{unitText}
+            <Trans
+              i18nKey="showing_posters"
+              ns="poster"
+              values={{
+                filteredCount,
+                totalCount,
+                unit: unitText || t('unit_text'),
+              }}
+              components={{
+                1: <span style={{ color: colors.primary, fontWeight: 600 }} />,
+              }}
+            />
           </div>
         </div>
       </Space>

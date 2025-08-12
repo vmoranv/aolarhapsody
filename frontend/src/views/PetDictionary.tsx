@@ -197,7 +197,7 @@ export default function PetDictionary() {
     const { items, fallback, hasNewSkills, hasOldSkills } = generateCollapseSkillItems(
       selectedPetRawData,
       isNewSkillSet,
-      generateSkillItems
+      (data, isNew) => generateSkillItems(data, isNew, t)
     );
 
     if (fallback) {
@@ -521,7 +521,7 @@ export default function PetDictionary() {
                   </div>
                 </div>
                 <PetDescription petId={Number(selectedPet.id)} />
-                <Card title="种族值" style={{ marginTop: '20px' }}>
+                <Card title={t('base_stats')} style={{ marginTop: '20px' }}>
                   <div className="stats-grid">
                     {stats.map((stat) => (
                       <div className="stat-item" key={stat.key}>
@@ -541,17 +541,17 @@ export default function PetDictionary() {
                 </Card>
                 <div className="skills-section">
                   <div className="skills-header">
-                    <h3>技能</h3>
+                    <h3>{t('skills')}</h3>
                     <div className="skill-toggle">
                       <Space>
-                        <span>旧版</span>
+                        <span>{t('old_version')}</span>
                         <Switch
                           checked={isNewSkillSet}
                           onChange={handleSkillSetChange}
-                          checkedChildren="新版"
-                          unCheckedChildren="旧版"
+                          checkedChildren={t('new_version')}
+                          unCheckedChildren={t('old_version')}
                         />
-                        <span>新版</span>
+                        <span>{t('new_version')}</span>
                       </Space>
                     </div>
                   </div>

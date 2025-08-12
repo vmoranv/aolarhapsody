@@ -17,5 +17,10 @@
   "show_new_skills": "Show New Skills",
   "show_old_skills": "Show Old Skills",
   "no_pet_selected": "No pet selected",
-  "pet_not_found": "Pet not found"
+  "pet_not_found": "Pet not found",
+  "skills": "Skills",
+  "old_version": "Old Version",
+  "new_version": "New Version",
+  "exclusive_skills": "Exclusive Skills",
+  "common_skills": "Common Skills"
 }

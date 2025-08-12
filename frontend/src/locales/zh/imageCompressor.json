@@ -16,5 +16,12 @@
   "compression_success": "图片压缩成功！",
   "compression_error": "图片压缩失败。",
   "upload_error_type": "只能上传 JPG/JPEG/PNG 文件！",
-  "upload_error_size": "图片必须小于 2MB！"
+  "upload_error_size": "图片必须小于 2MB！",
+  "upload_and_crop": "上传并裁剪",
+  "settings": "设置",
+  "select_image": "选择图片",
+  "batch_mode": "批量模式",
+  "width_px": "宽度 (px)",
+  "height_px": "高度 (px)",
+  "max_size_mb": "最大尺寸 (MB)"
 }

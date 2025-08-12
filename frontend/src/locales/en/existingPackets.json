@@ -17,5 +17,13 @@
   "load_failed": "Failed to load packet data",
   "load_success": "Packet data loaded successfully!",
   "true": "True",
-  "false": "False"
+  "false": "False",
+  "copy_success": "Copied to clipboard",
+  "copy_failed": "Copy failed",
+  "loading_data": "Loading data...",
+  "packet_unit": "packets",
+  "copy_packet": "Copy Packet",
+  "packet_content": "Packet Content",
+  "pagination_total": "Showing {{start}}-{{end}} of {{total}}",
+  "no_match_found": "No match found"
 }
