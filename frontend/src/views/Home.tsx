@@ -28,6 +28,8 @@ import {
 import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import ErrorDisplay from '../components/ErrorDisplay';
+
+console.warn('VITE_API_URL in production:', import.meta.env.VITE_API_URL);
 import Layout from '../components/Layout';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { useNotificationContext } from '../hooks/useNotificationContext';
