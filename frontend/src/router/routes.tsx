@@ -13,7 +13,6 @@ import Miscellaneous from '@/views/Miscellaneous';
 import PetCard from '@/views/PetCard';
 import PetCard2 from '@/views/PetCard2';
 import PetDictionary from '@/views/PetDictionary';
-import PMDataList from '@/views/PMDataList';
 import PosterPage from '@/views/Poster';
 import Tote from '@/views/Tote';
 
@@ -73,11 +72,6 @@ export const constantRoutes: RouteObject[] = [
     path: '/app/petcard2',
     id: 'PetCard2',
     element: <PetCard2 />,
-  },
-  {
-    path: '/app/pmdatalist',
-    id: 'PMDataList',
-    element: <PMDataList />,
   },
   {
     path: '/app/tote',
