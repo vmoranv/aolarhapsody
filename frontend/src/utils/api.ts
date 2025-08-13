@@ -27,10 +27,13 @@ export const fetchData = async <T>(endpoint: string): Promise<T[]> => {
     throw new ApiError(`HTTP error! status: ${response.status}`, response.status);
   }
 
-  const result: ApiResponse<T[]> = await response.json();
+  const result = await response.json();
 
+  // Handle both enveloped and direct array responses
   if (result.success && Array.isArray(result.data)) {
     return result.data;
+  } else if (Array.isArray(result)) {
+    return result;
   } else {
     throw new ApiError(result.error || `获取${endpoint}数据失败`);
   }
