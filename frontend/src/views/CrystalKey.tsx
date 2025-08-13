@@ -9,6 +9,7 @@ import ErrorDisplay from '../components/ErrorDisplay';
 import Layout from '../components/Layout';
 import LoadingSpinner from '../components/LoadingSpinner';
 import SearchAndFilter from '../components/SearchAndFilter';
+import { fetchData, fetchDataItem } from '../utils/api';
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -20,55 +21,6 @@ interface CrystalKey {
   name: string; // 晶钥名称
   description: string; // 晶钥描述
 }
-
-/**
- * 通用API响应结构
- * @template T 响应数据的类型
- */
-interface ApiResponse<T> {
-  success: boolean; // 请求是否成功
-  data?: T; // 响应数据
-  error?: string; // 错误信息
-  count?: number; // 数据总数
-  timestamp: string; // 服务器时间戳
-}
-
-/**
- * 异步获取所有晶钥数据
- * @returns 返回一个包含所有晶钥的Promise数组
- * @throws 当网络请求失败或API返回错误时抛出异常
- */
-const fetchCrystalKeys = async (): Promise<CrystalKey[]> => {
-  const response = await fetch('/api/crystalkeys');
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
-  }
-  const result: ApiResponse<CrystalKey[]> = await response.json();
-  if (result.success && Array.isArray(result.data)) {
-    return result.data;
-  } else {
-    throw new Error(result.error || 'Failed to fetch crystal key data');
-  }
-};
-
-/**
- * 异步获取单个晶钥的详细信息
- * @param id - 晶钥的ID
- * @returns 返回单个晶钥的Promise对象
- * @throws 当网络请求失败或API返回错误时抛出异常
- */
-const fetchCrystalKeyDetail = async (id: string): Promise<CrystalKey> => {
-  const response = await fetch(`/api/crystalkeys/${id}`);
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
-  }
-  const result: ApiResponse<CrystalKey> = await response.json();
-  if (result.success && result.data) {
-    return result.data;
-  } else {
-    throw new Error(result.error || 'Failed to fetch crystal key detail');
-  }
-};
 
 /**
  * 晶钥卡片组件
@@ -196,7 +148,7 @@ const CrystalKey = () => {
     refetch,
   } = useQuery({
     queryKey: ['crystal-keys'],
-    queryFn: fetchCrystalKeys,
+    queryFn: () => fetchData<CrystalKey>('crystalkeys'),
   });
 
   // Handle success and error states
@@ -244,7 +196,7 @@ const CrystalKey = () => {
   // 查看详情
   const handleDetail = async (id: number) => {
     try {
-      const detail = await fetchCrystalKeyDetail(id.toString());
+      const detail = await fetchDataItem<CrystalKey>('crystalkeys', id.toString());
       setSelectedKey(detail);
       toast.success(t('detail_load_success'));
     } catch (error) {

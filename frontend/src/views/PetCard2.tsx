@@ -24,6 +24,7 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import SearchAndFilter from '../components/SearchAndFilter';
 import { useTheme } from '../hooks/useTheme';
 import { useQualityColor, useStatusColor } from '../theme/colors';
+import { fetchData } from '../utils/api';
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -43,27 +44,6 @@ interface PetCard2 {
   raceList: number[];
   viewId: number;
 }
-
-interface ApiResponse<T> {
-  success: boolean;
-  data?: T;
-  error?: string;
-  count?: number;
-  timestamp: string;
-}
-
-const fetchPetCard2s = async (t: (key: string) => string): Promise<PetCard2[]> => {
-  const response = await fetch('/api/petcard2s');
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
-  }
-  const result: ApiResponse<PetCard2[]> = await response.json();
-  if (result.success && Array.isArray(result.data)) {
-    return result.data;
-  } else {
-    throw new Error(result.error || t('fetch_error'));
-  }
-};
 
 const getVipText = (vip: number, t: (key: string) => string) => {
   if (vip === 0) {
@@ -256,7 +236,7 @@ const PetCard2 = () => {
     refetch,
   } = useQuery({
     queryKey: ['pet-card2s'],
-    queryFn: () => fetchPetCard2s(t),
+    queryFn: () => fetchData<PetCard2>('petcard2s'),
   });
 
   // Handle success and error states

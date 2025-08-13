@@ -22,6 +22,7 @@ import ErrorDisplay from '../components/ErrorDisplay';
 import Layout from '../components/Layout';
 import LoadingSpinner from '../components/LoadingSpinner';
 import SearchAndFilter from '../components/SearchAndFilter';
+import { fetchData } from '../utils/api';
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -58,54 +59,6 @@ interface PetCardSuit {
   petCardIdList: number[]; // 包含的宠物卡ID列表
   dec: string; // 套装描述
 }
-
-/**
- * 通用API响应结构
- * @template T 响应数据的类型
- */
-interface ApiResponse<T> {
-  success: boolean; // 请求是否成功
-  data?: T; // 响应数据
-  error?: string; // 错误信息
-  count?: number; // 数据总数
-  timestamp: string; // 服务器时间戳
-}
-
-/**
- * 异步获取所有宠物卡数据
- * @returns 返回一个包含所有宠物卡的Promise数组
- * @throws 当网络请求失败或API返回错误时抛出异常
- */
-const fetchPetCards = async (t: (key: string) => string): Promise<PetCard[]> => {
-  const response = await fetch('/api/petcards');
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
-  }
-  const result: ApiResponse<PetCard[]> = await response.json();
-  if (result.success && Array.isArray(result.data)) {
-    return result.data;
-  } else {
-    throw new Error(result.error || t('fetch_cards_error'));
-  }
-};
-
-/**
- * 异步获取所有宠物卡套装数据
- * @returns 返回一个包含所有宠物卡套装的Promise数组
- * @throws 当网络请求失败或API返回错误时抛出异常
- */
-const fetchPetCardSuits = async (t: (key: string) => string): Promise<PetCardSuit[]> => {
-  const response = await fetch('/api/petcardsuits');
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
-  }
-  const result: ApiResponse<PetCardSuit[]> = await response.json();
-  if (result.success && Array.isArray(result.data)) {
-    return result.data;
-  } else {
-    throw new Error(result.error || t('fetch_suits_error'));
-  }
-};
 
 /**
  * 根据品质值获取对应的颜色
@@ -430,7 +383,7 @@ const PetCard = () => {
     refetch: refetchCards,
   } = useQuery({
     queryKey: ['pet-cards'],
-    queryFn: () => fetchPetCards(t),
+    queryFn: () => fetchData<PetCard>('petcards'),
   });
 
   const {
@@ -440,7 +393,7 @@ const PetCard = () => {
     refetch: refetchSuits,
   } = useQuery({
     queryKey: ['pet-card-suits'],
-    queryFn: () => fetchPetCardSuits(t),
+    queryFn: () => fetchData<PetCardSuit>('petcardsuits'),
   });
 
   const isLoading = cardsLoading || suitsLoading;

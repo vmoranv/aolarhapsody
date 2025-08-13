@@ -9,6 +9,7 @@ import Layout from '../components/Layout';
 import LoadingSpinner from '../components/LoadingSpinner';
 import SearchAndFilter from '../components/SearchAndFilter';
 import { useTheme } from '../hooks/useTheme';
+import { fetchData } from '../utils/api';
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -19,20 +20,6 @@ interface ExistingPacket {
   name: string; // 封包名称
   packet: string; // 封包内容
 }
-
-/**
- * 异步获取现有封包数据
- * @returns 返回一个包含所有现有封包的Promise数组
- * @throws 当网络请求失败或API返回错误时抛出异常
- */
-const fetchExistingPackets = async (): Promise<ExistingPacket[]> => {
-  const response = await fetch('/api/existing-activities');
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
-  }
-  const result: ExistingPacket[] = await response.json();
-  return result;
-};
 
 /**
  * 现有封包列表项组件
@@ -154,7 +141,7 @@ const ExistingPacketsContent = () => {
     refetch,
   } = useQuery({
     queryKey: ['existing-packets'],
-    queryFn: fetchExistingPackets,
+    queryFn: () => fetchData<ExistingPacket>('existing-activities'),
   });
 
   // 筛选和搜索逻辑

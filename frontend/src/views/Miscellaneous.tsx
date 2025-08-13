@@ -35,35 +35,11 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 // import toast from 'react-hot-toast';
 import Layout from '../components/Layout';
+import { fetchData } from '../utils/api';
 
 const { Title, Paragraph, Text } = Typography;
 
-// 通用API响应类型
-interface ApiResponse<T> {
-  success: boolean;
-  data?: T;
-  error?: string;
-  count?: number;
-  timestamp: string;
-}
-
 // 这些接口定义在运行时通过any类型处理，不需要具体的TypeScript接口定义
-
-// 数据获取函数
-const createFetcher =
-  <T,>(endpoint: string, t: (key: string, options?: any) => string) =>
-  async (): Promise<T[]> => {
-    const response = await fetch(`/api/${endpoint}`);
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    const result: ApiResponse<T[]> = await response.json();
-    if (result.success && Array.isArray(result.data)) {
-      return result.data;
-    } else {
-      throw new Error(result.error || t('fetch_error', { endpoint }));
-    }
-  };
 
 // 数据配置
 const getDataConfigs = (t: (key: string) => string) => [
@@ -359,10 +335,9 @@ const Miscellaneous = () => {
     if (!config.endpoint) {
       return { data: [], isLoading: false, error: null };
     }
-    const fetcher = createFetcher(config.endpoint, t);
     return useQuery({
       queryKey: [config.key],
-      queryFn: fetcher,
+      queryFn: () => fetchData(config.endpoint),
       // 移除懒加载限制，页面加载时就获取所有数据的条数
     });
   });

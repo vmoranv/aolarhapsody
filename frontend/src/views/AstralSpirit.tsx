@@ -24,6 +24,7 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import SearchAndFilter from '../components/SearchAndFilter';
 import { useTheme } from '../hooks/useTheme';
 import { useQualityColor, useStatColor, useStatusColor } from '../theme/colors';
+import { fetchData } from '../utils/api';
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -56,40 +57,6 @@ interface AstralSpiritSuit {
   astralSpiritIdList: number[];
   dec: string;
 }
-
-interface ApiResponse<T> {
-  success: boolean;
-  data?: T;
-  error?: string;
-  count?: number;
-  timestamp: string;
-}
-
-const fetchAstralSpirits = async (): Promise<AstralSpirit[]> => {
-  const response = await fetch('/api/astral-spirits');
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
-  }
-  const result: ApiResponse<AstralSpirit[]> = await response.json();
-  if (result.success && Array.isArray(result.data)) {
-    return result.data;
-  } else {
-    throw new Error(result.error || 'Failed to fetch astral spirit data');
-  }
-};
-
-const fetchAstralSpiritSuits = async (): Promise<AstralSpiritSuit[]> => {
-  const response = await fetch('/api/astral-spirit-suits');
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
-  }
-  const result: ApiResponse<AstralSpiritSuit[]> = await response.json();
-  if (result.success && Array.isArray(result.data)) {
-    return result.data;
-  } else {
-    throw new Error(result.error || 'Failed to fetch astral spirit suit data');
-  }
-};
 
 /**
  * 根据品质值获取对应的文本描述
@@ -339,7 +306,7 @@ const AstralSpirit = () => {
     refetch: refetchSpirits,
   } = useQuery({
     queryKey: ['astral-spirits'],
-    queryFn: fetchAstralSpirits,
+    queryFn: () => fetchData<AstralSpirit>('astral-spirits'),
   });
 
   const {
@@ -349,7 +316,7 @@ const AstralSpirit = () => {
     refetch: refetchSuits,
   } = useQuery({
     queryKey: ['astral-spirit-suits'],
-    queryFn: fetchAstralSpiritSuits,
+    queryFn: () => fetchData<AstralSpiritSuit>('astral-spirit-suits'),
   });
 
   const isLoading = spiritsLoading || suitsLoading;

@@ -24,6 +24,7 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import SearchAndFilter from '../components/SearchAndFilter';
 import { useTheme } from '../hooks/useTheme';
 import { useQualityColor, useStatColor, useStatusColor } from '../theme/colors';
+import { fetchData } from '../utils/api';
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -55,40 +56,6 @@ interface GodCardSuit {
   godCardidList: number[];
   dec: string;
 }
-
-interface ApiResponse<T> {
-  success: boolean;
-  data?: T;
-  error?: string;
-  count?: number;
-  timestamp: string;
-}
-
-const fetchGodCards = async (): Promise<GodCard[]> => {
-  const response = await fetch('/api/godcards');
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
-  }
-  const result: ApiResponse<GodCard[]> = await response.json();
-  if (result.success && Array.isArray(result.data)) {
-    return result.data;
-  } else {
-    throw new Error(result.error || 'Failed to fetch god card data');
-  }
-};
-
-const fetchGodCardSuits = async (): Promise<GodCardSuit[]> => {
-  const response = await fetch('/api/godcardsuits');
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
-  }
-  const result: ApiResponse<GodCardSuit[]> = await response.json();
-  if (result.success && Array.isArray(result.data)) {
-    return result.data;
-  } else {
-    throw new Error(result.error || 'Failed to fetch god card suit data');
-  }
-};
 
 /**
  * 根据品质值获取对应的文本描述
@@ -392,7 +359,7 @@ const GodCard = () => {
     refetch: refetchCards,
   } = useQuery({
     queryKey: ['god-cards'],
-    queryFn: fetchGodCards,
+    queryFn: () => fetchData<GodCard>('godcards'),
   });
 
   const {
@@ -402,7 +369,7 @@ const GodCard = () => {
     refetch: refetchSuits,
   } = useQuery({
     queryKey: ['god-card-suits'],
-    queryFn: fetchGodCardSuits,
+    queryFn: () => fetchData<GodCardSuit>('godcardsuits'),
   });
 
   const isLoading = cardsLoading || suitsLoading;

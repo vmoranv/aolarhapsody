@@ -11,6 +11,7 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import SearchAndFilter from '../components/SearchAndFilter';
 import { useTheme } from '../hooks/useTheme';
 import { useQualityColor } from '../theme/colors';
+import { fetchData } from '../utils/api';
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -38,54 +39,6 @@ interface HKBuff {
   buffNames: string[]; // Buff名称列表
   values: string[]; // 数值列表
 }
-
-/**
- * 通用API响应结构
- * @template T 响应数据的类型
- */
-interface ApiResponse<T> {
-  success: boolean; // 请求是否成功
-  data?: T; // 响应数据
-  error?: string; // 错误信息
-  count?: number; // 数据总数
-  timestamp: string; // 服务器时间戳
-}
-
-/**
- * 异步获取所有魂卡数据
- * @returns 返回一个包含所有魂卡的Promise数组
- * @throws 当网络请求失败或API返回错误时抛出异常
- */
-const fetchHKData = async (): Promise<HKData[]> => {
-  const response = await fetch('/api/hkdata');
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
-  }
-  const result: ApiResponse<HKData[]> = await response.json();
-  if (result.success && Array.isArray(result.data)) {
-    return result.data;
-  } else {
-    throw new Error(result.error || 'Failed to fetch soul card data');
-  }
-};
-
-/**
- * 异步获取所有魂卡Buff数据
- * @returns 返回一个包含所有魂卡Buff的Promise数组
- * @throws 当网络请求失败或API返回错误时抛出异常
- */
-const fetchHKBuffs = async (): Promise<HKBuff[]> => {
-  const response = await fetch('/api/hkbuffs');
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
-  }
-  const result: ApiResponse<HKBuff[]> = await response.json();
-  if (result.success && Array.isArray(result.data)) {
-    return result.data;
-  } else {
-    throw new Error(result.error || 'Failed to fetch soul card buff data');
-  }
-};
 
 /**
  * 根据产出类型值获取对应的文本描述
@@ -340,7 +293,7 @@ const HK = () => {
     refetch: refetchData,
   } = useQuery({
     queryKey: ['hk-data'],
-    queryFn: fetchHKData,
+    queryFn: () => fetchData<HKData>('hkdata'),
   });
 
   const {
@@ -350,7 +303,7 @@ const HK = () => {
     refetch: refetchBuffs,
   } = useQuery({
     queryKey: ['hk-buffs'],
-    queryFn: fetchHKBuffs,
+    queryFn: () => fetchData<HKBuff>('hkbuffs'),
   });
 
   const isLoading = dataLoading || buffsLoading;

@@ -10,22 +10,9 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import SearchAndFilter from '../components/SearchAndFilter';
 import { useTheme } from '../hooks/useTheme';
 import { SimplifiedPoster as Poster } from '../types/poster';
+import { fetchData } from '../utils/api';
 
 const { Title, Paragraph, Text } = Typography;
-
-/**
- * 异步获取海报数据
- * @returns 返回一个包含所有海报的Promise数组
- * @throws 当网络请求失败或API返回错误时抛出异常
- */
-const fetchPosters = async (): Promise<Poster[]> => {
-  const response = await fetch('/api/posters');
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
-  }
-  const result = await response.json();
-  return result.data;
-};
 
 /**
  * 海报列表项组件
@@ -35,7 +22,8 @@ const PosterItem: React.FC<{ poster: Poster }> = ({ poster }) => {
   const { t } = useTranslation('poster');
   const { colors } = useTheme()!;
   const { message } = App.useApp();
-  const imageUrl = `/proxy/h5/pet/petskin/background/bg/img_petskinbackground_${poster.id}.png`;
+  const baseUrl = import.meta.env.VITE_API_URL || '';
+  const imageUrl = `${baseUrl}/proxy/h5/pet/petskin/background/bg/img_petskinbackground_${poster.id}.png`;
 
   const handleDownload = async () => {
     try {
@@ -147,7 +135,7 @@ const PosterContent = () => {
     refetch,
   } = useQuery({
     queryKey: ['posters'],
-    queryFn: fetchPosters,
+    queryFn: () => fetchData<Poster>('posters'),
   });
 
   const filteredData = useMemo(() => {

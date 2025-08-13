@@ -22,6 +22,7 @@ import ErrorDisplay from '../components/ErrorDisplay';
 import Layout from '../components/Layout';
 import LoadingSpinner from '../components/LoadingSpinner';
 import SearchAndFilter from '../components/SearchAndFilter';
+import { fetchData } from '../utils/api';
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -37,27 +38,6 @@ interface Inscription {
   nextLevelId: number;
   desc: string;
 }
-
-interface ApiResponse<T> {
-  success: boolean;
-  data?: T;
-  error?: string;
-  count?: number;
-  timestamp: string;
-}
-
-const fetchInscriptions = async (): Promise<Inscription[]> => {
-  const response = await fetch('/api/inscriptions');
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
-  }
-  const result: ApiResponse<Inscription[]> = await response.json();
-  if (result.success && Array.isArray(result.data)) {
-    return result.data;
-  } else {
-    throw new Error(result.error || 'Failed to fetch inscription data');
-  }
-};
 
 const getTypeColor = (type: number) => {
   const colors = {
@@ -258,7 +238,7 @@ const Inscription = () => {
     refetch,
   } = useQuery({
     queryKey: ['inscriptions'],
-    queryFn: fetchInscriptions,
+    queryFn: () => fetchData<Inscription>('inscriptions'),
   });
 
   // Handle success and error states
