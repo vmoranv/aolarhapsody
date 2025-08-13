@@ -20,7 +20,6 @@ import ErrorDisplay from '../components/ErrorDisplay';
 import Layout from '../components/Layout';
 import LoadingSpinner from '../components/LoadingSpinner';
 import SkillCard from '../components/SkillCard';
-import { URL_CONFIG } from '../types/url';
 import { getAttributeIconUrl, getEraIconUrl, ProcessedAttribute } from '../utils/attribute-helper';
 import {
   calculateStats,
@@ -266,8 +265,8 @@ export default function PetDictionary() {
       const audio = audioRef.current!;
       audio.pause();
       const petId = selectedPet.id.toString().replace('_0', '');
-      const audioSrc = `${URL_CONFIG.petSoundPrefix}/petsound${petId}.mp3`;
-      if (audio.src !== window.location.origin + audioSrc) {
+      const audioSrc = `/proxy/play/music/petsound/petsound${petId}.mp3`;
+      if (audio.src !== audioSrc) {
         setAudioState({
           isLoading: true,
           isPlaying: false,

@@ -30,6 +30,9 @@ export default defineConfig(({ mode }) => {
     server: {
       proxy: {
         '/api': {
+          // This proxy is ONLY for local development.
+          // It reads from VITE_API_URL in your local .env file.
+          // If not found, it defaults to the local backend.
           target: env.VITE_API_URL || 'http://localhost:3000',
           changeOrigin: true,
         },
@@ -37,9 +40,6 @@ export default defineConfig(({ mode }) => {
           target: 'https://aola.100bt.com',
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/proxy/, ''),
-          headers: {
-            Referer: 'https://aola.100bt.com',
-          },
         },
       },
     },
