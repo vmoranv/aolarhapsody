@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/proxy/:path*",
+      "destination": "https://aola.100bt.com/:path*"
+    }
+  ]
+}

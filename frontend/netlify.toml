@@ -1,0 +1,5 @@
+[[redirects]]
+  from = "/proxy/*"
+  to = "https://aola.100bt.com/:splat"
+  status = 200
+  force = true
