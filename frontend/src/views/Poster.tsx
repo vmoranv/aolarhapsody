@@ -22,8 +22,7 @@ const PosterItem: React.FC<{ poster: Poster }> = ({ poster }) => {
   const { t } = useTranslation('poster');
   const { colors } = useTheme()!;
   const { message } = App.useApp();
-  const baseUrl = import.meta.env.VITE_API_URL || '';
-  const imageUrl = `${baseUrl}/proxy/h5/pet/petskin/background/bg/img_petskinbackground_${poster.id}.png`;
+  const imageUrl = `/proxy/h5/pet/petskin/background/bg/img_petskinbackground_${poster.id}.png`;
 
   const handleDownload = async () => {
     try {

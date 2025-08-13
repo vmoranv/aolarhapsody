@@ -29,13 +29,15 @@ export const fetchData = async <T>(endpoint: string): Promise<T[]> => {
 
   const result = await response.json();
 
-  // Handle both enveloped and direct array responses
-  if (result.success && Array.isArray(result.data)) {
+  // Handle enveloped responses (both { success: true, data: [] } and { code: 200, data: [] }) and direct array responses
+  if (result && (result.success === true || result.code === 200) && Array.isArray(result.data)) {
     return result.data;
   } else if (Array.isArray(result)) {
     return result;
   } else {
-    throw new ApiError(result.error || `获取${endpoint}数据失败`);
+    // Log the problematic response for debugging
+    console.error(`获取${endpoint}数据失败，无效的响应格式:`, result);
+    throw new ApiError(result.error || result.message || `获取${endpoint}数据失败，无效的响应格式`);
   }
 };
 
