@@ -9,25 +9,9 @@ import Layout from '../components/Layout';
 import LoadingSpinner from '../components/LoadingSpinner';
 import SearchAndFilter from '../components/SearchAndFilter';
 import { useTheme } from '../hooks/useTheme';
+import { fetchData } from '../utils/api';
 
 const { Title, Paragraph, Text } = Typography;
-
-const fetchExistingPackets = async (): Promise<ExistingPacket[]> => {
-  const baseUrl = import.meta.env.VITE_API_URL || '';
-  const response = await fetch(`${baseUrl}/api/existing-activities`);
-
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
-  }
-
-  const result = await response.json();
-
-  if (result.success && Array.isArray(result.data)) {
-    return result.data;
-  } else {
-    throw new Error(result.error || '获取现有封包数据失败');
-  }
-};
 
 /**
  * 现有封包数据类型定义
@@ -157,7 +141,7 @@ const ExistingPacketsContent = () => {
     refetch,
   } = useQuery({
     queryKey: ['existing-packets'],
-    queryFn: fetchExistingPackets,
+    queryFn: () => fetchData<ExistingPacket>('existing-activities'),
   });
 
   // 筛选和搜索逻辑
