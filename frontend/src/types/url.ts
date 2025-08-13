@@ -1,7 +1,7 @@
 /**
  * 基础URL配置
  */
-const BASE_URL = 'https://aola.100bt.com';
+const BASE_URL = '/proxy'; // 使用代理
 const H5_BASE_URL = `${BASE_URL}/h5`;
 
 /**
@@ -14,4 +14,5 @@ export const URL_CONFIG = {
   petAttributePrefix: `${H5_BASE_URL}/petattribute`,
   guangqiIconPrefix: `${H5_BASE_URL}/guangqiicon`,
   xinghuiIconPrefix: `${H5_BASE_URL}/xinghuiicon`,
+  petSoundPrefix: `${BASE_URL}/play/music/petsound`, // 添加语音路径
 };

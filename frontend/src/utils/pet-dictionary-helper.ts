@@ -1,3 +1,4 @@
+import { URL_CONFIG } from '../types/url';
 import { fetchData, fetchDataItem } from './api';
 import { PetListItem } from './pet-helper';
 
@@ -333,8 +334,8 @@ export const handlePlayAudio = (
     audio.pause();
   } else {
     const petId = selectedPet.id.toString().replace('_0', '');
-    const audioSrc = `/proxy/play/music/petsound/petsound${petId}.mp3`;
-    if (audio.src !== audioSrc) {
+    const audioSrc = `${URL_CONFIG.petSoundPrefix}/petsound${petId}.mp3`;
+    if (audio.src !== window.location.origin + audioSrc) {
       setAudioState({
         isLoading: true,
         isPlaying: false,
@@ -388,7 +389,7 @@ export const handleDownloadAudio = async (
 ) => {
   if (selectedPet) {
     const petId = selectedPet.id.toString().replace('_0', '');
-    const audioUrl = `/proxy/play/music/petsound/petsound${petId}.mp3`;
+    const audioUrl = `${URL_CONFIG.petSoundPrefix}/petsound${petId}.mp3`;
     try {
       const response = await fetch(audioUrl);
       if (!response.ok) {
