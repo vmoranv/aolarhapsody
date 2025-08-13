@@ -10,7 +10,9 @@ export default defineConfig(({ mode }) => {
   return {
     define: {
       'import.meta.env.VITE_API_URL': JSON.stringify(
-        mode === 'production' ? process.env.VITE_API_URL : env.VITE_API_URL
+        mode === 'production'
+          ? process.env.VITE_API_URL || 'https://aolarhapsodybackend.614447.xyz'
+          : env.VITE_API_URL
       ),
     },
     plugins: [react()],
