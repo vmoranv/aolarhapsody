@@ -9,9 +9,17 @@ import Layout from '../components/Layout';
 import LoadingSpinner from '../components/LoadingSpinner';
 import SearchAndFilter from '../components/SearchAndFilter';
 import { useTheme } from '../hooks/useTheme';
-import { fetchData } from '../utils/api';
 
 const { Title, Paragraph, Text } = Typography;
+
+const fetchExistingPackets = async (): Promise<ExistingPacket[]> => {
+  const response = await fetch('/api/existing-activities');
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+  const result: ExistingPacket[] = await response.json();
+  return result;
+};
 
 /**
  * 现有封包数据类型定义
@@ -141,7 +149,7 @@ const ExistingPacketsContent = () => {
     refetch,
   } = useQuery({
     queryKey: ['existing-packets'],
-    queryFn: () => fetchData<ExistingPacket>('existing-activities'),
+    queryFn: fetchExistingPackets,
   });
 
   // 筛选和搜索逻辑
