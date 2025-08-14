@@ -1,14 +1,12 @@
-import { useQuery } from '@tanstack/react-query';
 import { Divider, Tag, theme, Tooltip, Typography } from 'antd';
 import { Crown, Sword } from 'lucide-react';
+import React, { useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import DataView from '../components/DataView';
 import ItemCard from '../components/ItemCard';
 import Layout from '../components/Layout';
-import ViewSwitcher from '../components/ViewSwitcher';
 import { useStatusColor } from '../theme/colors';
 import type { GodCard, GodCardSuit } from '../types/godcard';
-import { fetchData } from '../utils/api';
 
 const { Text } = Typography;
 
@@ -16,16 +14,7 @@ const GodCardPage = () => {
   const { t } = useTranslation('godCard');
   const { token } = theme.useToken();
   const suitColor = useStatusColor('warning');
-
-  const { data: godCardsData, isLoading: isLoadingCards } = useQuery<GodCard[]>({
-    queryKey: ['god-cards'],
-    queryFn: () => fetchData<GodCard>('godcards'),
-  });
-
-  const { data: suitsData, isLoading: isLoadingSuits } = useQuery<GodCardSuit[]>({
-    queryKey: ['god-card-suits'],
-    queryFn: () => fetchData<GodCardSuit>('godcardsuits'),
-  });
+  const [viewMode, setViewMode] = useState<'cards' | 'suits'>('cards');
 
   const filterOptions = [
     { value: 'all', label: t('filter_all') },
@@ -33,11 +22,28 @@ const GodCardPage = () => {
     { value: 'normal', label: t('filter_normal') },
   ];
 
-  const views = [
-    {
-      key: 'cards',
-      label: `${t('view_cards')} ${isLoadingCards ? '(...)' : `(${(godCardsData || []).length})`}`,
-      content: (
+  const viewSwitcher = (
+    <div style={{ marginBottom: 24, display: 'flex', gap: 16 }}>
+      <Tag.CheckableTag
+        checked={viewMode === 'cards'}
+        onChange={() => setViewMode('cards')}
+        style={{ padding: '8px 16px', borderRadius: 20, fontSize: '16px' }}
+      >
+        {t('view_cards')}
+      </Tag.CheckableTag>
+      <Tag.CheckableTag
+        checked={viewMode === 'suits'}
+        onChange={() => setViewMode('suits')}
+        style={{ padding: '8px 16px', borderRadius: 20, fontSize: '16px' }}
+      >
+        {t('view_suits')}
+      </Tag.CheckableTag>
+    </div>
+  );
+
+  return (
+    <Layout>
+      {viewMode === 'cards' ? (
         <DataView<GodCard>
           pageTitle={t('page_title_cards')}
           pageSubtitle={t('page_subtitle_cards')}
@@ -71,13 +77,10 @@ const GodCardPage = () => {
               components={{ 1: <span style={{ fontWeight: 600 }} /> }}
             />
           )}
-        />
-      ),
-    },
-    {
-      key: 'suits',
-      label: `${t('view_suits')} ${isLoadingSuits ? '(...)' : `(${(suitsData || []).length})`}`,
-      content: (
+        >
+          {viewSwitcher}
+        </DataView>
+      ) : (
         <DataView<GodCardSuit>
           pageTitle={t('page_title_suits')}
           pageSubtitle={t('page_subtitle_suits')}
@@ -153,14 +156,10 @@ const GodCardPage = () => {
               components={{ 1: <span style={{ fontWeight: 600 }} /> }}
             />
           )}
-        />
-      ),
-    },
-  ];
-
-  return (
-    <Layout>
-      <ViewSwitcher views={views} />
+        >
+          {viewSwitcher}
+        </DataView>
+      )}
     </Layout>
   );
 };

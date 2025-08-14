@@ -5,7 +5,7 @@ export interface MenuItemConfig {
   key: string;
   path: string;
   label: string;
-  status: 'release' | 'dev';
+  status: 'release' | 'release';
   icon?: React.ReactNode;
   children?: MenuItemConfig[];
   parentKey?: string;
@@ -44,49 +44,49 @@ export const menuConfig: MenuItemConfig[] = [
         key: '2-3',
         path: '/app/astralspirit',
         label: 'menu.astral_spirit_system',
-        status: 'dev',
+        status: 'release',
         parentKey: '2',
       },
       {
         key: '2-4',
         path: '/app/crystalkey',
         label: 'menu.crystal_key_system',
-        status: 'dev',
+        status: 'release',
         parentKey: '2',
       },
       {
         key: '2-5',
         path: '/app/godcard',
         label: 'menu.god_card_system',
-        status: 'dev',
+        status: 'release',
         parentKey: '2',
       },
       {
         key: '2-6',
         path: '/app/hk',
         label: 'menu.soul_card_system',
-        status: 'dev',
+        status: 'release',
         parentKey: '2',
       },
       {
         key: '2-7',
         path: '/app/inscription',
         label: 'menu.inscription_system',
-        status: 'dev',
+        status: 'release',
         parentKey: '2',
       },
       {
         key: '2-8',
         path: '/app/petcard',
         label: 'menu.pet_card_system',
-        status: 'dev',
+        status: 'release',
         parentKey: '2',
       },
       {
         key: '2-9',
         path: '/app/petcard2',
         label: 'menu.feature_gem',
-        status: 'dev',
+        status: 'release',
         parentKey: '2',
       },
       {

@@ -31,9 +31,11 @@ export const fetchData = async <T>(endpoint: string): Promise<T[]> => {
 
   // Handle enveloped responses (both { success: true, data: [] } and { code: 200, data: [] }) and direct array responses
   if (result && (result.success === true || result.code === 200) && Array.isArray(result.data)) {
-    return result.data;
+     
+    return result.data.map((item: any) => ({ ...item, id: item.id ?? item.cardId }));
   } else if (Array.isArray(result)) {
-    return result;
+     
+    return result.map((item: any) => ({ ...item, id: item.id ?? item.cardId }));
   } else {
     // Log the problematic response for debugging
     console.error(`获取${endpoint}数据失败，无效的响应格式:`, result);

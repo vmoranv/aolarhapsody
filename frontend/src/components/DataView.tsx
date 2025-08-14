@@ -44,6 +44,7 @@ interface DataViewProps<T extends DataItem> {
   filterOptions?: { label: string; value: FilterType }[];
   resetText: string;
   showingText: (filteredCount: number, totalCount: number) => React.ReactNode;
+  children?: React.ReactNode;
 }
 
 const DataView = <T extends DataItem>({
@@ -66,6 +67,7 @@ const DataView = <T extends DataItem>({
   filterOptions,
   resetText,
   showingText,
+  children,
 }: DataViewProps<T>) => {
   const { colors } = useTheme()!;
   const [searchValue, setSearchValue] = useState('');
@@ -175,7 +177,7 @@ const DataView = <T extends DataItem>({
           </Row>
         </motion.div>
       )}
-
+      {children}
       <SearchAndFilter
         searchValue={searchValue}
         onSearchChange={setSearchValue}
