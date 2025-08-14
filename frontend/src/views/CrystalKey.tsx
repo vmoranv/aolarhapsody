@@ -2,6 +2,7 @@ import { Key } from 'lucide-react';
 import { Trans, useTranslation } from 'react-i18next';
 import DataView, { DataItem } from '../components/DataView';
 import ItemCard from '../components/ItemCard';
+import { getCrystalKeyImageUrl } from '../utils/crystal-key-helper';
 
 /**
  * 晶钥数据类型定义
@@ -23,7 +24,12 @@ const CrystalKey = () => {
       queryKey={['crystal-keys']}
       dataUrl="crystalkeys"
       renderCard={(key, index) => (
-        <ItemCard item={key} index={index} icon={<Key size={48} color="white" />} />
+        <ItemCard
+          item={key}
+          index={index}
+          imageUrl={getCrystalKeyImageUrl(key.id)}
+          icon={<Key size={48} color="white" />}
+        />
       )}
       getSearchableFields={(key) => [key.name, key.description]}
       titleGradient="linear-gradient(135deg, #722ed1 0%, #9254de 100%)"

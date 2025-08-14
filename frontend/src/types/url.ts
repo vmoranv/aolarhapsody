@@ -14,4 +14,5 @@ export const URL_CONFIG = {
   petAttributePrefix: `${H5_BASE_URL}/petattribute`,
   guangqiIconPrefix: `${H5_BASE_URL}/guangqiicon`,
   xinghuiIconPrefix: `${H5_BASE_URL}/xinghuiicon`,
+  crystalKeyPrefix: `${H5_BASE_URL}/crystalkey/itemview`,
 };

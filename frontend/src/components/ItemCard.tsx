@@ -10,11 +10,12 @@ const { Title, Text } = Typography;
 interface ItemCardProps {
   item: DataItem;
   index: number;
-  icon: React.ReactNode;
+  icon?: React.ReactNode;
+  imageUrl?: string;
   children?: React.ReactNode;
 }
 
-const ItemCard: React.FC<ItemCardProps> = ({ item, index, icon, children }) => {
+const ItemCard: React.FC<ItemCardProps> = ({ item, index, icon, imageUrl, children }) => {
   const { token } = theme.useToken();
   const qualityColor = useQualityColor(item.quality);
 
@@ -54,9 +55,24 @@ const ItemCard: React.FC<ItemCardProps> = ({ item, index, icon, children }) => {
               overflow: 'hidden',
             }}
           >
-            <motion.div whileHover={{ scale: 1.1, rotate: 5 }} transition={{ duration: 0.3 }}>
-              {icon}
-            </motion.div>
+            {imageUrl ? (
+              <motion.img
+                src={imageUrl}
+                alt={item.name}
+                style={{
+                  width: 'auto',
+                  height: '80%',
+                  maxHeight: '100px',
+                  objectFit: 'contain',
+                }}
+                whileHover={{ scale: 1.1, rotate: 5 }}
+                transition={{ duration: 0.3 }}
+              />
+            ) : (
+              <motion.div whileHover={{ scale: 1.1, rotate: 5 }} transition={{ duration: 0.3 }}>
+                {icon}
+              </motion.div>
+            )}
 
             {item.quality && item.quality > 0 && (
               <div style={{ position: 'absolute', top: 10, right: 10 }}>
