@@ -89,7 +89,13 @@ export const menuConfig: MenuItemConfig[] = [
         status: 'dev',
         parentKey: '2',
       },
-      { key: '2-11', path: '/app/tote', label: 'menu.tote_system', status: 'dev', parentKey: '2' },
+      {
+        key: '2-11',
+        path: '/app/tote',
+        label: 'menu.tote_system',
+        status: 'release',
+        parentKey: '2',
+      },
     ],
   },
   {

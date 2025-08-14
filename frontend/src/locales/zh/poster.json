@@ -14,6 +14,5 @@
   "reset": "重置",
   "filter_all": "全部",
   "filter_super": "超系",
-  "filter_normal": "原系",
-  "showing_posters": "显示 {{filteredCount}} / {{totalCount}} {{unit}}"
+  "filter_normal": "原系"
 }

@@ -91,7 +91,7 @@ export interface DateItem extends PriceItem {
 }
 
 // 数据处理工具函数
-export const filterBySearch = <T extends { name: string; id: number }>(
+export const filterBySearch = <T extends { name: string; id: number | string }>(
   items: T[],
   searchValue: string,
   additionalFields?: (item: T) => string[]

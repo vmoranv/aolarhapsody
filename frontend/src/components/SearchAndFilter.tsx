@@ -2,22 +2,22 @@ import { Button, Input, Select, Space } from 'antd';
 import { motion } from 'framer-motion';
 import { Filter, RotateCcw, Search } from 'lucide-react';
 import React from 'react';
-import { Trans, useTranslation } from 'react-i18next';
 import { useTheme } from '../hooks/useTheme';
 
 const { Option } = Select;
 
+export type FilterType = 'all' | 'super' | 'normal' | string;
+
 interface SearchAndFilterProps {
   searchValue: string;
   onSearchChange: (value: string) => void;
-  filterType: string;
-  onFilterChange: (value: string) => void;
+  filterType: FilterType;
+  onFilterChange: (value: FilterType) => void;
   onReset: () => void;
-  totalCount: number;
-  filteredCount: number;
-  hideFilter?: boolean;
   searchPlaceholder?: string;
-  unitText?: string;
+  filterOptions?: { label: string; value: FilterType }[];
+  resetText: string;
+  showingText: React.ReactNode;
 }
 
 const SearchAndFilter: React.FC<SearchAndFilterProps> = ({
@@ -26,14 +26,12 @@ const SearchAndFilter: React.FC<SearchAndFilterProps> = ({
   filterType,
   onFilterChange,
   onReset,
-  totalCount,
-  filteredCount,
-  hideFilter = false,
   searchPlaceholder,
-  unitText,
+  filterOptions,
+  resetText,
+  showingText,
 }) => {
   const { colors } = useTheme()!;
-  const { t } = useTranslation('poster');
 
   return (
     <motion.div
@@ -61,7 +59,7 @@ const SearchAndFilter: React.FC<SearchAndFilterProps> = ({
         >
           <Space size="middle" style={{ flex: 1, minWidth: '300px' }}>
             <Input
-              placeholder={searchPlaceholder || t('search_placeholder')}
+              placeholder={searchPlaceholder}
               prefix={<Search size={16} color={colors.textSecondary} />}
               value={searchValue}
               onChange={(e) => onSearchChange(e.target.value)}
@@ -72,21 +70,23 @@ const SearchAndFilter: React.FC<SearchAndFilterProps> = ({
               allowClear
             />
 
-            {!hideFilter && (
+            {filterOptions && (
               <Select
                 value={filterType}
                 onChange={onFilterChange}
                 style={{ minWidth: '120px' }}
                 suffixIcon={<Filter size={16} color={colors.textSecondary} />}
               >
-                <Option value="all">{t('filter_all')}</Option>
-                <Option value="super">{t('filter_super')}</Option>
-                <Option value="normal">{t('filter_normal')}</Option>
+                {filterOptions.map((opt) => (
+                  <Option key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </Option>
+                ))}
               </Select>
             )}
 
             <Button icon={<RotateCcw size={16} />} onClick={onReset} style={{ borderRadius: 8 }}>
-              {t('reset')}
+              {resetText}
             </Button>
           </Space>
 
@@ -97,18 +97,7 @@ const SearchAndFilter: React.FC<SearchAndFilterProps> = ({
               whiteSpace: 'nowrap',
             }}
           >
-            <Trans
-              i18nKey="showing_posters"
-              ns="poster"
-              values={{
-                filteredCount,
-                totalCount,
-                unit: unitText || t('unit_text'),
-              }}
-              components={{
-                1: <span style={{ color: colors.primary, fontWeight: 600 }} />,
-              }}
-            />
+            {showingText}
           </div>
         </div>
       </Space>

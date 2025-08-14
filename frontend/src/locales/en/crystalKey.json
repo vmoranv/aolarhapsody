@@ -13,5 +13,9 @@
   "crystal_key": "Crystal Key",
   "no_match_found": "No matching crystal keys found.",
   "no_data": "No crystal key data available.",
-  "pagination_total": "Showing {{start}}-{{end}} of {{total}} items"
+  "pagination_total": "Showing {{start}}-{{end}} of {{total}} items",
+  "no_results": "No matching crystal keys found",
+  "reset": "Reset",
+  "unit_text": "keys",
+  "showing_items": "Showing <1>{{filteredCount}}</1> / {{totalCount}} {{unit}}"
 }
