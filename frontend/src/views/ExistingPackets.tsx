@@ -224,11 +224,13 @@ const ExistingPacketsContent = () => {
           filterType="all"
           onFilterChange={() => {}}
           onReset={handleReset}
-          totalCount={packets.length}
-          filteredCount={filteredData.length}
           hideFilter={true}
           searchPlaceholder={t('search_placeholder')}
-          unitText={t('packet_unit')}
+          showingText={`${t('showing_packets', {
+            filteredCount: filteredData.length,
+            totalCount: packets.length,
+          })}`}
+          resetText={t('reset')}
         />
 
         {/* 数据列表 */}

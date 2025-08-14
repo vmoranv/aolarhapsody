@@ -205,11 +205,10 @@ const PosterContent = () => {
           filterType="all"
           onFilterChange={() => {}}
           onReset={handleReset}
-          totalCount={posters.length}
-          filteredCount={filteredData.length}
           hideFilter={true}
           searchPlaceholder={t('search_placeholder')}
-          unitText={t('unit_text')}
+          showingText={`${filteredData.length} / ${posters.length} ${t('unit_text')}`}
+          resetText={t('reset')}
         />
 
         {paginatedData.length > 0 ? (

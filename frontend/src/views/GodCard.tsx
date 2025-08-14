@@ -1,6 +1,6 @@
 import { Divider, Tag, theme, Tooltip, Typography } from 'antd';
 import { Crown, Sword } from 'lucide-react';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import DataView from '../components/DataView';
 import ItemCard from '../components/ItemCard';

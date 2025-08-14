@@ -240,18 +240,14 @@ export default function PetDictionary() {
 
   // --- Handlers ---
   const handleSkillSetChange = (checked: boolean) => {
-    if (checked) {
-      if (hasNewSkills) {
-        setIsNewSkillSet(true);
-      } else {
-        message.info(t('no_new_skills'));
-      }
+    if (checked && hasNewSkills) {
+      setIsNewSkillSet(true);
+    } else if (checked) {
+      message.info(t('no_new_skills'));
+    } else if (hasOldSkills) {
+      setIsNewSkillSet(false);
     } else {
-      if (hasOldSkills) {
-        setIsNewSkillSet(false);
-      } else {
-        message.info(t('no_old_skills'));
-      }
+      message.info(t('no_old_skills'));
     }
   };
 

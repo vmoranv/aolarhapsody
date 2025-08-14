@@ -119,7 +119,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   ];
 
   useEffect(() => {
-    if (!betaMode && currentPageStatus === 'dev') {
+    if (!betaMode && (currentPageStatus as string) === 'dev') {
       navigate('/app');
     }
   }, [betaMode, currentPageStatus, navigate]);

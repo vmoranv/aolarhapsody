@@ -18,6 +18,7 @@ interface SearchAndFilterProps {
   filterOptions?: { label: string; value: FilterType }[];
   resetText: string;
   showingText: React.ReactNode;
+  hideFilter?: boolean;
 }
 
 const SearchAndFilter: React.FC<SearchAndFilterProps> = ({
