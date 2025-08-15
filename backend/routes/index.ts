@@ -1,6 +1,7 @@
 import astralSpiritRoutes from './astralspirit';
 import miscellaneousRoutes from './chatframe';
 import clothesRoutes from './clothes';
+import converterRoutes from './converter';
 import crystalKeyRoutes from './crystalkey';
 import existingActivityRoutes from './existingactivity';
 import galaxyFleetMarkRoutes from './galaxyfleetmark';
@@ -27,6 +28,7 @@ import titleRoutes from './title';
 import toteRoutes from './tote';
 
 export default [
+  converterRoutes,
   existingActivityRoutes,
   pmRoutes,
   astralSpiritRoutes,

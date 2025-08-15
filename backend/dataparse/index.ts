@@ -24,6 +24,8 @@ import { initTaskModule } from './task';
 import { initTitleModule } from './title';
 import { initToteModule } from './tote';
 
+export * from './converter';
+
 export const initializers = {
   initPosterModule,
   initPetDataModule,
