@@ -17,5 +17,6 @@
   "no_results": "未找到匹配的晶钥",
   "reset": "重置",
   "unit_text": "个晶钥",
-  "showing_items": "显示 <1>{{filteredCount}}</1> / {{totalCount}} {{unit}}"
+  "showing_items": "显示 <1>{{filteredCount}}</1> / {{totalCount}} {{unit}}",
+  "search_placeholder": "按名称或ID搜索..."
 }

@@ -46,8 +46,8 @@ const CrystalKey = () => {
         </Paragraph>
       </motion.div>
       <DataView<CrystalKeyType>
-        queryKey={['crystal-keys']}
-        dataUrl="crystal-keys"
+        queryKey={['crystalkeys']}
+        dataUrl="crystalkeys"
         renderCard={(key, index) => (
           <ItemCard
             item={key}
@@ -69,12 +69,14 @@ const CrystalKey = () => {
         searchPlaceholder={t('search_placeholder')}
         showingText={(filteredCount, totalCount) => (
           <Trans
-            i18nKey="showing_keys"
-            count={filteredCount}
-            total={totalCount}
-            components={{
-              icon: <Key size={14} style={{ verticalAlign: 'middle', marginRight: '4px' }} />,
+            i18nKey="showing_items"
+            ns="crystalKey"
+            values={{
+              filteredCount,
+              totalCount,
+              unit: t('unit_text'),
             }}
+            components={{ 1: <span style={{ fontWeight: 600 }} /> }}
           />
         )}
       />

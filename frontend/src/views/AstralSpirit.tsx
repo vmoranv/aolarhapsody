@@ -77,6 +77,7 @@ const AstralSpiritPage: React.FC = () => {
           paginationTotalText={(start, end, total) => t('pagination_total', { start, end, total })}
           noResultsText={t('empty_description_spirits')}
           noDataText={t('empty_button_spirits')}
+          searchPlaceholder={t('search_placeholder')}
           filterOptions={[
             { value: 'all', label: t('filter_all') },
             { value: 'super', label: t('filter_super') },
@@ -126,6 +127,7 @@ const AstralSpiritPage: React.FC = () => {
           noResultsText={t('empty_description_suits')}
           noDataText={t('empty_button_suits')}
           resetText={t('reset')}
+          searchPlaceholder={t('search_placeholder')}
           showingText={(filteredCount, totalCount) => (
             <Trans
               i18nKey="showing_items"

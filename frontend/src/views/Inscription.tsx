@@ -92,6 +92,7 @@ const InscriptionPage = () => {
           }
           noResultsText={t('no_results')}
           noDataText={t('no_data')}
+          searchPlaceholder={t('search_placeholder')}
           filterOptions={filterOptions}
           resetText={t('reset')}
           showingText={(filteredCount, totalCount) => (
@@ -170,6 +171,7 @@ const InscriptionPage = () => {
           noResultsText={t('no_results')}
           noDataText={t('no_data')}
           resetText={t('reset')}
+          searchPlaceholder={t('search_placeholder')}
           showingText={(filteredCount, totalCount) => (
             <Trans
               i18nKey="showing_items"

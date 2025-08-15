@@ -60,6 +60,7 @@ const PetCard2Page = () => {
         }
         noResultsText={t('no_results')}
         noDataText={t('no_data')}
+        searchPlaceholder={t('search_placeholder')}
         filterOptions={[
           { value: 'all', label: t('filter_all') },
           { value: 'super', label: t('filter_super') },

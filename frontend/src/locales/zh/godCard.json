@@ -33,5 +33,6 @@
   "filter_normal": "原系",
   "unit_text_card": "件神兵",
   "unit_text_suit": "个套装",
-  "showing_items": "显示 <1>{{filteredCount}}</1> / {{totalCount}} {{unit}}"
+  "showing_items": "显示 <1>{{filteredCount}}</1> / {{totalCount}} {{unit}}",
+  "search_placeholder": "按名称或ID搜索..."
 }

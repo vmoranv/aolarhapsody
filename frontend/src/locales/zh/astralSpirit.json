@@ -38,5 +38,6 @@
   "empty_description_spirits": "未找到匹配的星灵。",
   "empty_button_spirits": "清除筛选",
   "empty_description_suits": "未找到匹配的套装。",
-  "empty_button_suits": "清除筛选"
+  "empty_button_suits": "清除筛选",
+  "search_placeholder": "按名称或ID搜索..."
 }

@@ -76,6 +76,7 @@ const GodCardPage = () => {
         }
         noResultsText={t('no_results')}
         noDataText={t('no_data')}
+        searchPlaceholder={t('search_placeholder')}
         filterOptions={filterOptions}
         resetText={t('reset')}
         showingText={(filteredCount, totalCount) => (
