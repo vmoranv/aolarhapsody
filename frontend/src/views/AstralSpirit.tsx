@@ -6,6 +6,7 @@ import DataView from '../components/DataView';
 import ItemCard from '../components/ItemCard';
 import Layout from '../components/Layout';
 import type { AstralSpirit, AstralSpiritSuit } from '../types/astralSpirit';
+import { getAstralSpiritImageUrl, getAstralSpiritSuitImageUrl } from '../utils/image-helper';
 
 const { Text } = Typography;
 
@@ -41,7 +42,12 @@ const AstralSpiritPage: React.FC = () => {
           queryKey={['astral-spirits']}
           dataUrl="astral-spirits"
           renderCard={(spirit, index) => (
-            <ItemCard item={spirit} index={index} icon={<Zap size={48} color="white" />} />
+            <ItemCard
+              item={spirit}
+              index={index}
+              imageUrl={getAstralSpiritImageUrl(spirit.id)}
+              icon={<Zap size={48} color="white" />}
+            />
           )}
           getSearchableFields={(item) => [item.name]}
           getQuality={(item) => item.quality}
@@ -80,7 +86,12 @@ const AstralSpiritPage: React.FC = () => {
           queryKey={['astral-spirit-suits']}
           dataUrl="astral-spirit-suits"
           renderCard={(suit, index) => (
-            <ItemCard item={suit} index={index} icon={<Crown size={48} color="white" />}>
+            <ItemCard
+              item={suit}
+              index={index}
+              imageUrl={getAstralSpiritSuitImageUrl(suit.id)}
+              icon={<Crown size={48} color="white" />}
+            >
               <Text style={{ fontSize: '12px' }}>
                 {t('includes_spirits', { count: suit.astralSpiritIdList.length })}
               </Text>

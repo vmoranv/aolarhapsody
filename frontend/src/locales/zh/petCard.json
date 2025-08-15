@@ -12,7 +12,7 @@
   "filter_normal": "普通",
   "reset": "重置",
   "showing_items": "显示 <1>{{filteredCount}}</1> / {{totalCount}} {{unit}}",
-  "unit_text_card": "张卡片",
+  "unit_text_card": "件装备",
   "unit_text_suit": "个套装",
   "search_placeholder": "按名称或ID搜索...",
   "loading_data": "正在加载装备数据...",

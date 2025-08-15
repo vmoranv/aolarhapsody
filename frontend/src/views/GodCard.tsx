@@ -1,12 +1,15 @@
+import { useQuery } from '@tanstack/react-query';
 import { Divider, Tag, theme, Tooltip, Typography } from 'antd';
 import { Crown, Sword } from 'lucide-react';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import DataView from '../components/DataView';
 import ItemCard from '../components/ItemCard';
 import Layout from '../components/Layout';
 import { useStatusColor } from '../theme/colors';
 import type { GodCard, GodCardSuit } from '../types/godcard';
+import { fetchData } from '../utils/api';
+import { getGodCardImageUrl } from '../utils/image-helper';
 
 const { Text } = Typography;
 
@@ -15,6 +18,16 @@ const GodCardPage = () => {
   const { token } = theme.useToken();
   const suitColor = useStatusColor('warning');
   const [viewMode, setViewMode] = useState<'cards' | 'suits'>('cards');
+
+  const { data: allCards = [] } = useQuery<GodCard[]>({
+    queryKey: ['god-cards-all'],
+    queryFn: () => fetchData<GodCard>('godcards'),
+  });
+
+  const filteredCards = useMemo(
+    () => allCards.filter((card) => !card.name.includes('LV')),
+    [allCards]
+  );
 
   const filterOptions = [
     { value: 'all', label: t('filter_all') },
@@ -48,9 +61,14 @@ const GodCardPage = () => {
           pageTitle={t('page_title_cards')}
           pageSubtitle={t('page_subtitle_cards')}
           queryKey={['god-cards-view']}
-          dataUrl="godcards"
+          data={filteredCards}
           renderCard={(godCard, index) => (
-            <ItemCard item={godCard} index={index} icon={<Sword size={48} color="white" />} />
+            <ItemCard
+              item={godCard}
+              index={index}
+              imageUrl={getGodCardImageUrl(godCard, allCards)}
+              icon={<Sword size={48} color="white" />}
+            />
           )}
           getSearchableFields={(card) => [card.name, card.id.toString()]}
           getQuality={(card) => card.quality}

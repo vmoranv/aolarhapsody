@@ -7,6 +7,7 @@ import ItemCard from '../components/ItemCard';
 import Layout from '../components/Layout';
 import { useStatusColor } from '../theme/colors';
 import type { Inscription, InscriptionSuit } from '../types/inscription';
+import { getInscriptionImageUrl } from '../utils/image-helper';
 
 const { Text } = Typography;
 
@@ -50,7 +51,12 @@ const InscriptionPage = () => {
           queryKey={['inscriptions-view']}
           dataUrl="inscriptions"
           renderCard={(inscription, index) => (
-            <ItemCard item={inscription} index={index} icon={<Scroll size={48} color="white" />} />
+            <ItemCard
+              item={inscription}
+              index={index}
+              imageUrl={getInscriptionImageUrl(inscription.id)}
+              icon={<Scroll size={48} color="white" />}
+            />
           )}
           getSearchableFields={(inscription) => [
             inscription.name,

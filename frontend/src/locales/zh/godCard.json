@@ -17,7 +17,7 @@
   "hp": "体力",
   "loading_data": "正在加载神兵数据...",
   "load_error": "加载神兵数据失败",
-  "pagination_total": "第 {{rangeStart}}-{{rangeEnd}} 条，共 {{total}} 张卡牌",
+  "pagination_total": "第 {{rangeStart}}-{{rangeEnd}} 条，共 {{total}} 件神兵",
   "no_results": "未找到匹配的神兵",
   "view_cards": "卡牌",
   "view_suits": "套装",
@@ -31,7 +31,7 @@
   "filter_all": "全部",
   "filter_super": "超系",
   "filter_normal": "原系",
-  "unit_text_card": "张卡牌",
+  "unit_text_card": "件神兵",
   "unit_text_suit": "个套装",
   "showing_items": "显示 <1>{{filteredCount}}</1> / {{totalCount}} {{unit}}"
 }

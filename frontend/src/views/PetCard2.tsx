@@ -2,6 +2,7 @@ import { Trans, useTranslation } from 'react-i18next';
 import DataView from '../components/DataView';
 import ItemCard from '../components/ItemCard';
 import type { PetCard2 } from '../types/petCard2';
+import { getPetCard2ImageUrl } from '../utils/image-helper';
 
 const PetCard2Page = () => {
   const { t } = useTranslation('petCard2');
@@ -12,7 +13,14 @@ const PetCard2Page = () => {
       pageSubtitle={t('page_subtitle')}
       queryKey={['pet-card2s-view']}
       dataUrl="petcard2s"
-      renderCard={(petCard2, index) => <ItemCard item={petCard2} index={index} icon={<div />} />}
+      renderCard={(petCard2, index) => (
+        <ItemCard
+          item={petCard2}
+          index={index}
+          imageUrl={getPetCard2ImageUrl(petCard2.id)}
+          icon={<div />}
+        />
+      )}
       getSearchableFields={(card) => [
         card.name,
         card.id.toString(),

@@ -2,7 +2,7 @@ import { Key } from 'lucide-react';
 import { Trans, useTranslation } from 'react-i18next';
 import DataView, { DataItem } from '../components/DataView';
 import ItemCard from '../components/ItemCard';
-import { getCrystalKeyImageUrl } from '../utils/crystal-key-helper';
+import { getCrystalKeyImageUrl } from '../utils/image-helper';
 
 /**
  * 晶钥数据类型定义

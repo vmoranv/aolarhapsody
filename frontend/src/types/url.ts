@@ -15,4 +15,10 @@ export const URL_CONFIG = {
   guangqiIconPrefix: `${H5_BASE_URL}/guangqiicon`,
   xinghuiIconPrefix: `${H5_BASE_URL}/xinghuiicon`,
   crystalKeyPrefix: `${H5_BASE_URL}/crystalkey/itemview`,
+  astralSpiritPrefix: `${H5_BASE_URL}/astralspirit`,
+  godCardPrefix: `${H5_BASE_URL}/godcard`,
+  hkPrefix: `${H5_BASE_URL}/hk`,
+  inscriptionPrefix: `${H5_BASE_URL}/inscription`,
+  petCardPrefix: `${H5_BASE_URL}/petcard`,
+  petCard2Prefix: `${H5_BASE_URL}/petcard2`,
 };

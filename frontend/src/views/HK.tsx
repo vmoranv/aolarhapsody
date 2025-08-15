@@ -7,6 +7,7 @@ import ItemCard from '../components/ItemCard';
 import Layout from '../components/Layout';
 import { useStatusColor } from '../theme/colors';
 import type { HKBuff, HKData } from '../types/hk';
+import { getHKImageUrl } from '../utils/image-helper';
 
 const { Text } = Typography;
 
@@ -50,7 +51,12 @@ const HKPage = () => {
           queryKey={['hk-data-view']}
           dataUrl="hkdata"
           renderCard={(hk, index) => (
-            <ItemCard item={hk} index={index} icon={<Heart size={48} color="white" />} />
+            <ItemCard
+              item={hk}
+              index={index}
+              imageUrl={getHKImageUrl(hk.id)}
+              icon={<Heart size={48} color="white" />}
+            />
           )}
           getSearchableFields={(hk) => [hk.name, hk.id.toString(), hk.wordBar]}
           getQuality={(hk) => hk.color}

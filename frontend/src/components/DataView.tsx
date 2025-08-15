@@ -26,7 +26,8 @@ interface DataViewProps<T extends DataItem> {
   pageTitle: string;
   pageSubtitle: string;
   queryKey: (string | number)[];
-  dataUrl: string;
+  dataUrl?: string;
+  data?: T[];
   renderCard: (item: T, index: number) => React.ReactNode;
   getSearchableFields: (item: T) => string[];
   getQuality?: (item: T) => number;
@@ -52,6 +53,7 @@ const DataView = <T extends DataItem>({
   pageSubtitle,
   queryKey,
   dataUrl,
+  data,
   renderCard,
   getSearchableFields,
   getQuality,
@@ -76,14 +78,17 @@ const DataView = <T extends DataItem>({
   const pageSize = 24;
 
   const {
-    data: items = [],
+    data: fetchedData = [],
     isLoading,
     error,
     refetch,
   } = useQuery({
     queryKey: queryKey,
-    queryFn: () => fetchData<T>(dataUrl),
+    queryFn: () => (dataUrl ? fetchData<T>(dataUrl) : Promise.resolve([])),
+    enabled: !data, // Only fetch if data is not provided
   });
+
+  const items = data || fetchedData;
 
   React.useEffect(() => {
     if (error) {

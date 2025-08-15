@@ -1,12 +1,15 @@
+import { useQuery } from '@tanstack/react-query';
 import { Divider, Tag, theme, Tooltip, Typography } from 'antd';
 import { Crown } from 'lucide-react';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import DataView from '../components/DataView';
 import ItemCard from '../components/ItemCard';
 import Layout from '../components/Layout';
 import { useStatusColor } from '../theme/colors';
 import type { PetCard, PetCardSuit } from '../types/petCard';
+import { fetchData } from '../utils/api';
+import { getPetCardImageUrl } from '../utils/image-helper';
 
 const { Text } = Typography;
 
@@ -15,6 +18,16 @@ const PetCardPage = () => {
   const { token } = theme.useToken();
   const suitColor = useStatusColor('warning');
   const [viewMode, setViewMode] = useState<'cards' | 'suits'>('cards');
+
+  const { data: allCards = [] } = useQuery<PetCard[]>({
+    queryKey: ['pet-cards-all'],
+    queryFn: () => fetchData<PetCard>('petcards'),
+  });
+
+  const filteredCards = useMemo(
+    () => allCards.filter((card) => !card.name.includes('LV') && card.id <= 100000),
+    [allCards]
+  );
 
   const viewSwitcher = (
     <div style={{ marginBottom: 24, display: 'flex', gap: 16 }}>
@@ -42,9 +55,14 @@ const PetCardPage = () => {
           pageTitle={t('page_title_cards')}
           pageSubtitle={t('page_subtitle_cards')}
           queryKey={['pet-cards-view']}
-          dataUrl="petcards"
+          data={filteredCards}
           renderCard={(petCard, index) => (
-            <ItemCard item={petCard} index={index} icon={<Crown size={48} color="white" />} />
+            <ItemCard
+              item={petCard}
+              index={index}
+              imageUrl={getPetCardImageUrl(petCard, allCards)}
+              icon={<Crown size={48} color="white" />}
+            />
           )}
           getSearchableFields={(card) => [card.name, card.id.toString()]}
           getQuality={(card) => card.quality}
