@@ -21,4 +21,5 @@ export const URL_CONFIG = {
   inscriptionPrefix: `${H5_BASE_URL}/inscription`,
   petCardPrefix: `${H5_BASE_URL}/petcard`,
   petCard2Prefix: `${H5_BASE_URL}/petcard2`,
+  totePrefix: `${H5_BASE_URL}/tote`,
 };

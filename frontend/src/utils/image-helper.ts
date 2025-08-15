@@ -220,3 +220,18 @@ export function getPetCard2ImageUrl(id: string | number): string {
 
   return `${URL_CONFIG.petCard2Prefix}/icon/view${imageId}.png`;
 }
+
+/**
+ * 获取魂器图片URL
+ * @param id 魂器ID
+ * @param isBigImg 是否为大图, 默认为false
+ * @returns 图片的URL
+ */
+export function getToteImageUrl(id: string | number, isBigImg: boolean = false): string {
+  if (!id) {
+    console.error('getToteImageUrl: ID不能为空');
+    return '';
+  }
+  const prefix = isBigImg ? 'toteview_big_' : 'toteview_';
+  return `${URL_CONFIG.totePrefix}/view/${prefix}${id}.png`;
+}
