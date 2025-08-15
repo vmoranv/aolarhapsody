@@ -1,4 +1,5 @@
 import { Tag, Typography } from 'antd';
+import { motion } from 'framer-motion';
 import { Crown, Zap } from 'lucide-react';
 import React, { useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
@@ -8,7 +9,7 @@ import Layout from '../components/Layout';
 import type { AstralSpirit, AstralSpiritSuit } from '../types/astralSpirit';
 import { getAstralSpiritImageUrl, getAstralSpiritSuitImageUrl } from '../utils/image-helper';
 
-const { Text } = Typography;
+const { Title, Paragraph, Text } = Typography;
 
 const AstralSpiritPage: React.FC = () => {
   const { t } = useTranslation('astralSpirit');
@@ -35,10 +36,29 @@ const AstralSpiritPage: React.FC = () => {
 
   return (
     <Layout>
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <Title
+          level={1}
+          style={{
+            margin: 0,
+            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            fontSize: '32px',
+          }}
+        >
+          {t('page_title_spirits')}
+        </Title>
+        <Paragraph style={{ fontSize: '16px', color: 'var(--text-secondary-dark)', marginTop: 8 }}>
+          {t('page_subtitle_spirits')}
+        </Paragraph>
+      </motion.div>
       {viewMode === 'spirits' ? (
         <DataView<AstralSpirit>
-          pageTitle={t('page_title_spirits')}
-          pageSubtitle={t('page_subtitle_spirits')}
           queryKey={['astral-spirits']}
           dataUrl="astral-spirits"
           renderCard={(spirit, index) => (
@@ -51,7 +71,6 @@ const AstralSpiritPage: React.FC = () => {
           )}
           getSearchableFields={(item) => [item.name]}
           getQuality={(item) => item.quality}
-          titleGradient="linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
           noLayout
           loadingText={t('loading_spirits')}
           errorText={t('load_failed')}
@@ -81,8 +100,6 @@ const AstralSpiritPage: React.FC = () => {
         </DataView>
       ) : (
         <DataView<AstralSpiritSuit>
-          pageTitle={t('page_title_suits')}
-          pageSubtitle={t('page_subtitle_suits')}
           queryKey={['astral-spirit-suits']}
           dataUrl="astral-spirit-suits"
           renderCard={(suit, index) => (
@@ -93,12 +110,15 @@ const AstralSpiritPage: React.FC = () => {
               icon={<Crown size={48} color="white" />}
             >
               <Text style={{ fontSize: '12px' }}>
-                {t('includes_spirits', { count: suit.astralSpiritIdList.length })}
+                {t('includes_spirits', {
+                  count: Array.isArray(suit.astralSpiritIdList)
+                    ? suit.astralSpiritIdList.length
+                    : 0,
+                })}
               </Text>
             </ItemCard>
           )}
           getSearchableFields={(item) => [item.name]}
-          titleGradient="linear-gradient(135deg, #f7971e 0%, #ffd200 100%)"
           noLayout
           loadingText={t('loading_suits')}
           errorText={t('load_failed')}

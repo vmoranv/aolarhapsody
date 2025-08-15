@@ -1,4 +1,5 @@
 import { Divider, Tag, theme, Tooltip, Typography } from 'antd';
+import { motion } from 'framer-motion';
 import { Crown, Scroll } from 'lucide-react';
 import { useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
@@ -9,7 +10,7 @@ import { useStatusColor } from '../theme/colors';
 import type { Inscription, InscriptionSuit } from '../types/inscription';
 import { getInscriptionImageUrl } from '../utils/image-helper';
 
-const { Text } = Typography;
+const { Title, Paragraph, Text } = Typography;
 
 const InscriptionPage = () => {
   const { t } = useTranslation('inscription');
@@ -44,10 +45,29 @@ const InscriptionPage = () => {
 
   return (
     <Layout>
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <Title
+          level={1}
+          style={{
+            margin: 0,
+            background: 'linear-gradient(135deg, #722ed1 0%, #9254de 100%)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            fontSize: '32px',
+          }}
+        >
+          {viewMode === 'inscriptions' ? t('page_title_inscriptions') : t('page_title_suits')}
+        </Title>
+        <Paragraph style={{ fontSize: '16px', color: 'var(--text-secondary-dark)', marginTop: 8 }}>
+          {viewMode === 'inscriptions' ? t('page_subtitle_inscriptions') : t('page_subtitle_suits')}
+        </Paragraph>
+      </motion.div>
       {viewMode === 'inscriptions' ? (
         <DataView<Inscription>
-          pageTitle={t('page_title_inscriptions')}
-          pageSubtitle={t('page_subtitle_inscriptions')}
           queryKey={['inscriptions-view']}
           dataUrl="inscriptions"
           renderCard={(inscription, index) => (
@@ -64,7 +84,6 @@ const InscriptionPage = () => {
             inscription.desc,
           ]}
           getQuality={(inscription) => inscription.level}
-          titleGradient="linear-gradient(135deg, #722ed1 0%, #9254de 100%)"
           noLayout
           loadingText={t('loading_data')}
           errorText={t('load_failed')}
@@ -92,8 +111,6 @@ const InscriptionPage = () => {
         </DataView>
       ) : (
         <DataView<InscriptionSuit>
-          pageTitle={t('page_title_suits')}
-          pageSubtitle={t('page_subtitle_suits')}
           queryKey={['inscription-suits-view']}
           dataUrl="inscriptionsuits"
           renderCard={(suit, index) => (
@@ -144,7 +161,6 @@ const InscriptionPage = () => {
             </ItemCard>
           )}
           getSearchableFields={(suit) => [suit.name, suit.id.toString()]}
-          titleGradient="linear-gradient(135deg, #722ed1 0%, #9254de 100%)"
           noLayout
           loadingText={t('loading_data')}
           errorText={t('load_failed')}

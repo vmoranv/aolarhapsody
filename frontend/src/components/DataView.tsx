@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { Card, Col, Empty, Pagination, Row, Space, Statistic, Typography } from 'antd';
+import { Card, Col, Empty, Pagination, Row, Space, Statistic } from 'antd';
 import { motion } from 'framer-motion';
 import { Database, PackageSearch, Star, TrendingUp } from 'lucide-react';
 import React, { useMemo, useState } from 'react';
@@ -11,8 +11,6 @@ import Layout from './Layout';
 import LoadingSpinner from './LoadingSpinner';
 import SearchAndFilter, { FilterType } from './SearchAndFilter';
 
-const { Title, Paragraph } = Typography;
-
 // Generic data type constraint
 export interface DataItem {
   id: number | string;
@@ -23,8 +21,6 @@ export interface DataItem {
 
 // Props for the DataView component
 interface DataViewProps<T extends DataItem> {
-  pageTitle: string;
-  pageSubtitle: string;
   queryKey: (string | number)[];
   dataUrl?: string;
   data?: T[];
@@ -34,7 +30,6 @@ interface DataViewProps<T extends DataItem> {
   statsCalculators?: {
     [key: string]: (data: T[]) => { value: number | string; icon: string };
   };
-  titleGradient: string;
   searchPlaceholder?: string;
   noLayout?: boolean;
   loadingText: string;
@@ -49,8 +44,6 @@ interface DataViewProps<T extends DataItem> {
 }
 
 const DataView = <T extends DataItem>({
-  pageTitle,
-  pageSubtitle,
   queryKey,
   dataUrl,
   data,
@@ -58,7 +51,6 @@ const DataView = <T extends DataItem>({
   getSearchableFields,
   getQuality,
   statsCalculators,
-  titleGradient,
   searchPlaceholder,
   noLayout = false,
   loadingText,
@@ -138,28 +130,6 @@ const DataView = <T extends DataItem>({
 
   const content = (
     <Space direction="vertical" size="large" style={{ width: '100%' }}>
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        <Title
-          level={1}
-          style={{
-            margin: 0,
-            background: titleGradient,
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            fontSize: '32px',
-          }}
-        >
-          {pageTitle}
-        </Title>
-        <Paragraph style={{ fontSize: '16px', color: colors.textSecondary, marginTop: 8 }}>
-          {pageSubtitle}
-        </Paragraph>
-      </motion.div>
-
       {stats && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}

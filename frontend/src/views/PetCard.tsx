@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { Divider, Tag, theme, Tooltip, Typography } from 'antd';
+import { motion } from 'framer-motion';
 import { Crown } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
@@ -11,7 +12,7 @@ import type { PetCard, PetCardSuit } from '../types/petCard';
 import { fetchData } from '../utils/api';
 import { getPetCardImageUrl } from '../utils/image-helper';
 
-const { Text } = Typography;
+const { Title, Paragraph, Text } = Typography;
 
 const PetCardPage = () => {
   const { t } = useTranslation('petCard');
@@ -50,10 +51,29 @@ const PetCardPage = () => {
 
   return (
     <Layout>
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <Title
+          level={1}
+          style={{
+            margin: 0,
+            background: 'linear-gradient(135deg, #1890ff 0%, #40a9ff 100%)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            fontSize: '32px',
+          }}
+        >
+          {viewMode === 'cards' ? t('page_title_cards') : t('page_title_suits')}
+        </Title>
+        <Paragraph style={{ fontSize: '16px', color: 'var(--text-secondary-dark)', marginTop: 8 }}>
+          {viewMode === 'cards' ? t('page_subtitle_cards') : t('page_subtitle_suits')}
+        </Paragraph>
+      </motion.div>
       {viewMode === 'cards' ? (
         <DataView<PetCard>
-          pageTitle={t('page_title_cards')}
-          pageSubtitle={t('page_subtitle_cards')}
           queryKey={['pet-cards-view']}
           data={filteredCards}
           renderCard={(petCard, index) => (
@@ -66,7 +86,6 @@ const PetCardPage = () => {
           )}
           getSearchableFields={(card) => [card.name, card.id.toString()]}
           getQuality={(card) => card.quality}
-          titleGradient="linear-gradient(135deg, #1890ff 0%, #40a9ff 100%)"
           noLayout
           loadingText={t('loading_data')}
           errorText={t('load_error')}
@@ -98,8 +117,6 @@ const PetCardPage = () => {
         </DataView>
       ) : (
         <DataView<PetCardSuit>
-          pageTitle={t('page_title_suits')}
-          pageSubtitle={t('page_subtitle_suits')}
           queryKey={['pet-card-suits-view']}
           dataUrl="petcardsuits"
           renderCard={(suit, index) => (
@@ -117,14 +134,17 @@ const PetCardPage = () => {
                 <Divider style={{ margin: '8px 0' }} />
                 <div>
                   <Text style={{ fontSize: '12px', fontWeight: 'bold', color: token.colorText }}>
-                    {t('cards_included')}: {suit.petCardIdList.length} {t('cards_unit')}
+                    {t('cards_included')}:{' '}
+                    {Array.isArray(suit.petCardIdList) ? suit.petCardIdList.length : 0}{' '}
+                    {t('cards_unit')}
                   </Text>
                   <div style={{ marginTop: 4, display: 'flex', flexWrap: 'wrap', gap: 4 }}>
-                    {suit.petCardIdList.map((id) => (
-                      <Tag key={id} style={{ margin: 0, fontSize: '12px' }}>
-                        {id}
-                      </Tag>
-                    ))}
+                    {Array.isArray(suit.petCardIdList) &&
+                      suit.petCardIdList.map((id) => (
+                        <Tag key={id} style={{ margin: 0, fontSize: '12px' }}>
+                          {id}
+                        </Tag>
+                      ))}
                   </div>
                 </div>
                 {suit.dec && (
@@ -150,7 +170,6 @@ const PetCardPage = () => {
             </ItemCard>
           )}
           getSearchableFields={(suit) => [suit.name, suit.id.toString()]}
-          titleGradient="linear-gradient(135deg, #fa8c16 0%, #ffc53d 100%)"
           noLayout
           loadingText={t('loading_data')}
           errorText={t('load_error')}
