@@ -6,6 +6,7 @@ import React, { useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useTheme } from '../hooks/useTheme';
 import { fetchData, filterBySearch, filterByType, paginateData } from '../utils/api';
+import DetailDialog from './DetailDialog';
 import ErrorDisplay from './ErrorDisplay';
 import Layout from './Layout';
 import LoadingSpinner from './LoadingSpinner';
@@ -25,6 +26,8 @@ interface DataViewProps<T extends DataItem> {
   dataUrl?: string;
   data?: T[];
   renderCard: (item: T, index: number) => React.ReactNode;
+  renderDetailDialog?: (item: T) => React.ReactNode;
+  onCardClick?: (item: T) => Promise<void>;
   getSearchableFields: (item: T) => string[];
   getQuality?: (item: T) => number;
   statsCalculators?: {
@@ -48,6 +51,8 @@ const DataView = <T extends DataItem>({
   dataUrl,
   data,
   renderCard,
+  renderDetailDialog,
+  onCardClick,
   getSearchableFields,
   getQuality,
   statsCalculators,
@@ -67,6 +72,8 @@ const DataView = <T extends DataItem>({
   const [searchValue, setSearchValue] = useState('');
   const [filterType, setFilterType] = useState<FilterType>('all');
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedItem, setSelectedItem] = useState<T | null>(null);
+  const [isDetailVisible, setIsDetailVisible] = useState(false);
   const pageSize = 24;
 
   const {
@@ -100,6 +107,21 @@ const DataView = <T extends DataItem>({
   const paginatedItems = useMemo(() => {
     return paginateData(filteredItems, currentPage, pageSize);
   }, [filteredItems, currentPage, pageSize]);
+
+  const handleCardClick = async (item: T) => {
+    if (onCardClick) {
+      await onCardClick(item);
+    }
+    if (renderDetailDialog) {
+      setSelectedItem(item);
+      setIsDetailVisible(true);
+    }
+  };
+
+  const handleCloseDetail = () => {
+    setIsDetailVisible(false);
+    setSelectedItem(null);
+  };
 
   const handleReset = () => {
     setSearchValue('');
@@ -175,7 +197,9 @@ const DataView = <T extends DataItem>({
             <Row gutter={[16, 16]}>
               {paginatedItems.map((item, index) => (
                 <Col xs={24} sm={12} md={8} lg={6} xl={4} key={item.id}>
-                  {renderCard(item, index)}
+                  <div onClick={() => handleCardClick(item)} style={{ cursor: 'pointer' }}>
+                    {renderCard(item, index)}
+                  </div>
                 </Col>
               ))}
             </Row>
@@ -226,6 +250,14 @@ const DataView = <T extends DataItem>({
           </motion.div>
         )}
       </motion.div>
+      {renderDetailDialog && (
+        <DetailDialog
+          item={selectedItem}
+          visible={isDetailVisible}
+          onClose={handleCloseDetail}
+          renderContent={renderDetailDialog}
+        />
+      )}
     </Space>
   );
 

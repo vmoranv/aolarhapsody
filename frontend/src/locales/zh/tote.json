@@ -34,5 +34,9 @@
   "filter_super": "超系",
   "filter_normal": "原系",
   "unit_text": "个魂器",
-  "showing_items": "显示 <1>{{filteredCount}}</1> / {{totalCount}} {{unit}}"
+  "showing_items": "显示 <1>{{filteredCount}}</1> / {{totalCount}} {{unit}}",
+  "quality": "品质",
+  "attribute_bonus": "属性加成",
+  "applicable_attribute": "适用属性",
+  "special_effect": "特殊效果"
 }

@@ -1,17 +1,33 @@
-import { Typography } from 'antd';
+import { Divider, Spin, Typography } from 'antd';
 import { motion } from 'framer-motion';
 import { Heart } from 'lucide-react';
+import { useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import DataView from '../components/DataView';
 import ItemCard from '../components/ItemCard';
 import Layout from '../components/Layout';
 import type { HKData } from '../types/hk';
+import { fetchDataItem } from '../utils/api';
 import { getHKImageUrl } from '../utils/image-helper';
 
-const { Title, Paragraph } = Typography;
+const { Title, Paragraph, Text } = Typography;
 
 const HKPage = () => {
   const { t } = useTranslation('hk');
+  const [detail, setDetail] = useState<HKData | null>(null);
+  const [loadingDetail, setLoadingDetail] = useState(false);
+
+  const handleCardClick = async (hk: HKData) => {
+    setLoadingDetail(true);
+    try {
+      const data = await fetchDataItem<HKData>('hkdata', hk.id.toString());
+      setDetail(data);
+    } catch (error) {
+      console.error('Failed to fetch hk detail', error);
+    } finally {
+      setLoadingDetail(false);
+    }
+  };
 
   const filterOptions = [
     { value: 'all', label: t('filter_all') },
@@ -45,6 +61,7 @@ const HKPage = () => {
       <DataView<HKData>
         queryKey={['hk-data-view']}
         dataUrl="hkdata"
+        onCardClick={handleCardClick}
         renderCard={(hk, index) => (
           <ItemCard
             item={hk}
@@ -53,6 +70,39 @@ const HKPage = () => {
             icon={<Heart size={48} color="white" />}
           />
         )}
+        renderDetailDialog={() =>
+          loadingDetail ? (
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: 200,
+              }}
+            >
+              <Spin size="large" />
+            </div>
+          ) : detail ? (
+            <div style={{ display: 'flex', gap: '24px' }}>
+              <img
+                src={getHKImageUrl(detail.id)}
+                alt={detail.name}
+                style={{ width: 200, height: 200, objectFit: 'contain', borderRadius: 8 }}
+              />
+              <div style={{ flex: 1 }}>
+                <Paragraph>
+                  <Text strong>词条: </Text>
+                  {detail.wordBar}
+                </Paragraph>
+                <Divider />
+                <Paragraph>
+                  <Text strong>产出类型: </Text>
+                  {detail.produceType}
+                </Paragraph>
+              </div>
+            </div>
+          ) : null
+        }
         getSearchableFields={(hk) => [hk.name, hk.id.toString(), hk.wordBar]}
         getQuality={(hk) => hk.color}
         noLayout

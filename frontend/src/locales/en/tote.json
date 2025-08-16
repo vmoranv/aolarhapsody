@@ -34,5 +34,9 @@
   "filter_super": "Super",
   "filter_normal": "Normal",
   "unit_text": "Totes",
-  "showing_items": "Showing <1>{{filteredCount}}</1> / {{totalCount}} {{unit}}"
+  "showing_items": "Showing <1>{{filteredCount}}</1> / {{totalCount}} {{unit}}",
+  "quality": "Quality",
+  "attribute_bonus": "Attribute Bonus",
+  "applicable_attribute": "Applicable Attribute",
+  "special_effect": "Special Effect"
 }

@@ -1,17 +1,54 @@
-import { Typography } from 'antd';
+import { Divider, Spin, Typography } from 'antd';
 import { motion } from 'framer-motion';
 import { Package } from 'lucide-react';
+import { useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import DataView from '../components/DataView';
 import ItemCard from '../components/ItemCard';
 import Layout from '../components/Layout';
-import { Tote } from '../types/tote';
+import { Tote, ToteDetail, ToteEntry } from '../types/tote';
+import { fetchDataItem } from '../utils/api';
 import { getToteImageUrl } from '../utils/image-helper';
 
-const { Title, Paragraph } = Typography;
+const { Title, Paragraph, Text } = Typography;
 
 const TotePage = () => {
   const { t } = useTranslation('tote');
+  const [detail, setDetail] = useState<ToteDetail | null>(null);
+  const [specialEffectDescription, setSpecialEffectDescription] = useState<string>('');
+  const [loadingDetail, setLoadingDetail] = useState(false);
+
+  const handleCardClick = async (tote: Tote) => {
+    setLoadingDetail(true);
+    setSpecialEffectDescription('');
+    setDetail(null);
+    try {
+      const data = await fetchDataItem<ToteDetail>('totes/data', tote.id.toString());
+      setDetail(data);
+      const { type, effectValue } = data;
+
+      // type: 0 (技巧) -> 解析 effectValue
+      if (type === 0) {
+        const entryId = parseInt(effectValue, 10);
+        if (!isNaN(entryId) && entryId.toString() === effectValue) {
+          try {
+            const entryData = await fetchDataItem<ToteEntry>('totes/entries', entryId.toString());
+            setSpecialEffectDescription(entryData.des);
+          } catch (entryError) {
+            console.error(`Failed to fetch tote entry ${entryId}`, entryError);
+            setSpecialEffectDescription(effectValue); // Fallback
+          }
+        } else {
+          setSpecialEffectDescription(effectValue);
+        }
+      }
+      // type: 1 (强力) -> 不需要额外操作，直接使用 baseValue 和 advantageValue
+    } catch (error) {
+      console.error('Failed to fetch tote detail', error);
+    } finally {
+      setLoadingDetail(false);
+    }
+  };
 
   const filterOptions = [
     { value: 'all', label: t('filter_all') },
@@ -53,6 +90,54 @@ const TotePage = () => {
             icon={<Package size={48} color="white" />}
           />
         )}
+        onCardClick={handleCardClick}
+        renderDetailDialog={(tote) =>
+          loadingDetail ? (
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: 200,
+              }}
+            >
+              <Spin size="large" />
+            </div>
+          ) : detail ? (
+            <div style={{ display: 'flex', gap: '24px' }}>
+              <img
+                src={getToteImageUrl(tote.id, true)}
+                alt={tote.name}
+                style={{ width: 200, height: 200, objectFit: 'contain', borderRadius: 8 }}
+              />
+              <div style={{ flex: 1 }}>
+                <Paragraph>{detail.tujianDes}</Paragraph>
+                <Divider />
+                <Paragraph>
+                  <Text strong>{t('quality')}: </Text>
+                  <Text>{detail.color === 0 ? t('quality_legendary') : t('quality_epic')}</Text>
+                </Paragraph>
+                {detail.type === 1 ? (
+                  <>
+                    <Paragraph>
+                      <Text strong>{t('attribute_bonus')}: </Text>
+                      <Text>{detail.baseValue}</Text>
+                    </Paragraph>
+                    <Paragraph>
+                      <Text strong>{t('applicable_attribute')}: </Text>
+                      <Text>{detail.advantageValue}</Text>
+                    </Paragraph>
+                  </>
+                ) : (
+                  <Paragraph>
+                    <Text strong>{t('special_effect')}: </Text>
+                    <Text>{specialEffectDescription}</Text>
+                  </Paragraph>
+                )}
+              </div>
+            </div>
+          ) : null
+        }
         getSearchableFields={(tote) => [tote.name, tote.desc || '', tote.category || '']}
         getQuality={(tote) => tote.quality}
         noLayout

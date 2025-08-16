@@ -29,5 +29,14 @@
   "show_tradeable_only": "Tradeable Only",
   "show_limited_time_only": "Limited Time Only",
   "tradeable_count": "Tradeable: {{count}}",
-  "limited_time_count": "Limited: {{count}}"
+  "limited_time_count": "Limited: {{count}}",
+  "detail_trade": "Tradeable",
+  "detail_vip": "VIP Level",
+  "detail_limited_time": "Limited Time",
+  "detail_price": "Price",
+  "detail_rmb": "RMB",
+  "detail_level": "Level",
+  "detail_apply_id": "Apply ID",
+  "detail_base_exp": "Base EXP",
+  "detail_race_list": "Race List"
 }

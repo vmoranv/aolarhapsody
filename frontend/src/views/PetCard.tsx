@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { Divider, Tag, theme, Tooltip, Typography } from 'antd';
+import { Col, Divider, Row, Spin, Tag, theme, Tooltip, Typography } from 'antd';
 import { motion } from 'framer-motion';
 import { Crown } from 'lucide-react';
 import { useMemo, useState } from 'react';
@@ -9,7 +9,7 @@ import ItemCard from '../components/ItemCard';
 import Layout from '../components/Layout';
 import { useStatusColor } from '../theme/colors';
 import type { PetCard, PetCardSuit } from '../types/petCard';
-import { fetchData } from '../utils/api';
+import { fetchData, fetchDataItem } from '../utils/api';
 import { getPetCardImageUrl } from '../utils/image-helper';
 
 const { Title, Paragraph, Text } = Typography;
@@ -19,6 +19,20 @@ const PetCardPage = () => {
   const { token } = theme.useToken();
   const suitColor = useStatusColor('warning');
   const [viewMode, setViewMode] = useState<'cards' | 'suits'>('cards');
+  const [detail, setDetail] = useState<PetCard | null>(null);
+  const [loadingDetail, setLoadingDetail] = useState(false);
+
+  const handleCardClick = async (card: PetCard) => {
+    setLoadingDetail(true);
+    try {
+      const data = await fetchDataItem<any>('petcards', card.id.toString());
+      setDetail({ ...data, id: data.cardId });
+    } catch (error) {
+      console.error('Failed to fetch pet card detail', error);
+    } finally {
+      setLoadingDetail(false);
+    }
+  };
 
   const { data: allCards = [] } = useQuery<PetCard[]>({
     queryKey: ['pet-cards-all'],
@@ -76,6 +90,7 @@ const PetCardPage = () => {
         <DataView<PetCard>
           queryKey={['pet-cards-view']}
           data={filteredCards}
+          onCardClick={handleCardClick}
           renderCard={(petCard, index) => (
             <ItemCard
               item={petCard}
@@ -84,6 +99,52 @@ const PetCardPage = () => {
               icon={<Crown size={48} color="white" />}
             />
           )}
+          renderDetailDialog={() =>
+            loadingDetail ? (
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  height: 200,
+                }}
+              >
+                <Spin size="large" />
+              </div>
+            ) : detail ? (
+              <div style={{ display: 'flex', gap: '24px' }}>
+                <img
+                  src={getPetCardImageUrl(detail, allCards)}
+                  alt={detail.name}
+                  style={{ width: 200, height: 200, objectFit: 'contain', borderRadius: 8 }}
+                />
+                <div style={{ flex: 1 }}>
+                  <Paragraph>{detail.desc}</Paragraph>
+                  <Divider />
+                  <Row gutter={[16, 16]}>
+                    <Col span={8}>
+                      <Text strong>HP:</Text> {detail.hp}
+                    </Col>
+                    <Col span={8}>
+                      <Text strong>速度:</Text> {detail.speed}
+                    </Col>
+                    <Col span={8}>
+                      <Text strong>攻击:</Text> {detail.attack}
+                    </Col>
+                    <Col span={8}>
+                      <Text strong>防御:</Text> {detail.defend}
+                    </Col>
+                    <Col span={8}>
+                      <Text strong>特攻:</Text> {detail.sAttack}
+                    </Col>
+                    <Col span={8}>
+                      <Text strong>特防:</Text> {detail.sDefend}
+                    </Col>
+                  </Row>
+                </div>
+              </div>
+            ) : null
+          }
           getSearchableFields={(card) => [card.name, card.id.toString()]}
           getQuality={(card) => card.quality}
           noLayout

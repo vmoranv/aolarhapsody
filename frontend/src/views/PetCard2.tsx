@@ -1,16 +1,32 @@
-import { Typography } from 'antd';
+import { Spin, Typography } from 'antd';
 import { motion } from 'framer-motion';
+import { useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import DataView from '../components/DataView';
 import ItemCard from '../components/ItemCard';
 import Layout from '../components/Layout';
-import type { PetCard2 } from '../types/petCard2';
+import type { PetCard2, PetCard2Detail } from '../types/petCard2';
+import { fetchDataItem } from '../utils/api';
 import { getPetCard2ImageUrl } from '../utils/image-helper';
 
-const { Title, Paragraph } = Typography;
+const { Title, Paragraph, Text } = Typography;
 
 const PetCard2Page = () => {
   const { t } = useTranslation('petCard2');
+  const [detail, setDetail] = useState<PetCard2Detail | null>(null);
+  const [loadingDetail, setLoadingDetail] = useState(false);
+
+  const handleCardClick = async (petCard2: PetCard2) => {
+    setLoadingDetail(true);
+    try {
+      const data = await fetchDataItem<PetCard2Detail>('petcard2s', petCard2.id.toString());
+      setDetail(data);
+    } catch (error) {
+      console.error('Failed to fetch petCard2 detail', error);
+    } finally {
+      setLoadingDetail(false);
+    }
+  };
 
   return (
     <Layout>
@@ -46,6 +62,67 @@ const PetCard2Page = () => {
             icon={<div />}
           />
         )}
+        onCardClick={handleCardClick}
+        renderDetailDialog={(petCard2) =>
+          loadingDetail ? (
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: 200,
+              }}
+            >
+              <Spin size="large" />
+            </div>
+          ) : detail ? (
+            <div style={{ display: 'flex', gap: '24px' }}>
+              <img
+                src={getPetCard2ImageUrl(petCard2.id)}
+                alt={petCard2.name}
+                style={{ width: 200, height: 200, objectFit: 'contain', borderRadius: 8 }}
+              />
+              <div style={{ flex: 1 }}>
+                <Paragraph>
+                  <Text strong>{t('detail_trade')}: </Text>
+                  <Text>{detail.trade ? 'Yes' : 'No'}</Text>
+                </Paragraph>
+                <Paragraph>
+                  <Text strong>{t('detail_vip')}: </Text>
+                  <Text>{detail.vip}</Text>
+                </Paragraph>
+                <Paragraph>
+                  <Text strong>{t('detail_limited_time')}: </Text>
+                  <Text>{detail.isLimitedTime ? 'Yes' : 'No'}</Text>
+                </Paragraph>
+                <Paragraph>
+                  <Text strong>{t('detail_price')}: </Text>
+                  <Text>{detail.price}</Text>
+                </Paragraph>
+                <Paragraph>
+                  <Text strong>{t('detail_rmb')}: </Text>
+                  <Text>{detail.rmb}</Text>
+                </Paragraph>
+                <Paragraph>
+                  <Text strong>{t('detail_level')}: </Text>
+                  <Text>{detail.level}</Text>
+                </Paragraph>
+                <Paragraph>
+                  <Text strong>{t('detail_apply_id')}: </Text>
+                  <Text>{detail.applyId}</Text>
+                </Paragraph>
+                <Paragraph>
+                  <Text strong>{t('detail_base_exp')}: </Text>
+                  <Text>{detail.baseExp}</Text>
+                </Paragraph>
+                <Paragraph>
+                  <Text strong>{t('detail_race_list')}: </Text>
+                  <Text>{detail.raceList.join(', ')}</Text>
+                </Paragraph>
+              </div>
+            </div>
+          ) : null
+        }
         getSearchableFields={(card) => [
           card.name,
           card.id.toString(),

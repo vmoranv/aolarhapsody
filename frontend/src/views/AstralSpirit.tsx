@@ -1,4 +1,4 @@
-import { Tag, Typography } from 'antd';
+import { Col, Divider, Row, Spin, Tag, Typography } from 'antd';
 import { motion } from 'framer-motion';
 import { Crown, Zap } from 'lucide-react';
 import React, { useState } from 'react';
@@ -7,6 +7,7 @@ import DataView from '../components/DataView';
 import ItemCard from '../components/ItemCard';
 import Layout from '../components/Layout';
 import type { AstralSpirit, AstralSpiritSuit } from '../types/astralSpirit';
+import { fetchDataItem } from '../utils/api';
 import { getAstralSpiritImageUrl, getAstralSpiritSuitImageUrl } from '../utils/image-helper';
 
 const { Title, Paragraph, Text } = Typography;
@@ -14,6 +15,20 @@ const { Title, Paragraph, Text } = Typography;
 const AstralSpiritPage: React.FC = () => {
   const { t } = useTranslation('astralSpirit');
   const [viewMode, setViewMode] = useState<'spirits' | 'suits'>('spirits');
+  const [detail, setDetail] = useState<AstralSpirit | null>(null);
+  const [loadingDetail, setLoadingDetail] = useState(false);
+
+  const handleCardClick = async (spirit: AstralSpirit) => {
+    setLoadingDetail(true);
+    try {
+      const data = await fetchDataItem<AstralSpirit>('astral-spirit', spirit.id);
+      setDetail(data);
+    } catch (error) {
+      console.error('Failed to fetch astral spirit detail', error);
+    } finally {
+      setLoadingDetail(false);
+    }
+  };
 
   const viewSwitcher = (
     <div style={{ marginBottom: 24, display: 'flex', gap: 16 }}>
@@ -61,6 +76,7 @@ const AstralSpiritPage: React.FC = () => {
         <DataView<AstralSpirit>
           queryKey={['astral-spirits']}
           dataUrl="astral-spirits"
+          onCardClick={handleCardClick}
           renderCard={(spirit, index) => (
             <ItemCard
               item={spirit}
@@ -69,6 +85,52 @@ const AstralSpiritPage: React.FC = () => {
               icon={<Zap size={48} color="white" />}
             />
           )}
+          renderDetailDialog={() =>
+            loadingDetail ? (
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  height: 200,
+                }}
+              >
+                <Spin size="large" />
+              </div>
+            ) : detail ? (
+              <div style={{ display: 'flex', gap: '24px' }}>
+                <img
+                  src={getAstralSpiritImageUrl(detail.id, detail.level)}
+                  alt={detail.name}
+                  style={{ width: 200, height: 200, objectFit: 'contain', borderRadius: 8 }}
+                />
+                <div style={{ flex: 1 }}>
+                  <Paragraph>{detail.desc}</Paragraph>
+                  <Divider />
+                  <Row gutter={[16, 16]}>
+                    <Col span={8}>
+                      <Text strong>HP:</Text> {detail.hp}
+                    </Col>
+                    <Col span={8}>
+                      <Text strong>速度:</Text> {detail.speed}
+                    </Col>
+                    <Col span={8}>
+                      <Text strong>攻击:</Text> {detail.attack}
+                    </Col>
+                    <Col span={8}>
+                      <Text strong>防御:</Text> {detail.defend}
+                    </Col>
+                    <Col span={8}>
+                      <Text strong>特攻:</Text> {detail.sAttack}
+                    </Col>
+                    <Col span={8}>
+                      <Text strong>特防:</Text> {detail.sDefend}
+                    </Col>
+                  </Row>
+                </div>
+              </div>
+            ) : null
+          }
           getSearchableFields={(item) => [item.name]}
           getQuality={(item) => item.quality}
           noLayout

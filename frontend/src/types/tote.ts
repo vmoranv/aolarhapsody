@@ -10,3 +10,20 @@ export interface Tote {
   category: string;
   rarity: number;
 }
+
+export interface ToteDetail {
+  id: number;
+  name: string;
+  color: number;
+  type: number;
+  baseValue: string;
+  effectValue: string;
+  advantageValue: string;
+  tujianDes: string;
+}
+
+export interface ToteEntry {
+  id: number;
+  name: string;
+  des: string;
+}

@@ -1,10 +1,12 @@
-import { Typography } from 'antd';
+import { Spin, Typography } from 'antd';
 import { motion } from 'framer-motion';
 import { Key } from 'lucide-react';
+import { useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import DataView, { DataItem } from '../components/DataView';
 import ItemCard from '../components/ItemCard';
 import Layout from '../components/Layout';
+import { fetchDataItem } from '../utils/api';
 import { getCrystalKeyImageUrl } from '../utils/image-helper';
 
 const { Title, Paragraph } = Typography;
@@ -21,6 +23,20 @@ interface CrystalKeyType extends DataItem {
  */
 const CrystalKey = () => {
   const { t } = useTranslation('crystalKey');
+  const [detail, setDetail] = useState<CrystalKeyType | null>(null);
+  const [loadingDetail, setLoadingDetail] = useState(false);
+
+  const handleCardClick = async (key: CrystalKeyType) => {
+    setLoadingDetail(true);
+    try {
+      const data = await fetchDataItem<CrystalKeyType>('crystalkeys', key.id.toString());
+      setDetail(data);
+    } catch (error) {
+      console.error('Failed to fetch crystal key detail', error);
+    } finally {
+      setLoadingDetail(false);
+    }
+  };
 
   return (
     <Layout>
@@ -48,6 +64,7 @@ const CrystalKey = () => {
       <DataView<CrystalKeyType>
         queryKey={['crystalkeys']}
         dataUrl="crystalkeys"
+        onCardClick={handleCardClick}
         renderCard={(key, index) => (
           <ItemCard
             item={key}
@@ -56,6 +73,31 @@ const CrystalKey = () => {
             icon={<Key size={48} color="white" />}
           />
         )}
+        renderDetailDialog={() =>
+          loadingDetail ? (
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: 200,
+              }}
+            >
+              <Spin size="large" />
+            </div>
+          ) : detail ? (
+            <div style={{ display: 'flex', gap: '24px' }}>
+              <img
+                src={getCrystalKeyImageUrl(detail.id)}
+                alt={detail.name}
+                style={{ width: 200, height: 200, objectFit: 'contain', borderRadius: 8 }}
+              />
+              <div style={{ flex: 1 }}>
+                <Paragraph>{detail.description}</Paragraph>
+              </div>
+            </div>
+          ) : null
+        }
         getSearchableFields={(key) => [key.name, key.description]}
         noLayout
         loadingText={t('loading_data')}

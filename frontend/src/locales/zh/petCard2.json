@@ -29,5 +29,14 @@
   "show_tradeable_only": "仅显示可交易",
   "show_limited_time_only": "仅显示限时",
   "tradeable_count": "可交易: {{count}}",
-  "limited_time_count": "限时: {{count}}"
+  "limited_time_count": "限时: {{count}}",
+  "detail_trade": "可交易",
+  "detail_vip": "VIP 等级",
+  "detail_limited_time": "限时",
+  "detail_price": "价格",
+  "detail_rmb": "人民币",
+  "detail_level": "等级",
+  "detail_apply_id": "适用ID",
+  "detail_base_exp": "基础经验",
+  "detail_race_list": "种族列表"
 }
