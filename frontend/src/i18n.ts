@@ -14,6 +14,7 @@ import enImageCompressor from './locales/en/imageCompressor.json';
 import enInscription from './locales/en/inscription.json';
 import enLanding from './locales/en/landing.json';
 import enMiscellaneous from './locales/en/miscellaneous.json';
+import enMultiPointBurst from './locales/en/multiPointBurst.json';
 import enPetCard from './locales/en/petCard.json';
 import enPetCard2 from './locales/en/petCard2.json';
 import enPetDictionary from './locales/en/petDictionary.json';
@@ -33,6 +34,7 @@ import zhImageCompressor from './locales/zh/imageCompressor.json';
 import zhInscription from './locales/zh/inscription.json';
 import zhLanding from './locales/zh/landing.json';
 import zhMiscellaneous from './locales/zh/miscellaneous.json';
+import zhMultiPointBurst from './locales/zh/multiPointBurst.json';
 import zhPetCard from './locales/zh/petCard.json';
 import zhPetCard2 from './locales/zh/petCard2.json';
 import zhPetDictionary from './locales/zh/petDictionary.json';
@@ -78,6 +80,7 @@ i18n
       'imageCompressor',
       'inscription',
       'miscellaneous',
+      'multiPointBurst',
       'petCard',
       'petCard2',
       'petDictionary',
@@ -105,6 +108,7 @@ i18n
         imageCompressor: enImageCompressor,
         inscription: enInscription,
         miscellaneous: enMiscellaneous,
+        multiPointBurst: enMultiPointBurst,
         petCard: enPetCard,
         petCard2: enPetCard2,
         petDictionary: enPetDictionary,
@@ -126,6 +130,7 @@ i18n
         imageCompressor: zhImageCompressor,
         inscription: zhInscription,
         miscellaneous: zhMiscellaneous,
+        multiPointBurst: zhMultiPointBurst,
         petCard: zhPetCard,
         petCard2: zhPetCard2,
         petDictionary: zhPetDictionary,

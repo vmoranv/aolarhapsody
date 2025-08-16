@@ -1,0 +1,20 @@
+{
+  "title": "多点爆破工具",
+  "description": "本工具会自动检测'param'JSON对象中的所有数字键作为爆破点。为每个检测到的键设置范围即可生成组合。",
+  "templateInput": "模板输入",
+  "templatePlaceholder": "在此输入模板，例如：\n|#send={\"param\":{\"id\":1,\"level\":10},\"cmd\":\"...\"}|",
+  "placeholderSettings": "爆破点设置",
+  "start": "起始",
+  "end": "结束",
+  "generate": "生成",
+  "templatePreview": "模板预览",
+  "result": "生成结果",
+  "resultPlaceholder": "生成的结果将显示在这里",
+  "copy": "复制",
+  "copySuccess": "复制成功",
+  "copyFailed": "复制失败",
+  "paramList": "参数列表",
+  "addPlaceholder": "添加爆破点",
+  "addPlaceholderTitle": "添加新的爆破点",
+  "placeholderPath": "参数路径 (例如: param.id)"
+}

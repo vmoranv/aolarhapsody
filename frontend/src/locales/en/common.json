@@ -14,7 +14,8 @@
     "Waxia",
     "Dabu Dabu",
     "Yuedayueda",
-    "Omajili"
+    "Omajili",
+    "Nameiluduo"
   ],
   "language": "Language",
   "languageDescription": "Switch language",
@@ -41,5 +42,6 @@
   "menu.character_analyzer": "Character Analyzer",
   "menu.poster_analysis": "Poster Analysis",
   "menu.community": "Community",
+  "menu.multi_point_burst": "Multi-Point Burst",
   "aola_rhapsody": "Aola Rhapsody"
 }

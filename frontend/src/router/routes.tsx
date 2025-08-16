@@ -10,6 +10,7 @@ import Home from '@/views/Home';
 import ImageCompressor from '@/views/ImageCompressor';
 import Inscription from '@/views/Inscription';
 import Miscellaneous from '@/views/Miscellaneous';
+import MultiPointBurstPage from '@/views/MultiPointBurst';
 import PetCard from '@/views/PetCard';
 import PetCard2 from '@/views/PetCard2';
 import PetDictionary from '@/views/PetDictionary';
@@ -102,5 +103,10 @@ export const constantRoutes: RouteObject[] = [
     path: '/app/image-compressor',
     id: 'ImageCompressor',
     element: <ImageCompressor />,
+  },
+  {
+    path: '/app/packet-analysis/multi-point-burst',
+    id: 'MultiPointBurst',
+    element: <MultiPointBurstPage />,
   },
 ];

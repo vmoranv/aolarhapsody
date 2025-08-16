@@ -1,0 +1,20 @@
+{
+  "title": "Multi-Point Burst Tool",
+  "description": "The tool automatically detects all numerical keys within the 'param' JSON object as burst points. Set the range for each detected key to generate combinations.",
+  "templateInput": "Template Input",
+  "templatePlaceholder": "Enter template here, e.g.:\n|#send={\"param\":{\"id\":1,\"level\":10},\"cmd\":\"...\"}|",
+  "placeholderSettings": "Placeholder Settings",
+  "start": "Start",
+  "end": "End",
+  "generate": "Generate",
+  "templatePreview": "Template Preview",
+  "result": "Result",
+  "resultPlaceholder": "The generated results will be displayed here",
+  "copy": "Copy",
+  "copySuccess": "Copied successfully",
+  "copyFailed": "Copy failed",
+  "paramList": "Parameter List",
+  "addPlaceholder": "Add Placeholder",
+  "addPlaceholderTitle": "Add New Placeholder",
+  "placeholderPath": "Parameter Path (e.g., param.id)"
+}

@@ -5,7 +5,7 @@ export interface MenuItemConfig {
   key: string;
   path: string;
   label: string;
-  status: 'release' | 'release';
+  status: 'release' | 'dev';
   icon?: React.ReactNode;
   children?: MenuItemConfig[];
   parentKey?: string;
@@ -110,6 +110,13 @@ export const menuConfig: MenuItemConfig[] = [
         path: '/app/existing-packets',
         label: 'menu.existing_packets',
         status: 'release',
+        parentKey: '3',
+      },
+      {
+        key: '3-2',
+        path: '/app/packet-analysis/multi-point-burst',
+        label: 'menu.multi_point_burst',
+        status: 'dev',
         parentKey: '3',
       },
     ],
