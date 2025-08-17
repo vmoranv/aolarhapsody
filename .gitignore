@@ -9,6 +9,7 @@ lerna-debug.log*
 
 # Caches
 .eslintcache
+docs/.vitepress/cache
 
 node_modules
 dist
