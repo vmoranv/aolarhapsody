@@ -2,6 +2,7 @@ packages:
   - frontend
   - backend
   - 'scripts/*'
+  - docs
 
 onlyBuiltDependencies:
   - '@tailwindcss/oxide'
