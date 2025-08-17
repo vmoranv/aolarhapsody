@@ -375,3 +375,60 @@ body.dark-theme {
     display: none !important;
   }
 }
+
+/* CopilotKit Dark Mode Final Fix */
+.dark {
+  --copilot-kit-primary-color: var(--theme-primary);
+  --copilot-kit-background-color: var(--theme-surface);
+  --copilot-kit-secondary-color: var(--theme-elevated);
+  --copilot-kit-secondary-contrast-color: var(--theme-text);
+  --copilot-kit-separator-color: var(--theme-border);
+  --copilot-kit-muted-color: var(--theme-text-disabled);
+}
+
+/* stylelint-disable selector-class-pattern */
+button.copilotKitButton {
+  all: unset !important;
+
+  /* Positioning */
+  position: fixed !important;
+  right: 2rem !important;
+  bottom: 2rem !important;
+
+  /* Box Model */
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 50px !important;
+  height: 50px !important;
+
+  /* Style */
+  cursor: pointer !important;
+  background: rgb(128 128 128 / 20%) !important;
+  border: 1px solid rgb(255 255 255 / 20%) !important;
+  border-radius: 50% !important;
+  box-shadow:
+    0 4px 6px rgb(0 0 0 / 10%),
+    0 1px 3px rgb(0 0 0 / 8%) !important;
+  backdrop-filter: blur(12px) !important;
+
+  /* Animation */
+  transition: all 0.3s ease !important;
+}
+
+button.copilotKitButton:hover {
+  background: rgb(128 128 128 / 30%) !important;
+  box-shadow:
+    0 8px 12px rgb(0 0 0 / 15%),
+    0 3px 6px rgb(0 0 0 / 10%) !important;
+  transform: scale(1.1) translateY(-2px) !important;
+}
+
+button.copilotKitButton:focus,
+button.copilotKitButton:active {
+  outline: none !important;
+  box-shadow:
+    0 0 0 3px rgb(102 126 234 / 40%),
+    0 4px 6px rgb(0 0 0 / 10%) !important;
+}
+/* stylelint-enable selector-class-pattern */
