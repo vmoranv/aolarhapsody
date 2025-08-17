@@ -3,22 +3,28 @@
 layout: home
 
 hero:
-  name: 'ARDocs'
-  text: 'A Doc Site For Aolarhapsody'
-  tagline: My great project tagline
+  name: 'AolaRhapsody'
+  text: 'Open Source Aola Analysis Site'
+  tagline: Provides Copilot analysis and practical small features
+  image:
+    src: /yinhe.jpg
+    alt: yinhe
   actions:
     - theme: brand
-      text: Markdown Examples
-      link: /markdown-examples
+      text: Get Started
+      link: /en/markdown-examples
     - theme: alt
-      text: API Examples
-      link: /api-examples
+      text: GitHub Repository
+      link: https://github.com/vmoranv/aolarhapsody
 
 features:
-  - title: Feature A
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature B
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature C
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+  - icon: 🚀
+    title: Full-Stack Monorepo
+    details: Monorepository, managed with pnpm workspaces for unified development, building, and deployment.
+  - icon: 💡
+    title: Modern Tech Stack
+    details: Uses modern frontend technologies like React, Vite, TypeScript, and Zustand, along with a Node.js/Express backend, for an efficient development experience.
+  - icon: 🧩
+    title: Highly Extensible
+    details: The modular structure is highly cohesive and loosely coupled, providing good extensibility.
 ---

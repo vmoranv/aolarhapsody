@@ -20,7 +20,12 @@ export default defineConfig({
       themeConfig: {
         nav: [
           { text: '首页', link: '/' },
-          { text: '示例', link: '/markdown-examples' },
+          { text: '项目介绍', link: '/guide/introduction' },
+          { text: '项目架构', link: '/architecture/overview' },
+          { text: '项目部署', link: '/deployment/vercel' },
+          { text: 'my封包', link: '/packets/list' },
+          { text: '数值计算', link: '/calculation/damage' },
+          { text: '社区支持', link: '/community/contributing' },
         ],
       },
     },
@@ -31,7 +36,12 @@ export default defineConfig({
       themeConfig: {
         nav: [
           { text: 'Home', link: '/en/' },
-          { text: 'Examples', link: '/en/markdown-examples' },
+          { text: 'Guide', link: '/en/guide/introduction' },
+          { text: 'Architecture', link: '/en/architecture/overview' },
+          { text: 'Deployment', link: '/en/deployment/vercel' },
+          { text: 'Packets', link: '/en/packets/list' },
+          { text: 'Calculation', link: '/en/calculation/damage' },
+          { text: 'Community', link: '/en/community/contributing' },
         ],
       },
     },
@@ -81,20 +91,54 @@ export default defineConfig({
     sidebar: {
       '/': [
         {
-          text: '示例',
-          items: [
-            { text: 'Markdown 示例', link: '/markdown-examples' },
-            { text: '运行时 API 示例', link: '/api-examples' },
-          ],
+          text: '项目介绍',
+          items: [{ text: '简介', link: '/guide/introduction' }],
+        },
+        {
+          text: '项目架构',
+          items: [{ text: '概述', link: '/architecture/overview' }],
+        },
+        {
+          text: '项目部署',
+          items: [{ text: 'Vercel 部署', link: '/deployment/vercel' }],
+        },
+        {
+          text: 'my封包',
+          items: [{ text: '封包列表', link: '/packets/list' }],
+        },
+        {
+          text: '数值计算',
+          items: [{ text: '伤害计算', link: '/calculation/damage' }],
+        },
+        {
+          text: '社区支持',
+          items: [{ text: '贡献指南', link: '/community/contributing' }],
         },
       ],
       '/en/': [
         {
-          text: 'Examples',
-          items: [
-            { text: 'Markdown Examples', link: '/en/markdown-examples' },
-            { text: 'Runtime API Examples', link: '/en/api-examples' },
-          ],
+          text: 'Guide',
+          items: [{ text: 'Introduction', link: '/en/guide/introduction' }],
+        },
+        {
+          text: 'Architecture',
+          items: [{ text: 'Overview', link: '/en/architecture/overview' }],
+        },
+        {
+          text: 'Deployment',
+          items: [{ text: 'Vercel Deployment', link: '/en/deployment/vercel' }],
+        },
+        {
+          text: 'Packets',
+          items: [{ text: 'Packet List', link: '/en/packets/list' }],
+        },
+        {
+          text: 'Calculation',
+          items: [{ text: 'Damage Calculation', link: '/en/calculation/damage' }],
+        },
+        {
+          text: 'Community',
+          items: [{ text: 'Contributing', link: '/en/community/contributing' }],
         },
       ],
     },

@@ -1,4 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code&family=Lora&display=swap');
+
 :root {
+  --vp-font-family-base: 'Lora', serif;
+  --vp-font-family-mono: 'Fira Code', monospace;
   --vp-home-hero-name-color: transparent;
   --vp-home-hero-name-background: linear-gradient(120deg, #ff3e95 30%, #009dff);
   --vp-home-hero-image-background-image: linear-gradient(-45deg, #ff3e95 50%, #009dff 50%);
