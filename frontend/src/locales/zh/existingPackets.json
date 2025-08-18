@@ -25,5 +25,7 @@
   "copy_packet": "复制封包",
   "packet_content": "封包内容",
   "pagination_total": "显示第 {{start}} 至 {{end}} 项，共 {{total}} 项",
-  "no_match_found": "未找到匹配项"
+  "no_match_found": "未找到匹配项",
+  "showing_packets": "显示 <1>{{filteredCount}}</1> / {{totalCount}} 个封包",
+  "reset": "重置"
 }

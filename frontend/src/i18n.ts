@@ -6,6 +6,7 @@ import enAttribute from './locales/en/attribute.json';
 import enCharacterAnalyzer from './locales/en/characterAnalyzer.json';
 import enCommon from './locales/en/common.json';
 import enCrystalKey from './locales/en/crystalKey.json';
+import enDamageCalculator from './locales/en/damageCalculator.json';
 import enExistingPackets from './locales/en/existingPackets.json';
 import enGodCard from './locales/en/godCard.json';
 import enHk from './locales/en/hk.json';
@@ -26,6 +27,7 @@ import zhAttribute from './locales/zh/attribute.json';
 import zhCharacterAnalyzer from './locales/zh/characterAnalyzer.json';
 import zhCommon from './locales/zh/common.json';
 import zhCrystalKey from './locales/zh/crystalKey.json';
+import zhDamageCalculator from './locales/zh/damageCalculator.json';
 import zhExistingPackets from './locales/zh/existingPackets.json';
 import zhGodCard from './locales/zh/godCard.json';
 import zhHk from './locales/zh/hk.json';
@@ -70,6 +72,7 @@ i18n
       'common',
       'landing',
       'home',
+      'damageCalculator',
       'astralSpirit',
       'attribute',
       'characterAnalyzer',
@@ -98,6 +101,7 @@ i18n
         common: enCommon,
         landing: enLanding,
         home: enHome,
+        damageCalculator: enDamageCalculator,
         astralSpirit: enAstralSpirit,
         attribute: enAttribute,
         characterAnalyzer: enCharacterAnalyzer,
@@ -120,6 +124,7 @@ i18n
         common: zhCommon,
         landing: zhLanding,
         home: zhHome,
+        damageCalculator: zhDamageCalculator,
         astralSpirit: zhAstralSpirit,
         attribute: zhAttribute,
         characterAnalyzer: zhCharacterAnalyzer,

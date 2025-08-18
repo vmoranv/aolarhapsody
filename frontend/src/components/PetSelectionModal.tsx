@@ -1,6 +1,7 @@
 import { Modal } from 'antd';
 import React from 'react';
 import { DataItem } from '../types/DataItem';
+import { getPetImageUrl } from '../utils/pet-helper';
 import DataView from './DataView';
 import ItemCard from './ItemCard';
 
@@ -30,7 +31,7 @@ const PetSelectionModal: React.FC<PetSelectionModalProps> = ({ visible, onClose,
         dataUrl="pets"
         renderCard={(item, index) => (
           <div onClick={() => handlePetSelect(item)} style={{ cursor: 'pointer' }}>
-            <ItemCard item={item} index={index} />
+            <ItemCard item={item} index={index} imageUrl={getPetImageUrl(item.id, 'big')} />
           </div>
         )}
         getSearchableFields={(item) => [item.name]}

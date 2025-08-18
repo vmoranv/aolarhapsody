@@ -16,6 +16,7 @@ import {
 } from 'antd';
 import { AnimatePresence } from 'framer-motion';
 import React, { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import Layout from '../components/Layout';
 import Overlay from '../components/Overlay';
 import PetSelectionModal from '../components/PetSelectionModal';
@@ -37,6 +38,7 @@ const { TextArea } = Input;
 
 // 1. Global Calculation Parameters Form
 const CalculationParamsForm: React.FC = () => {
+  const { t } = useTranslation('damageCalculator');
   const { configName, setConfigName, calculationParams, updateCalculationParams } =
     useDamageCalculatorStore();
   const [form] = Form.useForm();
@@ -49,7 +51,6 @@ const CalculationParamsForm: React.FC = () => {
     if ('configName' in changedValues) {
       setConfigName(changedValues.configName);
     }
-    // Exclude configName from params sent to updateCalculationParams
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { configName: _, ...params } = allValues;
     updateCalculationParams(params);
@@ -59,67 +60,67 @@ const CalculationParamsForm: React.FC = () => {
     <Form form={form} layout="vertical" onValuesChange={handleValuesChange}>
       <Row gutter={16}>
         <Col span={24}>
-          <Form.Item label="配置名称" name="configName">
-            <Input />
+          <Form.Item label={t('configName')} name="configName">
+            <Input placeholder={t('configNamePlaceholder')} />
           </Form.Item>
         </Col>
         <Col span={4}>
-          <Form.Item label="威力加成" name="powerBuff">
+          <Form.Item label={t('powerBuff')} name="powerBuff">
             <InputNumber style={{ width: '100%' }} />
           </Form.Item>
         </Col>
         <Col span={4}>
-          <Form.Item label="伤害加成" name="damageBuff">
+          <Form.Item label={t('damageBuff')} name="damageBuff">
             <InputNumber style={{ width: '100%' }} />
           </Form.Item>
         </Col>
         <Col span={4}>
-          <Form.Item label="爆伤加成" name="critDamageBuff">
+          <Form.Item label={t('critDamageBuff')} name="critDamageBuff">
             <InputNumber style={{ width: '100%' }} />
           </Form.Item>
         </Col>
         <Col span={4}>
-          <Form.Item label="数值加成" name="numericBuff">
+          <Form.Item label={t('numericBuff')} name="numericBuff">
             <InputNumber style={{ width: '100%' }} />
           </Form.Item>
         </Col>
         <Col span={4}>
-          <Form.Item label="穿防收益" name="penetration">
+          <Form.Item label={t('penetration')} name="penetration">
             <InputNumber style={{ width: '100%' }} />
           </Form.Item>
         </Col>
         <Col span={4}>
-          <Form.Item label="克制关系" name="restraintFactor">
+          <Form.Item label={t('restraintFactor')} name="restraintFactor">
             <InputNumber style={{ width: '100%' }} />
           </Form.Item>
         </Col>
         <Col span={4}>
-          <Form.Item label="克制倍率" name="restraintMultiplier">
+          <Form.Item label={t('restraintMultiplier')} name="restraintMultiplier">
             <InputNumber style={{ width: '100%' }} />
           </Form.Item>
         </Col>
         <Col span={4}>
-          <Form.Item label="面板攻击" name="panelAttack">
+          <Form.Item label={t('panelAttack')} name="panelAttack">
             <InputNumber style={{ width: '100%' }} />
           </Form.Item>
         </Col>
         <Col span={4}>
-          <Form.Item label="技能威力" name="skillPower">
+          <Form.Item label={t('skillPower')} name="skillPower">
             <InputNumber style={{ width: '100%' }} />
           </Form.Item>
         </Col>
         <Col span={4}>
-          <Form.Item label="属性等级" name="attributeLevel">
+          <Form.Item label={t('attributeLevel')} name="attributeLevel">
             <InputNumber style={{ width: '100%' }} />
           </Form.Item>
         </Col>
         <Col span={4}>
-          <Form.Item label="BOSS防御" name="bossDefense">
+          <Form.Item label={t('bossDefense')} name="bossDefense">
             <InputNumber style={{ width: '100%' }} />
           </Form.Item>
         </Col>
         <Col span={4}>
-          <Form.Item label="技能段数" name="skillSegments">
+          <Form.Item label={t('skillSegments')} name="skillSegments">
             <InputNumber style={{ width: '100%' }} />
           </Form.Item>
         </Col>
@@ -131,6 +132,7 @@ const CalculationParamsForm: React.FC = () => {
 // --- Main Component ---
 
 const DamageCalculator: React.FC = () => {
+  const { t } = useTranslation(['damageCalculator', 'common']);
   const { message: messageApi } = App.useApp();
   const store = useDamageCalculatorStore();
   const [isPetSelectionModalVisible, setIsPetSelectionModalVisible] = useState(false);
@@ -141,26 +143,46 @@ const DamageCalculator: React.FC = () => {
   const activePetConfig = store.petQueue.find((p) => p?.id === store.activePetId);
 
   useCopilotReadable({
-    description: '伤害计算器的完整状态，包括配置名称、全局参数和阵容队列。',
+    description: t('copilot.storeDescription'),
     value: store,
   });
 
   useCopilotAction({
     name: 'updateCalculationParameters',
-    description: '更新全局计算参数。可以一次更新一个或多个参数。',
+    description: t('copilot.updateParamsAction'),
     parameters: [
-      { name: 'powerBuff', type: 'number', description: '新的威力加成值' },
-      { name: 'damageBuff', type: 'number', description: '新的伤害加成值' },
-      { name: 'critDamageBuff', type: 'number', description: '新的爆伤加成值' },
-      { name: 'numericBuff', type: 'number', description: '新的数值加成值' },
-      { name: 'panelAttack', type: 'number', description: '新的面板攻击值' },
-      { name: 'skillPower', type: 'number', description: '新的技能威力值' },
-      { name: 'attributeLevel', type: 'number', description: '新的属性等级值' },
-      { name: 'penetration', type: 'number', description: '新的穿防收益值' },
-      { name: 'restraintFactor', type: 'number', description: '新的克制关系值' },
-      { name: 'restraintMultiplier', type: 'number', description: '新的克制倍率值' },
-      { name: 'bossDefense', type: 'number', description: '新的BOSS防御值' },
-      { name: 'skillSegments', type: 'number', description: '新的技能段数值' },
+      { name: 'powerBuff', type: 'number', description: t('copilot.updateParams.powerBuff') },
+      { name: 'damageBuff', type: 'number', description: t('copilot.updateParams.damageBuff') },
+      {
+        name: 'critDamageBuff',
+        type: 'number',
+        description: t('copilot.updateParams.critDamageBuff'),
+      },
+      { name: 'numericBuff', type: 'number', description: t('copilot.updateParams.numericBuff') },
+      { name: 'panelAttack', type: 'number', description: t('copilot.updateParams.panelAttack') },
+      { name: 'skillPower', type: 'number', description: t('copilot.updateParams.skillPower') },
+      {
+        name: 'attributeLevel',
+        type: 'number',
+        description: t('copilot.updateParams.attributeLevel'),
+      },
+      { name: 'penetration', type: 'number', description: t('copilot.updateParams.penetration') },
+      {
+        name: 'restraintFactor',
+        type: 'number',
+        description: t('copilot.updateParams.restraintFactor'),
+      },
+      {
+        name: 'restraintMultiplier',
+        type: 'number',
+        description: t('copilot.updateParams.restraintMultiplier'),
+      },
+      { name: 'bossDefense', type: 'number', description: t('copilot.updateParams.bossDefense') },
+      {
+        name: 'skillSegments',
+        type: 'number',
+        description: t('copilot.updateParams.skillSegments'),
+      },
     ],
     handler: async (args) => {
       store.updateCalculationParams(args);
@@ -169,8 +191,15 @@ const DamageCalculator: React.FC = () => {
 
   useCopilotAction({
     name: 'setConfigurationName',
-    description: '设置当前计算配置的名称。',
-    parameters: [{ name: 'name', type: 'string', description: '新的配置名称', required: true }],
+    description: t('copilot.setConfigNameAction'),
+    parameters: [
+      {
+        name: 'name',
+        type: 'string',
+        description: t('copilot.setConfigNameParam'),
+        required: true,
+      },
+    ],
     handler: async ({ name }) => {
       store.setConfigName(name);
     },
@@ -178,7 +207,7 @@ const DamageCalculator: React.FC = () => {
 
   useCopilotAction({
     name: 'clearQueue',
-    description: '清空整个阵容队列。',
+    description: t('copilot.clearQueueAction'),
     parameters: [],
     handler: async () => {
       store.clearQueue();
@@ -187,12 +216,12 @@ const DamageCalculator: React.FC = () => {
 
   useCopilotAction({
     name: 'removePetFromQueueByIndex',
-    description: '根据阵容中的位置（索引）移除一个亚比。',
+    description: t('copilot.removePetAction'),
     parameters: [
       {
         name: 'index',
         type: 'number',
-        description: '要移除的亚比在阵容中的位置，从1开始',
+        description: t('copilot.removePetParam'),
         required: true,
       },
     ],
@@ -208,9 +237,9 @@ const DamageCalculator: React.FC = () => {
 
   useCopilotAction({
     name: 'addPetToQueueByName',
-    description: '通过亚比名称向阵容队列中添加一个新亚比。',
+    description: t('copilot.addPetAction'),
     parameters: [
-      { name: 'petName', type: 'string', description: '要添加的亚比的确切名称', required: true },
+      { name: 'petName', type: 'string', description: t('copilot.addPetParam'), required: true },
     ],
     handler: async ({ petName }) => {
       try {
@@ -218,28 +247,28 @@ const DamageCalculator: React.FC = () => {
         const foundPet = petList.find((p) => p.name === petName);
         if (foundPet) {
           store.addPetToQueue(foundPet.id.toString());
-          messageApi.success(`已将 ${petName} 添加到阵容中。`);
+          messageApi.success(t('alerts.addPetSuccess', { petName }));
         } else {
-          messageApi.error(`未找到名为 "${petName}" 的亚比。`);
+          messageApi.error(t('alerts.addPetNotFound', { petName }));
         }
       } catch (error) {
         console.error('获取亚比列表时出错:', error);
-        messageApi.error('获取亚比列表失败。');
+        messageApi.error(t('alerts.addPetListError'));
       }
     },
   });
 
   useCopilotAction({
     name: 'updatePetConfiguration',
-    description: '更新阵容中指定位置的亚比的配置，例如技能ID。',
+    description: t('copilot.updatePetAction'),
     parameters: [
       {
         name: 'index',
         type: 'number',
-        description: '要更新的亚比在阵容中的位置，从1开始',
+        description: t('copilot.updatePetIndexParam'),
         required: true,
       },
-      { name: 'skillId', type: 'string', description: '新的技能ID' },
+      { name: 'skillId', type: 'string', description: t('copilot.updatePetSkillIdParam') },
     ],
     handler: async ({ index, skillId }) => {
       if (index > 0 && index <= store.petQueue.length) {
@@ -252,7 +281,7 @@ const DamageCalculator: React.FC = () => {
 
           if (Object.keys(updates).length > 0) {
             store.updatePetConfig(petToUpdate.id, updates);
-            messageApi.success(`已更新阵容中第 ${index} 个亚比的信息。`);
+            messageApi.success(t('alerts.updatePetSuccess', { index }));
           }
         }
       }
@@ -275,7 +304,6 @@ const DamageCalculator: React.FC = () => {
     }
     setIsPetSelectionModalVisible(false);
 
-    // 自动获取并设置默认技能
     if (petIdForSkillFetch) {
       const finalPetId = petIdForSkillFetch;
       fetchPetRawDataById(raceIdForSkillFetch).then((petRawData) => {
@@ -308,16 +336,16 @@ const DamageCalculator: React.FC = () => {
       const compressed = pako.deflate(jsonString);
       const base64 = btoa(String.fromCharCode.apply(null, compressed));
       setConfigString(base64);
-      messageApi.success('导出代码已生成！');
+      messageApi.success(t('alerts.exportSuccess'));
     } catch (error) {
-      messageApi.error('生成导出代码失败！');
+      messageApi.error(t('alerts.exportError'));
       console.error(error);
     }
   };
 
   const handleImport = () => {
     if (!configString) {
-      messageApi.error('导入代码不能为空！');
+      messageApi.error(t('alerts.importEmpty'));
       return;
     }
     try {
@@ -327,22 +355,29 @@ const DamageCalculator: React.FC = () => {
         bytes[i] = binaryString.charCodeAt(i);
       }
       const decompressed = pako.inflate(bytes, { to: 'string' });
-      store.importState(decompressed);
-      setIsImportExportModalVisible(false);
-      messageApi.success('配置导入成功！');
+      const parsed = JSON.parse(decompressed);
+
+      // Basic validation before setting state
+      if (parsed.calculationParams && Array.isArray(parsed.petQueue)) {
+        store.importState(decompressed);
+        setIsImportExportModalVisible(false);
+        messageApi.success(t('alerts.importSuccess'));
+      } else {
+        messageApi.error(t('alerts.importErrorInvalidJSON'));
+      }
     } catch (error) {
-      messageApi.error('导入失败，代码无效或已损坏！');
-      console.error(error);
+      messageApi.error(t('alerts.importErrorParseFailed'));
+      console.error('Import failed:', error);
     }
   };
 
   const handleCopy = () => {
     navigator.clipboard.writeText(configString).then(
       () => {
-        messageApi.success('已复制到剪贴板！');
+        messageApi.success(t('alerts.copySuccess'));
       },
       () => {
-        messageApi.error('复制失败！');
+        messageApi.error(t('alerts.copyError'));
       }
     );
   };
@@ -364,7 +399,7 @@ const DamageCalculator: React.FC = () => {
     } = store.calculationParams;
 
     if (!panelAttack || !skillPower) {
-      messageApi.warning('面板攻击和技能威力不能为空！');
+      messageApi.warning(t('alerts.calculationWarning'));
       store.setTotalDamage(0);
       store.petQueue.forEach((p) => {
         if (p && p.finalDamage !== 0) {
@@ -404,22 +439,24 @@ const DamageCalculator: React.FC = () => {
       });
       store.setTotalDamage(currentTotalDamage);
     }
-    messageApi.success('计算完成！');
+    messageApi.success(t('alerts.calculationSuccess'));
   };
 
   return (
     <Layout>
-      <Title level={1}>伤害计算器</Title>
-      <Paragraph>在此配置全局增益、亚比阵容，并计算最终伤害。</Paragraph>
+      <Title level={1}>{t('title')}</Title>
+      <Paragraph>{t('description')}</Paragraph>
 
       <Card
-        title="全局计算参数"
-        extra={<Button onClick={() => setIsImportExportModalVisible(true)}>导入/导出</Button>}
+        title={t('globalParams')}
+        extra={
+          <Button onClick={() => setIsImportExportModalVisible(true)}>{t('importExport')}</Button>
+        }
       >
         <CalculationParamsForm />
       </Card>
 
-      <Card title="阵容队列" style={{ marginTop: 24 }}>
+      <Card title={t('queue')} style={{ marginTop: 24 }}>
         <Space size="large">
           {store.petQueue.map((pet) => (
             <div
@@ -475,16 +512,16 @@ const DamageCalculator: React.FC = () => {
       </AnimatePresence>
 
       <Card
-        title="计算结果"
+        title={t('results')}
         style={{ marginTop: 24 }}
-        extra={<Button onClick={handleCalculate}>计算伤害</Button>}
+        extra={<Button onClick={handleCalculate}>{t('calculate')}</Button>}
       >
         <Title level={3}>
-          阵容总伤害: <Text type="success">{store.totalDamage.toLocaleString()}</Text>
+          {t('totalDamage')} <Text type="success">{store.totalDamage.toLocaleString()}</Text>
         </Title>
         {activePetConfig && (
           <Paragraph>
-            当前选中亚比伤害:{' '}
+            {t('currentPetDamage')}{' '}
             <Text type="warning">{activePetConfig.finalDamage?.toLocaleString() ?? 0}</Text>
           </Paragraph>
         )}
@@ -497,27 +534,33 @@ const DamageCalculator: React.FC = () => {
       />
 
       <Modal
-        title="导入/导出配置"
+        title={t('importExportConfig')}
         open={isImportExportModalVisible}
         onCancel={() => setIsImportExportModalVisible(false)}
         footer={[
+          <Button key="close" onClick={() => setIsImportExportModalVisible(false)}>
+            {t('common:close')}
+          </Button>,
+          <Button key="import" type="primary" onClick={handleImport}>
+            {t('common:import')}
+          </Button>,
           <Button key="export" onClick={handleExport}>
-            生成导出代码
-          </Button>,
-          <Button key="copy" onClick={handleCopy} disabled={!configString}>
-            复制
-          </Button>,
-          <Button key="import" onClick={handleImport}>
-            从代码导入
+            {t('common:export')}
           </Button>,
         ]}
       >
-        <TextArea
-          rows={6}
-          value={configString}
-          onChange={(e) => setConfigString(e.target.value)}
-          placeholder="在此处粘贴配置代码以导入，或点击“生成导出代码”"
-        />
+        <Space direction="vertical" style={{ width: '100%' }}>
+          <Text>{t('configCode')}</Text>
+          <TextArea
+            rows={4}
+            value={configString}
+            onChange={(e) => setConfigString(e.target.value)}
+            placeholder={t('configPlaceholder')}
+          />
+          <Button onClick={handleCopy} style={{ alignSelf: 'flex-end' }}>
+            {t('common:copy')}
+          </Button>
+        </Space>
       </Modal>
     </Layout>
   );

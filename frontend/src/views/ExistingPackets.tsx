@@ -3,7 +3,7 @@ import { App, Button, Empty, List, Pagination, Space, Typography } from 'antd';
 import { motion } from 'framer-motion';
 import { Copy, Package } from 'lucide-react';
 import React, { useEffect, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import ErrorDisplay from '../components/ErrorDisplay';
 import Layout from '../components/Layout';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -129,7 +129,7 @@ const ExistingPacketItem: React.FC<{ packet: ExistingPacket }> = ({ packet }) =>
  * - 实现搜索和分页功能
  */
 const ExistingPacketsContent = () => {
-  const { t } = useTranslation('existingPackets');
+  const { t } = useTranslation(['existingPackets', 'common']);
   const { colors } = useTheme()!;
   const { searchValue, setResultCount } = useSearchStore();
   const [currentPage, setCurrentPage] = useState(1);
@@ -220,10 +220,17 @@ const ExistingPacketsContent = () => {
         <SearchAndFilter
           hideFilter={true}
           searchPlaceholder={t('search_placeholder')}
-          showingText={`${t('showing_packets', {
-            filteredCount: filteredData.length,
-            totalCount: packets.length,
-          })}`}
+          showingText={
+            <Trans
+              i18nKey="showing_packets"
+              ns="existingPackets"
+              values={{
+                filteredCount: filteredData.length,
+                totalCount: packets.length,
+              }}
+              components={{ 1: <span style={{ fontWeight: 600, color: colors.primary }} /> }}
+            />
+          }
           resetText={t('reset')}
         />
 

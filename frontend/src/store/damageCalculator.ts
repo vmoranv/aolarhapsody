@@ -68,7 +68,7 @@ interface DamageCalculatorState {
 }
 
 export const useDamageCalculatorStore = create<DamageCalculatorState>((set) => ({
-  configName: '未命名配置',
+  configName: '', // Use empty string as initial state
   petQueue: Array(6).fill(null),
   activePetId: null,
   calculationParams: initialCalculationParams,
@@ -185,24 +185,14 @@ export const useDamageCalculatorStore = create<DamageCalculatorState>((set) => (
   clearQueue: () => set({ petQueue: Array(6).fill(null), activePetId: null, totalDamage: 0 }),
 
   importState: (jsonString) => {
-    try {
-      const { configName, calculationParams, petQueue } = JSON.parse(jsonString);
-      // Basic validation
-      if (calculationParams && Array.isArray(petQueue)) {
-        set({
-          configName: configName || '未命名配置',
-          calculationParams,
-          petQueue,
-          activePetId: null,
-          totalDamage: 0,
-        });
-      } else {
-        console.error('Invalid JSON structure for import.');
-        alert('导入失败：JSON 结构无效。');
-      }
-    } catch (error) {
-      console.error('Failed to parse JSON:', error);
-      alert('导入失败：无法解析的 JSON 文件。');
-    }
+    const { configName, calculationParams, petQueue } = JSON.parse(jsonString);
+    // Let the UI handle validation and feedback
+    set({
+      configName: configName || '', // Set to empty string if undefined
+      calculationParams,
+      petQueue,
+      activePetId: null,
+      totalDamage: 0,
+    });
   },
 }));

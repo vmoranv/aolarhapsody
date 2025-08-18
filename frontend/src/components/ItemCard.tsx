@@ -4,7 +4,6 @@ import { Star } from 'lucide-react';
 import React from 'react';
 import { useQualityColor } from '../theme/colors';
 import { DataItem } from '../types/DataItem';
-import { getPetImageUrl } from '../utils/pet-helper';
 
 const { Title, Text } = Typography;
 
@@ -12,9 +11,11 @@ interface ItemCardProps {
   item: DataItem;
   index: number;
   children?: React.ReactNode;
+  imageUrl?: string;
+  icon?: React.ReactElement;
 }
 
-const ItemCard: React.FC<ItemCardProps> = ({ item, index, children }) => {
+const ItemCard: React.FC<ItemCardProps> = ({ item, index, children, imageUrl, icon }) => {
   const { token } = theme.useToken();
   const qualityColor = useQualityColor(item.quality);
 
@@ -55,21 +56,27 @@ const ItemCard: React.FC<ItemCardProps> = ({ item, index, children }) => {
             }}
           >
             <motion.div whileHover={{ scale: 1.1, rotate: 5 }} transition={{ duration: 0.3 }}>
-              <Image
-                src={getPetImageUrl(item.id, 'big')}
-                alt={item.name}
-                fallback={getPetImageUrl(item.id, 'small')}
-                preview={false}
-                style={{
-                  width: 'auto',
-                  height: '80%',
-                  maxHeight: '100px',
-                  objectFit: 'contain',
-                }}
-                onError={(e) => {
-                  (e.target as HTMLImageElement).style.display = 'none';
-                }}
-              />
+              {imageUrl ? (
+                <Image
+                  src={imageUrl}
+                  alt={item.name}
+                  preview={false}
+                  style={{
+                    width: 'auto',
+                    height: '80%',
+                    maxHeight: '100px',
+                    objectFit: 'contain',
+                  }}
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).style.display = 'none';
+                  }}
+                />
+              ) : (
+                icon &&
+                React.isValidElement(icon) && (
+                  <div style={{ fontSize: 64, color: 'white' }}>{icon}</div>
+                )
+              )}
             </motion.div>
 
             {item.quality && item.quality > 0 && (

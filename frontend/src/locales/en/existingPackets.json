@@ -25,5 +25,7 @@
   "copy_packet": "Copy Packet",
   "packet_content": "Packet Content",
   "pagination_total": "Showing {{start}}-{{end}} of {{total}}",
-  "no_match_found": "No match found"
+  "no_match_found": "No match found",
+  "showing_packets": "Showing <1>{{filteredCount}}</1> / {{totalCount}} packets",
+  "reset": "Reset"
 }
