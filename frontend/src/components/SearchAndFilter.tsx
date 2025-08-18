@@ -3,17 +3,13 @@ import { motion } from 'framer-motion';
 import { Filter, RotateCcw, Search } from 'lucide-react';
 import React from 'react';
 import { useTheme } from '../hooks/useTheme';
+import { useSearchStore } from '../store/search';
 
 const { Option } = Select;
 
 export type FilterType = 'all' | 'super' | 'normal' | string;
 
 interface SearchAndFilterProps {
-  searchValue: string;
-  onSearchChange: (value: string) => void;
-  filterType: FilterType;
-  onFilterChange: (value: FilterType) => void;
-  onReset: () => void;
   searchPlaceholder?: string;
   filterOptions?: { label: string; value: FilterType }[];
   resetText: string;
@@ -22,17 +18,13 @@ interface SearchAndFilterProps {
 }
 
 const SearchAndFilter: React.FC<SearchAndFilterProps> = ({
-  searchValue,
-  onSearchChange,
-  filterType,
-  onFilterChange,
-  onReset,
   searchPlaceholder,
   filterOptions,
   resetText,
   showingText,
 }) => {
   const { colors } = useTheme()!;
+  const { searchValue, filterType, setSearchValue, setFilterType, reset } = useSearchStore();
 
   return (
     <motion.div
@@ -63,7 +55,7 @@ const SearchAndFilter: React.FC<SearchAndFilterProps> = ({
               placeholder={searchPlaceholder}
               prefix={<Search size={16} color={colors.textSecondary} />}
               value={searchValue}
-              onChange={(e) => onSearchChange(e.target.value)}
+              onChange={(e) => setSearchValue(e.target.value)}
               style={{
                 borderRadius: 8,
                 minWidth: '200px',
@@ -74,7 +66,7 @@ const SearchAndFilter: React.FC<SearchAndFilterProps> = ({
             {filterOptions && (
               <Select
                 value={filterType}
-                onChange={onFilterChange}
+                onChange={setFilterType}
                 style={{ minWidth: '120px' }}
                 suffixIcon={<Filter size={16} color={colors.textSecondary} />}
               >
@@ -86,7 +78,7 @@ const SearchAndFilter: React.FC<SearchAndFilterProps> = ({
               </Select>
             )}
 
-            <Button icon={<RotateCcw size={16} />} onClick={onReset} style={{ borderRadius: 8 }}>
+            <Button icon={<RotateCcw size={16} />} onClick={reset} style={{ borderRadius: 8 }}>
               {resetText}
             </Button>
           </Space>

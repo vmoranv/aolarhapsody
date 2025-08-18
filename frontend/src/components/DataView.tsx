@@ -5,6 +5,8 @@ import { Database, PackageSearch, Star, TrendingUp } from 'lucide-react';
 import React, { useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useTheme } from '../hooks/useTheme';
+import { useDialogStore } from '../store/dialog';
+import { useSearchStore } from '../store/search';
 import { fetchData, filterBySearch, filterByType, paginateData } from '../utils/api';
 import DetailDialog from './DetailDialog';
 import ErrorDisplay from './ErrorDisplay';
@@ -69,11 +71,13 @@ const DataView = <T extends DataItem>({
   children,
 }: DataViewProps<T>) => {
   const { colors } = useTheme()!;
-  const [searchValue, setSearchValue] = useState('');
-  const [filterType, setFilterType] = useState<FilterType>('all');
+  const { searchValue, filterType } = useSearchStore();
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedItem, setSelectedItem] = useState<T | null>(null);
-  const [isDetailVisible, setIsDetailVisible] = useState(false);
+  const {
+    detailItem: selectedItem,
+    isDetailVisible,
+    hideDetail: handleCloseDetail,
+  } = useDialogStore();
   const pageSize = 24;
 
   const {
@@ -112,21 +116,6 @@ const DataView = <T extends DataItem>({
     if (onCardClick) {
       await onCardClick(item);
     }
-    if (renderDetailDialog) {
-      setSelectedItem(item);
-      setIsDetailVisible(true);
-    }
-  };
-
-  const handleCloseDetail = () => {
-    setIsDetailVisible(false);
-    setSelectedItem(null);
-  };
-
-  const handleReset = () => {
-    setSearchValue('');
-    setFilterType('all');
-    setCurrentPage(1);
   };
 
   const ICONS: { [key: string]: React.ReactNode } = {
@@ -176,11 +165,6 @@ const DataView = <T extends DataItem>({
       )}
       {children}
       <SearchAndFilter
-        searchValue={searchValue}
-        onSearchChange={setSearchValue}
-        filterType={filterType}
-        onFilterChange={setFilterType}
-        onReset={handleReset}
         filterOptions={filterOptions}
         searchPlaceholder={searchPlaceholder}
         resetText={resetText}
@@ -252,10 +236,10 @@ const DataView = <T extends DataItem>({
       </motion.div>
       {renderDetailDialog && (
         <DetailDialog
-          item={selectedItem}
+          item={selectedItem as T | null}
           visible={isDetailVisible}
           onClose={handleCloseDetail}
-          renderContent={renderDetailDialog}
+          renderContent={renderDetailDialog as (item: T) => React.ReactNode}
         />
       )}
     </Space>

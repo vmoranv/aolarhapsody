@@ -1,3 +1,5 @@
+import { useCopilotAction, useCopilotReadable } from '@copilotkit/react-core';
+import { useQuery } from '@tanstack/react-query';
 import type { MenuProps } from 'antd';
 import { Avatar, Dropdown, Layout as AntLayout, Menu, Space } from 'antd';
 import { motion } from 'framer-motion';
@@ -8,7 +10,11 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useNotificationContext } from '../hooks/useNotificationContext';
 import { useTheme } from '../hooks/useTheme';
 import { menuConfig } from '../router/menuConfig';
+import { useDialogStore } from '../store/dialog';
+import { useSearchStore } from '../store/search';
 import { useSettingStore } from '../store/setting';
+import type { GodCard } from '../types/godcard';
+import { fetchData, fetchDataItem } from '../utils/api';
 import NotificationDropdown from './NotificationDropdown';
 import PerformanceMonitor from './PerformanceMonitor';
 import SettingsDrawer from './SettingsDrawer';
@@ -36,6 +42,112 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const [settingsOpen, setSettingsOpen] = useState(false);
   const { betaMode, performanceMonitoring, kimiMode } = useSettingStore();
   const { t } = useTranslation('common');
+  const { searchValue, filterType, resultCount, setSearchValue, setFilterType } = useSearchStore();
+  const { showDetail, setIsLoading } = useDialogStore();
+
+  const { data: allGodCards = [] } = useQuery<GodCard[]>({
+    queryKey: ['god-cards-all'],
+    queryFn: () => fetchData<GodCard>('godcards'),
+  });
+
+  useCopilotReadable({
+    description: 'List of all God Cards (神兵)',
+    value: allGodCards.map((card: GodCard) => card.name),
+  });
+
+  useCopilotReadable({
+    description: 'Total number of God Cards (神兵)',
+    value: allGodCards.length,
+  });
+
+  useCopilotReadable({
+    description: 'Current search value',
+    value: searchValue,
+  });
+
+  useCopilotReadable({
+    description: 'Current filter type',
+    value: filterType,
+  });
+
+  useCopilotReadable({
+    description: 'Number of search results',
+    value: resultCount,
+  });
+
+  useCopilotAction({
+    name: 'search',
+    description: 'Search for items.',
+    parameters: [
+      {
+        name: 'query',
+        type: 'string',
+        description: 'The search query.',
+        required: true,
+      },
+    ],
+    handler: async ({ query }) => {
+      setSearchValue(query);
+    },
+  });
+
+  useCopilotAction({
+    name: 'filter',
+    description: 'Filter items.',
+    parameters: [
+      {
+        name: 'filterType',
+        type: 'string',
+        description: 'The filter type.',
+        required: true,
+      },
+    ],
+    handler: async ({ filterType }) => {
+      setFilterType(filterType);
+    },
+  });
+
+  useCopilotAction({
+    name: 'showGodCardDetails',
+    description: 'Show the details of a specific God Card (神兵).',
+    parameters: [
+      {
+        name: 'name',
+        type: 'string',
+        description: 'The name of the God Card to show details for.',
+        required: true,
+      },
+    ],
+    handler: async ({ name }) => {
+      const card = allGodCards.find((c) => c.name === name);
+      if (card) {
+        setIsLoading(true);
+        try {
+          const data = await fetchDataItem<GodCard>('godcards', card.id.toString());
+          const cardDetails = { ...data, id: data.cardId };
+          showDetail(cardDetails);
+          // Return a detailed string for the Copilot to "speak"
+          return `
+            ${cardDetails.name} 的效果是:
+            - 描述: ${cardDetails.desc}
+            - HP: ${cardDetails.hp}
+            - 速度: ${cardDetails.speed}
+            - 攻击: ${cardDetails.attack}
+            - 防御: ${cardDetails.defend}
+            - 特攻: ${cardDetails.sAttack}
+            - 特防: ${cardDetails.sDefend}
+          `;
+        } catch (error) {
+          console.error('Failed to fetch god card detail', error);
+          return `Failed to fetch details for ${name}.`;
+        } finally {
+          setIsLoading(false);
+        }
+      } else {
+        return `God Card with name "${name}" not found.`;
+      }
+    },
+  });
 
   const { menuItems, selectedKeys, openKeys, currentPageStatus } = useMemo(() => {
     const path = location.pathname;

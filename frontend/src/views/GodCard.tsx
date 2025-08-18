@@ -2,11 +2,12 @@ import { useQuery } from '@tanstack/react-query';
 import { Col, Divider, Row, Spin, Typography } from 'antd';
 import { motion } from 'framer-motion';
 import { Sword } from 'lucide-react';
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import DataView from '../components/DataView';
 import ItemCard from '../components/ItemCard';
 import Layout from '../components/Layout';
+import { useDialogStore } from '../store/dialog';
 import type { GodCard } from '../types/godcard';
 import { fetchData, fetchDataItem } from '../utils/api';
 import { getGodCardImageUrl } from '../utils/image-helper';
@@ -15,18 +16,17 @@ const { Title, Paragraph, Text } = Typography;
 
 const GodCardPage = () => {
   const { t } = useTranslation('godCard');
-  const [detail, setDetail] = useState<GodCard | null>(null);
-  const [loadingDetail, setLoadingDetail] = useState(false);
+  const { showDetail, detailItem: detail, setIsLoading, isLoading } = useDialogStore();
 
   const handleCardClick = async (card: GodCard) => {
-    setLoadingDetail(true);
+    setIsLoading(true);
     try {
       const data = await fetchDataItem<any>('godcards', card.id.toString());
-      setDetail({ ...data, id: data.cardId });
+      showDetail({ ...data, id: data.cardId });
     } catch (error) {
       console.error('Failed to fetch god card detail', error);
     } finally {
-      setLoadingDetail(false);
+      setIsLoading(false);
     }
   };
 
@@ -82,7 +82,7 @@ const GodCardPage = () => {
           />
         )}
         renderDetailDialog={() =>
-          loadingDetail ? (
+          isLoading ? (
             <div
               style={{
                 display: 'flex',

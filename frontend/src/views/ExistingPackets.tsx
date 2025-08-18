@@ -2,13 +2,14 @@ import { useQuery } from '@tanstack/react-query';
 import { App, Button, Empty, List, Pagination, Space, Typography } from 'antd';
 import { motion } from 'framer-motion';
 import { Copy, Package } from 'lucide-react';
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import ErrorDisplay from '../components/ErrorDisplay';
 import Layout from '../components/Layout';
 import LoadingSpinner from '../components/LoadingSpinner';
 import SearchAndFilter from '../components/SearchAndFilter';
 import { useTheme } from '../hooks/useTheme';
+import { useSearchStore } from '../store/search';
 import { fetchData } from '../utils/api';
 
 const { Title, Paragraph, Text } = Typography;
@@ -130,7 +131,7 @@ const ExistingPacketItem: React.FC<{ packet: ExistingPacket }> = ({ packet }) =>
 const ExistingPacketsContent = () => {
   const { t } = useTranslation('existingPackets');
   const { colors } = useTheme()!;
-  const [searchValue, setSearchValue] = useState('');
+  const { searchValue, setResultCount } = useSearchStore();
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10;
 
@@ -166,11 +167,9 @@ const ExistingPacketsContent = () => {
     return filteredData.slice(startIndex, startIndex + pageSize);
   }, [filteredData, currentPage, pageSize]);
 
-  // 重置搜索
-  const handleReset = () => {
-    setSearchValue('');
-    setCurrentPage(1);
-  };
+  useEffect(() => {
+    setResultCount(filteredData.length);
+  }, [filteredData.length, setResultCount]);
 
   if (isLoading) {
     return (
@@ -219,11 +218,6 @@ const ExistingPacketsContent = () => {
 
         {/* 搜索和筛选 */}
         <SearchAndFilter
-          searchValue={searchValue}
-          onSearchChange={setSearchValue}
-          filterType="all"
-          onFilterChange={() => {}}
-          onReset={handleReset}
           hideFilter={true}
           searchPlaceholder={t('search_placeholder')}
           showingText={`${t('showing_packets', {
