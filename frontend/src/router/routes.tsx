@@ -3,6 +3,7 @@ import AstralSpirit from '@/views/AstralSpirit';
 import Attribute from '@/views/Attribute';
 import CharacterAnalyzer from '@/views/CharacterAnalyzer';
 import CrystalKey from '@/views/CrystalKey';
+import DamageCalculator from '@/views/DamageCalculator';
 import ExistingPackets from '@/views/ExistingPackets';
 import GodCard from '@/views/GodCard';
 import HK from '@/views/HK';
@@ -108,5 +109,10 @@ export const constantRoutes: RouteObject[] = [
     path: '/app/packet-analysis/multi-point-burst',
     id: 'MultiPointBurst',
     element: <MultiPointBurstPage />,
+  },
+  {
+    path: '/app/packet-analysis/damage-calculator',
+    id: 'DamageCalculator',
+    element: <DamageCalculator />,
   },
 ];

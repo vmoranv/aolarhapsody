@@ -40,7 +40,7 @@ export async function initItemModule(): Promise<boolean> {
       }
     });
 
-    // 解析宠物相关道具ID
+    // 解析亚比相关道具ID
     if (response.petitem.length > 0 && Array.isArray(response.petitem[0])) {
       petItemIds = response.petitem[0];
     }
@@ -70,8 +70,8 @@ export function getItemById(id: string): Item | null {
 }
 
 /**
- * 获取所有与宠物相关的道具ID
- * @returns {number[]} 宠物相关道具ID的数组
+ * 获取所有与亚比相关的道具ID
+ * @returns {number[]} 亚比相关道具ID的数组
  */
 export function getPetItemIds(): number[] {
   return petItemIds;

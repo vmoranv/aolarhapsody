@@ -14,8 +14,8 @@ const router = Router();
 
 /**
  * @route GET /peticons
- * @description 获取所有宠物图标
- * @returns {object} 200 - 包含所有宠物图标的数组
+ * @description 获取所有亚比图标
+ * @returns {object} 200 - 包含所有亚比图标的数组
  */
 router.get('/peticons', (req: Request, res: Response) => {
   const icons = getAllPetIcons();
@@ -29,10 +29,10 @@ router.get('/peticons', (req: Request, res: Response) => {
 
 /**
  * @route GET /peticons/:id
- * @description 根据ID获取单个宠物图标
- * @param {string} id - 宠物图标ID
- * @returns {object} 200 - 宠物图标对象
- * @returns {object} 404 - 如果未找到宠物图标
+ * @description 根据ID获取单个亚比图标
+ * @param {string} id - 亚比图标ID
+ * @returns {object} 200 - 亚比图标对象
+ * @returns {object} 404 - 如果未找到亚比图标
  */
 router.get('/peticons/:id', (req: Request, res: Response) => {
   const { id } = req.params;
@@ -47,7 +47,7 @@ router.get('/peticons/:id', (req: Request, res: Response) => {
   } else {
     res.status(404).json({
       success: false,
-      error: `未找到ID为 ${id} 的宠物图标`,
+      error: `未找到ID为 ${id} 的亚比图标`,
       timestamp: new Date().toISOString(),
     });
   }

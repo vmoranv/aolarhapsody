@@ -54,8 +54,8 @@ router.get('/items/:id', (req: Request, res: Response) => {
 
 /**
  * @route GET /petitems
- * @description 获取所有与宠物相关的道具ID列表
- * @returns {object} 200 - 成功获取宠物道具ID列表
+ * @description 获取所有与亚比相关的道具ID列表
+ * @returns {object} 200 - 成功获取亚比道具ID列表
  */
 router.get('/petitems', (req: Request, res: Response) => {
   const ids = getPetItemIds();

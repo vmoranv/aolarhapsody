@@ -35,7 +35,7 @@ export async function initMiracleModule(): Promise<boolean> {
       }
     });
 
-    // 解析宠物信息数据
+    // 解析亚比信息数据
     Object.values(response.petInfoData).forEach((item) => {
       if (Array.isArray(item) && item.length >= 4) {
         const data: MiraclePetInfo = {
@@ -78,8 +78,8 @@ export function getAllAwakeData(): MiraclePetAwakeData[] {
 }
 
 /**
- * 获取所有已缓存的神迹宠物信息数据
- * @returns {MiraclePetInfo[]} 神迹宠物信息对象数组
+ * 获取所有已缓存的神迹亚比信息数据
+ * @returns {MiraclePetInfo[]} 神迹亚比信息对象数组
  */
 export function getAllPetInfoData(): MiraclePetInfo[] {
   return Object.values(petInfoDataCache);

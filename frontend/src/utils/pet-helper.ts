@@ -29,7 +29,7 @@ export interface PetListItem {
  */
 export function getPetImageUrl(
   id: string | number,
-  type: 'small' | 'big' | 'egg' = 'small'
+  type: 'small' | 'big' | 'egg' | 'avatar' = 'small'
 ): string {
   if (!id) {
     console.error('getPetImageUrl: ID不能为空');
@@ -47,28 +47,27 @@ export function getPetImageUrl(
     }
 
     switch (type) {
-      case 'big':
-        // 大图URL
+      case 'avatar':
+        // 头像URL
         if (numId >= 4399) {
-          // 4399及以上使用新格式
-          return `${URL_CONFIG.petIconPrefix}/newlarge/type1/peticon${numId}/peticon${numId}_1.png`;
-        } else if (numId > 3923) {
-          // 3924-4398使用e目录
-          return `${URL_CONFIG.petIconPrefix}/big/e/peticon${numId}.png`;
-        } else {
-          // 1-3923使用普通目录
-          return `${URL_CONFIG.petIconPrefix}/big/peticon${numId}.png`;
+          // 4399及以上使用新格式的头像图 (_0.png)
+          return `${URL_CONFIG.petIconPrefix}/newlarge/type1/peticon${numId}/peticon${numId}_0.png`;
         }
+        // 4399以下使用小图作为头像
+        return `${URL_CONFIG.petIconPrefix}/small/peticon${numId}.png`;
+
+      case 'big':
+        // 大图URL (全身图)
+        if (numId >= 4399) {
+          // 4399及以上使用新格式的全身图 (_1.png)
+          return `${URL_CONFIG.petIconPrefix}/newlarge/type1/peticon${numId}/peticon${numId}_1.png`;
+        }
+        // 4399以下使用小图作为全身图
+        return `${URL_CONFIG.petIconPrefix}/small/peticon${numId}.png`;
 
       case 'small':
         // 小图URL
-        if (numId >= 4399) {
-          // 4399及以上使用新格式
-          return `${URL_CONFIG.petIconPrefix}/newlarge/type1/peticon${numId}/peticon${numId}_0.png`;
-        } else {
-          // 1-4398使用普通格式
-          return `${URL_CONFIG.petIconPrefix}/small/peticon${numId}.png`;
-        }
+        return `${URL_CONFIG.petIconPrefix}/small/peticon${numId}.png`;
 
       case 'egg':
         // 蛋图URL

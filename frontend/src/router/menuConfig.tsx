@@ -119,6 +119,13 @@ export const menuConfig: MenuItemConfig[] = [
         status: 'dev',
         parentKey: '3',
       },
+      {
+        key: '3-3',
+        path: '/app/packet-analysis/damage-calculator',
+        label: 'menu.damage_calculator',
+        status: 'release',
+        parentKey: '3',
+      },
     ],
   },
   {

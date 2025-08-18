@@ -1,5 +1,5 @@
 /**
- * 表示宠物图标
+ * 表示亚比图标
  */
 export interface PetIcon {
   /** 视图ID */

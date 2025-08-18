@@ -1,21 +1,20 @@
-import { Card, Space, theme, Typography } from 'antd';
+import { Card, Image, Space, theme, Typography } from 'antd';
 import { motion } from 'framer-motion';
 import { Star } from 'lucide-react';
 import React from 'react';
 import { useQualityColor } from '../theme/colors';
 import { DataItem } from '../types/DataItem';
+import { getPetImageUrl } from '../utils/pet-helper';
 
 const { Title, Text } = Typography;
 
 interface ItemCardProps {
   item: DataItem;
   index: number;
-  icon?: React.ReactNode;
-  imageUrl?: string;
   children?: React.ReactNode;
 }
 
-const ItemCard: React.FC<ItemCardProps> = ({ item, index, icon, imageUrl, children }) => {
+const ItemCard: React.FC<ItemCardProps> = ({ item, index, children }) => {
   const { token } = theme.useToken();
   const qualityColor = useQualityColor(item.quality);
 
@@ -55,24 +54,23 @@ const ItemCard: React.FC<ItemCardProps> = ({ item, index, icon, imageUrl, childr
               overflow: 'hidden',
             }}
           >
-            {imageUrl ? (
-              <motion.img
-                src={imageUrl}
+            <motion.div whileHover={{ scale: 1.1, rotate: 5 }} transition={{ duration: 0.3 }}>
+              <Image
+                src={getPetImageUrl(item.id, 'big')}
                 alt={item.name}
+                fallback={getPetImageUrl(item.id, 'small')}
+                preview={false}
                 style={{
                   width: 'auto',
                   height: '80%',
                   maxHeight: '100px',
                   objectFit: 'contain',
                 }}
-                whileHover={{ scale: 1.1, rotate: 5 }}
-                transition={{ duration: 0.3 }}
+                onError={(e) => {
+                  (e.target as HTMLImageElement).style.display = 'none';
+                }}
               />
-            ) : (
-              <motion.div whileHover={{ scale: 1.1, rotate: 5 }} transition={{ duration: 0.3 }}>
-                {icon}
-              </motion.div>
-            )}
+            </motion.div>
 
             {item.quality && item.quality > 0 && (
               <div style={{ position: 'absolute', top: 10, right: 10 }}>

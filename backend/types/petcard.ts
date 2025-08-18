@@ -62,7 +62,7 @@ export interface PetCardSuit {
   idList: number[];
   /** 描述 */
   dec: string[];
-  /** 宠物ID列表 */
+  /** 亚比ID列表 */
   petIds: number[];
   /** 简单描述 */
   simpleDec: string[];

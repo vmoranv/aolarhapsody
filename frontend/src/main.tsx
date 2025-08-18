@@ -1,4 +1,14 @@
+// --- Suppress specific console warnings ---
+const originalWarn = console.warn;
+console.warn = (...args: any[]) => {
+  if (typeof args[0] === 'string' && args[0].includes('-ms-high-contrast')) {
+    return;
+  }
+  originalWarn.apply(console, args);
+};
+
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { App as AntdApp } from 'antd';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { ThemeProvider } from './theme/ThemeContext';
@@ -25,7 +35,9 @@ createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <ThemeProvider>
       <QueryClientProvider client={queryClient}>
-        <App />
+        <AntdApp>
+          <App />
+        </AntdApp>
       </QueryClientProvider>
     </ThemeProvider>
   </React.StrictMode>
