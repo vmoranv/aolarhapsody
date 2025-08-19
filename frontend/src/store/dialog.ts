@@ -1,11 +1,11 @@
 import { create } from 'zustand';
-import type { GodCard } from '../types/godcard';
+import { DataItem } from '../components/DataView';
 
 interface DialogState {
-  detailItem: GodCard | null;
+  detailItem: DataItem | null;
   isDetailVisible: boolean;
   isLoading: boolean;
-  showDetail: (item: GodCard) => void;
+  showDetail: (item: DataItem) => void;
   hideDetail: () => void;
   setIsLoading: (loading: boolean) => void;
 }

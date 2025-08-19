@@ -15,18 +15,97 @@ const { Title, Paragraph, Text } = Typography;
 const AstralSpiritPage: React.FC = () => {
   const { t } = useTranslation('astralSpirit');
   const [viewMode, setViewMode] = useState<'spirits' | 'suits'>('spirits');
-  const [detail, setDetail] = useState<AstralSpirit | null>(null);
+  const [detail, setDetail] = useState<AstralSpirit | AstralSpiritSuit | null>(null);
   const [loadingDetail, setLoadingDetail] = useState(false);
 
-  const handleCardClick = async (spirit: AstralSpirit) => {
+  const handleCardClick = async (item: AstralSpirit | AstralSpiritSuit) => {
     setLoadingDetail(true);
     try {
-      const data = await fetchDataItem<AstralSpirit>('astral-spirit', spirit.id);
+      const endpoint = 'astralSpiritIdList' in item ? 'astral-spirit-suit' : 'astral-spirit';
+      const data = await fetchDataItem<AstralSpirit | AstralSpiritSuit>(endpoint, String(item.id));
       setDetail(data);
     } catch (error) {
       console.error('Failed to fetch astral spirit detail', error);
     } finally {
       setLoadingDetail(false);
+    }
+  };
+
+  const renderDetailDialog = (item: AstralSpirit | AstralSpiritSuit) => {
+    if (loadingDetail) {
+      return (
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: 200,
+          }}
+        >
+          <Spin size="large" />
+        </div>
+      );
+    }
+
+    if (!detail) {
+      return null;
+    }
+
+    if ('astralSpiritIdList' in item) {
+      // Render AstralSpiritSuit detail
+      const suit = detail as AstralSpiritSuit;
+      return (
+        <div>
+          <Title level={4}>{suit.name}</Title>
+          <Paragraph>{suit.dec}</Paragraph>
+          <Divider />
+          <Paragraph>
+            <Text strong>{t('suit_effect')}:</Text> {suit.suitEffectDes}
+          </Paragraph>
+          <Paragraph>
+            <Text strong>{t('one_shenhua_effect')}:</Text> {suit.oneShenhuaSuitEffectDes}
+          </Paragraph>
+          <Paragraph>
+            <Text strong>{t('three_shenhua_effect')}:</Text> {suit.threeShenHuaSuitEffectDes}
+          </Paragraph>
+        </div>
+      );
+    } else {
+      // Render AstralSpirit detail
+      const spirit = detail as AstralSpirit;
+      return (
+        <div style={{ display: 'flex', gap: '24px' }}>
+          <img
+            src={getAstralSpiritImageUrl(spirit.id, spirit.level)}
+            alt={spirit.name}
+            style={{ width: 200, height: 200, objectFit: 'contain', borderRadius: 8 }}
+          />
+          <div style={{ flex: 1 }}>
+            <Paragraph>{spirit.desc}</Paragraph>
+            <Divider />
+            <Row gutter={[16, 16]}>
+              <Col span={8}>
+                <Text strong>HP:</Text> {spirit.hp}
+              </Col>
+              <Col span={8}>
+                <Text strong>速度:</Text> {spirit.speed}
+              </Col>
+              <Col span={8}>
+                <Text strong>攻击:</Text> {spirit.attack}
+              </Col>
+              <Col span={8}>
+                <Text strong>防御:</Text> {spirit.defend}
+              </Col>
+              <Col span={8}>
+                <Text strong>特攻:</Text> {spirit.sAttack}
+              </Col>
+              <Col span={8}>
+                <Text strong>特防:</Text> {spirit.sDefend}
+              </Col>
+            </Row>
+          </div>
+        </div>
+      );
     }
   };
 
@@ -85,52 +164,7 @@ const AstralSpiritPage: React.FC = () => {
               icon={<Zap size={48} color="white" />}
             />
           )}
-          renderDetailDialog={() =>
-            loadingDetail ? (
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  height: 200,
-                }}
-              >
-                <Spin size="large" />
-              </div>
-            ) : detail ? (
-              <div style={{ display: 'flex', gap: '24px' }}>
-                <img
-                  src={getAstralSpiritImageUrl(detail.id, detail.level)}
-                  alt={detail.name}
-                  style={{ width: 200, height: 200, objectFit: 'contain', borderRadius: 8 }}
-                />
-                <div style={{ flex: 1 }}>
-                  <Paragraph>{detail.desc}</Paragraph>
-                  <Divider />
-                  <Row gutter={[16, 16]}>
-                    <Col span={8}>
-                      <Text strong>HP:</Text> {detail.hp}
-                    </Col>
-                    <Col span={8}>
-                      <Text strong>速度:</Text> {detail.speed}
-                    </Col>
-                    <Col span={8}>
-                      <Text strong>攻击:</Text> {detail.attack}
-                    </Col>
-                    <Col span={8}>
-                      <Text strong>防御:</Text> {detail.defend}
-                    </Col>
-                    <Col span={8}>
-                      <Text strong>特攻:</Text> {detail.sAttack}
-                    </Col>
-                    <Col span={8}>
-                      <Text strong>特防:</Text> {detail.sDefend}
-                    </Col>
-                  </Row>
-                </div>
-              </div>
-            ) : null
-          }
+          renderDetailDialog={renderDetailDialog}
           getSearchableFields={(item) => [item.name]}
           getQuality={(item) => item.quality}
           noLayout
@@ -165,12 +199,14 @@ const AstralSpiritPage: React.FC = () => {
         <DataView<AstralSpiritSuit>
           queryKey={['astral-spirit-suits']}
           dataUrl="astral-spirit-suits"
+          onCardClick={handleCardClick}
           renderCard={(suit, index) => (
             <ItemCard
               item={suit}
               index={index}
               imageUrl={getAstralSpiritSuitImageUrl(suit.id)}
               icon={<Crown size={48} color="white" />}
+              imageStyle={{ height: '150px', maxHeight: '150px' }}
             >
               <Text style={{ fontSize: '12px' }}>
                 {t('includes_spirits', {
@@ -181,6 +217,7 @@ const AstralSpiritPage: React.FC = () => {
               </Text>
             </ItemCard>
           )}
+          renderDetailDialog={renderDetailDialog}
           getSearchableFields={(item) => [item.name]}
           noLayout
           loadingText={t('loading_suits')}

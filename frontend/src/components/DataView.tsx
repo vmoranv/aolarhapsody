@@ -77,6 +77,7 @@ const DataView = <T extends DataItem>({
     detailItem: selectedItem,
     isDetailVisible,
     hideDetail: handleCloseDetail,
+    showDetail,
   } = useDialogStore();
   const pageSize = 24;
 
@@ -116,6 +117,7 @@ const DataView = <T extends DataItem>({
     if (onCardClick) {
       await onCardClick(item);
     }
+    showDetail(item);
   };
 
   const ICONS: { [key: string]: React.ReactNode } = {

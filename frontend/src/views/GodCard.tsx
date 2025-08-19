@@ -1,14 +1,13 @@
 import { useQuery } from '@tanstack/react-query';
-import { Col, Divider, Row, Spin, Typography } from 'antd';
+import { Col, Divider, Row, Spin, Tag, Typography } from 'antd';
 import { motion } from 'framer-motion';
-import { Sword } from 'lucide-react';
-import { useMemo } from 'react';
+import { Crown, Sword } from 'lucide-react';
+import { useMemo, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import DataView from '../components/DataView';
 import ItemCard from '../components/ItemCard';
 import Layout from '../components/Layout';
-import { useDialogStore } from '../store/dialog';
-import type { GodCard } from '../types/godcard';
+import type { GodCard, GodCardSuit } from '../types/godcard';
 import { fetchData, fetchDataItem } from '../utils/api';
 import { getGodCardImageUrl } from '../utils/image-helper';
 
@@ -16,13 +15,16 @@ const { Title, Paragraph, Text } = Typography;
 
 const GodCardPage = () => {
   const { t } = useTranslation('godCard');
-  const { showDetail, detailItem: detail, setIsLoading, isLoading } = useDialogStore();
+  const [viewMode, setViewMode] = useState<'cards' | 'suits'>('cards');
+  const [detail, setDetail] = useState<GodCard | GodCardSuit | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleCardClick = async (card: GodCard) => {
+  const handleCardClick = async (item: GodCard | GodCardSuit) => {
     setIsLoading(true);
     try {
-      const data = await fetchDataItem<any>('godcards', card.id.toString());
-      showDetail({ ...data, id: data.cardId });
+      const endpoint = 'godCardidList' in item ? 'godcardsuits' : 'godcards';
+      const data = await fetchDataItem<GodCard | GodCardSuit>(endpoint, String(item.id));
+      setDetail({ ...data, id: data.cardId || data.id });
     } catch (error) {
       console.error('Failed to fetch god card detail', error);
     } finally {
@@ -38,6 +40,90 @@ const GodCardPage = () => {
   const filteredCards = useMemo(
     () => allCards.filter((card) => !card.name.includes('LV')),
     [allCards]
+  );
+
+  const renderDetailDialog = (item: GodCard | GodCardSuit) => {
+    if (isLoading) {
+      return (
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: 200,
+          }}
+        >
+          <Spin size="large" />
+        </div>
+      );
+    }
+
+    if (!detail) {
+      return null;
+    }
+
+    if ('godCardidList' in item) {
+      const suit = detail as GodCardSuit;
+      return (
+        <div>
+          <Title level={4}>{suit.name}</Title>
+          <Paragraph>{suit.dec}</Paragraph>
+        </div>
+      );
+    } else {
+      const card = detail as GodCard;
+      return (
+        <div style={{ display: 'flex', gap: '24px' }}>
+          <img
+            src={getGodCardImageUrl(card, allCards)}
+            alt={card.name}
+            style={{ width: 200, height: 200, objectFit: 'contain', borderRadius: 8 }}
+          />
+          <div style={{ flex: 1 }}>
+            <Divider />
+            <Row gutter={[16, 16]}>
+              <Col span={8}>
+                <Text strong>HP:</Text> {card.hp}
+              </Col>
+              <Col span={8}>
+                <Text strong>速度:</Text> {card.speed}
+              </Col>
+              <Col span={8}>
+                <Text strong>攻击:</Text> {card.attack}
+              </Col>
+              <Col span={8}>
+                <Text strong>防御:</Text> {card.defend}
+              </Col>
+              <Col span={8}>
+                <Text strong>特攻:</Text> {card.sAttack}
+              </Col>
+              <Col span={8}>
+                <Text strong>特防:</Text> {card.sDefend}
+              </Col>
+            </Row>
+          </div>
+        </div>
+      );
+    }
+  };
+
+  const viewSwitcher = (
+    <div style={{ marginBottom: 24, display: 'flex', gap: 16 }}>
+      <Tag.CheckableTag
+        checked={viewMode === 'cards'}
+        onChange={() => setViewMode('cards')}
+        style={{ padding: '8px 16px', borderRadius: 20, fontSize: '16px' }}
+      >
+        {t('view_cards')}
+      </Tag.CheckableTag>
+      <Tag.CheckableTag
+        checked={viewMode === 'suits'}
+        onChange={() => setViewMode('suits')}
+        style={{ padding: '8px 16px', borderRadius: 20, fontSize: '16px' }}
+      >
+        {t('view_suits')}
+      </Tag.CheckableTag>
+    </div>
   );
 
   const filterOptions = [
@@ -69,90 +155,95 @@ const GodCardPage = () => {
           {t('page_subtitle_cards')}
         </Paragraph>
       </motion.div>
-      <DataView<GodCard>
-        queryKey={['god-cards-view']}
-        data={filteredCards}
-        onCardClick={handleCardClick}
-        renderCard={(godCard, index) => (
-          <ItemCard
-            item={godCard}
-            index={index}
-            imageUrl={getGodCardImageUrl(godCard, allCards)}
-            icon={<Sword size={48} color="white" />}
-          />
-        )}
-        renderDetailDialog={() =>
-          isLoading ? (
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                height: 200,
+      {viewMode === 'cards' ? (
+        <DataView<GodCard>
+          queryKey={['god-cards-view']}
+          data={filteredCards}
+          onCardClick={handleCardClick}
+          renderCard={(godCard, index) => (
+            <ItemCard
+              item={godCard}
+              index={index}
+              imageUrl={getGodCardImageUrl(godCard, allCards)}
+              icon={<Sword size={48} color="white" />}
+            />
+          )}
+          renderDetailDialog={renderDetailDialog}
+          getSearchableFields={(card) => [card.name, card.id.toString()]}
+          getQuality={(card) => card.quality}
+          noLayout
+          loadingText={t('loading_data')}
+          errorText={t('load_error')}
+          paginationTotalText={(start, end, total) =>
+            t('pagination_total', { rangeStart: start, rangeEnd: end, total })
+          }
+          noResultsText={t('no_results')}
+          noDataText={t('no_data')}
+          searchPlaceholder={t('search_placeholder')}
+          filterOptions={filterOptions}
+          resetText={t('reset')}
+          showingText={(filteredCount, totalCount) => (
+            <Trans
+              i18nKey="showing_items"
+              ns="godCard"
+              values={{
+                filteredCount,
+                totalCount,
+                unit: t('unit_text_card'),
               }}
-            >
-              <Spin size="large" />
-            </div>
-          ) : detail ? (
-            <div style={{ display: 'flex', gap: '24px' }}>
-              <img
-                src={detail ? getGodCardImageUrl(detail, allCards) : ''}
-                alt={detail.name}
-                style={{ width: 200, height: 200, objectFit: 'contain', borderRadius: 8 }}
-              />
-              <div style={{ flex: 1 }}>
-                <Paragraph>{detail.desc}</Paragraph>
-                <Divider />
-                <Row gutter={[16, 16]}>
-                  <Col span={8}>
-                    <Text strong>HP:</Text> {detail.hp}
-                  </Col>
-                  <Col span={8}>
-                    <Text strong>速度:</Text> {detail.speed}
-                  </Col>
-                  <Col span={8}>
-                    <Text strong>攻击:</Text> {detail.attack}
-                  </Col>
-                  <Col span={8}>
-                    <Text strong>防御:</Text> {detail.defend}
-                  </Col>
-                  <Col span={8}>
-                    <Text strong>特攻:</Text> {detail.sAttack}
-                  </Col>
-                  <Col span={8}>
-                    <Text strong>特防:</Text> {detail.sDefend}
-                  </Col>
-                </Row>
-              </div>
-            </div>
-          ) : null
-        }
-        getSearchableFields={(card) => [card.name, card.id.toString()]}
-        getQuality={(card) => card.quality}
-        noLayout
-        loadingText={t('loading_data')}
-        errorText={t('load_error')}
-        paginationTotalText={(start, end, total) =>
-          t('pagination_total', { rangeStart: start, rangeEnd: end, total })
-        }
-        noResultsText={t('no_results')}
-        noDataText={t('no_data')}
-        searchPlaceholder={t('search_placeholder')}
-        filterOptions={filterOptions}
-        resetText={t('reset')}
-        showingText={(filteredCount, totalCount) => (
-          <Trans
-            i18nKey="showing_items"
-            ns="godCard"
-            values={{
-              filteredCount,
-              totalCount,
-              unit: t('unit_text_card'),
-            }}
-            components={{ 1: <span style={{ fontWeight: 600 }} /> }}
-          />
-        )}
-      />
+              components={{ 1: <span style={{ fontWeight: 600 }} /> }}
+            />
+          )}
+        >
+          {viewSwitcher}
+        </DataView>
+      ) : (
+        <DataView<GodCardSuit>
+          queryKey={['god-card-suits']}
+          dataUrl="godcardsuits"
+          onCardClick={handleCardClick}
+          renderCard={(suit, index) => {
+            const firstCardId = suit.godCardidList?.[0];
+            const cardForImage = allCards.find((c) => c.id === firstCardId);
+            const imageUrl = cardForImage ? getGodCardImageUrl(cardForImage, allCards) : '';
+
+            return (
+              <ItemCard
+                item={suit}
+                index={index}
+                imageUrl={imageUrl}
+                icon={<Crown size={48} color="white" />}
+              ></ItemCard>
+            );
+          }}
+          renderDetailDialog={renderDetailDialog}
+          getSearchableFields={(item) => [item.name]}
+          noLayout
+          loadingText={t('loading_suits')}
+          errorText={t('load_failed')}
+          paginationTotalText={(start, end, total) =>
+            t('pagination_total', { rangeStart: start, rangeEnd: end, total })
+          }
+          noResultsText={t('empty_description_suits')}
+          noDataText={t('empty_button_suits')}
+          resetText={t('reset')}
+          searchPlaceholder={t('search_placeholder')}
+          showingText={(filteredCount, totalCount) => (
+            <Trans
+              i18nKey="showing_items"
+              ns="godCard"
+              values={{
+                filteredCount,
+                totalCount,
+                unit: t('unit_text_suit'),
+              }}
+              components={{ 1: <span style={{ fontWeight: 600 }} /> }}
+            />
+          )}
+        >
+          {viewSwitcher}
+        </DataView>
+      )}
     </Layout>
   );
 };

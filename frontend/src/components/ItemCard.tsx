@@ -13,9 +13,17 @@ interface ItemCardProps {
   children?: React.ReactNode;
   imageUrl?: string;
   icon?: React.ReactElement;
+  imageStyle?: React.CSSProperties;
 }
 
-const ItemCard: React.FC<ItemCardProps> = ({ item, index, children, imageUrl, icon }) => {
+const ItemCard: React.FC<ItemCardProps> = ({
+  item,
+  index,
+  children,
+  imageUrl,
+  icon,
+  imageStyle,
+}) => {
   const { token } = theme.useToken();
   const qualityColor = useQualityColor(item.quality);
 
@@ -46,7 +54,7 @@ const ItemCard: React.FC<ItemCardProps> = ({ item, index, children, imageUrl, ic
         cover={
           <div
             style={{
-              height: 120,
+              height: 180,
               background: `linear-gradient(135deg, ${qualityColor} 0%, ${qualityColor}dd 100%)`,
               display: 'flex',
               alignItems: 'center',
@@ -66,6 +74,7 @@ const ItemCard: React.FC<ItemCardProps> = ({ item, index, children, imageUrl, ic
                     height: '80%',
                     maxHeight: '100px',
                     objectFit: 'contain',
+                    ...imageStyle,
                   }}
                   onError={(e) => {
                     (e.target as HTMLImageElement).style.display = 'none';
