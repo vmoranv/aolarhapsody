@@ -12,7 +12,7 @@ hero:
   actions:
     - theme: brand
       text: Get Started
-      link: /en/markdown-examples
+      link: /en/guide/quick-guide
     - theme: alt
       text: GitHub Repository
       link: https://github.com/vmoranv/aolarhapsody

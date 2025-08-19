@@ -92,7 +92,7 @@ export default defineConfig({
       '/': [
         {
           text: '项目介绍',
-          items: [{ text: '简介', link: '/guide/introduction' }],
+          items: [{ text: '快速开始', link: '/guide/quick-guide' }],
         },
         {
           text: '项目架构',
@@ -118,7 +118,7 @@ export default defineConfig({
       '/en/': [
         {
           text: 'Guide',
-          items: [{ text: 'Introduction', link: '/en/guide/introduction' }],
+          items: [{ text: 'Quick Start', link: '/en/guide/quick-guide' }],
         },
         {
           text: 'Architecture',

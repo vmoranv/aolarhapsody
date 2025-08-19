@@ -1,6 +1,7 @@
 ---
 # https://vitepress.dev/reference/default-theme-home-page
 layout: home
+sidebar: false
 
 hero:
   name: 'AolaRhapsody'
@@ -8,11 +9,11 @@ hero:
   tagline: 提供Copilot分析和实用小功能
   image:
     src: /yinhe.jpg
-    alt: yinhe
+    alt: AolaRhapsody
   actions:
     - theme: brand
       text: 快速开始
-      link: /markdown-examples
+      link: /guide/quick-guide
     - theme: alt
       text: GitHub 仓库
       link: https://github.com/vmoranv/aolarhapsody

@@ -19,7 +19,7 @@
 ## ✨ 技术栈
 
 - **前端**: `React`, `TypeScript`, `Vite`
-- **后端**: `Node.js`, `TypeScript`, `Express` (或类似的框架)
+- **后端**: `Express`
 - **包管理器**: `pnpm`
 - **代码质量**: `ESLint`, `Prettier`, `Stylelint`, `Commitlint`, `Cspell`
 - **Git Hooks**: `lefthook`
