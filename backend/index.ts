@@ -2,9 +2,9 @@
 import cors from 'cors';
 import dotenv from 'dotenv';
 import express, { Express, Request, Response } from 'express';
+import cron from 'node-cron';
+import { initializers, reloadData } from './dataparse/index';
 import { initializeMonitors } from './dataparse/subclasschecker';
-// 导入模块
-import { initializers } from './dataparse';
 import allRoutes from './routes';
 import * as allTypes from './types';
 
@@ -39,14 +39,29 @@ allRoutes.forEach((route) => {
 async function startServer() {
   // 遍历 initializers 对象中的所有初始化函数
   await initializeMonitors();
-  for (const moduleName in initializers) {
-    const initFunction = initializers[moduleName as keyof typeof initializers];
-    await initFunction();
-  }
+  const initPromises = initializers.map((init) => init());
+  await Promise.all(initPromises);
 
   const listenWithRetry = (portToTry: number) => {
-    const server = app.listen(portToTry, () => {
+    const server = app.listen(portToTry, async () => {
       console.warn(`Backend is ready at http://localhost:${portToTry}`);
+
+      // 首先，在服务器启动时加载一次数据
+      await reloadData();
+
+      // 然后，安排每日刷新任务
+      cron.schedule(
+        '0 4 * * *',
+        () => {
+          console.warn('执行每日数据刷新任务...');
+          reloadData();
+        },
+        {
+          timezone: 'Asia/Shanghai',
+        }
+      );
+
+      console.warn(`每日数据刷新任务已安排在凌晨 4 点运行。`);
     });
 
     server.on('error', (err: any) => {

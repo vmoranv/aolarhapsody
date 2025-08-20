@@ -26,7 +26,7 @@ import { initToteModule } from './tote';
 
 export * from './converter';
 
-export const initializers = {
+export const initializers = [
   initPosterModule,
   initPetDataModule,
   initAstralSpiritDataModule,
@@ -52,4 +52,12 @@ export const initializers = {
   initTaskModule,
   initTitleModule,
   initToteModule,
+];
+
+export const reloadData = async () => {
+  try {
+    await Promise.all(initializers.map((init) => init()));
+  } catch (error) {
+    console.error('重新加载游戏数据时发生错误:', error);
+  }
 };
