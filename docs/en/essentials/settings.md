@@ -95,6 +95,98 @@ const validateConfig = () => {
 };
 ```
 
+## Dynamic Configuration
+
+### Dynamic Configuration in Production
+
+In production environments, the application supports dynamic configuration through environment variables. This allows for runtime configuration changes without requiring a full rebuild of the application.
+
+The dynamic configuration is loaded from the `_app.config.js` file which is generated during the build process. This file contains all environment variables prefixed with `VITE_GLOB_`.
+
+``js
+// _app.config.js (generated file example)
+window.\_APP_CONFIG_ = {
+VITE_GLOB_API_BASE_URL: '/api',
+VITE_GLOB_APP_TITLE: 'Aolarhapsody'
+};
+
+````
+
+These dynamic configuration values can be accessed throughout the application:
+
+```ts
+// frontend/src/utils/config.ts
+const apiBaseUrl = window._APP_CONFIG_.VITE_GLOB_API_BASE_URL;
+console.log('API Base URL:', apiBaseUrl);
+````
+
+### Dynamic Configuration Best Practices
+
+1. **Separation of Static and Dynamic Config**: Use `VITE_` prefix for static config that doesn't change between deployments, and `VITE_GLOB_` for dynamic config that may change in production.
+2. **Fallback Values**: Always provide fallback values for dynamic configuration:
+
+   ```ts
+   const apiBaseUrl = window._APP_CONFIG_.VITE_GLOB_API_BASE_URL || process.env.VITE_API_BASE_URL;
+   ```
+
+3. **Configuration Validation**: Validate dynamic configuration values at application startup:
+
+   ```ts
+   const validateDynamicConfig = () => {
+     if (!window._APP_CONFIG_.VITE_GLOB_API_BASE_URL) {
+       throw new Error('VITE_GLOB_API_BASE_URL is required in production');
+     }
+   };
+   ```
+
+4. **Secure Configuration**: Never expose sensitive information through dynamic configuration
+5. **Environment-Specific Configuration**: Use different dynamic configuration values for different deployment environments
+
+### Dynamic Configuration Generation
+
+After executing `pnpm build` in the project root directory, a `dist/_app.config.js` file will be automatically generated in the corresponding application and inserted into `index.html`.
+
+`_app.config.js` is a dynamic configuration file that can dynamically modify configurations according to different environments after the project is built. The content is as follows:
+
+```ts
+window._VBEN_ADMIN_PRO_APP_CONF_ = {
+  VITE_GLOB_API_URL: '',
+};
+Object.freeze(window._VBEN_ADMIN_PRO_APP_CONF_);
+Object.defineProperty(window, '_VBEN_ADMIN_PRO_APP_CONF_', {
+  configurable: false,
+  writable: false,
+});
+```
+
+### Purpose
+
+`_app.config.js` is used for requirements that need to dynamically modify configurations after packaging, such as API addresses. Without re-packaging, you can modify the variables in `/dist/_app.config.js` after packaging, and refresh to update the local variables in the code. The use of `js` files here is to ensure that the configuration file loading order remains at the front.
+
+### Adding New Dynamic Configuration
+
+To add a new dynamically configurable item, just follow these steps:
+
+- First, add the variable that needs to be dynamically configured in the `.env` file or the corresponding development environment configuration file. The variable needs to start with `VITE_GLOB_*`, such as:
+
+  ```bash
+  VITE_GLOB_OTHER_API_URL=https://api.example.com/other-api
+  ```
+
+- Use the variable in the frontend code:
+
+  ```ts
+  const otherApiURL = import.meta.env.VITE_GLOB_OTHER_API_URL;
+  ```
+
+At this point, the configuration item can be used within the project.
+
+::: warning Note
+
+In production environments, these configuration items can be dynamically changed by modifying the `dist/_app.config.js` file without rebuilding the entire project.
+
+:::
+
 ## Security Considerations
 
 ::: warning Security Warning
@@ -107,7 +199,7 @@ const validateConfig = () => {
 
 ## Best Practices
 
-1. **Environment Separation**: Use different configuration files for different environments
+1. **Environment Separation**: Maintain separate configuration files for different environments
 2. **Documentation**: Document all configuration variables
 3. **Validation**: Validate configuration at application startup
 4. **Security**: Never expose sensitive information in client-side code

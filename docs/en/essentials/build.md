@@ -115,6 +115,70 @@ Code is minified to reduce bundle size:
 - CSS minification
 - HTML minification
 
+### Code Splitting Configuration
+
+The project's code splitting is configured in `frontend/vite.config.ts`:
+
+```ts
+// frontend/vite.config.ts
+build: {
+  rollupOptions: {
+    output: {
+      manualChunks: {
+        // Package large dependency libraries separately
+        vendor: ['react', 'react-dom'],
+        antd: ['antd'],
+        utils: ['lodash', 'axios'],
+      },
+    },
+  },
+},
+```
+
+### Resource Compression
+
+The project supports multiple resource compression methods:
+
+```bash
+# Configure in .env.production
+VITE_COMPRESS=gzip  # Supports none, brotli, gzip
+```
+
+### Static Resource Processing
+
+The project automatically processes and optimizes static resources:
+
+```ts
+// frontend/vite.config.ts
+build: {
+  assetsDir: 'assets',
+  rollupOptions: {
+    output: {
+      assetFileNames: (assetInfo) => {
+        let extType = assetInfo.name.split('.').at(1);
+        if (/png|jpe?g|svg|gif|tiff|bmp|ico/i.test(extType)) {
+          extType = 'img';
+        }
+        return `assets/${extType}/[name]-[hash][extname]`;
+      },
+    },
+  },
+},
+```
+
+## Build Analysis
+
+The project supports build artifact analysis, which generates a visual representation of the bundle size and composition:
+
+```bash
+# Build and analyze
+pnpm build:analyze
+```
+
+This command will generate a report in the `dist` folder (e.g., `report.html`) that helps analyze the size of the bundled files, identify large dependencies, and optimize further.
+
+You can open the generated report in a browser to visualize the composition of the build output and identify optimization opportunities.
+
 ## Environment-specific Builds
 
 ### Development Build
@@ -135,10 +199,124 @@ Production builds are optimized for performance and file size.
 
 ## Deployment
 
-After building, the output can be deployed in multiple ways:
+After building, the output can be deployed in the following ways:
 
-1. **Vercel Deployment**: Using the Vercel platform
-2. **Docker Deployment**: Using Docker containers
-3. **Static File Deployment**: Deploying build output as static files
+### Static Deployment (Frontend)
 
-For detailed deployment instructions, please refer to the [Deployment Guide](../../deployment/vercel.md).
+All files under the `dist/frontend` directory can be deployed to any static hosting service such as:
+
+- **Vercel**
+- **Netlify**
+- **AWS S3**
+- **Cloudflare Pages**
+- **GitHub Pages**
+
+Example using Vercel CLI:
+
+```bash
+# Install Vercel CLI
+npm install -g vercel
+
+# Deploy to Vercel
+vercel dist/frontend
+```
+
+### Node.js Deployment (Backend)
+
+To deploy the backend on a Node.js server:
+
+```bash
+# Navigate to the backend directory
+cd backend
+
+# Install production dependencies
+pnpm install --prod
+
+# Start the service
+node dist/index.js
+```
+
+It is recommended to use a process manager like `pm2` for production:
+
+```bash
+# Install pm2 globally
+npm install -g pm2
+
+# Start with pm2
+pm2 start dist/index.js --name "my-backend"
+```
+
+### Docker Deployment (Backend)
+
+To deploy using Docker:
+
+```bash
+# Build the Docker image
+docker build -t your-backend-image -f backend/Dockerfile .
+
+# Run the Docker container
+docker run -d -p 3000:3000 --name your-backend-container your-backend-image
+```
+
+For Docker Compose:
+
+```yaml
+# docker-compose.yml
+version: '3.8'
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    ports:
+      - '3000:3000'
+    restart: unless-stopped
+```
+
+Then run:
+
+```bash
+docker-compose up -d
+```
+
+### CI/CD Integration
+
+You can integrate the build and deployment process with CI/CD tools like:
+
+- **GitHub Actions**
+- **GitLab CI**
+- **CircleCI**
+
+Example GitHub Actions workflow:
+
+```yaml
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install -g pnpm && pnpm install
+
+      - name: Build project
+        run: pnpm build
+
+      - name: Deploy to Vercel
+        run: vercel --prod
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+```

@@ -165,11 +165,123 @@ export const detectLanguage = (): string => {
 };
 ```
 
+## Advanced Usage
+
+### Translation with Parameters
+
+```json
+// Resource file
+{
+  "messages": {
+    "welcome": "Welcome, {{name}}!",
+    "itemCount": "Found {{count}} item",
+    "itemCount_plural": "Found {{count}} items"
+  }
+}
+```
+
+```tsx
+// Usage in component
+import { useTranslation } from 'react-i18next';
+
+const MyComponent: React.FC = () => {
+  const { t } = useTranslation('common');
+
+  return (
+    <div>
+      <p>{t('messages.welcome', { name: 'Player' })}</p>
+      <p>{t('messages.itemCount', { count: 5 })}</p>
+    </div>
+  );
+};
+```
+
+### Nested Translations
+
+```json
+// Resource file
+{
+  "navigation": {
+    "home": "Home",
+    "pets": {
+      "title": "Pet Dictionary",
+      "all": "All Pets"
+    }
+  }
+}
+```
+
+```tsx
+// Usage in component
+const Navigation: React.FC = () => {
+  const { t } = useTranslation('common');
+
+  return (
+    <nav>
+      <a href="/">{t('navigation.home')}</a>
+      <a href="/pets">{t('navigation.pets.title')}</a>
+    </nav>
+  );
+};
+```
+
+### Contextual Translations
+
+```json
+// Resource file
+{
+  "pet": {
+    "rarity": "Rarity",
+    "rarity_one": "Common",
+    "rarity_other": "Rare"
+  }
+}
+```
+
+```tsx
+// Usage in component
+const PetCard: React.FC<{ rarity: 'one' | 'other' }> = ({ rarity }) => {
+  const { t } = useTranslation('common');
+
+  return (
+    <div>
+      <h3>{t('pet.rarity')}</h3>
+      <p>{t(`pet.rarity_${rarity}`)}</p>
+    </div>
+  );
+};
+```
+
+## Language Switching Component
+
+```tsx
+// frontend/src/components/LanguageSwitcher.tsx
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+
+const LanguageSwitcher: React.FC = () => {
+  const { i18n } = useTranslation();
+
+  const changeLanguage = (lng: string) => {
+    i18n.changeLanguage(lng);
+  };
+
+  return (
+    <div>
+      <button onClick={() => changeLanguage('en-US')}>English</button>
+      <button onClick={() => changeLanguage('zh-CN')}>中文</button>
+    </div>
+  );
+};
+
+export default LanguageSwitcher;
+```
+
 ## Best Practices
 
-1. **Key Naming**: Use descriptive and hierarchical key names
-2. **Namespace Organization**: Organize translations by feature or module
-3. **Context Handling**: Use context suffixes for different meanings
+1. **Consistent Key Naming**: Use consistent and descriptive key names
+2. **Namespace Organization**: Organize translations with namespaces for better management
+3. **Fallback Handling**: Provide appropriate fallback mechanisms for missing translations
 4. **Pluralization**: Properly handle plural forms for different languages
 5. **Dynamic Loading**: Load language packages on demand to reduce bundle size
 

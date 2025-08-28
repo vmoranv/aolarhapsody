@@ -190,5 +190,3 @@ pnpm install
 # Rebuild
 pnpm build
 ```
-
-By following these guidelines, you can efficiently develop and contribute to the Aolarhapsody project.
