@@ -19,23 +19,23 @@ hero:
       link: https://github.com/vmoranv/aolarhapsody
     - theme: alt
       text: 在线预览
-      link: https://aolarhapsody.com
+      link: https://aolarhapsody.614447.xyz
 
 features:
   - icon: 🚀
     title: 全栈单体仓库
     details: Monorepository，使用 pnpm workspaces 管理，便于统一开发、构建和部署。
-    link: /architecture/overview
+    link: /project/architecture
     linkText: 架构文档
   - icon: 💡
     title: 现代化技术栈
     details: 采用 React, Vite, TypeScript, Zustand 等现代前端技术，以及 Node.js/Express 后端，提供高效的开发体验。
-    link: /guide/introduction/tech-stack
+    link: /essentials/development
     linkText: 技术栈
   - icon: 🧩
     title: 高度可扩展
     details: 模块化结构高内聚低耦合，可扩展性良好。
-    link: /guide/project/modular-design
+    link: /project/modular-design
     linkText: 模块设计
   - icon: ☁️
     title: 多种部署方式

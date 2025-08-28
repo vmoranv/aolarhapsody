@@ -19,23 +19,23 @@ hero:
       link: https://github.com/vmoranv/aolarhapsody
     - theme: alt
       text: Live Demo
-      link: https://aolarhapsody.com
+      link: https://aolarhapsody.614447.xyz
 
 features:
   - icon: 🚀
     title: Full-stack Monorepo
     details: Monorepository managed with pnpm workspaces for unified development, building, and deployment.
-    link: /en/architecture/overview
+    link: /en/project/architecture
     linkText: Architecture Docs
   - icon: 💡
     title: Modern Tech Stack
     details: Using modern frontend technologies like React, Vite, TypeScript, Zustand, and Node.js/Express backend for efficient development experience.
-    link: /en/guide/introduction/tech-stack
+    link: /en/essentials/development
     linkText: Tech Stack
   - icon: 🧩
     title: Highly Extensible
     details: Modular structure with high cohesion and low coupling, providing good extensibility.
-    link: /en/guide/project/modular-design
+    link: /en/project/modular-design
     linkText: Module Design
   - icon: ☁️
     title: Multiple Deployment Options
@@ -50,6 +50,6 @@ features:
   - icon: 🤖
     title: AI Assistant Integration
     details: Integrated with AI assistant capabilities for enhanced user experience.
-    link: /en/guide/in-depth/ai-assistant
+    link: /
     linkText: AI Docs
 ---
