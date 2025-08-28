@@ -21,8 +21,3 @@ Damage calculation plays an important role in the following scenarios:
 3. Equipment attribute balance adjustment
 4. Game numerical design and balance
 5. Combat result prediction and analysis
-
-## Related Documentation
-
-- [Packet Parsing](./packets.md)
-- [Aola Module Introduction](./introduction.md)
