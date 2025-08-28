@@ -20,12 +20,11 @@ export default defineConfig({
       themeConfig: {
         nav: [
           { text: '首页', link: '/' },
-          { text: '项目介绍', link: '/guide/introduction' },
-          { text: '项目架构', link: '/architecture/overview' },
+          { text: '基础', link: '/guide/quick-guide' },
+          { text: '项目架构', link: '/guide/project/architecture' },
           { text: '项目部署', link: '/deployment/vercel' },
-          { text: 'my封包', link: '/packets/list' },
-          { text: '数值计算', link: '/calculation/damage' },
-          { text: '社区支持', link: '/community/contributing' },
+          { text: '社区支持', link: '/community/community' },
+          { text: '奥拉', link: '/aola/packets' },
         ],
       },
     },
@@ -36,12 +35,11 @@ export default defineConfig({
       themeConfig: {
         nav: [
           { text: 'Home', link: '/en/' },
-          { text: 'Guide', link: '/en/guide/introduction' },
-          { text: 'Architecture', link: '/en/architecture/overview' },
+          { text: 'Guide', link: '/en/guide/quick-guide' },
+          { text: 'Architecture', link: '/en/guide/project/architecture' },
           { text: 'Deployment', link: '/en/deployment/vercel' },
-          { text: 'Packets', link: '/en/packets/list' },
-          { text: 'Calculation', link: '/en/calculation/damage' },
-          { text: 'Community', link: '/en/community/contributing' },
+          { text: 'Community', link: '/en/community/community' },
+          { text: 'Aola', link: '/en/aola/packets' },
         ],
       },
     },
@@ -91,54 +89,124 @@ export default defineConfig({
     sidebar: {
       '/': [
         {
-          text: '项目介绍',
-          items: [{ text: '快速开始', link: '/guide/quick-guide' }],
+          text: '入门',
+          items: [
+            { text: '快速开始', link: '/guide/quick-guide' },
+            { text: '项目特色', link: '/guide/features' },
+          ],
+        },
+        {
+          text: '基础',
+          items: [
+            { text: '开发', link: '/essentials/development' },
+            { text: '构建', link: '/essentials/build' },
+            { text: '配置', link: '/essentials/settings' },
+            { text: '权限管理', link: '/essentials/access' },
+            { text: '国际化', link: '/essentials/locale' },
+            { text: '主题', link: '/essentials/theme' },
+            { text: 'CLI 工具', link: '/essentials/cli' },
+            { text: '组件介绍', link: '/essentials/components' },
+          ],
         },
         {
           text: '项目架构',
-          items: [{ text: '概述', link: '/architecture/overview' }],
+          items: [
+            { text: '概述', link: '/project/architecture' },
+            { text: '目录结构', link: '/project/directory-structure' },
+            { text: '模块设计', link: '/project/modular-design' },
+            { text: '开发规范', link: '/project/development-specs' },
+          ],
         },
         {
           text: '项目部署',
-          items: [{ text: 'Vercel 部署', link: '/deployment/vercel' }],
-        },
-        {
-          text: 'my封包',
-          items: [{ text: '封包列表', link: '/packets/list' }],
-        },
-        {
-          text: '数值计算',
-          items: [{ text: '伤害计算', link: '/calculation/damage' }],
+          items: [
+            { text: 'Vercel 部署', link: '/deployment/vercel' },
+            { text: 'Docker 部署', link: '/deployment/docker' },
+            { text: 'Tauri 桌面应用', link: '/deployment/tauri' },
+          ],
         },
         {
           text: '社区支持',
-          items: [{ text: '贡献指南', link: '/community/contributing' }],
+          items: [
+            { text: '社区支持', link: '/community/community' },
+            { text: '技术支持', link: '/community/technical-support' },
+          ],
+        },
+        {
+          text: '奥拉',
+          items: [
+            { text: '封包解析', link: '/aola/packets' },
+            { text: '伤害计算', link: '/aola/damage' },
+          ],
+        },
+        {
+          text: '其他',
+          items: [
+            { text: '常见问题', link: '/other/faq' },
+            { text: '贡献指南', link: '/other/contribution' },
+            { text: '赞助', link: '/community/sponsor' },
+          ],
         },
       ],
       '/en/': [
         {
-          text: 'Guide',
-          items: [{ text: 'Quick Start', link: '/en/guide/quick-guide' }],
+          text: 'Getting Started',
+          items: [
+            { text: 'Quick Start', link: '/en/guide/quick-guide' },
+            { text: 'Features', link: '/en/guide/features' },
+          ],
+        },
+        {
+          text: 'Basics',
+          items: [
+            { text: 'Development', link: '/en/essentials/development' },
+            { text: 'Build', link: '/en/essentials/build' },
+            { text: 'Configuration', link: '/en/essentials/settings' },
+            { text: 'Access Control', link: '/en/essentials/access' },
+            { text: 'Internationalization', link: '/en/essentials/locale' },
+            { text: 'Theming', link: '/en/essentials/theme' },
+            { text: 'CLI Tools', link: '/en/essentials/cli' },
+            { text: 'Components', link: '/en/essentials/components' },
+          ],
         },
         {
           text: 'Architecture',
-          items: [{ text: 'Overview', link: '/en/architecture/overview' }],
+          items: [
+            { text: 'Overview', link: '/en/project/architecture' },
+            { text: 'Directory Structure', link: '/en/project/directory-structure' },
+            { text: 'Modular Design', link: '/en/project/modular-design' },
+            { text: 'Development Specifications', link: '/en/project/development-specs' },
+          ],
         },
         {
           text: 'Deployment',
-          items: [{ text: 'Vercel Deployment', link: '/en/deployment/vercel' }],
-        },
-        {
-          text: 'Packets',
-          items: [{ text: 'Packet List', link: '/en/packets/list' }],
-        },
-        {
-          text: 'Calculation',
-          items: [{ text: 'Damage Calculation', link: '/en/calculation/damage' }],
+          items: [
+            { text: 'Vercel Deployment', link: '/en/deployment/vercel' },
+            { text: 'Docker Deployment', link: '/en/deployment/docker' },
+            { text: 'Tauri Desktop App', link: '/en/deployment/tauri' },
+          ],
         },
         {
           text: 'Community',
-          items: [{ text: 'Contributing', link: '/en/community/contributing' }],
+          items: [
+            { text: 'Community Support', link: '/en/community/community' },
+            { text: 'Technical Support', link: '/en/community/technical-support' },
+          ],
+        },
+        {
+          text: 'Aola',
+          items: [
+            { text: 'Packet Parsing', link: '/en/aola/packets' },
+            { text: 'Damage Calculation', link: '/en/aola/damage' },
+          ],
+        },
+        {
+          text: 'Others',
+          items: [
+            { text: 'FAQ', link: '/en/other/faq' },
+            { text: 'Contribution', link: '/en/other/contribution' },
+            { text: 'Sponsorship', link: '/en/community/sponsor' },
+          ],
         },
       ],
     },

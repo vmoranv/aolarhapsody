@@ -253,7 +253,7 @@ function initGSAPAnimations() {
 
   // Hero 内容动画
   gsap.from('.hero-content > *', {
-    y: 50,
+    y: 20,
     opacity: 0,
     duration: 1,
     stagger: 0.2,
@@ -400,25 +400,26 @@ function init() {
     );
   });
 
-  // 预加载关键资源
-  preloadResources();
+  // 确保按钮可见
+  const heroButtons = document.querySelector('.hero-buttons') as HTMLElement;
+  if (heroButtons) {
+    heroButtons.style.display = 'flex';
+    heroButtons.style.opacity = '1';
+    heroButtons.style.visibility = 'visible';
+  }
+
+  const ctaButtons = document.querySelectorAll('.cta-button');
+  ctaButtons.forEach((button) => {
+    (button as HTMLElement).style.display = 'flex';
+    (button as HTMLElement).style.opacity = '1';
+    (button as HTMLElement).style.visibility = 'visible';
+  });
 }
 
 // 响应式调整
 window.addEventListener('resize', () => {
   ScrollTrigger.refresh();
 });
-
-// 预加载图片等资源
-function preloadResources() {
-  const criticalImages: string[] = [
-    // 添加需要预加载的图片URL
-  ];
-  criticalImages.forEach((src: string) => {
-    const img = new Image();
-    img.src = src;
-  });
-}
 
 // 动态切换 Favicon
 const updateFavicon = (isKimiMode: boolean) => {

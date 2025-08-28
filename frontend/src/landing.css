@@ -389,7 +389,12 @@ h6 {
 }
 
 .hero-content {
+  position: relative;
+  z-index: 10;
+  visibility: visible !important;
   max-width: 600px;
+  opacity: 1 !important;
+  transform: translateY(0) !important; /* 重置可能的 translateY 值 */
 }
 
 .hero-badge {
@@ -419,13 +424,20 @@ h6 {
 }
 
 .hero-title {
+  position: relative;
+  z-index: 10;
+  visibility: visible !important;
   margin-bottom: var(--spacing-6);
   font-size: 3.5rem;
   font-weight: 900;
   line-height: 1.1;
+  opacity: 1 !important;
 }
 
 .art-text {
+  position: relative;
+  z-index: 10;
+  visibility: visible !important;
   padding: 0 20px;
   font-family: Birthstone, cursive;
   font-size: 6rem;
@@ -433,6 +445,7 @@ h6 {
   text-transform: uppercase;
   background: linear-gradient(90deg, rgb(139 92 246 / 100%), rgb(168 85 247 / 0%));
   background-clip: text;
+  opacity: 1 !important;
   -webkit-text-fill-color: transparent;
   -webkit-text-stroke: 1px rgb(255 255 255 / 20%);
 }
@@ -466,16 +479,22 @@ h6 {
 }
 
 .hero-subtitle {
+  position: relative;
+  z-index: 10;
+  visibility: visible !important;
   margin-bottom: var(--spacing-8);
   font-size: 1.25rem;
   line-height: 1.7;
   color: var(--text-secondary);
+  opacity: 1 !important;
 }
 
 .hero-buttons {
-  display: flex;
+  display: flex !important;
+  visibility: visible !important;
   gap: var(--spacing-4);
   margin-bottom: var(--spacing-12);
+  opacity: 1 !important;
 }
 
 @media (width <= 640px) {
@@ -486,7 +505,9 @@ h6 {
 
 .cta-button {
   position: relative;
-  display: inline-flex;
+  z-index: 10; /* 确保按钮在其他元素之上 */
+  display: inline-flex !important; /* 强制显示为flex */
+  visibility: visible !important; /* 强制可见 */
   gap: var(--spacing-2);
   align-items: center;
   justify-content: center;
@@ -496,12 +517,14 @@ h6 {
   font-weight: 600;
   text-decoration: none;
   border-radius: var(--radius-full);
+  opacity: 1 !important; /* 强制不透明 */
   transition: all 0.3s var(--transition-default);
 }
 
 .cta-button.primary {
   color: var(--text-inverse);
   background: var(--primary-gradient);
+  border: none; /* 添加明确的边框设置 */
   box-shadow: var(--shadow-lg);
 }
 
@@ -579,10 +602,6 @@ h6 {
   .hero-visual {
     display: none;
   }
-}
-
-.hero-visual {
-  /* Keep the container relative for positioning children */
 }
 
 .static-arcs {

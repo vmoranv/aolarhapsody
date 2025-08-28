@@ -23,8 +23,8 @@ Before getting started, make sure your development environment meets the followi
 ### 1. Clone the Project
 
 ```bash
-git clone <repository-url> aolarhapsody-monorepo
-cd aolarhapsody-monorepo
+git clone https://github.com/vmoranv/aolarhapsody.git
+cd aolarhapsody
 ```
 
 ### 2. Install Dependencies

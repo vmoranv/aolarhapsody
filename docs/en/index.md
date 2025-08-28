@@ -1,30 +1,55 @@
 ---
 # https://vitepress.dev/reference/default-theme-home-page
 layout: home
+sidebar: false
 
 hero:
-  name: 'AolaRhapsody'
-  text: 'Open Source Aola Analysis Site'
-  tagline: Provides Copilot analysis and practical small features
+  name: AolaRhapsody
+  text: Open Source Aola Data Analysis Site
+  tagline: Full-stack project based on React and Node.js, providing modern Aola data analysis tools
   image:
     src: /yinhe.jpg
-    alt: yinhe
+    alt: AolaRhapsody
   actions:
     - theme: brand
-      text: Get Started
+      text: Get Started ->
       link: /en/guide/quick-guide
     - theme: alt
-      text: GitHub Repository
+      text: View on GitHub
       link: https://github.com/vmoranv/aolarhapsody
+    - theme: alt
+      text: Live Demo
+      link: https://aolarhapsody.com
 
 features:
   - icon: 🚀
-    title: Full-Stack Monorepo
-    details: Monorepository, managed with pnpm workspaces for unified development, building, and deployment.
+    title: Full-stack Monorepo
+    details: Monorepository managed with pnpm workspaces for unified development, building, and deployment.
+    link: /en/architecture/overview
+    linkText: Architecture Docs
   - icon: 💡
     title: Modern Tech Stack
-    details: Uses modern frontend technologies like React, Vite, TypeScript, and Zustand, along with a Node.js/Express backend, for an efficient development experience.
+    details: Using modern frontend technologies like React, Vite, TypeScript, Zustand, and Node.js/Express backend for efficient development experience.
+    link: /en/guide/introduction/tech-stack
+    linkText: Tech Stack
   - icon: 🧩
     title: Highly Extensible
-    details: The modular structure is highly cohesive and loosely coupled, providing good extensibility.
+    details: Modular structure with high cohesion and low coupling, providing good extensibility.
+    link: /en/guide/project/modular-design
+    linkText: Module Design
+  - icon: ☁️
+    title: Multiple Deployment Options
+    details: Supports various deployment solutions including Vercel, Docker, and Tauri to meet different scenario requirements.
+    link: /en/deployment/vercel
+    linkText: Deployment Docs
+  - icon: 🎨
+    title: Modern UI
+    details: Built with Ant Design and Tailwind CSS to create beautiful, responsive user interfaces.
+    link: /
+    linkText: Live Demo
+  - icon: 🤖
+    title: AI Assistant Integration
+    details: Integrated with AI assistant capabilities for enhanced user experience.
+    link: /en/guide/in-depth/ai-assistant
+    linkText: AI Docs
 ---

@@ -23,8 +23,8 @@ Aolarhapsody 是一个功能丰富的全栈项目，包含以下主要组件：
 ### 1. 克隆项目
 
 ```bash
-git clone <repository-url> aolarhapsody-monorepo
-cd aolarhapsody-monorepo
+git clone https://github.com/vmoranv/aolarhapsody.git
+cd aolarhapsody
 ```
 
 ### 2. 安装依赖

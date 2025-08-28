@@ -44,8 +44,8 @@ This project is a monorepo based on pnpm workspaces to manage all the code for A
 1.  **Clone the project**
 
     ```bash
-    git clone <repository-url> aolarhapsody-monorepo
-    cd aolarhapsody-monorepo
+    git clone https://github.com/vmoranv/aolarhapsody.git
+    cd aolarhapsody
     ```
 
 2.  **Install dependencies**

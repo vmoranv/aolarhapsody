@@ -60,52 +60,6 @@ Aolarhapsody 是一个基于 [pnpm workspace](https://pnpm.io/workspaces) 的 mo
 - **文档工具**: [VitePress](https://vitepress.dev/)
 - **内部工具**: ash, turbo-run
 
-## 目录结构
-
-目录使用 Monorepo 管理，项目结构如下：
-
-```bash
-.
-├── backend/                    # 后端服务
-│   ├── dataparse/              # 数据解析模块
-│   │   ├── astralspirit.ts     # 星神解析器
-│   │   ├── chatframe.ts        # 聊天框解析器
-│   │   ├── clothes.ts          # 服装解析器
-│   │   └── ...                 # 其他数据解析器
-│   ├── routes/                 # API路由
-│   ├── types/                  # TypeScript类型定义
-│   ├── index.ts                # 后端入口文件
-│   ├── package.json            # 后端依赖配置
-│   └── tsconfig.json           # TypeScript配置
-├── frontend/                   # 前端应用
-│   ├── src/                    # 前端源码
-│   │   ├── components/         # 公共组件
-│   │   ├── contexts/           # React上下文
-│   │   ├── hooks/              # 自定义Hooks
-│   │   ├── locales/            # 国际化资源
-│   │   ├── router/             # 路由配置
-│   │   ├── store/              # 状态管理
-│   │   ├── theme/              # 主题配置
-│   │   ├── types/              # TypeScript类型定义
-│   │   ├── utils/              # 工具函数
-│   │   ├── views/              # 页面组件
-│   │   ├── App.tsx             # 根组件
-│   │   ├── main.tsx            # 前端入口文件
-│   │   └── ...
-│   ├── index.html              # HTML模板
-│   ├── package.json            # 前端依赖配置
-│   └── vite.config.ts          # Vite配置
-├── scripts/                    # 内部 CLI 工具和脚本
-│   ├── ash/                    # 辅助脚本集合 (ash)
-│   ├── turbo-run/              # 交互式脚本运行器 (ar-turbo)
-│   ├── deploy/                 # 部署相关脚本和配置
-│   └── ...
-├── docs/                       # 项目文档
-├── README.md                   # 项目说明文档
-├── package.json                # 项目依赖配置
-└── pnpm-workspace.yaml         # pnpm工作区配置
-```
-
 ## 模块划分
 
 ### 1. 前端模块 (frontend/)
@@ -120,23 +74,6 @@ Aolarhapsody 是一个基于 [pnpm workspace](https://pnpm.io/workspaces) 的 mo
 - 国际化支持
 - 响应式设计
 
-目录结构：
-
-```
-frontend/
-├── src/
-│   ├── components/     # 公共组件
-│   ├── views/          # 页面视图
-│   ├── hooks/          # 自定义 Hooks
-│   ├── store/          # 状态管理
-│   ├── utils/          # 工具函数
-│   ├── router/         # 路由配置
-│   ├── theme/          # 主题配置
-│   └── locales/        # 国际化资源
-├── public/             # 静态资源
-└── package.json        # 前端依赖配置
-```
-
 ### 2. 后端模块 (backend/)
 
 后端模块负责数据处理和 API 服务提供，是整个应用的数据中枢。
@@ -148,31 +85,9 @@ frontend/
 - 数据处理和转换
 - 跨域支持
 
-目录结构：
-
-```
-backend/
-├── dataparse/          # 数据解析模块
-├── routes/             # API 路由
-├── types/              # TypeScript 类型定义
-├── index.ts            # 应用入口
-├── Dockerfile          # Docker 配置
-└── package.json        # 后端依赖配置
-```
-
 ### 3. 脚本工具模块 (scripts/)
 
 脚本工具模块包含项目开发和部署所需的各类工具。
-
-目录结构：
-
-```
-scripts/
-├── ash/                # 辅助脚本工具
-├── turbo-run/          # 交互式脚本运行器
-├── deploy/             # 部署相关脚本
-└── clean.mjs           # 清理脚本
-```
 
 ## 数据流设计
 
@@ -222,9 +137,8 @@ scripts/
 │  │  Frontend   │    │      Backend        │  │
 │  │   (Static   │    │   (Dockerized)      │  │
 │  │    Files)   │    │ vmoranv/aolar-      │  │
-│  │             │    │      backend        │  │
-│  └─────────────┘    └─────────────────────┘  │
-└──────────────────────────────────────────────┘
+│  └─────────────┘    │      backend        │  │
+└─────────────────────┴─────────────────────┘
 ```
 
 ## 架构优势
