@@ -43,11 +43,6 @@ pnpm install
 pnpm dev
 ```
 
-这将同时启动前端和后端服务：
-
-- 前端将在 `http://localhost:5173` 上运行
-- 后端将在 `http://localhost:3000` 上运行
-
 ### 单独启动服务
 
 如果您只想启动特定的服务，可以使用以下命令：
@@ -108,19 +103,6 @@ pnpm build:docker:backend
 docker run -d -p 3000:3000 --name aolarhapsody-backend-container aolarhapsody-backend
 ```
 
-服务启动后，您可以通过 `http://localhost:3000` 访问后端 API。
-
-## 项目结构
-
-```
-.
-├── backend/         # 后端服务
-├── frontend/        # 前端应用
-├── scripts/         # 内部 CLI 工具和脚本
-├── docs/            # 项目文档
-└── package.json     # 项目配置文件
-```
-
 ## 常用命令
 
 | 命令               | 描述                            |
@@ -132,11 +114,6 @@ docker run -d -p 3000:3000 --name aolarhapsody-backend-container aolarhapsody-ba
 | `pnpm check`       | 运行所有的代码检查              |
 | `pnpm format`      | 格式化所有代码                  |
 | `pnpm clean`       | 清理所有构建产物和 node_modules |
-
-## 访问应用
-
-- 前端界面: `http://localhost:5173`
-- 后端 API: `http://localhost:3000`
 
 ## 故障排除
 

@@ -43,11 +43,6 @@ pnpm install
 pnpm dev
 ```
 
-This will start both frontend and backend services:
-
-- Frontend will run on `http://localhost:5173`
-- Backend will run on `http://localhost:3000`
-
 ### Start Services Separately
 
 If you only want to start specific services, you can use the following commands:
@@ -108,19 +103,6 @@ Then run the container:
 docker run -d -p 3000:3000 --name aolarhapsody-backend-container aolarhapsody-backend
 ```
 
-After the service starts, you can access the backend API via `http://localhost:3000`.
-
-## Project Structure
-
-```
-.
-├── backend/         # Backend services
-├── frontend/        # Frontend application
-├── scripts/         # Internal CLI tools and scripts
-├── docs/            # Project documentation
-└── package.json     # Project configuration file
-```
-
 ## Common Commands
 
 | Command            | Description                                |
@@ -132,11 +114,6 @@ After the service starts, you can access the backend API via `http://localhost:3
 | `pnpm check`       | Run all code checks                        |
 | `pnpm format`      | Format all code                            |
 | `pnpm clean`       | Clean all build artifacts and node_modules |
-
-## Accessing the Application
-
-- Frontend interface: `http://localhost:5173`
-- Backend API: `http://localhost:3000`
 
 ## Troubleshooting
 

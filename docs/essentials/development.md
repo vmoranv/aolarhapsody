@@ -27,7 +27,7 @@ pnpm install
 ### 启动开发服务
 
 ```bash
-# 启动所有服务（推荐）
+# 启动所有服务
 pnpm dev
 
 # 仅启动前端开发服务
@@ -35,46 +35,6 @@ pnpm dev:front
 
 # 仅启动后端开发服务
 pnpm dev:backend
-```
-
-启动成功后，可以通过以下地址访问：
-
-- 前端: http://localhost:5173
-
-## 项目结构
-
-项目采用 monorepo 结构管理，主要目录如下：
-
-```
-.
-├── backend/                    # 后端服务
-│   ├── dataparse/              # 数据解析模块
-│   ├── routes/                 # API路由
-│   ├── types/                  # TypeScript类型定义
-│   ├── index.ts                # 后端入口文件
-│   ├── package.json            # 后端依赖配置
-│   └── tsconfig.json           # TypeScript配置
-├── frontend/                   # 前端应用
-│   ├── src/                    # 前端源码
-│   │   ├── components/         # 公共组件
-│   │   ├── hooks/              # 自定义Hooks
-│   │   ├── locales/            # 国际化资源
-│   │   ├── router/             # 路由配置
-│   │   ├── store/              # 状态管理
-│   │   ├── theme/              # 主题配置
-│   │   ├── types/              # TypeScript类型定义
-│   │   ├── utils/              # 工具函数
-│   │   ├── views/              # 页面组件
-│   │   ├── App.tsx             # 根组件
-│   │   ├── main.tsx            # 前端入口文件
-│   │   └── ...
-│   ├── index.html              # HTML模板
-│   ├── package.json            # 前端依赖配置
-│   └── vite.config.ts          # Vite配置
-├── scripts/                    # 内部 CLI 工具和脚本
-├── docs/                       # 项目文档
-├── package.json                # 项目配置文件
-└── pnpm-workspace.yaml         # pnpm工作区配置
 ```
 
 ## 常用命令
@@ -205,24 +165,6 @@ node --inspect backend/dist/index.js
 
 然后在 Chrome 浏览器中访问 `chrome://inspect` 进行调试。
 
-## 测试
-
-项目支持多种测试方式：
-
-### 单元测试
-
-```bash
-# 运行单元测试
-pnpm test:unit
-```
-
-### 端到端测试
-
-```bash
-# 运行端到端测试
-pnpm test:e2e
-```
-
 ## 问题解决
 
 ### 依赖问题
@@ -232,15 +174,6 @@ pnpm test:e2e
 ```bash
 # 清理并重新安装依赖
 pnpm reinstall
-```
-
-### 端口冲突
-
-如果默认端口被占用，可以修改环境变量：
-
-```bash
-# 在 .env.development 中修改端口
-VITE_PORT=5174
 ```
 
 ### 构建失败

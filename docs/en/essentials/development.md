@@ -27,118 +27,168 @@ pnpm install
 ### Start Development Services
 
 ```bash
-# Start all services (recommended)
+# Start all services
 pnpm dev
+
+# Start frontend development service only
+pnpm dev:front
+
+# Start backend development service only
+pnpm dev:backend
+```
+
+## Common Commands
+
+The project provides rich commands to assist development:
+
+```json
+{
+  "scripts": {
+    // Build project
+    "build": "pnpm --filter @aolarhapsody/turbo-run build && cross-env NODE_OPTIONS=--max-old-space-size=8192 ar-turbo build",
+    // Build all packages
+    "build:all": "pnpm --parallel --filter \"./**\" build",
+    // Build frontend
+    "build:front": "pnpm --filter frontend build",
+    // Build backend
+    "build:backend": "pnpm --filter backend build",
+    // Build Docker image
+    "build:docker": "bash ./scripts/deploy/build-local-docker-image.sh",
+    // Build backend Docker image
+    "build:docker:backend": "docker build -t aolarhapsody-backend -f backend/Dockerfile .",
+    // Build Tauri desktop application
+    "build:tauri": "pnpm --filter frontend exec tauri build",
+    // Preview build results
+    "preview": "pnpm build:all && pnpm --parallel --filter \"./**\" preview",
+    // Preview frontend
+    "preview:front": "pnpm --filter frontend build && pnpm --filter frontend preview",
+    // Preview backend
+    "preview:backend": "pnpm --filter backend build && pnpm --filter backend preview",
+    // Code checking
+    "check": "ash lint && pnpm lint:cspell",
+    // Clean project
+    "clean": "node ./scripts/clean.mjs",
+    // Commit code
+    "commit": "czg",
+    // Start development services
+    "dev": "concurrently -k \"pnpm:dev:backend\" \"node scripts/wait-for-backend.mjs\"",
+    // Start frontend development service
+    "dev:front": "pnpm --filter frontend dev",
+    // Start backend development service
+    "dev:backend": "pnpm --filter backend dev",
+    // Format code
+    "format": "ash lint --format",
+    // Code checking
+    "lint": "ash lint",
+    // Spell checking
+    "lint:cspell": "cspell lint \"**/*.ts\" \"**/README.md\" \".changeset/*.md\" --no-progress",
+    // Package specification checking
+    "lint:publint": "ash publint",
+    // Install Git Hooks
+    "postinstall": "lefthook install",
+    // Restrict to pnpm only
+    "preinstall": "npx only-allow pnpm",
+    // Reinstall dependencies
+    "reinstall": "pnpm clean --del-lock && pnpm install"
+  }
+}
 ```
 
 ## Development Workflow
 
-### Directory Structure
+### Create New Features
 
-The project follows a monorepo structure:
+1. Create a feature branch:
 
-```
-.
-├── backend/          # Backend services
-├── frontend/         # Frontend application
-├── docs/             # Documentation
-├── scripts/          # Internal tools and scripts
+```bash
+git checkout -b feature/new-feature
 ```
 
-### Code Quality
+2. Develop feature code
+
+3. Run tests to ensure functionality works properly:
+
+```bash
+pnpm dev
+```
+
+4. Commit code:
+
+```bash
+git add .
+git commit -m "feat: add new feature"
+```
+
+### Code Standards
 
 The project uses the following tools to ensure code quality:
 
-- **ESLint**: JavaScript/TypeScript linting
+- **ESLint**: JavaScript/TypeScript code checking
 - **Prettier**: Code formatting
-- **Stylelint**: CSS/SCSS linting
-- **Commitlint**: Git commit message linting
+- **Stylelint**: CSS code checking
+- **Commitlint**: Git commit message checking
 
-### Development Commands
+### Code Formatting
 
 ```bash
-# Run code linting
-pnpm lint
-
-# Run code formatting
+# Format all code
 pnpm format
-
-# Run tests
-pnpm test
-
-# Run tests in watch mode
-pnpm test:watch
 ```
 
-## Frontend Development
+### Code Checking
 
-### Technology Stack
+```bash
+# Run all checks
+pnpm check
 
-- **React**: UI library
-- **TypeScript**: Type checking
-- **Vite**: Build tool
-- **Tailwind CSS**: Styling framework
-- **Ant Design**: UI component library
+# Run spell checking
+pnpm lint:cspell
 
-### Component Development
-
-Components should follow these principles:
-
-1. **Single Responsibility**: Each component should have a single responsibility
-2. **Reusability**: Components should be designed for reusability
-3. **Accessibility**: Components should follow accessibility guidelines
-4. **Performance**: Components should be optimized for performance
-
-## Backend Development
-
-### Technology Stack
-
-- **Node.js**: Runtime environment
-- **Express**: Web framework
-- **TypeScript**: Type checking
-
-### API Development
-
-APIs should follow RESTful principles:
-
-1. **Resource-based**: APIs should be organized around resources
-2. **Stateless**: Each request should contain all necessary information
-3. **Uniform interface**: Consistent API design
-4. **Cacheable**: Responses should indicate cacheability
+# Run package specification checking
+pnpm lint:publint
+```
 
 ## Debugging
 
 ### Frontend Debugging
 
-- Use browser developer tools
-- Enable React DevTools
-- Use console.log for debugging
+The frontend uses Vite development server, which supports hot updates and source mapping, allowing direct debugging in the browser.
 
 ### Backend Debugging
 
-- Use Node.js inspector
-- Check server logs
-- Use debugging tools like Postman for API testing
+The backend supports Node.js debugging, which can be started in debug mode as follows:
 
-## Common Issues
+```bash
+# Start backend with inspect mode
+node --inspect backend/dist/index.js
+```
+
+Then access `chrome://inspect` in Chrome browser for debugging.
+
+## Troubleshooting
 
 ### Dependency Issues
 
-If you encounter dependency issues:
+If you encounter dependency-related issues, try reinstalling dependencies:
 
 ```bash
-# Clean node_modules and reinstall
-pnpm clean
-pnpm install
+# Clean and reinstall dependencies
+pnpm reinstall
 ```
 
-### Port Conflicts
+### Build Failures
 
-If ports are occupied:
+If build fails, try cleaning the project and rebuilding:
 
 ```bash
-# Change port in .env file
-VITE_PORT=3001
+# Clean project
+pnpm clean
+
+# Reinstall dependencies
+pnpm install
+
+# Rebuild
+pnpm build
 ```
 
 By following these guidelines, you can efficiently develop and contribute to the Aolarhapsody project.
