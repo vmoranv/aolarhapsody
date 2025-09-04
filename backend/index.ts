@@ -60,8 +60,6 @@ async function startServer() {
           timezone: 'Asia/Shanghai',
         }
       );
-
-      console.warn(`每日数据刷新任务已安排在凌晨 4 点运行。`);
     });
 
     server.on('error', (err: any) => {

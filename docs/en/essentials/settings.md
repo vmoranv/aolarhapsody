@@ -13,18 +13,6 @@ The rules are consistent with [Vite Env Variables and Modes](https://vitejs.dev/
 .env.[mode].local   # Loaded only in the specified mode, but ignored by git
 ```
 
-::: tip
-
-- Only variables starting with `VITE_` will be embedded into the client-side package. You can access them in project code like this:
-
-  ```ts
-  console.log(import.meta.env.VITE_PORT);
-  ```
-
-- Variables starting with `VITE_GLOB_*` will be added to the `_app.config.js` configuration file during packaging.
-
-:::
-
 ## Environment Configuration Description
 
 ::: code-group
@@ -103,22 +91,16 @@ In production environments, the application supports dynamic configuration throu
 
 The dynamic configuration is loaded from the `_app.config.js` file which is generated during the build process. This file contains all environment variables prefixed with `VITE_GLOB_`.
 
-``js
+```js
 // _app.config.js (generated file example)
 window.\_APP_CONFIG_ = {
 VITE_GLOB_API_BASE_URL: '/api',
 VITE_GLOB_APP_TITLE: 'Aolarhapsody'
 };
 
-````
+```
 
 These dynamic configuration values can be accessed throughout the application:
-
-```ts
-// frontend/src/utils/config.ts
-const apiBaseUrl = window._APP_CONFIG_.VITE_GLOB_API_BASE_URL;
-console.log('API Base URL:', apiBaseUrl);
-````
 
 ### Dynamic Configuration Best Practices
 

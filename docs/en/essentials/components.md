@@ -11,7 +11,7 @@ import { Button } from 'antd'; // Using Ant Design components
 import { AttributeCard } from '@/components/AttributeCard'; // Using custom components
 ```
 
-Where `@` is an alias for the project pointing to the [frontend/src](file:///c:/Users/Administrator/Desktop/tmp/aolarhapsody/frontend/src) directory.
+Where `@` is an alias for the project pointing to the `frontend/src` directory.
 
 ## Custom Components
 
@@ -349,22 +349,6 @@ function Header() {
     },
   ];
 
-  const markAsRead = (id) => {
-    console.log(`Marking notification ${id} as read`);
-  };
-
-  const markAllAsRead = () => {
-    console.log('Marking all notifications as read');
-  };
-
-  const remove = (id) => {
-    console.log(`Removing notification ${id}`);
-  };
-
-  const clearAll = () => {
-    console.log('Clearing all notifications');
-  };
-
   return (
     <header>
       <NotificationDropdown
@@ -455,7 +439,6 @@ function PetSelector() {
   const [modalVisible, setModalVisible] = useState(false);
 
   const handleSelect = (raceId) => {
-    console.log(`Selected pet with race ID: ${raceId}`);
     setModalVisible(false);
   };
 
@@ -498,10 +481,6 @@ function PetCard() {
 
   const handleClose = () => {
     setMenuVisible(false);
-  };
-
-  const handleSwap = () => {
-    console.log('Swapping pet');
   };
 
   return (
@@ -672,4 +651,4 @@ function MultiViewPage() {
 }
 ```
 
-All these components are located in the [frontend/src/components](file:///c:/Users/Administrator/Desktop/tmp/aolarhapsody/frontend/src/components) directory and can be reused and extended as needed.
+All these components are located in the `frontend/src/components` directory and can be reused and extended as needed.

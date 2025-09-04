@@ -1,10 +1,11 @@
 packages:
   - frontend
   - backend
-  - 'scripts/*'
+  - scripts/*
   - docs
 
 onlyBuiltDependencies:
+  - '@scarf/scarf'
   - '@tailwindcss/oxide'
   - esbuild
   - lefthook

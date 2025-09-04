@@ -349,22 +349,6 @@ function Header() {
     },
   ];
 
-  const markAsRead = (id) => {
-    console.log(`将通知 ${id} 标记为已读`);
-  };
-
-  const markAllAsRead = () => {
-    console.log('将所有通知标记为已读');
-  };
-
-  const remove = (id) => {
-    console.log(`删除通知 ${id}`);
-  };
-
-  const clearAll = () => {
-    console.log('清除所有通知');
-  };
-
   return (
     <header>
       <NotificationDropdown
@@ -455,7 +439,6 @@ function PetSelector() {
   const [modalVisible, setModalVisible] = useState(false);
 
   const handleSelect = (raceId) => {
-    console.log(`选择了种族 ID 为 ${raceId} 的宠物`);
     setModalVisible(false);
   };
 
@@ -498,10 +481,6 @@ function PetCard() {
 
   const handleClose = () => {
     setMenuVisible(false);
-  };
-
-  const handleSwap = () => {
-    console.log('交换宠物');
   };
 
   return (
@@ -672,4 +651,4 @@ function MultiViewPage() {
 }
 ```
 
-所有这些组件都位于 [frontend/src/components](file:///c:/Users/Administrator/Desktop/tmp/aolarhapsody/frontend/src/components) 目录下，可以根据需要进行复用和扩展。
+所有这些组件都位于 `frontend/src/components` 目录下，可以根据需要进行复用和扩展。
