@@ -9,3 +9,4 @@ onlyBuiltDependencies:
   - '@tailwindcss/oxide'
   - esbuild
   - lefthook
+  - protobufjs

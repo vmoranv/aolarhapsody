@@ -14,6 +14,11 @@ interface ConfigListProps {
   onRemoveItem: (id: string) => void;
   onUpdateItem: (id: string, value: string) => void;
   placeholder?: string;
+  renderItem?: (
+    item: ConfigItem,
+    onUpdate: (value: string) => void,
+    onRemove: () => void
+  ) => React.ReactNode;
 }
 
 const ConfigList: React.FC<ConfigListProps> = ({
@@ -23,6 +28,7 @@ const ConfigList: React.FC<ConfigListProps> = ({
   onRemoveItem,
   onUpdateItem,
   placeholder = '请输入ID',
+  renderItem: customRenderItem,
 }) => {
   return (
     <List
@@ -36,14 +42,22 @@ const ConfigList: React.FC<ConfigListProps> = ({
       dataSource={items}
       renderItem={(item) => (
         <List.Item>
-          <Space.Compact style={{ width: '100%' }}>
-            <Input
-              placeholder={placeholder}
-              value={item.value}
-              onChange={(e) => onUpdateItem(item.id, e.target.value)}
-            />
-            <Button icon={<DeleteOutlined />} onClick={() => onRemoveItem(item.id)} danger />
-          </Space.Compact>
+          {customRenderItem ? (
+            customRenderItem(
+              item,
+              (value) => onUpdateItem(item.id, value),
+              () => onRemoveItem(item.id)
+            )
+          ) : (
+            <Space.Compact style={{ width: '100%' }}>
+              <Input
+                placeholder={placeholder}
+                value={item.value}
+                onChange={(e) => onUpdateItem(item.id, e.target.value)}
+              />
+              <Button icon={<DeleteOutlined />} onClick={() => onRemoveItem(item.id)} danger />
+            </Space.Compact>
+          )}
         </List.Item>
       )}
     />

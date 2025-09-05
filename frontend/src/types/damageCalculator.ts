@@ -2,8 +2,8 @@ export interface PetConfig {
   id: string;
   // Base Config
   raceId: string;
-  skillId: string;
-  petCards: { id: string; value: string }[];
+  skills: { id: string; skillId: string }[];
+  petCardSetId: string;
   otherConfigs: { id: string; name: string; value: string }[];
 
   // Fetched or Calculated values, not for direct user input in the main form

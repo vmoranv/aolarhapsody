@@ -268,15 +268,15 @@ const DamageCalculator: React.FC = () => {
         description: t('copilot.updatePetIndexParam'),
         required: true,
       },
-      { name: 'skillId', type: 'string', description: t('copilot.updatePetSkillIdParam') },
+      { name: 'skills', type: 'string[]', description: t('copilot.updatePetSkillIdParam') },
     ],
-    handler: async ({ index, skillId }) => {
+    handler: async ({ index, skills }) => {
       if (index > 0 && index <= store.petQueue.length) {
         const petToUpdate = store.petQueue[index - 1];
         if (petToUpdate) {
-          const updates: { skillId?: string } = {};
-          if (skillId) {
-            updates.skillId = skillId;
+          const updates: { skills?: { id: string; skillId: string }[] } = {};
+          if (skills) {
+            updates.skills = skills.map((skillId) => ({ id: `skill-${Date.now()}`, skillId }));
           }
 
           if (Object.keys(updates).length > 0) {
@@ -310,10 +310,11 @@ const DamageCalculator: React.FC = () => {
         if (petRawData && petRawData[87]) {
           const skills = splitToArray(petRawData[87] as string);
           if (skills.length > 0) {
-            const firstSkill = skills[0];
-            const skillId = firstSkill.split('-').pop();
-            if (skillId) {
-              store.updatePetConfig(finalPetId, { skillId });
+            const skillIds = skills.map((skill) => skill.split('-').pop()!).filter(Boolean);
+            if (skillIds.length > 0) {
+              store.updatePetConfig(finalPetId, {
+                skills: skillIds.map((skillId) => ({ id: `skill-${Date.now()}`, skillId })),
+              });
             }
           }
         }
@@ -325,6 +326,13 @@ const DamageCalculator: React.FC = () => {
     if (activePetConfig) {
       setSwapTargetId(activePetConfig.id);
       setIsPetSelectionModalVisible(true);
+    }
+  };
+
+  const handleRemoveClick = () => {
+    if (activePetConfig) {
+      store.removePetFromQueue(activePetConfig.id);
+      store.setActivePetId(null);
     }
   };
 
@@ -506,6 +514,7 @@ const DamageCalculator: React.FC = () => {
               anchorRef={{ current: avatarRefs.current.get(activePetConfig.id) || null }}
               onClose={() => store.setActivePetId(null)}
               onSwap={handleSwapClick}
+              onRemove={handleRemoveClick}
             />
           </>
         )}

@@ -1,5 +1,5 @@
 import {
-  CloseOutlined,
+  DeleteOutlined,
   ExperimentOutlined,
   PlusOutlined,
   SettingOutlined,
@@ -8,11 +8,16 @@ import {
 } from '@ant-design/icons';
 import { useQuery } from '@tanstack/react-query';
 import { Avatar, Button, Input, Popover, Select, Space } from 'antd';
-import { motion, Variants } from 'framer-motion';
+import { AnimatePresence, motion, Variants } from 'framer-motion';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useDamageCalculatorStore } from '../store/damageCalculator';
 import type { PetConfig } from '../types/damageCalculator';
-import { fetchPetRawDataById, fetchSkillById, splitToArray } from '../utils/pet-helper';
+import {
+  fetchPetCardSets,
+  fetchPetRawDataById,
+  fetchSkillById,
+  splitToArray,
+} from '../utils/pet-helper';
 import ConfigList from './ConfigList';
 
 const PRESET_CONFIG_NAMES = ['星灵', '晶钥', '神兵', '魂卡', '铭文', '装备', '特性晶石', '魂器'];
@@ -22,6 +27,7 @@ interface RadialMenuProps {
   anchorRef: React.RefObject<HTMLDivElement | null>;
   onClose: () => void;
   onSwap: () => void;
+  onRemove: () => void;
 }
 
 interface MenuItemType {
@@ -64,15 +70,21 @@ const itemVariants: Variants = {
   exit: { opacity: 0, scale: 0.5, rotate: 90 },
 };
 
-const RadialMenu: React.FC<RadialMenuProps> = ({ petConfig, anchorRef, onClose, onSwap }) => {
+const RadialMenu: React.FC<RadialMenuProps> = ({
+  petConfig,
+  anchorRef,
+  onClose,
+  onSwap,
+  onRemove,
+}) => {
   const {
     updatePetConfig,
-    addPetCard,
-    removePetCard,
-    updatePetCard,
     addOtherConfig,
     removeOtherConfig,
     updateOtherConfig,
+    addSkill,
+    removeSkill,
+    updateSkill,
   } = useDamageCalculatorStore();
 
   const menuRef = useRef<HTMLDivElement>(null);
@@ -156,37 +168,65 @@ const RadialMenu: React.FC<RadialMenuProps> = ({ petConfig, anchorRef, onClose, 
     return PRESET_CONFIG_NAMES.filter((name) => !existingNames.has(name));
   }, [petConfig.otherConfigs]);
 
-  if (!anchorRef.current) {
-    return null;
-  }
-
   // --- Popover Contents ---
   const skillContent = (
+    <div style={{ width: 280 }}>
+      <ConfigList
+        title="技能配置"
+        items={petConfig.skills.map((s) => ({ id: s.id, value: s.skillId }))}
+        onAddItem={() => addSkill(petConfig.id)}
+        onRemoveItem={(skillId) => removeSkill(petConfig.id, skillId)}
+        onUpdateItem={(skillId, newSkillId) => updateSkill(petConfig.id, skillId, newSkillId)}
+        placeholder="请选择技能"
+        renderItem={(item, onUpdate, onRemove) => (
+          <Space.Compact style={{ width: '100%' }}>
+            <Select
+              showSearch
+              style={{ width: '100%' }}
+              value={item.value}
+              onChange={onUpdate}
+              options={skillOptions}
+              loading={!skillsData}
+              filterOption={(input, option) =>
+                (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+              }
+            />
+            <Button icon={<DeleteOutlined />} onClick={onRemove} danger />
+          </Space.Compact>
+        )}
+      />
+    </div>
+  );
+
+  const { data: petCardSets } = useQuery({
+    queryKey: ['petCardSets'],
+    queryFn: fetchPetCardSets,
+    enabled: !!anchorRef.current,
+  });
+
+  const petCardSetOptions = useMemo(() => {
+    if (!petCardSets) {
+      return [];
+    }
+    return Object.entries(petCardSets).map(([id, name]) => ({
+      label: name as string,
+      value: id,
+    }));
+  }, [petCardSets]);
+
+  const petCardContent = (
     <Select
       showSearch
-      placeholder="请选择技能"
+      placeholder="请选择装备套装"
       style={{ width: 200 }}
-      value={petConfig.skillId}
-      onChange={(value) => updatePetConfig(petConfig.id, { skillId: value })}
-      options={skillOptions}
-      loading={!skillsData}
+      value={petConfig.petCardSetId}
+      onChange={(value) => updatePetConfig(petConfig.id, { petCardSetId: value })}
+      options={petCardSetOptions}
+      loading={!petCardSets}
       filterOption={(input, option) =>
         (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
       }
     />
-  );
-
-  const petCardContent = (
-    <div style={{ width: 280 }}>
-      <ConfigList
-        title="装备配置"
-        items={petConfig.petCards}
-        onAddItem={() => addPetCard(petConfig.id)}
-        onRemoveItem={(cardId) => removePetCard(petConfig.id, cardId)}
-        onUpdateItem={(cardId, value) => updatePetCard(petConfig.id, cardId, value)}
-        placeholder="请输入装备ID"
-      />
-    </div>
   );
 
   // --- Menu Item Definitions ---
@@ -208,9 +248,11 @@ const RadialMenu: React.FC<RadialMenuProps> = ({ petConfig, anchorRef, onClose, 
   ];
 
   const otherConfigItems: MenuItemType[] = petConfig.otherConfigs.map((config) => {
+    // 获取当前配置以外的其他可用配置名称
+    const otherAvailableNames = availableConfigNames.filter((name) => name !== config.name);
     const currentConfigOptions = [
       { value: config.name, label: config.name },
-      ...availableConfigNames.map((name) => ({ value: name, label: name })),
+      ...otherAvailableNames.map((name) => ({ value: name, label: name })),
     ];
 
     return {
@@ -223,7 +265,15 @@ const RadialMenu: React.FC<RadialMenuProps> = ({ petConfig, anchorRef, onClose, 
           <Select
             value={config.name}
             style={{ width: 120 }}
-            onChange={(newName) => updateOtherConfig(petConfig.id, config.id, { name: newName })}
+            onChange={(newName) => {
+              // 检查新名称是否与其他配置冲突
+              const isNameConflict = petConfig.otherConfigs.some(
+                (c) => c.id !== config.id && c.name === newName
+              );
+              if (!isNameConflict) {
+                updateOtherConfig(petConfig.id, config.id, { name: newName });
+              }
+            }}
             options={currentConfigOptions}
           />
           <Input
@@ -241,14 +291,20 @@ const RadialMenu: React.FC<RadialMenuProps> = ({ petConfig, anchorRef, onClose, 
 
   const allConfigItems: Partial<MenuItemType>[] = [...baseConfigItems, ...otherConfigItems];
 
-  if (availableConfigNames.length > 0 && petConfig.otherConfigs.length < 8) {
+  if (availableConfigNames.length > 0 && petConfig.otherConfigs.length < 4) {
     allConfigItems.push({
       key: 'add',
       icon: <PlusOutlined />,
       color: '#52c41a',
       onClick: () => {
-        if (availableConfigNames.length > 0) {
-          addOtherConfig(petConfig.id, availableConfigNames[0]);
+        const state = useDamageCalculatorStore.getState();
+        const currentPetConfig = state.petQueue.find((p) => p?.id === petConfig.id);
+        if (currentPetConfig) {
+          const existingNames = new Set(currentPetConfig.otherConfigs.map((c) => c.name));
+          const nextAvailableConfig = PRESET_CONFIG_NAMES.find((name) => !existingNames.has(name));
+          if (nextAvailableConfig) {
+            addOtherConfig(petConfig.id, nextAvailableConfig);
+          }
         }
       },
       title: '添加自定义配置',
@@ -263,20 +319,20 @@ const RadialMenu: React.FC<RadialMenuProps> = ({ petConfig, anchorRef, onClose, 
 
   const staticItems: Partial<MenuItemType>[] = [
     {
-      key: 'close',
-      icon: <CloseOutlined />,
-      onClick: onClose,
-      angle: 225,
-      color: '#ff4d4f',
-      title: '关闭',
-    },
-    {
       key: 'swap',
       icon: <SwapOutlined />,
       onClick: onSwap,
       angle: 135,
       color: '#1890ff',
       title: '替换亚比',
+    },
+    {
+      key: 'remove',
+      icon: <DeleteOutlined />,
+      onClick: onRemove,
+      angle: 225,
+      color: '#ff7875',
+      title: '移除亚比',
     },
   ];
 
@@ -300,51 +356,58 @@ const RadialMenu: React.FC<RadialMenuProps> = ({ petConfig, anchorRef, onClose, 
       style={style}
       onClick={(e) => e.stopPropagation()}
     >
-      {menuItems.map((item) => {
-        const avatarStyle: React.CSSProperties = {
-          cursor: 'pointer',
-          background: 'rgba(255, 255, 255, 0.15)',
-          backdropFilter: 'blur(12px)',
-          WebkitBackdropFilter: 'blur(12px)',
-          border: '1px solid rgba(255, 255, 255, 0.2)',
-          boxShadow: `0 0 25px ${item.color}a0`,
-          color: item.color,
-        };
+      <AnimatePresence>
+        {menuItems.map((item) => {
+          const avatarStyle: React.CSSProperties = {
+            cursor: 'pointer',
+            background: 'rgba(255, 255, 255, 0.15)',
+            backdropFilter: 'blur(12px)',
+            WebkitBackdropFilter: 'blur(12px)',
+            border: '1px solid rgba(255, 255, 255, 0.2)',
+            boxShadow: `0 0 25px ${item.color}a0`,
+            color: item.color,
+          };
 
-        const hasPopover = item.popoverContent && React.Children.count(item.popoverContent) > 0;
+          const hasPopover = item.popoverContent && React.Children.count(item.popoverContent) > 0;
 
-        const buttonContent = (
-          <Avatar
-            size="large"
-            icon={item.icon}
-            style={avatarStyle}
-            onClick={hasPopover ? undefined : item.onClick}
-          />
-        );
+          const buttonContent = (
+            <Avatar
+              size="large"
+              icon={item.icon}
+              style={avatarStyle}
+              onClick={hasPopover ? undefined : item.onClick}
+            />
+          );
 
-        return (
-          <motion.div
-            key={item.key}
-            custom={item.angle}
-            variants={itemVariants}
-            style={{ position: 'absolute' }}
-            whileHover={{ scale: 1.15 }}
-          >
-            {hasPopover ? (
-              <Popover
-                content={item.popoverContent}
-                title={item.title}
-                trigger="click"
-                placement="right"
-              >
-                {buttonContent}
-              </Popover>
-            ) : (
-              buttonContent
-            )}
-          </motion.div>
-        );
-      })}
+          return (
+            <motion.div
+              key={item.key}
+              layout
+              custom={item.angle}
+              variants={itemVariants}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              style={{ position: 'absolute' }}
+              whileHover={{ scale: 1.15 }}
+              transition={{ type: 'spring', stiffness: 500, damping: 30 }}
+            >
+              {hasPopover ? (
+                <Popover
+                  content={item.popoverContent}
+                  title={item.title}
+                  trigger="click"
+                  placement="right"
+                >
+                  {buttonContent}
+                </Popover>
+              ) : (
+                buttonContent
+              )}
+            </motion.div>
+          );
+        })}
+      </AnimatePresence>
     </motion.div>
   );
 };

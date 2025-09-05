@@ -33,8 +33,8 @@ const initialCalculationParams: CalculationParams = {
 
 const createEmptyPetConfig = (): Omit<PetConfig, 'id'> => ({
   raceId: '',
-  skillId: '',
-  petCards: [],
+  skills: [],
+  petCardSetId: '',
   otherConfigs: [],
   finalDamage: null,
 });
@@ -52,10 +52,10 @@ interface DamageCalculatorState {
   removePetFromQueue: (id: string) => void;
   replacePetInQueue: (id: string, newRaceId: string) => void;
   updatePetConfig: (id: string, newConfig: Partial<PetConfig>) => void;
+  addSkill: (petId: string) => void;
+  removeSkill: (petId: string, skillId: string) => void;
+  updateSkill: (petId: string, skillId: string, newSkillId: string) => void;
   updateCalculationParams: (params: Partial<CalculationParams>) => void;
-  addPetCard: (petId: string) => void;
-  removePetCard: (petId: string, cardId: string) => void;
-  updatePetCard: (petId: string, cardId: string, value: string) => void;
   addOtherConfig: (petId: string, name: string) => void;
   removeOtherConfig: (petId: string, configId: string) => void;
   updateOtherConfig: (
@@ -115,46 +115,52 @@ export const useDamageCalculatorStore = create<DamageCalculatorState>((set) => (
       petQueue: state.petQueue.map((p) => (p?.id === id ? { ...p, ...newConfig } : p)),
     })),
 
+  addSkill: (petId) =>
+    set((state) => ({
+      petQueue: state.petQueue.map((p) => {
+        if (p?.id === petId) {
+          p.skills.push({ id: `skill-${Date.now()}`, skillId: '' });
+        }
+        return p;
+      }),
+    })),
+
+  removeSkill: (petId, skillId) =>
+    set((state) => ({
+      petQueue: state.petQueue.map((p) => {
+        if (p?.id === petId) {
+          p.skills = p.skills.filter((skill) => skill.id !== skillId);
+        }
+        return p;
+      }),
+    })),
+
+  updateSkill: (petId, skillId, newSkillId) =>
+    set((state) => ({
+      petQueue: state.petQueue.map((p) => {
+        if (p?.id === petId) {
+          p.skills = p.skills.map((skill) =>
+            skill.id === skillId ? { ...skill, skillId: newSkillId } : skill
+          );
+        }
+        return p;
+      }),
+    })),
+
   updateCalculationParams: (params) =>
     set((state) => ({
       calculationParams: { ...state.calculationParams, ...params },
     })),
 
-  addPetCard: (petId) =>
-    set((state) => ({
-      petQueue: state.petQueue.map((p) => {
-        if (p?.id === petId) {
-          p.petCards.push({ id: `petcard-${Date.now()}`, value: '' });
-        }
-        return p;
-      }),
-    })),
-
-  removePetCard: (petId, cardId) =>
-    set((state) => ({
-      petQueue: state.petQueue.map((p) => {
-        if (p?.id === petId) {
-          p.petCards = p.petCards.filter((card) => card.id !== cardId);
-        }
-        return p;
-      }),
-    })),
-
-  updatePetCard: (petId, cardId, value) =>
-    set((state) => ({
-      petQueue: state.petQueue.map((p) => {
-        if (p?.id === petId) {
-          p.petCards = p.petCards.map((card) => (card.id === cardId ? { ...card, value } : card));
-        }
-        return p;
-      }),
-    })),
-
   addOtherConfig: (petId, name) =>
     set((state) => ({
       petQueue: state.petQueue.map((p) => {
-        if (p?.id === petId && p.otherConfigs.length < 8) {
-          p.otherConfigs.push({ id: `other-${Date.now()}`, name, value: '' });
+        if (p?.id === petId && p.otherConfigs.length < 4) {
+          // 检查是否已存在相同名称的配置
+          const isNameExists = p.otherConfigs.some((config) => config.name === name);
+          if (!isNameExists) {
+            p.otherConfigs.push({ id: `other-${Date.now()}`, name, value: '' });
+          }
         }
         return p;
       }),
@@ -174,9 +180,23 @@ export const useDamageCalculatorStore = create<DamageCalculatorState>((set) => (
     set((state) => ({
       petQueue: state.petQueue.map((p) => {
         if (p?.id === petId) {
-          p.otherConfigs = p.otherConfigs.map((config) =>
-            config.id === configId ? { ...config, ...newConfig } : config
-          );
+          p.otherConfigs = p.otherConfigs.map((config) => {
+            if (config.id === configId) {
+              // 如果要更新名称，检查是否与其他配置冲突
+              if (newConfig.name && newConfig.name !== config.name) {
+                const isNameConflict = p.otherConfigs.some(
+                  (c) => c.id !== configId && c.name === newConfig.name
+                );
+                if (!isNameConflict) {
+                  return { ...config, ...newConfig };
+                }
+                // 如果有冲突，保持原名称不变
+                return { ...config, value: newConfig.value || config.value };
+              }
+              return { ...config, ...newConfig };
+            }
+            return config;
+          });
         }
         return p;
       }),

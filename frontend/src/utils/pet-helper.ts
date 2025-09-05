@@ -353,3 +353,7 @@ export const filterPets = (
 
   return filteredPets.slice(0, 5);
 };
+
+export const fetchPetCardSets = async () => {
+  return fetchData('petcard/sets');
+};
