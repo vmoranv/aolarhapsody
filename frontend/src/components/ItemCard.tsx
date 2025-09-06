@@ -88,7 +88,7 @@ const ItemCard: React.FC<ItemCardProps> = ({
               )}
             </motion.div>
 
-            {item.quality && item.quality > 0 && (
+            {item.quality && item.quality > 0 ? (
               <div style={{ position: 'absolute', top: 10, right: 10 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
                   {Array.from({ length: item.quality }, (_, i) => (
@@ -96,7 +96,7 @@ const ItemCard: React.FC<ItemCardProps> = ({
                   ))}
                 </div>
               </div>
-            )}
+            ) : null}
           </div>
         }
       >

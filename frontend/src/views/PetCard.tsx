@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { Col, Divider, Row, Spin, Tag, theme, Tooltip, Typography } from 'antd';
+import { Col, Divider, Row, Spin, Tag, Typography } from 'antd';
 import { motion } from 'framer-motion';
 import { Crown } from 'lucide-react';
 import { useMemo, useState } from 'react';
@@ -7,7 +7,6 @@ import { Trans, useTranslation } from 'react-i18next';
 import DataView from '../components/DataView';
 import ItemCard from '../components/ItemCard';
 import Layout from '../components/Layout';
-import { useStatusColor } from '../theme/colors';
 import type { PetCard, PetCardSuit } from '../types/petCard';
 import { fetchData, fetchDataItem } from '../utils/api';
 import { getPetCardImageUrl } from '../utils/image-helper';
@@ -16,11 +15,11 @@ const { Title, Paragraph, Text } = Typography;
 
 const PetCardPage = () => {
   const { t } = useTranslation('petCard');
-  const { token } = theme.useToken();
-  const suitColor = useStatusColor('warning');
   const [viewMode, setViewMode] = useState<'cards' | 'suits'>('cards');
   const [detail, setDetail] = useState<PetCard | null>(null);
   const [loadingDetail, setLoadingDetail] = useState(false);
+  const [suitDetail, setSuitDetail] = useState<PetCardSuit | null>(null);
+  const [loadingSuitDetail, setLoadingSuitDetail] = useState(false);
 
   const handleCardClick = async (card: PetCard) => {
     setLoadingDetail(true);
@@ -31,6 +30,18 @@ const PetCardPage = () => {
       console.error('Failed to fetch pet card detail', error);
     } finally {
       setLoadingDetail(false);
+    }
+  };
+
+  const handleSuitClick = async (suit: PetCardSuit) => {
+    setLoadingSuitDetail(true);
+    try {
+      const data = await fetchDataItem<any>('petcardsuits', suit.id.toString());
+      setSuitDetail(data);
+    } catch (error) {
+      console.error('Failed to fetch pet card suit detail', error);
+    } finally {
+      setLoadingSuitDetail(false);
     }
   };
 
@@ -91,14 +102,18 @@ const PetCardPage = () => {
           queryKey={['pet-cards-view']}
           data={filteredCards}
           onCardClick={handleCardClick}
-          renderCard={(petCard, index) => (
-            <ItemCard
-              item={petCard}
-              index={index}
-              imageUrl={getPetCardImageUrl(petCard, allCards)}
-              icon={<Crown size={48} color="white" />}
-            />
-          )}
+          renderCard={(petCard, index) => {
+            const imageUrl = getPetCardImageUrl(petCard, allCards);
+
+            return (
+              <ItemCard
+                item={petCard}
+                index={index}
+                imageUrl={imageUrl}
+                icon={<Crown size={48} color="white" />}
+              />
+            );
+          }}
           renderDetailDialog={() =>
             loadingDetail ? (
               <div
@@ -181,56 +196,139 @@ const PetCardPage = () => {
         <DataView<PetCardSuit>
           queryKey={['pet-card-suits-view']}
           dataUrl="petcardsuits"
-          renderCard={(suit, index) => (
-            <ItemCard
-              item={{ ...suit, quality: 5, id: `${suit.id}-${index}` }}
-              index={index}
-              icon={<Crown size={48} color="white" />}
-            >
-              <div style={{ textAlign: 'left', width: '100%' }}>
-                <div style={{ textAlign: 'center', marginBottom: 12 }}>
-                  <Tag color={suitColor} style={{ borderRadius: 12 }}>
-                    {t('type')}: {suit.suitType}
-                  </Tag>
-                </div>
-                <Divider style={{ margin: '8px 0' }} />
-                <div>
-                  <Text style={{ fontSize: '12px', fontWeight: 'bold', color: token.colorText }}>
-                    {t('cards_included')}:{' '}
-                    {Array.isArray(suit.petCardIdList) ? suit.petCardIdList.length : 0}{' '}
-                    {t('cards_unit')}
-                  </Text>
-                  <div style={{ marginTop: 4, display: 'flex', flexWrap: 'wrap', gap: 4 }}>
-                    {Array.isArray(suit.petCardIdList) &&
-                      suit.petCardIdList.map((id) => (
-                        <Tag key={id} style={{ margin: 0, fontSize: '12px' }}>
+          onCardClick={handleSuitClick}
+          renderCard={(suit, index) => {
+            // 使用idList第一个装备的图片作为套装图片
+            const firstCardId = suit.idList && suit.idList.length > 0 ? suit.idList[0] : null;
+            let imageUrl: string | undefined = undefined;
+
+            if (firstCardId) {
+              // 查找第一个卡片的实际信息
+              const firstCard = allCards.find((card) => card.id === firstCardId);
+
+              if (firstCard) {
+                imageUrl = getPetCardImageUrl(firstCard, allCards);
+              } else {
+                // 如果找不到卡片，创建一个虚拟的PetCard对象
+                const virtualCard: PetCard = {
+                  id: firstCardId,
+                  name: `Card ${firstCardId}`,
+                  viewId: firstCardId,
+                  quality: 0,
+                  hp: 0,
+                  speed: 0,
+                  attack: 0,
+                  defend: 0,
+                  sAttack: 0,
+                  sDefend: 0,
+                  desc: '',
+                  limitRaceId: [],
+                  level: 0,
+                  levelUpId: 0,
+                  synthesisType: 0,
+                  limitExtAppend: null,
+                  originCardId: 0,
+                };
+
+                imageUrl = getPetCardImageUrl(virtualCard, allCards);
+              }
+            } else {
+              // 当idList为空时，使用默认图片
+              imageUrl = 'https://aola.100bt.com/h5/petcard/icon/type0_0.png';
+            }
+
+            return <ItemCard item={{ ...suit, id: suit.id }} index={index} imageUrl={imageUrl} />;
+          }}
+          renderDetailDialog={() =>
+            loadingSuitDetail ? (
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  height: 200,
+                }}
+              >
+                <Spin size="large" />
+              </div>
+            ) : suitDetail ? (
+              <div style={{ padding: '16px' }}>
+                <Title level={4} style={{ marginBottom: 16 }}>
+                  {suitDetail.name}
+                </Title>
+
+                {/* 显示套装包含的装备ID列表 */}
+                {suitDetail.idList && suitDetail.idList.length > 0 && (
+                  <>
+                    <Text strong>包含装备ID:</Text>
+                    <div style={{ marginTop: 8, marginBottom: 16 }}>
+                      {suitDetail.idList.map((id) => (
+                        <Tag key={id} style={{ margin: '4px' }}>
                           {id}
                         </Tag>
                       ))}
-                  </div>
-                </div>
-                {suit.dec && (
+                    </div>
+                  </>
+                )}
+
+                {/* 显示套装效果描述 */}
+                {suitDetail.dec && suitDetail.dec.length > 0 && (
                   <>
-                    <Divider style={{ margin: '8px 0' }} />
-                    <Tooltip title={suit.dec}>
-                      <Text
-                        style={{
-                          fontSize: '12px',
-                          color: token.colorTextTertiary,
-                          display: '-webkit-box',
-                          WebkitLineClamp: 2,
-                          WebkitBoxOrient: 'vertical',
-                          overflow: 'hidden',
-                        }}
-                      >
-                        {suit.dec}
-                      </Text>
-                    </Tooltip>
+                    <Text strong>套装效果:</Text>
+                    <div style={{ marginTop: 8, marginBottom: 16 }}>
+                      {suitDetail.dec.map((desc, index) => (
+                        <div key={index} style={{ margin: '4px 0' }}>
+                          <Tag>{index}</Tag> {desc}
+                        </div>
+                      ))}
+                    </div>
+                  </>
+                )}
+
+                {/* 显示简单描述 */}
+                {suitDetail.simpleDec && suitDetail.simpleDec.length > 0 && (
+                  <>
+                    <Text strong>简单描述:</Text>
+                    <div style={{ marginTop: 8, marginBottom: 16 }}>
+                      {suitDetail.simpleDec.map((desc, index) => (
+                        <div key={index} style={{ margin: '4px 0' }}>
+                          <Tag>{index}</Tag> {desc}
+                        </div>
+                      ))}
+                    </div>
+                  </>
+                )}
+
+                {/* 显示新提示数组0 */}
+                {suitDetail.newTipsArr0 && suitDetail.newTipsArr0.length > 0 && (
+                  <>
+                    <Text strong>新提示数组0:</Text>
+                    <div style={{ marginTop: 8, marginBottom: 16 }}>
+                      {suitDetail.newTipsArr0.map((tip, index) => (
+                        <div key={index} style={{ margin: '4px 0' }}>
+                          <Tag>{index}</Tag> {tip}
+                        </div>
+                      ))}
+                    </div>
+                  </>
+                )}
+
+                {/* 显示新提示数组1 */}
+                {suitDetail.newTipsArr1 && suitDetail.newTipsArr1.length > 0 && (
+                  <>
+                    <Text strong>新提示数组1:</Text>
+                    <div style={{ marginTop: 8, marginBottom: 16 }}>
+                      {suitDetail.newTipsArr1.map((tip, index) => (
+                        <div key={index} style={{ margin: '4px 0' }}>
+                          <Tag>{index}</Tag> {tip}
+                        </div>
+                      ))}
+                    </div>
                   </>
                 )}
               </div>
-            </ItemCard>
-          )}
+            ) : null
+          }
           getSearchableFields={(suit) => [suit.name, suit.id.toString()]}
           noLayout
           loadingText={t('loading_data')}

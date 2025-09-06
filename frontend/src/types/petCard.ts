@@ -20,8 +20,11 @@ export interface PetCard {
 
 export interface PetCardSuit {
   id: number;
-  suitType: number;
   name: string;
-  petCardIdList: number[];
-  dec: string;
+  idList: number[];
+  dec: string[];
+  petIds: number[];
+  simpleDec: string[];
+  newTipsArr0: string[];
+  newTipsArr1: string[];
 }

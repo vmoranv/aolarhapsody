@@ -62,6 +62,7 @@ router.get('/petcardsuits', (req: Request, res: Response) => {
   const simplifiedSuits = suits.map((suit) => ({
     id: suit.id,
     name: suit.name,
+    idList: suit.idList,
   }));
   res.json({
     success: true,
