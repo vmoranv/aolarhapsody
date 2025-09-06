@@ -2,10 +2,16 @@ import axios from 'axios';
 import { parseStringPromise } from 'xml2js';
 import { ExistingActivity } from '../types/existingactivity';
 import { URL_CONFIG } from '../types/urlconfig';
+import { getFromCache, saveToCache } from './file-cache';
 
 const lowerCase = (name: string) => name.toLowerCase();
 
 export async function getExistingActivities(): Promise<ExistingActivity[]> {
+  const cachedData = await getFromCache<ExistingActivity[]>(URL_CONFIG.sceneItem);
+  if (cachedData) {
+    return cachedData;
+  }
+
   try {
     const response = await axios.get(URL_CONFIG.sceneItem, {
       responseType: 'arraybuffer', // 处理不同的编码
@@ -61,6 +67,7 @@ export async function getExistingActivities(): Promise<ExistingActivity[]> {
       }
     }
 
+    await saveToCache(URL_CONFIG.sceneItem, activities);
     return activities;
   } catch (error) {
     console.error('Error fetching or parsing existing activities:', error);

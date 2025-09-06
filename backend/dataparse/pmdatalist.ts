@@ -1,7 +1,7 @@
 import { EraData } from '../types/petdictionary';
 import { Pet, ProcessedAttribute, Skill, SkillAttribute, Weather } from '../types/pmdatalist';
 import { URL_CONFIG } from '../types/urlconfig';
-import { extractDictionary, fetchAndParseJSON } from './gamedataparser';
+import { extractDictionary, fetchAndParseJSON, fetchJavaScriptFile } from './gamedataparser';
 
 // =================================
 // 核心逻辑
@@ -345,8 +345,7 @@ export async function fetchAndCacheGameMainData(): Promise<void> {
   }
 
   try {
-    const response = await fetch(URL_CONFIG.gameMainJs);
-    const jsContent = await response.text();
+    const jsContent = await fetchJavaScriptFile(URL_CONFIG.gameMainJs);
 
     // 解析技能属性
     if (skillAttributesCache.length === 0) {

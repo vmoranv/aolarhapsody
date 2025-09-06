@@ -33,3 +33,5 @@ backend/aoladecompile_h5.md
 .env
 .env.*
 !.env.example
+# Cache
+backend/.cache

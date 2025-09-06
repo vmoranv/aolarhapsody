@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { getFromCache, saveToCache } from './file-cache';
 
 /**
  * 安全地解析类似JavaScript对象的字符串
@@ -46,6 +47,11 @@ export async function fetchAndParseDictionary(
   url: string,
   dictionaryKey: string
 ): Promise<unknown> {
+  const cachedData = await getFromCache<unknown>(url);
+  if (cachedData) {
+    return cachedData;
+  }
+
   try {
     const response = await axios.get(url, {
       headers: {
@@ -59,7 +65,9 @@ export async function fetchAndParseDictionary(
     }
 
     const jsContent = response.data;
-    return extractDictionary(jsContent, dictionaryKey);
+    const dictionary = extractDictionary(jsContent, dictionaryKey);
+    await saveToCache(url, dictionary);
+    return dictionary;
   } catch (error) {
     console.error(`获取或解析字典 "${dictionaryKey}" 时出错:`, error);
     throw error;
@@ -73,6 +81,11 @@ export async function fetchAndParseDictionary(
  * @returns 解析后的JSON数据
  */
 export async function fetchAndParseJSON(url: string, truncate = false): Promise<unknown> {
+  const cachedData = await getFromCache<unknown>(url);
+  if (cachedData) {
+    return cachedData;
+  }
+
   try {
     const response = await axios.get(url, {
       responseType: 'text', // 获取原始文本响应
@@ -87,6 +100,7 @@ export async function fetchAndParseJSON(url: string, truncate = false): Promise<
     }
 
     const responseData = response.data;
+    let parsedData: unknown;
 
     if (truncate && typeof responseData === 'string') {
       const firstBrace = responseData.indexOf('{');
@@ -95,20 +109,23 @@ export async function fetchAndParseJSON(url: string, truncate = false): Promise<
         // 截取到第一个逗号，并补全右大括号
         const truncatedData = responseData.substring(firstBrace, firstComma) + '}';
         try {
-          return JSON.parse(truncatedData);
+          parsedData = JSON.parse(truncatedData);
         } catch (e) {
           console.error('解析截断后的数据时出错:', e);
           // 如果解析失败，则回退到解析完整数据
-          return JSON.parse(responseData);
+          parsedData = JSON.parse(responseData);
         }
+      } else {
+        parsedData = JSON.parse(responseData);
       }
+    } else if (typeof responseData === 'string') {
+      parsedData = JSON.parse(responseData);
+    } else {
+      parsedData = responseData;
     }
 
-    // 对于其他URL或非字符串响应，正常解析
-    if (typeof responseData === 'string') {
-      return JSON.parse(responseData);
-    }
-    return responseData;
+    await saveToCache(url, parsedData);
+    return parsedData;
   } catch (error) {
     console.error(`获取或解析JSON时出错:`, error);
     throw error;
@@ -131,6 +148,11 @@ export async function fetchAndParseData<T>(url: string, truncate = false): Promi
  * @returns JavaScript文件的文本内容
  */
 export async function fetchJavaScriptFile(url: string): Promise<string> {
+  const cachedData = await getFromCache<string>(url);
+  if (cachedData) {
+    return cachedData;
+  }
+
   try {
     const response = await axios.get(url, {
       headers: {
@@ -143,7 +165,9 @@ export async function fetchJavaScriptFile(url: string): Promise<string> {
       throw new Error(`HTTP错误: ${response.status} ${response.statusText}`);
     }
 
-    return response.data;
+    const jsContent = response.data;
+    await saveToCache(url, jsContent);
+    return jsContent;
   } catch (error) {
     console.error(`获取JavaScript文件时出错:`, error);
     throw error;
