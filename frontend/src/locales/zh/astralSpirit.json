@@ -38,5 +38,11 @@
   "empty_button_spirits": "清除筛选",
   "empty_description_suits": "未找到匹配的套装。",
   "empty_button_suits": "清除筛选",
-  "search_placeholder": "按名称或ID搜索..."
+  "search_placeholder": "按名称或ID搜索...",
+  "suit_effect": "套装效果",
+  "one_shenhua_effect": "一件神化效果",
+  "three_shenhua_effect": "三件神化效果",
+  "active_need": "激活需求",
+  "spirits_text": "个星灵",
+  "included_spirits": "包含星灵"
 }

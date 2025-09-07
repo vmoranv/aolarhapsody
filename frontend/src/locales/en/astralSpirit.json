@@ -22,5 +22,11 @@
   "reset": "Reset",
   "unit_text_spirit": "spirits",
   "unit_text_suit": "suits",
-  "showing_items": "Showing <1>{{filteredCount}}</1> / {{totalCount}} {{unit}}"
+  "showing_items": "Showing <1>{{filteredCount}}</1> / {{totalCount}} {{unit}}",
+  "suit_effect": "Suit Effect",
+  "one_shenhua_effect": "One Shenhua Effect",
+  "three_shenhua_effect": "Three Shenhua Effect",
+  "active_need": "Active Need",
+  "spirits_text": "spirits",
+  "included_spirits": "Included Spirits"
 }

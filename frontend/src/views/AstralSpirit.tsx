@@ -21,7 +21,7 @@ const AstralSpiritPage: React.FC = () => {
   const handleCardClick = async (item: AstralSpirit | AstralSpiritSuit) => {
     setLoadingDetail(true);
     try {
-      const endpoint = 'astralSpiritIdList' in item ? 'astral-spirit-suit' : 'astral-spirit';
+      const endpoint = viewMode === 'suits' ? 'astral-spirit-suit' : 'astral-spirit';
       const data = await fetchDataItem<AstralSpirit | AstralSpiritSuit>(endpoint, String(item.id));
       setDetail(data);
     } catch (error) {
@@ -31,7 +31,7 @@ const AstralSpiritPage: React.FC = () => {
     }
   };
 
-  const renderDetailDialog = (item: AstralSpirit | AstralSpiritSuit) => {
+  const renderDetailDialog = () => {
     if (loadingDetail) {
       return (
         <div
@@ -51,7 +51,7 @@ const AstralSpiritPage: React.FC = () => {
       return null;
     }
 
-    if ('astralSpiritIdList' in item) {
+    if ('surIds' in detail) {
       // Render AstralSpiritSuit detail
       const suit = detail as AstralSpiritSuit;
       return (
@@ -59,38 +59,79 @@ const AstralSpiritPage: React.FC = () => {
           <div
             style={{
               display: 'flex',
-              justifyContent: 'flex-end',
+              flexDirection: 'column',
               alignItems: 'center',
-              marginBottom: 16,
             }}
           >
-            {/* 这里可以添加Switch组件，如果需要的话 */}
-          </div>
+            {/* 显示组成套装的所有星灵图片 */}
+            {suit.surIds && suit.surIds.length > 0 && (
+              <div
+                style={{
+                  width: '100%',
+                  marginTop: 16,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                }}
+              >
+                <Text strong style={{ marginBottom: 12, fontSize: '16px' }}>
+                  {t('included_spirits')}:
+                </Text>
+                <div
+                  style={{
+                    display: 'flex',
+                    flexWrap: 'wrap',
+                    justifyContent: 'center',
+                    gap: '12px',
+                    maxWidth: '100%',
+                  }}
+                >
+                  {suit.surIds.map((spiritId) => (
+                    <div
+                      key={spiritId}
+                      style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                      }}
+                    >
+                      <img
+                        src={getAstralSpiritImageUrl(spiritId)}
+                        alt={`Spirit ${spiritId}`}
+                        style={{
+                          width: 80,
+                          height: 80,
+                          objectFit: 'contain',
+                          borderRadius: 6,
+                          border: '1px solid #ddd',
+                        }}
+                      />
+                      <Text style={{ fontSize: '14px', marginTop: '6px', fontWeight: '500' }}>
+                        {spiritId}
+                      </Text>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
 
-          <div style={{ display: 'flex', gap: '24px' }}>
-            <img
-              src={getAstralSpiritSuitImageUrl(suit.id)}
-              alt={suit.name}
-              style={{ width: 200, height: 200, objectFit: 'contain', borderRadius: 8 }}
-            />
-            <div style={{ flex: 1 }}>
-              <Paragraph>{suit.dec || ''}</Paragraph>
-              <Divider />
-              {suit.suitEffectDes && (
-                <Paragraph>
+            <div style={{ marginTop: 24, width: '100%' }}>
+              <Divider style={{ margin: '16px 0' }} />
+
+              <div style={{ paddingLeft: 24, paddingRight: 24 }}>
+                <Paragraph style={{ fontSize: '15px', marginBottom: '12px' }}>
                   <Text strong>{t('suit_effect')}:</Text> {suit.suitEffectDes}
                 </Paragraph>
-              )}
-              {suit.oneShenhuaSuitEffectDes && (
-                <Paragraph>
+                <Paragraph style={{ fontSize: '15px', marginBottom: '12px' }}>
                   <Text strong>{t('one_shenhua_effect')}:</Text> {suit.oneShenhuaSuitEffectDes}
                 </Paragraph>
-              )}
-              {suit.threeShenHuaSuitEffectDes && (
-                <Paragraph>
+                <Paragraph style={{ fontSize: '15px', marginBottom: '12px' }}>
                   <Text strong>{t('three_shenhua_effect')}:</Text> {suit.threeShenHuaSuitEffectDes}
                 </Paragraph>
-              )}
+                <Paragraph style={{ fontSize: '15px' }}>
+                  <Text strong>{t('active_need')}:</Text> {suit.activeNeed} {t('spirits_text')}
+                </Paragraph>
+              </div>
             </div>
           </div>
         </div>
