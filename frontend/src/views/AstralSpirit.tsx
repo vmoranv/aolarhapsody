@@ -55,19 +55,44 @@ const AstralSpiritPage: React.FC = () => {
       // Render AstralSpiritSuit detail
       const suit = detail as AstralSpiritSuit;
       return (
-        <div>
-          <Title level={4}>{suit.name}</Title>
-          <Paragraph>{suit.dec}</Paragraph>
-          <Divider />
-          <Paragraph>
-            <Text strong>{t('suit_effect')}:</Text> {suit.suitEffectDes}
-          </Paragraph>
-          <Paragraph>
-            <Text strong>{t('one_shenhua_effect')}:</Text> {suit.oneShenhuaSuitEffectDes}
-          </Paragraph>
-          <Paragraph>
-            <Text strong>{t('three_shenhua_effect')}:</Text> {suit.threeShenHuaSuitEffectDes}
-          </Paragraph>
+        <div style={{ padding: '16px' }}>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+              alignItems: 'center',
+              marginBottom: 16,
+            }}
+          >
+            {/* 这里可以添加Switch组件，如果需要的话 */}
+          </div>
+
+          <div style={{ display: 'flex', gap: '24px' }}>
+            <img
+              src={getAstralSpiritSuitImageUrl(suit.id)}
+              alt={suit.name}
+              style={{ width: 200, height: 200, objectFit: 'contain', borderRadius: 8 }}
+            />
+            <div style={{ flex: 1 }}>
+              <Paragraph>{suit.dec || ''}</Paragraph>
+              <Divider />
+              {suit.suitEffectDes && (
+                <Paragraph>
+                  <Text strong>{t('suit_effect')}:</Text> {suit.suitEffectDes}
+                </Paragraph>
+              )}
+              {suit.oneShenhuaSuitEffectDes && (
+                <Paragraph>
+                  <Text strong>{t('one_shenhua_effect')}:</Text> {suit.oneShenhuaSuitEffectDes}
+                </Paragraph>
+              )}
+              {suit.threeShenHuaSuitEffectDes && (
+                <Paragraph>
+                  <Text strong>{t('three_shenhua_effect')}:</Text> {suit.threeShenHuaSuitEffectDes}
+                </Paragraph>
+              )}
+            </div>
+          </div>
         </div>
       );
     } else {
@@ -207,15 +232,7 @@ const AstralSpiritPage: React.FC = () => {
               imageUrl={getAstralSpiritSuitImageUrl(suit.id)}
               icon={<Crown size={48} color="white" />}
               imageStyle={{ height: '150px', maxHeight: '150px' }}
-            >
-              <Text style={{ fontSize: '12px' }}>
-                {t('includes_spirits', {
-                  count: Array.isArray(suit.astralSpiritIdList)
-                    ? suit.astralSpiritIdList.length
-                    : 0,
-                })}
-              </Text>
-            </ItemCard>
+            />
           )}
           renderDetailDialog={renderDetailDialog}
           getSearchableFields={(item) => [item.name]}

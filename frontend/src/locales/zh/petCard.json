@@ -38,5 +38,13 @@
   "suit_id": "套装ID",
   "type": "类型",
   "cards_included": "包含卡片",
-  "cards_unit": "张"
+  "cards_unit": "张",
+  "included_equipment": "包含装备",
+  "equipment_alt": "装备 {{id}}",
+  "suit_effects": "套装效果",
+  "simple_description": "简单描述",
+  "new_tips_array_0": "新提示数组0",
+  "new_tips_array_1": "新提示数组1",
+  "old_skill_group": "旧技能组",
+  "new_skill_group": "新技能组"
 }

@@ -17,7 +17,6 @@
   "hp": "HP",
   "speed": "Speed",
   "suit_id": "Suit ID",
-  "includes_spirits": "Includes Spirits ({{count}})",
   "spirits_list": "Spirits List",
   "suits_list": "Suits List",
   "reset": "Reset",

@@ -38,5 +38,13 @@
   "suit_id": "Suit ID",
   "type": "Type",
   "cards_included": "Cards Included",
-  "cards_unit": "cards"
+  "cards_unit": "cards",
+  "included_equipment": "Included Equipment",
+  "equipment_alt": "Equipment {{id}}",
+  "suit_effects": "Suit Effects",
+  "simple_description": "Simple Description",
+  "new_tips_array_0": "New Tips Array 0",
+  "new_tips_array_1": "New Tips Array 1",
+  "old_skill_group": "Old Skill Group",
+  "new_skill_group": "New Skill Group"
 }
