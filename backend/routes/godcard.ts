@@ -71,6 +71,7 @@ router.get('/godcardsuits', (req: Request, res: Response) => {
   const simplifiedSuits = suits.map((suit) => ({
     id: suit.id,
     name: suit.name,
+    godCardidList: suit.godCardidList,
   }));
   res.json({
     success: true,

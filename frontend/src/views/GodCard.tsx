@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { Col, Divider, Row, Spin, Tag, Typography } from 'antd';
 import { motion } from 'framer-motion';
-import { Crown, Sword } from 'lucide-react';
+import { Sword } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import DataView from '../components/DataView';
@@ -9,7 +9,7 @@ import ItemCard from '../components/ItemCard';
 import Layout from '../components/Layout';
 import type { GodCard, GodCardSuit } from '../types/godcard';
 import { fetchData, fetchDataItem } from '../utils/api';
-import { getGodCardImageUrl } from '../utils/image-helper';
+import { getGodCardImageUrl, getGodCardSuitImageUrl } from '../utils/image-helper';
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -24,7 +24,8 @@ const GodCardPage = () => {
     try {
       const endpoint = 'godCardidList' in item ? 'godcardsuits' : 'godcards';
       const data = await fetchDataItem<GodCard | GodCardSuit>(endpoint, String(item.id));
-      setDetail({ ...data, id: data.cardId || data.id });
+      // 确保正确设置detail状态，对于神兵卡牌需要包含cardId作为id
+      setDetail('godCardidList' in data ? data : { ...data, id: data.cardId || data.id });
     } catch (error) {
       console.error('Failed to fetch god card detail', error);
     } finally {
@@ -72,13 +73,17 @@ const GodCardPage = () => {
       );
     } else {
       const card = detail as GodCard;
+      const imageUrl = card && card.id ? getGodCardImageUrl(card, allCards) : '';
+
       return (
         <div style={{ display: 'flex', gap: '24px' }}>
-          <img
-            src={getGodCardImageUrl(card, allCards)}
-            alt={card.name}
-            style={{ width: 200, height: 200, objectFit: 'contain', borderRadius: 8 }}
-          />
+          {imageUrl && (
+            <img
+              src={imageUrl}
+              alt={card.name}
+              style={{ width: 200, height: 200, objectFit: 'contain', borderRadius: 8 }}
+            />
+          )}
           <div style={{ flex: 1 }}>
             <Divider />
             <Row gutter={[16, 16]}>
@@ -203,18 +208,10 @@ const GodCardPage = () => {
           dataUrl="godcardsuits"
           onCardClick={handleCardClick}
           renderCard={(suit, index) => {
-            const firstCardId = suit.godCardidList?.[0];
-            const cardForImage = allCards.find((c) => c.id === firstCardId);
-            const imageUrl = cardForImage ? getGodCardImageUrl(cardForImage, allCards) : '';
+            const firstGodCardId = suit.godCardidList?.[0];
+            const imageUrl = getGodCardSuitImageUrl(suit.id, firstGodCardId);
 
-            return (
-              <ItemCard
-                item={suit}
-                index={index}
-                imageUrl={imageUrl}
-                icon={<Crown size={48} color="white" />}
-              ></ItemCard>
-            );
+            return <ItemCard item={suit} index={index} imageUrl={imageUrl} />;
           }}
           renderDetailDialog={renderDetailDialog}
           getSearchableFields={(item) => [item.name]}

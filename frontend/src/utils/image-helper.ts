@@ -54,6 +54,27 @@ export function getAstralSpiritSuitImageUrl(id: string | number): string {
 }
 
 /**
+ * 获取神兵套装图片URL
+ * @param id 套装ID
+ * @param firstGodCardId 第一个神兵ID
+ * @returns 图片的URL
+ */
+export function getGodCardSuitImageUrl(id: string | number, firstGodCardId?: number): string {
+  if (!id) {
+    console.error('getGodCardSuitImageUrl: ID不能为空');
+    return '';
+  }
+
+  // 如果提供了第一个神兵ID，则使用它来生成URL
+  if (firstGodCardId) {
+    return `${URL_CONFIG.godCardPrefix}/real/view${firstGodCardId}.png`;
+  }
+
+  // 否则使用套装ID
+  return `${URL_CONFIG.godCardPrefix}/real/view${id}.png`;
+}
+
+/**
  * 获取神兵图片URL
  * @param card 当前卡牌对象
  * @param allCards 所有卡牌的列表
