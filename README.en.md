@@ -20,6 +20,7 @@ This project is a monorepo based on pnpm workspaces to manage all the code for A
 
 - **Frontend**: `React`, `TypeScript`, `Vite`
 - **Backend**: `Node.js`, `TypeScript`, `Express` (or a similar framework)
+- **Desktop App**: `Tauri`
 - **Package Manager**: `pnpm`
 - **Code Quality**: `ESLint`, `Prettier`, `Stylelint`, `Commitlint`, `Cspell`
 - **Git Hooks**: `lefthook`
@@ -31,6 +32,7 @@ This project is a monorepo based on pnpm workspaces to manage all the code for A
 .
 ├── backend/         # Backend service
 ├── frontend/        # Frontend application
+│   └── src-tauri/   # Tauri desktop app source code
 ├── scripts/         # Internal CLI tools and scripts
 │   ├── ash/         # Helper script collection (ash)
 │   ├── turbo-run/   # Interactive script runner (ar-turbo)
@@ -71,11 +73,19 @@ This project is a monorepo based on pnpm workspaces to manage all the code for A
 
 ## 🛠️ Available Scripts
 
+### Development and Build
+
 - `pnpm dev`: Starts the development mode for all packages.
 - `pnpm build`: Builds all packages.
 - `pnpm check`: Runs all code checks (linting, cspell).
 - `pnpm format`: Formats all code.
 - `pnpm clean`: Cleans all build artifacts and `node_modules`.
+
+### Tauri Desktop App Build
+
+- `pnpm build:tauri`: Builds the Tauri desktop app for the current platform.
+- `pnpm build:tauri:multi`: Automatically selects suitable platforms based on the current system for building.
+- `pnpm build:tauri:all`: Attempts to build all 4 platforms (Apple Silicon macOS, Intel macOS, Windows, Linux).
 
 ## Deployment
 

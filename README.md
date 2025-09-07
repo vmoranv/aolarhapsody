@@ -20,6 +20,7 @@
 
 - **前端**: `React`, `TypeScript`, `Vite`
 - **后端**: `Express`
+- **桌面应用**: `Tauri`
 - **包管理器**: `pnpm`
 - **代码质量**: `ESLint`, `Prettier`, `Stylelint`, `Commitlint`, `Cspell`
 - **Git Hooks**: `lefthook`
@@ -31,6 +32,7 @@
 .
 ├── backend/         # 后端服务
 ├── frontend/        # 前端应用
+│   └── src-tauri/   # Tauri 桌面应用源码
 ├── scripts/         # 内部 CLI 工具和脚本
 │   ├── ash/         # 辅助脚本集合 (ash)
 │   ├── turbo-run/   # 交互式脚本运行器 (ar-turbo)
@@ -71,11 +73,19 @@
 
 ## 🛠️ 可用脚本
 
+### 开发和构建
+
 - `pnpm dev`: 启动所有包的开发模式。
 - `pnpm build`: 构建所有包。
 - `pnpm check`: 运行所有的代码检查（linting, cspell）。
 - `pnpm format`: 格式化所有代码。
 - `pnpm clean`: 清理所有构建产物和 `node_modules`。
+
+### Tauri 桌面应用构建
+
+- `pnpm build:tauri`: 构建当前平台的 Tauri 桌面应用。
+- `pnpm build:tauri:multi`: 根据当前系统自动选择适合的平台进行构建。
+- `pnpm build:tauri:all`: 尝试构建所有4种平台（Apple Silicon macOS、Intel macOS、Windows、Linux）。
 
 ## 部署
 
