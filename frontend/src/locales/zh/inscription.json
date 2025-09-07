@@ -33,5 +33,6 @@
   "page_title_suits": "铭文套装",
   "page_subtitle_suits": "查看铭文套装的组合效果",
   "suit_type": "套装类型",
-  "includes_inscriptions": "包含铭文 ({{count}})"
+  "includes_inscriptions": "包含铭文 ({{count}})",
+  "pagination_total": "第 {{rangeStart}}-{{rangeEnd}} 条，共 {{total}} 条"
 }

@@ -28,5 +28,6 @@
   "page_title_hks": "Soul Card List",
   "page_subtitle_hks": "Browse all available soul cards",
   "page_title_buffs": "Soul Card Buffs",
-  "page_subtitle_buffs": "View all soul card buff effects"
+  "page_subtitle_buffs": "View all soul card buff effects",
+  "pagination_total": "Showing {{rangeStart}}-{{rangeEnd}} of {{total}} items"
 }

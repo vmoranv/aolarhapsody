@@ -28,5 +28,6 @@
   "page_title_hks": "魂卡列表",
   "page_subtitle_hks": "浏览所有可用的魂卡",
   "page_title_buffs": "魂卡Buff",
-  "page_subtitle_buffs": "查看所有魂卡Buff效果"
+  "page_subtitle_buffs": "查看所有魂卡Buff效果",
+  "pagination_total": "第 {{rangeStart}}-{{rangeEnd}} 条，共 {{total}} 条"
 }

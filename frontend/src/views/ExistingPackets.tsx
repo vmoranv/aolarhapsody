@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { App, Button, Empty, List, Pagination, Space, Typography } from 'antd';
+import zhCN from 'antd/es/locale/zh_CN';
 import { motion } from 'framer-motion';
 import { Copy, Package } from 'lucide-react';
 import React, { useEffect, useMemo, useState } from 'react';
@@ -279,6 +280,7 @@ const ExistingPacketsContent = () => {
                     showTotal={(total, range) =>
                       t('pagination_total', { start: range[0], end: range[1], total })
                     }
+                    locale={zhCN.Pagination}
                   />
                 </motion.div>
               )}

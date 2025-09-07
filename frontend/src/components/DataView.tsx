@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { Card, Col, Empty, Pagination, Row, Space, Statistic } from 'antd';
+import zhCN from 'antd/es/locale/zh_CN';
 import { motion } from 'framer-motion';
 import { Database, PackageSearch, Star, TrendingUp } from 'lucide-react';
 import React, { useMemo, useState } from 'react';
@@ -209,6 +210,7 @@ const DataView = <T extends DataItem>({
                   showSizeChanger={false}
                   showQuickJumper
                   showTotal={(total, range) => paginationTotalText(range[0], range[1], total)}
+                  locale={zhCN.Pagination}
                 />
               </motion.div>
             )}

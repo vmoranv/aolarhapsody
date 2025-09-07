@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { App, Button, Card, Empty, Image, List, Pagination, Space, Typography } from 'antd';
+import zhCN from 'antd/es/locale/zh_CN';
 import { motion } from 'framer-motion';
 import { Download, Image as ImageIcon } from 'lucide-react';
 import React, { useEffect, useMemo, useState } from 'react';
@@ -247,6 +248,7 @@ const PosterContent = () => {
                   showTotal={(total, range) =>
                     t('pagination_total', { rangeStart: range[0], rangeEnd: range[1], total })
                   }
+                  locale={zhCN.Pagination}
                 />
               </motion.div>
             )}

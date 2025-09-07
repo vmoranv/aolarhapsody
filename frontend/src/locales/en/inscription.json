@@ -33,5 +33,6 @@
   "page_title_suits": "Inscription Suits",
   "page_subtitle_suits": "View the combination effects of inscription suits",
   "suit_type": "Suit Type",
-  "includes_inscriptions": "Includes Inscriptions ({{count}})"
+  "includes_inscriptions": "Includes Inscriptions ({{count}})",
+  "pagination_total": "Showing {{rangeStart}}-{{rangeEnd}} of {{total}} items"
 }
