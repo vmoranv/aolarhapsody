@@ -22,6 +22,15 @@ pnpm build:backend
 
 # Build backend Docker image
 pnpm build:docker:backend
+
+# Build Tauri desktop app (current platform)
+pnpm build:tauri
+
+# Build Tauri desktop app (multi-platform, automatically selected based on current system)
+pnpm build:tauri:multi
+
+# Build Tauri desktop app (all 4 platforms: Apple Silicon macOS, Intel macOS, Windows, Linux)
+pnpm build:tauri:all
 ```
 
 ## Build Configuration
@@ -178,6 +187,44 @@ pnpm build:analyze
 This command will generate a report in the `dist` folder (e.g., `report.html`) that helps analyze the size of the bundled files, identify large dependencies, and optimize further.
 
 You can open the generated report in a browser to visualize the composition of the build output and identify optimization opportunities.
+
+## Tauri Desktop App Build
+
+The project supports building cross-platform desktop applications using Tauri:
+
+### Tauri Build Commands
+
+```bash
+# Build Tauri desktop app (current platform)
+pnpm build:tauri
+
+# Build Tauri desktop app (multi-platform, automatically selected based on current system)
+pnpm build:tauri:multi
+
+# Build Tauri desktop app (all 4 platforms: Apple Silicon macOS, Intel macOS, Windows, Linux)
+pnpm build:tauri:all
+```
+
+### Platform Support
+
+- **Apple Silicon macOS**: `aarch64-apple-darwin`
+- **Intel macOS**: `x86_64-apple-darwin`
+- **Windows**: `x86_64-pc-windows-msvc`
+- **Linux**: `x86_64-unknown-linux-gnu`
+
+### Build Artifacts
+
+Tauri build artifacts are located in the `frontend/src-tauri/target/{platform}/release/bundle/` directory:
+
+- **macOS**: `.app` application package and `.dmg` installer
+- **Windows**: `.msi` installer
+- **Linux**: Multiple formats including `.deb`, `.AppImage`, etc.
+
+### Notes
+
+- In local macOS environment, Windows and Linux builds may fail due to missing cross-compilation toolchains
+- In GitHub Actions CI/CD environment, all 4 platforms should build successfully
+- When using the `build:tauri:all` command, the script will attempt to build all platforms and continue execution even if some platforms fail to build
 
 ## Environment-specific Builds
 

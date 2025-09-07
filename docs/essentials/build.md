@@ -22,6 +22,15 @@ pnpm build:backend
 
 # 构建后端 Docker 镜像
 pnpm build:docker:backend
+
+# 构建 Tauri 桌面应用（当前平台）
+pnpm build:tauri
+
+# 构建 Tauri 桌面应用（多平台，根据当前系统自动选择）
+pnpm build:tauri:multi
+
+# 构建 Tauri 桌面应用（所有4种平台：Apple Silicon macOS、Intel macOS、Windows、Linux）
+pnpm build:tauri:all
 ```
 
 ## 构建配置
@@ -206,6 +215,44 @@ pnpm build:analyze
 ```
 
 该命令将生成构建报告，帮助分析包大小和优化点。
+
+## Tauri 桌面应用构建
+
+项目支持使用 Tauri 构建跨平台桌面应用：
+
+### Tauri 构建命令
+
+```bash
+# 构建 Tauri 桌面应用（当前平台）
+pnpm build:tauri
+
+# 构建 Tauri 桌面应用（多平台，根据当前系统自动选择）
+pnpm build:tauri:multi
+
+# 构建 Tauri 桌面应用（所有4种平台：Apple Silicon macOS、Intel macOS、Windows、Linux）
+pnpm build:tauri:all
+```
+
+### 平台支持
+
+- **Apple Silicon macOS**: `aarch64-apple-darwin`
+- **Intel macOS**: `x86_64-apple-darwin`
+- **Windows**: `x86_64-pc-windows-msvc`
+- **Linux**: `x86_64-unknown-linux-gnu`
+
+### 构建产物
+
+Tauri 构建产物位于 `frontend/src-tauri/target/{platform}/release/bundle/` 目录下：
+
+- **macOS**: `.app` 应用程序包和 `.dmg` 安装包
+- **Windows**: `.msi` 安装包
+- **Linux**: `.deb`、`.AppImage` 等多种格式
+
+### 注意事项
+
+- 在本地 macOS 环境中，Windows 和 Linux 版本的构建可能会失败（由于缺少交叉编译工具链）
+- 在 GitHub Actions CI/CD 环境中，所有4种版本都应该能够成功构建
+- 使用 `build:tauri:all` 命令时，脚本会尝试构建所有平台，即使某些平台构建失败也会继续执行
 
 ## Docker 构建
 

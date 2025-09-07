@@ -6,6 +6,10 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "tauri": "tauri",
+    "tauri:build": "tauri build",
+    "tauri:build:multi": "node ../scripts/build-tauri-multi-platform.mjs",
+    "tauri:build:all": "CI=true node ../scripts/build-tauri-multi-platform.mjs",
     "lint": "eslint .",
     "lint:prettier": "prettier --write --loglevel warn \"src/**/*.{js,ts,json,tsx,css,less,scss,html,md}\"",
     "lint:eslint": "eslint \"{src}/**/*.{ts,tsx}\" --fix",
