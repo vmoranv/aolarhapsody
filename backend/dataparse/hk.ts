@@ -35,19 +35,37 @@ export async function initHkModule(): Promise<boolean> {
     });
 
     // 解析魂卡Buff
-    Object.values(response.buff).forEach((item) => {
-      if (Array.isArray(item) && item.length >= 8) {
-        const buff: HKBuff = {
-          id: Number(item[0]),
-          name: String(item[1]),
-          decs: item[2] as string[],
-          costs: item[3] as unknown as number[],
-          fontColor: String(item[4]),
-          color: Number(item[5]),
-          buffNames: item[6] as string[],
-          values: item[7] as string[],
-        };
-        hkBuffCache[buff.id] = buff;
+    Object.entries(response.buff).forEach(([key, item]) => {
+      if (Array.isArray(item) && item.length >= 6) {
+        try {
+          const buff: HKBuff = {
+            id: Number(item[0]),
+            name: String(item[1]),
+            decs: Array.isArray(item[2]) ? (item[2] as string[]) : [],
+            costs: Array.isArray(item[3])
+              ? (item[3] as unknown as number[])
+              : typeof item[3] === 'number'
+                ? [item[3]]
+                : [],
+            fontColor: String(item[4]),
+            color: Number(item[5]),
+            buffNames: Array.isArray(item[6]) ? (item[6] as string[]) : [],
+            values: Array.isArray(item[7]) ? (item[7] as string[]) : [],
+          };
+
+          // 处理较短的数组格式
+          if (item.length < 8) {
+            // 对于较短的格式，使用默认值填充缺失的字段
+            buff.buffNames = [];
+            buff.values = [];
+          }
+
+          hkBuffCache[buff.id] = buff;
+        } catch (parseError) {
+          console.error(`解析Buff ${key} 时出错:`, item, parseError);
+        }
+      } else {
+        console.warn(`Buff ${key} 格式不正确:`, item);
       }
     });
 

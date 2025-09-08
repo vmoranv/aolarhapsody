@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import type { MenuProps } from 'antd';
 import { Avatar, Dropdown, Layout as AntLayout, Menu, Space } from 'antd';
 import { motion } from 'framer-motion';
-import { Search, Settings, User } from 'lucide-react';
+import { BookOpen, Search, Settings, User } from 'lucide-react';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -311,6 +311,17 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           </motion.div>
 
           <Space size={16}>
+            {/* 添加文档图标链接 */}
+            <motion.a
+              href="https://ardocs.614447.xyz/"
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={{ scale: 1.05 }}
+              style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
+            >
+              <BookOpen size={20} color={colors.textSecondary} />
+            </motion.a>
+
             <ThemeToggle />
 
             <NotificationDropdown
