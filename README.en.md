@@ -10,6 +10,7 @@
   <img src="https://img.shields.io/badge/TypeScript-^5.0.0-blue" alt="TypeScript version">
   <img src="https://img.shields.io/badge/React-^18.0.0-cyan" alt="React version">
   <img src="https://img.shields.io/badge/Node.js-^20.0.0-green" alt="Node.js version">
+  <a href="https://deepwiki.com/vmoranv/aolarhapsody"><img src="https://deepwiki.com/badge.svg" alt="Ask DeepWiki"></a>
 </p>
 
 ## 📖 Introduction
