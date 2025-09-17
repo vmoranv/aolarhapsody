@@ -596,7 +596,7 @@ const PetExchange: React.FC = () => {
           {extractedUserIds.length > 0 && (
             <Card title="提取结果" className="mb-6">
               <div className="space-y-6">
-                <div className="flex justify-between items-center">
+                <div className="flex justify-between items-center" style={{ marginBottom: '12px' }}>
                   <Text className="text-sm font-medium text-gray-700 dark:text-gray-300">
                     {t('extracted_count', '提取到')} {extractedUserIds.length}{' '}
                     {t('user_ids_count', '个用户ID')}
@@ -615,7 +615,21 @@ const PetExchange: React.FC = () => {
                   </Space>
                 </div>
 
-                <div className="min-h-[100px] max-h-[200px] overflow-y-auto p-4 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-800/50">
+                <div
+                  className="min-h-[100px] max-h-[200px] overflow-y-auto p-4 ant-input ant-input-outlined"
+                  style={{
+                    boxSizing: 'border-box',
+                    width: '100%',
+                    borderRadius: '8px',
+                    borderWidth: '1px',
+                    borderStyle: 'solid',
+                    borderColor: 'var(--theme-border)',
+                    backgroundColor: 'var(--theme-elevated)',
+                    color: 'var(--theme-text)',
+                    transition: 'all 0.2s ease',
+                    marginBottom: '16px',
+                  }}
+                >
                   <Space wrap size="small" className="w-full">
                     {extractedUserIds.map((userId) => (
                       <Tag key={`extracted-${userId}`} color="green" className="text-xs">

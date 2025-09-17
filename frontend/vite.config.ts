@@ -25,7 +25,28 @@ export default defineConfig(({ mode }) => {
           main: path.resolve(__dirname, 'index.html'),
           landing: path.resolve(__dirname, 'landing.html'),
         },
+        output: {
+          manualChunks: {
+            // 将 React 相关库分到单独的 chunk
+            react: ['react', 'react-dom'],
+            // 将路由相关库分到单独的 chunk
+            router: ['react-router-dom'],
+            // 将 UI 组件库分到单独的 chunk
+            antd: ['antd'],
+            // 将动画库分到单独的 chunk
+            framer: ['framer-motion'],
+            // 将图标库分到单独的 chunk
+            icons: ['lucide-react'],
+            // 将状态管理库分到单独的 chunk
+            tanstack: ['@tanstack/react-query'],
+            // 将国际化库分到单独的 chunk
+            i18n: ['react-i18next'],
+            // 将工具库分到单独的 chunk
+            utils: ['lodash'],
+          },
+        },
       },
+      chunkSizeWarningLimit: 1000, // 将警告限制提高到 1000kb
     },
     server: {
       proxy: {

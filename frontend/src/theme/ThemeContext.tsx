@@ -21,7 +21,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   // 立即从 localStorage 读取主题
   const getInitialTheme = (): Theme => {
     if (typeof window === 'undefined') {
-      return 'light';
+      return 'dark'; // 默认使用深色主题
     }
 
     const savedTheme = localStorage.getItem('theme') as Theme;
@@ -29,7 +29,8 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
       return savedTheme;
     }
 
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    // 默认使用深色主题，不再依赖系统偏好
+    return 'dark';
   };
 
   const [theme, setThemeState] = useState<Theme>(getInitialTheme);

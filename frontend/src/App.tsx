@@ -1,5 +1,6 @@
 import { CopilotKit } from '@copilotkit/react-core';
 import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 import MainContent from './components/MainContent';
 import '@copilotkit/react-ui/styles.css';
 
@@ -11,6 +12,7 @@ const App = () => {
     >
       <MainContent />
       <Analytics />
+      <SpeedInsights />
     </CopilotKit>
   );
 };

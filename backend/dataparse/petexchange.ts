@@ -226,6 +226,22 @@ export async function batchQueryUserPets(userIdList: string[], useCache: boolean
       if (jsonData.code === 0) {
         const { data } = jsonData;
 
+        // 检查是否有宠物数据 - pmr不能为空
+        if (!data.pmr || data.pmr.trim() === '') {
+          const userPetInfo: UserPetInfo = {
+            userid: userid,
+            userName: data.nn || data.uname || data.nickname || data.name || `用户${userid}`,
+            success: false,
+            error: '用户没有宠物数据',
+            rawData: data,
+            lastUpdated: new Date().toISOString(),
+          };
+
+          results.push(userPetInfo);
+          failedUserIds.push(userid);
+          continue;
+        }
+
         // 提取用户名称 - 优先从 rawData.nn 字段提取
         const userName = data.nn || data.uname || data.nickname || data.name || `用户${userid}`;
 
@@ -299,7 +315,13 @@ export async function batchQueryUserPets(userIdList: string[], useCache: boolean
   if (failedUserIds.length > 0 && useCache) {
     for (const userid of failedUserIds) {
       const cachedInfo = await getUserPetInfo(userid);
-      if (cachedInfo && cachedInfo.success) {
+      if (cachedInfo && cachedInfo.success && cachedInfo.rawData) {
+        // 检查缓存中的数据是否有宠物数据
+        if (!cachedInfo.rawData.pmr || cachedInfo.rawData.pmr.trim() === '') {
+          // 缓存中的数据也没有宠物，不替换失败结果
+          continue;
+        }
+
         // 找到缓存的成功数据，替换失败的结果
         const index = results.findIndex((r) => r.userid === userid);
         if (index !== -1) {
@@ -312,17 +334,12 @@ export async function batchQueryUserPets(userIdList: string[], useCache: boolean
             lastUpdated: cachedInfo.lastUpdated,
           };
 
-          if (cachedInfo.success && cachedInfo.rawData) {
-            // 从 rawData 中提取宠物ID和信息
-            const petIds = extractPetIdsFromApiResponse(cachedInfo.rawData);
-            const petInfos = getPetInfos(petIds);
+          // 从 rawData 中提取宠物ID和信息
+          const petIds = extractPetIdsFromApiResponse(cachedInfo.rawData);
+          const petInfos = getPetInfos(petIds);
 
-            formattedCachedInfo.petIds = petIds;
-            formattedCachedInfo.petInfos = petInfos;
-          } else {
-            formattedCachedInfo.error = cachedInfo.error;
-            formattedCachedInfo.apiResponse = cachedInfo.apiResponse;
-          }
+          formattedCachedInfo.petIds = petIds;
+          formattedCachedInfo.petInfos = petInfos;
 
           results[index] = formattedCachedInfo;
         }
@@ -463,7 +480,13 @@ export async function getAllUsersFromDatabase() {
 
   for (const userid of allUserIds) {
     const userPetInfo = await getUserPetInfo(userid);
-    if (userPetInfo && userPetInfo.success) {
+    if (userPetInfo && userPetInfo.success && userPetInfo.rawData) {
+      // 检查是否有宠物数据
+      if (!userPetInfo.rawData.pmr || userPetInfo.rawData.pmr.trim() === '') {
+        // 跳过没有宠物数据的用户
+        continue;
+      }
+
       // 转换为前端需要的格式
       const formattedUser: any = {
         userid: userPetInfo.userid,
@@ -473,14 +496,12 @@ export async function getAllUsersFromDatabase() {
         lastUpdated: userPetInfo.lastUpdated,
       };
 
-      if (userPetInfo.success && userPetInfo.rawData) {
-        // 从 rawData 中提取宠物ID和信息
-        const petIds = extractPetIdsFromApiResponse(userPetInfo.rawData);
-        const petInfos = getPetInfos(petIds);
+      // 从 rawData 中提取宠物ID和信息
+      const petIds = extractPetIdsFromApiResponse(userPetInfo.rawData);
+      const petInfos = getPetInfos(petIds);
 
-        formattedUser.petIds = petIds;
-        formattedUser.petInfos = petInfos;
-      }
+      formattedUser.petIds = petIds;
+      formattedUser.petInfos = petInfos;
 
       usersData.push(formattedUser);
     }

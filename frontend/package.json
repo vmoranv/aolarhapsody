@@ -28,6 +28,7 @@
     "@tauri-apps/cli": "^2.8.1",
     "@types/gsap": "^3.0.0",
     "@vercel/analytics": "^1.5.0",
+    "@vercel/speed-insights": "^1.2.0",
     "antd": "^5.26.7",
     "browser-image-compression": "^2.0.2",
     "framer-motion": "^12.23.12",
