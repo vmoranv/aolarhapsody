@@ -13,11 +13,12 @@ import { initMiracleModule } from './miracle';
 import { initPetCardModule } from './petcard';
 import { initPetCard2Module } from './petcard2';
 import { initPetDictionaryModule } from './petdictionary';
-import { initPetDataModule } from './petexchange';
+import { initPetDataModule as initPetExchangeModule } from './petexchange';
 import { clearAllUserPetCache, getUserPetDatabaseStats, refreshAllUserPets } from './petexchange';
 import { initPetStoneModule } from './petstone';
 import { initPetTalkModule } from './pettalk';
 import { initPetTerritoryFightModule } from './petterritoryfight';
+import { initPetDataModule } from './pmdatalist';
 import { initSpEvoModule } from './pmevolink';
 import { initPosterModule } from './poster';
 import { initSummonerModule } from './summoner';
@@ -53,6 +54,7 @@ export const initializers = [
   initTaskModule,
   initTitleModule,
   initToteModule,
+  initPetExchangeModule,
 ];
 
 export const reloadData = async () => {
