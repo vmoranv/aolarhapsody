@@ -71,7 +71,8 @@ const PetExchange: React.FC = () => {
     setError(null);
 
     try {
-      const response = await fetch('/api/extract-petid', {
+      const baseUrl = import.meta.env.VITE_API_URL || '';
+      const response = await fetch(`${baseUrl}/api/extract-petid`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -171,7 +172,8 @@ const PetExchange: React.FC = () => {
     setError(null);
 
     try {
-      const response = await fetch('/api/users-from-database', {
+      const baseUrl = import.meta.env.VITE_API_URL || '';
+      const response = await fetch(`${baseUrl}/api/users-from-database`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
