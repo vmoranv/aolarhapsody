@@ -18,8 +18,31 @@ dotenv.config();
 const app: Express = express();
 const port = process.env.PORT || 3000;
 
-// 为所有路由启用CORS
-app.use(cors());
+// 为所有路由启用CORS，从环境变量中读取允许的多个前端域名
+const frontendUrls = process.env.FRONTEND_URLS
+  ? process.env.FRONTEND_URLS.split(',').map((url) => url.trim())
+  : [];
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      // 允许没有 origin 的请求（比如移动端app、Postman等）
+      if (!origin) {
+        return callback(null, true);
+      }
+
+      // 检查请求的 origin 是否在允许的列表中
+      if (frontendUrls.indexOf(origin) !== -1) {
+        return callback(null, true);
+      } else {
+        return callback(new Error('Not allowed by CORS'));
+      }
+    },
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  })
+);
 // 解析JSON请求体
 app.use(
   express.json({

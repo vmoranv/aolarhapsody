@@ -15,6 +15,65 @@ Before starting development, please ensure the following tools are installed:
 - **Git**: Version control tool
 - **VS Code**: Recommended editor (optional)
 
+## Environment Variables Configuration
+
+The project uses environment variables to configure various settings, especially for backend CORS configuration.
+
+### Backend Environment Variables
+
+Configure the following variables in the `backend/.env` file:
+
+```env
+# Backend service port
+PORT=3000
+
+# Allowed frontend domains (multiple domains separated by commas)
+FRONTEND_URLS=https://aolarhapsody.614447.xyz,http://localhost:3000,http://localhost:5173
+```
+
+#### Environment Variables Description
+
+- **PORT**: The port number that the backend service listens on, defaults to 3000
+- **FRONTEND_URLS**: **Required configuration**, specifies the list of frontend domains allowed to access the backend API. Multiple domains are separated by commas, wildcards are not supported.
+
+#### Configuration Examples
+
+```env
+# Production environment configuration
+FRONTEND_URLS=https://aolarhapsody.614447.xyz
+
+# Development environment configuration (supports local development)
+FRONTEND_URLS=http://localhost:3000,http://localhost:5173,https://aolarhapsody.614447.xyz
+
+# Multiple frontend applications configuration
+FRONTEND_URLS=https://app1.example.com,https://app2.example.com,http://localhost:3000
+```
+
+::: warning Note
+
+- `FRONTEND_URLS` is a required environment variable. If not configured, no frontend domains will be able to access the backend API
+- Domains must include the protocol (http:// or https://)
+- Wildcard domains (like \*.example.com) are not supported
+- Configuration changes require restarting the backend service to take effect
+  :::
+
+### Environment Variable Files
+
+The project provides environment variable example files:
+
+- `backend/.env`: Actual environment variable configuration (do not commit to version control)
+- `backend/.env.example`: Environment variable example file (can be used as configuration reference)
+
+When setting up the project for the first time, please copy `.env.example` to `.env` and modify the configuration according to your needs:
+
+```bash
+# Copy environment variable example file
+cp backend/.env.example backend/.env
+
+# Edit environment variable configuration
+vim backend/.env
+```
+
 ## Project Startup
 
 ### Install Dependencies
