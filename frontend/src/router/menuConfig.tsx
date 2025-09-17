@@ -96,6 +96,13 @@ export const menuConfig: MenuItemConfig[] = [
         status: 'release',
         parentKey: '2',
       },
+      {
+        key: '2-12',
+        path: '/app/petexchange',
+        label: 'menu.pet_id_extractor',
+        status: 'release',
+        parentKey: '2',
+      },
     ],
   },
   {

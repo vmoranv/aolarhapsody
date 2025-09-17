@@ -15,6 +15,7 @@ import MultiPointBurstPage from '@/views/MultiPointBurst';
 import PetCard from '@/views/PetCard';
 import PetCard2 from '@/views/PetCard2';
 import PetDictionary from '@/views/PetDictionary';
+import PetExchange from '@/views/PetExchange';
 import PosterPage from '@/views/Poster';
 import Tote from '@/views/Tote';
 
@@ -114,5 +115,10 @@ export const constantRoutes: RouteObject[] = [
     path: '/app/packet-analysis/damage-calculator',
     id: 'DamageCalculator',
     element: <DamageCalculator />,
+  },
+  {
+    path: '/app/petexchange',
+    id: 'PetExchange',
+    element: <PetExchange />,
   },
 ];

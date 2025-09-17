@@ -43,4 +43,10 @@ export const URL_CONFIG = {
   task: `${DATA_PREFIX}/taskdata.json`,
   title: `${DATA_PREFIX}/title.json`,
   tote: `${DATA_PREFIX}/totedata.json`,
+  yabiJs: 'http://www.100bt.com/aola/act/zt-friend/res/js/yabi.js?__rev=20250912',
+  // API 端点配置
+  api: {
+    userService: 'http://service-aola.100bt.com/aolashare/otherinfo.jsp',
+    friendPage: 'http://www.100bt.com/aola/act/zt-friend/',
+  },
 };

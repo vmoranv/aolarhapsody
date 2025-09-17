@@ -432,3 +432,54 @@ button.copilotKitButton:active {
     0 4px 6px rgb(0 0 0 / 10%) !important;
 }
 /* stylelint-enable selector-class-pattern */
+
+/* 自定义标签页激活状态样式 */
+.ant-tabs-tab.ant-tabs-tab-active {
+  color: var(--theme-text) !important;
+  background-color: rgb(154 154 154 / 30%) !important;
+  border-color: rgb(154 154 154 / 50%) !important;
+}
+
+.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: var(--theme-text) !important;
+}
+
+.dark-theme .ant-tabs-tab.ant-tabs-tab-active {
+  background-color: rgb(154 154 154 / 20%) !important;
+  border-color: rgb(154 154 154 / 40%) !important;
+}
+
+/* 确保激活标签页的悬停效果保持一致 */
+.ant-tabs-tab.ant-tabs-tab-active:hover {
+  background-color: rgb(154 154 154 / 40%) !important;
+}
+
+.dark-theme .ant-tabs-tab.ant-tabs-tab-active:hover {
+  background-color: rgb(154 154 154 / 30%) !important;
+}
+
+/* 非激活标签页的悬停效果 - 添加背景强调色 */
+.ant-tabs-tab:not(.ant-tabs-tab-active):hover {
+  background-color: rgb(154 154 154 / 10%) !important;
+  border-color: rgb(154 154 154 / 30%) !important;
+}
+
+.dark-theme .ant-tabs-tab:not(.ant-tabs-tab-active):hover {
+  background-color: rgb(154 154 154 / 15%) !important;
+  border-color: rgb(154 154 154 / 30%) !important;
+}
+
+/* 确保悬停时文字颜色保持不变 */
+.ant-tabs-tab:not(.ant-tabs-tab-active):hover,
+.ant-tabs-tab:not(.ant-tabs-tab-active):hover .ant-tabs-tab-btn,
+.ant-tabs-tab:not(.ant-tabs-tab-active):hover .ant-tabs-tab-btn span,
+.ant-tabs-tab:not(.ant-tabs-tab-active):hover .ant-tabs-tab-btn svg {
+  color: var(--theme-text) !important;
+}
+
+.dark-theme .ant-tabs-tab:not(.ant-tabs-tab-active):hover,
+.dark-theme .ant-tabs-tab:not(.ant-tabs-tab-active):hover .ant-tabs-tab-btn,
+.dark-theme .ant-tabs-tab:not(.ant-tabs-tab-active):hover .ant-tabs-tab-btn span,
+.dark-theme .ant-tabs-tab:not(.ant-tabs-tab-active):hover .ant-tabs-tab-btn svg {
+  color: var(--theme-text) !important;
+}

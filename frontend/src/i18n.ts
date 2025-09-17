@@ -19,6 +19,7 @@ import enMultiPointBurst from './locales/en/multiPointBurst.json';
 import enPetCard from './locales/en/petCard.json';
 import enPetCard2 from './locales/en/petCard2.json';
 import enPetDictionary from './locales/en/petDictionary.json';
+import enPetExchange from './locales/en/petexchange.json';
 import enPmDataList from './locales/en/pmDataList.json';
 import enPoster from './locales/en/poster.json';
 import enTote from './locales/en/tote.json';
@@ -40,6 +41,7 @@ import zhMultiPointBurst from './locales/zh/multiPointBurst.json';
 import zhPetCard from './locales/zh/petCard.json';
 import zhPetCard2 from './locales/zh/petCard2.json';
 import zhPetDictionary from './locales/zh/petDictionary.json';
+import zhPetExchange from './locales/zh/petexchange.json';
 import zhPmDataList from './locales/zh/pmDataList.json';
 import zhPoster from './locales/zh/poster.json';
 import zhTote from './locales/zh/tote.json';
@@ -90,6 +92,7 @@ i18n
       'pmDataList',
       'poster',
       'tote',
+      'petexchange',
     ],
     defaultNS: 'common',
     interpolation: {
@@ -119,6 +122,7 @@ i18n
         pmDataList: enPmDataList,
         poster: enPoster,
         tote: enTote,
+        petexchange: enPetExchange,
       },
       zh: {
         common: zhCommon,
@@ -142,6 +146,7 @@ i18n
         pmDataList: zhPmDataList,
         poster: zhPoster,
         tote: zhTote,
+        petexchange: zhPetExchange,
       },
     },
   });
