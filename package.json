@@ -7,7 +7,7 @@
     "build:all": "pnpm --parallel --filter \"./**\" build",
     "build:front": "pnpm --filter frontend build",
     "build:backend": "pnpm --filter backend build",
-    "build:docker": "bash ./scripts/deploy/build-local-docker-image.sh",
+    "build:docker": "node ./scripts/deploy/build-local-docker-image.js",
     "build:docker:backend": "docker build -t aolarhapsody-backend -f backend/Dockerfile .",
     "build:tauri": "pnpm --filter frontend exec tauri build",
     "build:tauri:multi": "node scripts/build-tauri-multi-platform.mjs",
