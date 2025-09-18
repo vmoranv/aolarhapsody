@@ -38,28 +38,6 @@ export interface UserPetInfo {
 }
 
 /**
- * 用户查询结果接口
- */
-export interface UserQueryResult {
-  /** 用户ID */
-  userid: string;
-  /** 用户名称 */
-  userName?: string;
-  /** 查询是否成功 */
-  success: boolean;
-  /** 宠物ID列表 */
-  petIds?: string[];
-  /** 宠物信息列表 */
-  petInfos?: any[];
-  /** 原始数据 */
-  rawData?: any;
-  /** 错误信息 */
-  error?: string;
-  /** API响应 */
-  apiResponse?: any;
-}
-
-/**
  * 用户宠物数据库接口
  */
 export interface UserPetDatabase {

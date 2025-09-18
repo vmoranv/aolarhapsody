@@ -3,12 +3,7 @@ import { PetDataMap, PetInfo, UserPetInfo } from '../types/petexchange';
 import { URL_CONFIG } from '../types/urlconfig';
 import { getFromCache, saveToCache } from './file-cache';
 import { fetchJavaScriptFile } from './gamedataparser';
-import {
-  getPetDataMap,
-  getUserPetInfo,
-  savePetDataMap,
-  smartSaveUserPetInfos,
-} from './user-pet-database';
+import { getPetDataMap, savePetDataMap, smartSaveUserPetInfos } from './user-pet-database';
 
 // 宠物数据缓存
 const petDataCache: Record<string, PetInfo> = {};
@@ -45,6 +40,8 @@ export async function initPetDataModule(): Promise<boolean> {
     await savePetDataMap(petDataMap);
     Object.assign(petDataCache, petDataMap);
 
+    console.warn(`从网络获取了 ${Object.keys(petDataMap).length} 个宠物数据并保存到缓存和数据库`);
+
     return true;
   } catch (error) {
     console.error('初始化宠物数据时出错:', error);
@@ -67,38 +64,6 @@ export async function ensurePetDataMapSaved(): Promise<void> {
     }
   } catch (error) {
     console.error('确保宠物数据字典保存时出错:', error);
-  }
-}
-
-/**
- * 迁移现有的宠物数据到新的数据库结构
- * 这个函数用于处理重构后数据结构的兼容性问题
- */
-export async function migratePetDataToNewStructure(): Promise<void> {
-  try {
-    const dbPetDataMap = await getPetDataMap();
-
-    // 如果数据库中已经有 petDataMap，不需要迁移
-    if (Object.keys(dbPetDataMap).length > 0) {
-      return;
-    }
-
-    // 如果内存中有数据但数据库中没有，进行迁移
-    if (Object.keys(petDataCache).length > 0) {
-      await savePetDataMap(petDataCache);
-      return;
-    }
-
-    // 如果内存中也没有数据，尝试从旧的缓存文件中读取
-    const cachedData = await getFromCache<PetDataMap>(URL_CONFIG.yabiJs);
-
-    if (cachedData && Object.keys(cachedData).length > 0) {
-      Object.assign(petDataCache, cachedData);
-      await savePetDataMap(cachedData);
-      return;
-    }
-  } catch (error) {
-    console.error('迁移宠物数据结构时出错:', error);
   }
 }
 
@@ -179,198 +144,252 @@ export function getPetInfos(petIds: string[]): PetInfo[] {
 }
 
 /**
- * 批量查询用户宠物信息（直接网络请求 + 增量存储）
+ * 批量查询用户宠物信息（简单分批查询策略）
  * @param userIdList - 用户ID列表
- * @param useCache - 是否使用缓存作为后备，默认为true
  * @returns 查询结果数组
  */
-export async function batchQueryUserPets(userIdList: string[], useCache: boolean = true) {
-  const results: UserPetInfo[] = [];
-  const failedUserIds: string[] = [];
-
+export async function batchQueryUserPets(userIdList: string[]) {
   // 首先对用户ID进行去重
   const uniqueUserIds = [...new Set(userIdList)];
 
-  // 直接批量请求网络数据
-  for (const userid of uniqueUserIds) {
+  const allResults: any[] = [];
+  const networkQueryIds: string[] = [];
+
+  // 第一步：先从数据库查询已有数据
+  const databaseResults: any[] = [];
+
+  const databasePromises = uniqueUserIds.map(async (userid) => {
     try {
-      // 调用真实的API端点
-      const apiUrl = `${URL_CONFIG.api.userService}?otherid=${userid}&userid=0&token=&_=${Date.now()}`;
-      const refererUrl = `${URL_CONFIG.api.friendPage}?userid=${userid}`;
-
-      const apiResponse = await axios.get(apiUrl, {
-        headers: {
-          'User-Agent':
-            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
-          Accept: '*/*',
-          Referer: refererUrl,
-        },
-        timeout: 10000,
-      });
-
-      // 解析JSONP响应
-      let jsonData;
-      if (typeof apiResponse.data === 'string') {
-        // 移除JSONP包装
-        const jsonMatch = apiResponse.data.match(/\((.*)\)/);
-        if (jsonMatch) {
-          jsonData = JSON.parse(jsonMatch[1]);
-        } else {
-          jsonData = JSON.parse(apiResponse.data);
-        }
-      } else {
-        jsonData = apiResponse.data;
-      }
-
-      // 检查API响应结构
-      if (jsonData.code === 0) {
-        const { data } = jsonData;
-
-        // 检查是否有宠物数据 - pmr不能为空
-        if (!data.pmr || data.pmr.trim() === '') {
-          const userPetInfo: UserPetInfo = {
-            userid: userid,
-            userName: data.nn || data.uname || data.nickname || data.name || `用户${userid}`,
+      const { getUserPetInfo } = await import('./user-pet-database');
+      const userPetInfo = await getUserPetInfo(userid);
+      if (userPetInfo && userPetInfo.success && userPetInfo.rawData) {
+        // 检查是否有宠物数据
+        if (!userPetInfo.rawData.pmr || userPetInfo.rawData.pmr.trim() === '') {
+          return {
+            userid: userPetInfo.userid,
+            userName: userPetInfo.userName,
             success: false,
-            error: '用户没有宠物数据',
-            rawData: data,
-            lastUpdated: new Date().toISOString(),
+            rawData: userPetInfo.rawData,
+            lastUpdated: userPetInfo.lastUpdated,
+            source: 'database',
           };
-
-          results.push(userPetInfo);
-          failedUserIds.push(userid);
-          continue;
         }
 
-        // 提取用户名称 - 优先从 rawData.nn 字段提取
-        const userName = data.nn || data.uname || data.nickname || data.name || `用户${userid}`;
-
-        // 提取宠物ID
-        extractPetIdsFromApiResponse(data);
-
-        // 获取宠物详细信息
-        const userPetInfo: UserPetInfo = {
-          userid: userid,
-          userName: userName,
+        // 转换为前端需要的格式
+        const formattedUser: any = {
+          userid: userPetInfo.userid,
+          userName: userPetInfo.userName,
           success: true,
-          rawData: data,
-          lastUpdated: new Date().toISOString(),
+          rawData: userPetInfo.rawData,
+          lastUpdated: userPetInfo.lastUpdated,
+          source: 'database',
         };
 
-        results.push(userPetInfo);
+        // 从 rawData 中提取宠物ID和信息
+        const petIds = extractPetIdsFromApiResponse(userPetInfo.rawData);
+        const petInfos = getPetInfos(petIds);
+        formattedUser.petIds = petIds;
+        formattedUser.petInfos = petInfos;
+
+        return formattedUser;
       } else {
-        const userPetInfo: UserPetInfo = {
+        // 数据库中没有或数据无效，加入网络查询列表
+        networkQueryIds.push(userid);
+        return null;
+      }
+    } catch (error) {
+      // 使用 error 参数记录错误信息
+      console.error('数据库查询失败:', error);
+      // 数据库查询失败，加入网络查询列表
+      networkQueryIds.push(userid);
+      return null;
+    }
+  });
+
+  // 等待数据库查询完成
+  const databaseQueryResults = await Promise.allSettled(databasePromises);
+  databaseQueryResults.forEach((result) => {
+    if (result.status === 'fulfilled' && result.value) {
+      databaseResults.push(result.value);
+    }
+  });
+
+  allResults.push(...databaseResults);
+
+  // 第二步：对数据库中没有的用户进行网络查询（分批处理）
+  if (networkQueryIds.length > 0) {
+    // 分批处理网络查询，每批50个用户
+    const batchSize = 50;
+
+    for (let i = 0; i < networkQueryIds.length; i += batchSize) {
+      const batch = networkQueryIds.slice(i, i + batchSize);
+
+      const batchPromises = batch.map(async (userid) => {
+        let retries = 0;
+        const maxRetries = 3;
+
+        while (retries < maxRetries) {
+          try {
+            const apiUrl = `${URL_CONFIG.api.userService}?otherid=${userid}&userid=0&token=&_=${Date.now()}`;
+            const refererUrl = `${URL_CONFIG.api.friendPage}?userid=${userid}`;
+
+            const apiResponse = await axios.get(apiUrl, {
+              headers: {
+                'User-Agent':
+                  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                Accept:
+                  'text/javascript, application/javascript, application/ecmascript, application/x-ecmascript, */*; q=0.01',
+                'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8',
+                'Accept-Encoding': 'gzip, deflate, br',
+                Referer: refererUrl,
+                'Cache-Control': 'no-cache',
+                Pragma: 'no-cache',
+                'Sec-Fetch-Dest': 'script',
+                'Sec-Fetch-Mode': 'no-cors',
+                'Sec-Fetch-Site': 'same-origin',
+                Connection: 'keep-alive',
+              },
+              timeout: 15000,
+            });
+
+            let jsonData;
+            if (typeof apiResponse.data === 'string') {
+              const jsonMatch = apiResponse.data.match(/\((.*)\)/);
+              if (jsonMatch) {
+                jsonData = JSON.parse(jsonMatch[1]);
+              } else {
+                jsonData = JSON.parse(apiResponse.data);
+              }
+            } else {
+              jsonData = apiResponse.data;
+            }
+
+            if (jsonData.code === 0) {
+              const { data } = jsonData;
+
+              if (!data.pmr || data.pmr.trim() === '') {
+                return {
+                  userid: userid,
+                  userName: data.nn || data.uname || data.nickname || data.name || `用户${userid}`,
+                  success: false,
+                  error: '用户没有宠物数据',
+                  rawData: data,
+                  lastUpdated: new Date().toISOString(),
+                  source: 'network',
+                };
+              }
+
+              const userName =
+                data.nn || data.uname || data.nickname || data.name || `用户${userid}`;
+
+              const formattedUser: any = {
+                userid: userid,
+                userName: userName,
+                success: true,
+                rawData: data,
+                lastUpdated: new Date().toISOString(),
+                source: 'network',
+              };
+
+              const petIds = extractPetIdsFromApiResponse(data);
+              const petInfos = getPetInfos(petIds);
+              formattedUser.petIds = petIds;
+              formattedUser.petInfos = petInfos;
+
+              return formattedUser;
+            } else {
+              // API返回错误，准备重试
+              retries++;
+              if (retries < maxRetries) {
+                const retryDelay = 1000 * retries + Math.random() * 1000; // 递增延迟 + 随机性
+                await new Promise((resolve) => setTimeout(resolve, retryDelay));
+                continue;
+              }
+
+              return {
+                userid: userid,
+                userName: `用户${userid}`,
+                success: false,
+                error: `API request failed after ${maxRetries} retries`,
+                apiResponse: jsonData,
+                lastUpdated: new Date().toISOString(),
+                source: 'network',
+              };
+            }
+          } catch (error) {
+            retries++;
+            if (retries < maxRetries) {
+              const retryDelay = 1000 * retries + Math.random() * 1000; // 递增延迟 + 随机性
+              await new Promise((resolve) => setTimeout(resolve, retryDelay));
+              continue;
+            }
+
+            return {
+              userid: userid,
+              userName: `用户${userid}`,
+              success: false,
+              error:
+                error instanceof Error
+                  ? error.message
+                  : `Unknown error after ${maxRetries} retries`,
+              lastUpdated: new Date().toISOString(),
+              source: 'network',
+            };
+          }
+        }
+
+        // 如果所有重试都失败，返回错误结果
+        return {
           userid: userid,
           userName: `用户${userid}`,
           success: false,
-          error: 'API request failed',
-          apiResponse: jsonData,
+          error: `All ${maxRetries} retry attempts failed`,
           lastUpdated: new Date().toISOString(),
+          source: 'network',
         };
+      });
 
-        results.push(userPetInfo);
-        failedUserIds.push(userid);
-      }
-    } catch (error) {
-      const userPetInfo: UserPetInfo = {
-        userid: userid,
-        userName: `用户${userid}`,
-        success: false,
-        error: error instanceof Error ? error.message : 'Unknown error',
-        lastUpdated: new Date().toISOString(),
-      };
+      const batchResults = await Promise.allSettled(batchPromises);
+      const validBatchResults = batchResults
+        .filter(
+          (result): result is PromiseFulfilledResult<any> =>
+            result.status === 'fulfilled' && result.value !== null
+        )
+        .map((result) => result.value);
 
-      results.push(userPetInfo);
-      failedUserIds.push(userid);
-    }
-  }
+      allResults.push(...validBatchResults);
 
-  // 只保存成功的查询结果到数据库
-  const successfulResults = results.filter((result) => result.success);
-  if (successfulResults.length > 0) {
-    await smartSaveUserPetInfos(successfulResults);
-
-    // 确保宠物数据字典已保存到数据库
-    await ensurePetDataMapSaved();
-  } else {
-    console.warn('没有成功的查询结果需要保存');
-  }
-
-  // 清理数据库中的失败数据：删除当前查询中失败的用户数据（如果存在）
-  const currentFailedUserIds = results
-    .filter((result) => !result.success)
-    .map((result) => result.userid);
-  if (currentFailedUserIds.length > 0) {
-    const { deleteUserPetInfo } = await import('./user-pet-database');
-    for (const userid of currentFailedUserIds) {
-      try {
-        await deleteUserPetInfo(userid);
-      } catch (error) {
-        console.error(`删除失败用户数据时出错 ${userid}:`, error);
+      // 批次之间添加延迟 - 增加延迟时间并添加随机性以避免API限制
+      if (i + batchSize < networkQueryIds.length) {
+        const delay = 300 + Math.random() * 200; // 300-500ms随机延迟
+        await new Promise((resolve) => setTimeout(resolve, delay));
       }
     }
   }
 
-  // 如果有失败的用户且启用了缓存，尝试从缓存中获取
-  if (failedUserIds.length > 0 && useCache) {
-    for (const userid of failedUserIds) {
-      const cachedInfo = await getUserPetInfo(userid);
-      if (cachedInfo && cachedInfo.success && cachedInfo.rawData) {
-        // 检查缓存中的数据是否有宠物数据
-        if (!cachedInfo.rawData.pmr || cachedInfo.rawData.pmr.trim() === '') {
-          // 缓存中的数据也没有宠物，不替换失败结果
-          continue;
-        }
+  // 第三步：保存网络查询的成功数据到数据库
+  const successfulNetworkResults = allResults.filter(
+    (result) =>
+      result.success && result.source === 'network' && result.petIds && result.petIds.length > 0
+  );
 
-        // 找到缓存的成功数据，替换失败的结果
-        const index = results.findIndex((r) => r.userid === userid);
-        if (index !== -1) {
-          // 转换缓存数据为前端需要的格式
-          const formattedCachedInfo: any = {
-            userid: cachedInfo.userid,
-            userName: cachedInfo.userName,
-            success: cachedInfo.success,
-            rawData: cachedInfo.rawData,
-            lastUpdated: cachedInfo.lastUpdated,
-          };
-
-          // 从 rawData 中提取宠物ID和信息
-          const petIds = extractPetIdsFromApiResponse(cachedInfo.rawData);
-          const petInfos = getPetInfos(petIds);
-
-          formattedCachedInfo.petIds = petIds;
-          formattedCachedInfo.petInfos = petInfos;
-
-          results[index] = formattedCachedInfo;
-        }
-      }
-    }
-  }
-
-  // 转换结果为前端需要的格式并直接返回
-  return results.map((result) => {
-    const formattedResult: any = {
+  if (successfulNetworkResults.length > 0) {
+    // 转换为UserPetInfo格式进行保存
+    const userPetInfosToSave: UserPetInfo[] = successfulNetworkResults.map((result) => ({
       userid: result.userid,
       userName: result.userName,
       success: result.success,
       rawData: result.rawData,
       lastUpdated: result.lastUpdated,
-    };
+    }));
 
-    if (result.success && result.rawData) {
-      // 从 rawData 中提取宠物ID和信息
-      const petIds = extractPetIdsFromApiResponse(result.rawData);
-      const petInfos = getPetInfos(petIds);
+    await smartSaveUserPetInfos(userPetInfosToSave);
+  } else {
+    // 这里是处理没有成功网络结果的情况，目前不需要特殊处理
+  }
 
-      formattedResult.petIds = petIds;
-      formattedResult.petInfos = petInfos;
-    } else {
-      formattedResult.error = result.error;
-      formattedResult.apiResponse = result.apiResponse;
-    }
-
-    return formattedResult;
-  });
+  // 返回所有结果
+  return allResults;
 }
 
 /**
@@ -400,75 +419,6 @@ export function extractPetIdsFromApiResponse(apiResponse: any): string[] {
 }
 
 /**
- * 刷新所有已存储用户的宠物信息
- * @param batchSize - 每批处理的用户数量，默认为10
- * @param delay - 批次之间的延迟（毫秒），默认为1000
- * @returns 刷新结果统计
- */
-export async function refreshAllUserPets(batchSize: number = 10, delay: number = 1000) {
-  const { getAllUserIds } = await import('./user-pet-database');
-  const allUserIds = await getAllUserIds();
-
-  let successCount = 0;
-  let failureCount = 0;
-  const cachedCount = 0;
-
-  // 分批处理用户ID
-  for (let i = 0; i < allUserIds.length; i += batchSize) {
-    const batch = allUserIds.slice(i, i + batchSize);
-
-    try {
-      // 强制刷新这批用户的数据
-      const results = await batchQueryUserPets(batch, true);
-
-      // 统计结果
-      results.forEach((result) => {
-        if (result.success) {
-          successCount++;
-        } else {
-          failureCount++;
-        }
-      });
-
-      // 如果不是最后一批，添加延迟
-      if (i + batchSize < allUserIds.length) {
-        await new Promise((resolve) => setTimeout(resolve, delay));
-      }
-    } catch (error) {
-      console.error(`处理第 ${Math.floor(i / batchSize) + 1} 批用户时出错:`, error);
-      failureCount += batch.length;
-    }
-  }
-
-  return {
-    totalUsers: allUserIds.length,
-    successCount,
-    failureCount,
-    cachedCount,
-    timestamp: new Date().toISOString(),
-  };
-}
-
-/**
- * 获取用户宠物信息数据库统计信息
- * @returns 数据库统计信息
- */
-export async function getUserPetDatabaseStats() {
-  const { getDatabaseStats } = await import('./user-pet-database');
-  return await getDatabaseStats();
-}
-
-/**
- * 清空所有用户宠物信息缓存
- * @returns 操作结果
- */
-export async function clearAllUserPetCache() {
-  const { clearAllUserPetInfo } = await import('./user-pet-database');
-  await clearAllUserPetInfo();
-  return { success: true, message: '所有用户宠物信息缓存已清空' };
-}
-
-/**
  * 获取数据库中所有用户的数据（转换为前端格式）
  * @returns 前端格式的用户数据数组
  */
@@ -478,6 +428,7 @@ export async function getAllUsersFromDatabase() {
   const allUserIds = await getAllUserIds();
   const usersData: any[] = [];
 
+  // 处理所有用户数据
   for (const userid of allUserIds) {
     const userPetInfo = await getUserPetInfo(userid);
     if (userPetInfo && userPetInfo.success && userPetInfo.rawData) {
@@ -499,7 +450,6 @@ export async function getAllUsersFromDatabase() {
       // 从 rawData 中提取宠物ID和信息
       const petIds = extractPetIdsFromApiResponse(userPetInfo.rawData);
       const petInfos = getPetInfos(petIds);
-
       formattedUser.petIds = petIds;
       formattedUser.petInfos = petInfos;
 
@@ -507,5 +457,6 @@ export async function getAllUsersFromDatabase() {
     }
   }
 
+  // 返回所有用户数据
   return usersData;
 }

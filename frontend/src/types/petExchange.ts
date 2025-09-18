@@ -15,3 +15,8 @@ export interface UserData {
   success: boolean;
   error?: string;
 }
+
+// 扩展UserData类型以包含数据来源信息
+export interface ExtendedUserData extends UserData {
+  source?: 'database' | 'network';
+}

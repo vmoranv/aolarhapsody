@@ -3,7 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import express, { Express, Request, Response } from 'express';
 import cron from 'node-cron';
-import { initializers, refreshUserPetsData, reloadData } from './dataparse/index';
+import { initializers, reloadData } from './dataparse/index';
 import { initializeMonitors } from './dataparse/subclasschecker';
 import allRoutes from './routes';
 import * as allTypes from './types';
@@ -23,6 +23,13 @@ const frontendUrls = process.env.FRONTEND_URLS
   ? process.env.FRONTEND_URLS.split(',').map((url) => url.trim())
   : [];
 
+// 启动时输出CORS配置信息
+
+// 如果没有配置允许的域名，添加一个默认的开发域名
+if (frontendUrls.length === 0) {
+  frontendUrls.push('http://localhost:3000', 'http://localhost:5173');
+}
+
 app.use(
   cors({
     origin: function (origin, callback) {
@@ -35,7 +42,11 @@ app.use(
       if (frontendUrls.indexOf(origin) !== -1) {
         return callback(null, true);
       } else {
-        return callback(new Error('Not allowed by CORS'));
+        return callback(
+          new Error(
+            `CORS: Origin ${origin} nt allowed. Allowed origins: ${frontendUrls.join(', ')}`
+          )
+        );
       }
     },
     credentials: true,
@@ -64,8 +75,6 @@ allRoutes.forEach((route) => {
 // 添加JSON解析错误处理中间件 - 放在所有路由之后
 app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
   if (err instanceof SyntaxError && 'body' in err) {
-    console.error('JSON解析错误:', err.message);
-    console.error('请求体原始内容:', req.body);
     return res.status(400).json({
       error: 'Invalid JSON format',
       details: err.message,
@@ -83,18 +92,8 @@ async function startServer() {
   const initPromises = initializers.map((init) => init());
   await Promise.all(initPromises);
 
-  // 执行宠物数据结构迁移（如果有需要）
-  try {
-    const { migratePetDataToNewStructure } = await import('./dataparse/petexchange');
-    await migratePetDataToNewStructure();
-  } catch (error) {
-    console.error('宠物数据结构迁移失败:', error);
-  }
-
   const listenWithRetry = (portToTry: number) => {
     const server = app.listen(portToTry, async () => {
-      console.warn(`Backend is ready at http://localhost:${portToTry}`);
-
       // 首先，在服务器启动时加载一次数据
       await reloadData();
 
@@ -102,18 +101,12 @@ async function startServer() {
       cron.schedule(
         '0 4 * * *',
         async () => {
-          console.warn('执行每日数据刷新任务...');
           try {
             // 刷新基础游戏数据
             await reloadData();
-
-            // 刷新所有用户宠物信息（分批处理，每批10个用户，间隔1秒）
-            console.warn('开始刷新用户宠物信息...');
-            await refreshUserPetsData(10, 1000);
-
-            console.warn('每日数据刷新任务完成');
           } catch (error) {
-            console.error('每日数据刷新任务执行失败:', error);
+            // 添加注释说明空代码块的用途，或者添加实际错误处理
+            console.error('定时任务执行失败:', error);
           }
         },
         {
@@ -124,13 +117,13 @@ async function startServer() {
 
     server.on('error', (err: any) => {
       if (err.code === 'EADDRINUSE') {
-        console.warn(`Port ${portToTry} is in use, trying ${portToTry + 1}...`);
         setTimeout(() => {
           server.close();
           listenWithRetry(portToTry + 1);
         }, 100); // 短暂延迟后重试
       } else {
-        console.error('Server error:', err);
+        // 添加实际的错误处理逻辑
+        console.error('服务器启动错误:', err);
       }
     });
 

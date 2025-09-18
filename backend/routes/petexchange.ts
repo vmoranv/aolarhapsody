@@ -1,6 +1,5 @@
 import { Request, Response, Router } from 'express';
 import { batchQueryUserPets, getAllUsersFromDatabase } from '../dataparse/petexchange';
-import { UserQueryResult } from '../types/petexchange';
 
 const router = Router();
 
@@ -21,12 +20,22 @@ router.post('/extract-petid', async (req: Request, res: Response) => {
     });
   }
 
+  // 增加请求超时时间以处理大量用户
+  req.setTimeout(300000); // 5分钟超时
+
   try {
-    const results = (await batchQueryUserPets(userIdList)) as UserQueryResult[];
+    const startTime = Date.now();
+
+    const batchResult = await batchQueryUserPets(userIdList);
+
+    const endTime = Date.now();
+
+    // 现在返回的是简单的数组格式
+    const results = batchResult as any[];
 
     // 统计结果
-    const successCount = results.filter((r: UserQueryResult) => r.success).length;
-    const failCount = results.filter((r: UserQueryResult) => !r.success).length;
+    const successCount = results.filter((r: any) => r.success).length;
+    const failCount = results.filter((r: any) => !r.success).length;
 
     res.json({
       success: true,
@@ -35,8 +44,11 @@ router.post('/extract-petid', async (req: Request, res: Response) => {
       failed: failCount,
       results: results,
       timestamp: new Date().toISOString(),
+      processingTime: endTime - startTime,
     });
-  } catch {
+  } catch (error) {
+    // 使用 error 参数记录错误信息
+    console.error('处理批量请求失败:', error);
     res.status(500).json({
       success: false,
       error: 'Failed to process batch request.',
@@ -54,6 +66,7 @@ router.get('/users-from-database', async (req: Request, res: Response) => {
   try {
     const usersData = await getAllUsersFromDatabase();
 
+    // 现在返回的是简单数组格式
     res.json({
       success: true,
       total: usersData.length,

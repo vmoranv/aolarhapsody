@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import DataView from '../components/DataView';
 import ItemCard from '../components/ItemCard';
 import Layout from '../components/Layout';
-import { UserData } from '../types/petExchange';
+import { ExtendedUserData } from '../types/petExchange';
 
 const { Title, Text } = Typography;
 
@@ -17,10 +17,11 @@ const PetExchange: React.FC = () => {
   const [userIdList, setUserIdList] = useState<string[]>(['75018034']);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-  const [allUsersData, setAllUsersData] = useState<UserData[]>([]);
-  const [selectedUser, setSelectedUser] = useState<UserData | null>(null);
+  const [allUsersData, setAllUsersData] = useState<ExtendedUserData[]>([]);
+  const [selectedUser, setSelectedUser] = useState<ExtendedUserData | null>(null);
   const [detailLoading, setDetailLoading] = useState<boolean>(false);
   const [databaseLoading, setDatabaseLoading] = useState<boolean>(false);
+  const [imagePreloadProgress, setImagePreloadProgress] = useState<number>(0);
 
   // 批量添加用户ID的函数
   const batchAddIds = useCallback(() => {
@@ -82,11 +83,61 @@ const PetExchange: React.FC = () => {
       const data = await response.json();
 
       if (response.ok) {
-        processBatchResults(data.results || []);
-        if (data.successCount > 0) {
-          messageApi.success(`批量查询完成：成功 ${data.successCount} 个，失败 ${data.failed} 个`);
+        // 清空现有数据，准备显示新的快速首屏数据
+        setAllUsersData([]);
+
+        // 使用requestIdleCallback优化大数据处理，避免阻塞UI
+        if ('requestIdleCallback' in window) {
+          window.requestIdleCallback(
+            () => {
+              // 处理新的快速首屏格式
+              const results = data.results || data.fastResults || [];
+              processBatchResults(results);
+
+              // 显示更详细的成功消息，包含数据来源信息
+              if (data.successCount > 0) {
+                let message = `批量查询完成：成功 ${data.successCount} 个，失败 ${data.failed} 个`;
+
+                // 如果有数据来源信息，添加到消息中
+                if (data.databaseCount !== undefined && data.networkCount !== undefined) {
+                  message += `（数据库：${data.databaseCount}，网络：${data.networkCount}）`;
+                }
+
+                // 如果有剩余数据，提示用户
+                if (data.hasMore && data.remainingCount > 0) {
+                  message += `，剩余 ${data.remainingCount} 个数据正在后台处理`;
+                }
+
+                messageApi.success(message);
+              } else {
+                messageApi.warning('所有用户ID查询都失败了');
+              }
+            },
+            { timeout: 1000 }
+          );
         } else {
-          messageApi.warning('所有用户ID查询都失败了');
+          // 降级方案：使用setTimeout
+          setTimeout(() => {
+            // 处理新的快速首屏格式
+            const results = data.results || data.fastResults || [];
+            processBatchResults(results);
+
+            // 显示更详细的成功消息，包含数据来源信息
+            if (data.successCount > 0) {
+              let message = `批量查询完成：成功 ${data.successCount} 个，失败 ${data.failed} 个`;
+
+              // 如果有数据来源信息，添加到消息中
+              if (data.databaseCount !== undefined && data.networkCount !== undefined) {
+                message += `（数据库：${data.databaseCount}，网络：${data.networkCount}）`;
+              }
+
+              // 现在一次性返回所有数据，无需轮询
+
+              messageApi.success(message);
+            } else {
+              messageApi.warning('所有用户ID查询都失败了');
+            }
+          }, 0);
         }
       } else {
         setError(data.error || '批量查询失败');
@@ -102,16 +153,21 @@ const PetExchange: React.FC = () => {
   }, [userIdList]);
 
   // 处理用户卡片点击
-  const handleUserCardClick = useCallback(async (user: UserData) => {
+  const handleUserCardClick = useCallback(async (user: ExtendedUserData) => {
     setDetailLoading(true);
     try {
       setSelectedUser(user);
-    } catch {
-      console.error('设置选中用户时出错');
+    } catch (error) {
+      // 添加错误处理逻辑
+      console.error('处理用户卡片点击时出错:', error);
     } finally {
       setDetailLoading(false);
     }
   }, []);
+
+  // 图片缓存
+  const [imageCache, setImageCache] = useState<Set<string>>(new Set());
+  const [preloadingImages, setPreloadingImages] = useState<boolean>(false);
 
   // 获取宠物图片URL
   const getPetImageUrl = useCallback((petId: string) => {
@@ -123,51 +179,140 @@ const PetExchange: React.FC = () => {
     }
   }, []);
 
-  // 处理批量查询结果，转换为DataView格式
-  const processBatchResults = useCallback(
-    (results: any[]) => {
-      const users: UserData[] = [];
+  // 预加载宠物图片
+  const preloadPetImages = useCallback(
+    async (petIds: string[]) => {
+      if (petIds.length === 0) {
+        return;
+      }
 
-      // 只处理成功的结果，过滤掉所有失败的查询
-      const successfulResults = results.filter((result) => result.success);
+      setPreloadingImages(true);
+      setImagePreloadProgress(0);
 
-      successfulResults.forEach((result) => {
-        // 从rawData中提取用户名称
-        const userName = result.rawData?.nn || `用户 ${result.userid}`;
+      const uniquePetIds = [...new Set(petIds)];
+      const batchSize = 20; // 每批预加载20张图片
+      let loadedCount = 0;
 
-        const user: UserData = {
-          id: result.userid,
-          name: userName,
-          userid: result.userid,
-          success: result.success,
-          error: result.error,
-          pets: [],
-        };
+      for (let i = 0; i < uniquePetIds.length; i += batchSize) {
+        const batch = uniquePetIds.slice(i, i + batchSize);
+        const promises = batch.map(async (petId) => {
+          const imageUrl = getPetImageUrl(petId);
 
-        if (result.success && result.petIds && result.petInfos) {
-          result.petIds.forEach((petId: string, index: number) => {
-            const petInfo = result.petInfos[index];
-            if (petInfo) {
-              user.pets.push({
-                id: petId,
-                name: petInfo.name,
-                type: petInfo.type,
-                imageUrl: getPetImageUrl(petId),
-              });
-            }
+          // 如果已经缓存过，跳过
+          if (imageCache.has(imageUrl)) {
+            return Promise.resolve();
+          }
+
+          return new Promise<void>((resolve) => {
+            const img = new Image();
+            img.onload = () => {
+              setImageCache((prev) => new Set(prev).add(imageUrl));
+              resolve();
+            };
+            img.onerror = () => {
+              resolve(); // 即使失败也继续，不阻塞其他图片
+            };
+            img.src = imageUrl;
           });
+        });
+
+        try {
+          await Promise.allSettled(promises);
+          loadedCount += batch.length;
+          setImagePreloadProgress(Math.round((loadedCount / uniquePetIds.length) * 100));
+
+          // 每批之间稍微延迟，避免过于密集的网络请求
+          if (i + batchSize < uniquePetIds.length) {
+            await new Promise((resolve) => setTimeout(resolve, 100));
+          }
+        } catch (error) {
+          // 添加错误处理逻辑
+          console.error('预加载宠物图片时出错:', error);
         }
+      }
 
-        users.push(user);
-      });
-
-      setAllUsersData(users);
+      setPreloadingImages(false);
     },
-    [getPetImageUrl, messageApi]
+    [getPetImageUrl, imageCache]
   );
 
-  // 从数据库加载所有用户数据
-  const fetchUsersFromDatabase = useCallback(async () => {
+  // 处理批量查询结果，转换为DataView格式 - 优化大数据处理性能
+  const processBatchResults = useCallback(
+    (results: any[]) => {
+      // 使用分块处理避免阻塞主线程
+      const chunkSize = 100; // 每次处理100个结果
+      let processedCount = 0;
+
+      const processChunk = () => {
+        const chunk = results.slice(processedCount, processedCount + chunkSize);
+        const chunkUsers: ExtendedUserData[] = [];
+
+        // 只处理成功的结果，过滤掉所有失败的查询
+        const successfulResults = chunk.filter((result) => result.success);
+
+        successfulResults.forEach((result) => {
+          // 从rawData中提取用户名称
+          const userName = result.rawData?.nn || `用户 ${result.userid}`;
+
+          const user: ExtendedUserData = {
+            id: result.userid,
+            name: userName,
+            userid: result.userid,
+            success: result.success,
+            error: result.error,
+            pets: [],
+            source: result.source || 'network', // 添加数据来源信息
+          };
+
+          if (result.success && result.petIds && result.petInfos) {
+            result.petIds.forEach((petId: string, index: number) => {
+              const petInfo = result.petInfos[index];
+              if (petInfo) {
+                user.pets.push({
+                  id: petId,
+                  name: petInfo.name,
+                  type: petInfo.type,
+                  imageUrl: getPetImageUrl(petId),
+                });
+              }
+            });
+          }
+
+          chunkUsers.push(user);
+        });
+
+        // 更新状态，追加当前块的处理结果
+        setAllUsersData((prev) => [...prev, ...chunkUsers]);
+
+        processedCount += chunkSize;
+
+        // 如果还有数据需要处理，继续下一块
+        if (processedCount < results.length) {
+          // 使用setTimeout让出主线程，避免UI卡顿
+          setTimeout(processChunk, 0);
+        }
+      };
+
+      // 开始处理第一批数据
+      processChunk();
+
+      // 在数据处理完成后，收集所有宠物ID并预加载图片
+      const allPetIds = results
+        .filter((result) => result.success && result.petIds)
+        .flatMap((result) => result.petIds);
+
+      if (allPetIds.length > 0) {
+        // 使用setTimeout让出主线程，确保UI先更新
+        setTimeout(() => {
+          preloadPetImages(allPetIds);
+        }, 100);
+      }
+    },
+    [getPetImageUrl, messageApi, preloadPetImages]
+  );
+
+  // 从数据库加载所有用户数据（包括异步处理完成后的数据）
+  const fetchAllUsersData = useCallback(async () => {
     setDatabaseLoading(true);
     setError(null);
 
@@ -182,20 +327,25 @@ const PetExchange: React.FC = () => {
       const data = await response.json();
 
       if (response.ok) {
-        processBatchResults(data.data || []);
+        // 清空现有数据，显示所有用户数据
+        setAllUsersData([]);
+
+        const results = data.data || [];
+        processBatchResults(results);
+
         messageApi.success(`从数据库加载了 ${data.total} 个用户的数据`);
       } else {
-        setError(data.error || '从数据库加载用户数据失败');
-        messageApi.error(data.error || '从数据库加载用户数据失败');
+        setError(data.error || '从数据库加载所有用户数据失败');
+        messageApi.error(data.error || '从数据库加载所有用户数据失败');
       }
     } catch {
-      const errorMessage = '从数据库加载用户数据失败';
+      const errorMessage = '从数据库加载所有用户数据失败';
       setError(errorMessage);
       messageApi.error(errorMessage);
     } finally {
       setDatabaseLoading(false);
     }
-  }, [processBatchResults, messageApi]);
+  }, [processBatchResults, messageApi, setAllUsersData]);
 
   // 封包解析相关状态
   const [packetInput, setPacketInput] = useState<string>('');
@@ -417,7 +567,7 @@ const PetExchange: React.FC = () => {
                     : `${t('batch_query_button', '批量查询用户ID')} ${userIdList.length} 个用户`}
                 </Button>
                 <Button
-                  onClick={fetchUsersFromDatabase}
+                  onClick={fetchAllUsersData}
                   loading={databaseLoading}
                   size="large"
                   className="flex-1 h-12"
@@ -430,9 +580,25 @@ const PetExchange: React.FC = () => {
             </div>
           </Card>
 
+          {/* 图片预加载进度显示 */}
+          {preloadingImages && (
+            <Card className="mb-4">
+              <div className="flex items-center gap-3">
+                <Spin size="small" />
+                <Text>正在预加载宠物图片缓存 ({imagePreloadProgress}%)</Text>
+                <div className="flex-1 bg-gray-200 rounded-full h-2">
+                  <div
+                    className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+                    style={{ width: `${imagePreloadProgress}%` }}
+                  />
+                </div>
+              </div>
+            </Card>
+          )}
+
           {/* 使用DataView显示用户列表 */}
           {allUsersData.length > 0 && (
-            <DataView<UserData>
+            <DataView<ExtendedUserData>
               queryKey={['pet-exchange-user-data-view']}
               data={allUsersData}
               onCardClick={handleUserCardClick}
