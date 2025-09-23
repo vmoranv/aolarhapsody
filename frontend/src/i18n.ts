@@ -9,6 +9,7 @@ import enCommon from './locales/en/common.json';
 import enCrystalKey from './locales/en/crystalKey.json';
 import enDamageCalculator from './locales/en/damageCalculator.json';
 import enExistingPackets from './locales/en/existingPackets.json';
+import enExpCalculator from './locales/en/expCalculator.json';
 import enGodCard from './locales/en/godCard.json';
 import enHk from './locales/en/hk.json';
 import enHome from './locales/en/home.json';
@@ -32,6 +33,7 @@ import zhCommon from './locales/zh/common.json';
 import zhCrystalKey from './locales/zh/crystalKey.json';
 import zhDamageCalculator from './locales/zh/damageCalculator.json';
 import zhExistingPackets from './locales/zh/existingPackets.json';
+import zhExpCalculator from './locales/zh/expCalculator.json';
 import zhGodCard from './locales/zh/godCard.json';
 import zhHk from './locales/zh/hk.json';
 import zhHome from './locales/zh/home.json';
@@ -96,6 +98,7 @@ i18n
       'tote',
       'petexchange',
       'badwordCheck',
+      'expCalculator',
     ],
     defaultNS: 'common',
     interpolation: {
@@ -127,6 +130,7 @@ i18n
         tote: enTote,
         petexchange: enPetExchange,
         badwordCheck: enBadwordCheck,
+        expCalculator: enExpCalculator,
       },
       zh: {
         common: zhCommon,
@@ -152,6 +156,7 @@ i18n
         tote: zhTote,
         petexchange: zhPetExchange,
         badwordCheck: zhBadwordCheck,
+        expCalculator: zhExpCalculator,
       },
     },
   });

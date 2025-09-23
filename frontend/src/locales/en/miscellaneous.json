@@ -54,5 +54,8 @@
   "data_count": "{{count}} items",
   "open_image_compressor": "Open Image Compressor",
   "open_character_analyzer": "Open Character Analyzer",
-  "open_poster_analyzer": "Open Poster Analyzer"
+  "open_poster_analyzer": "Open Poster Analyzer",
+  "exp_calculator": "Experience Calculator",
+  "exp_calculator_desc": "Calculate the experience required for pet leveling",
+  "open_exp_calculator": "Open Experience Calculator"
 }

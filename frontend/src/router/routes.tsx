@@ -6,6 +6,7 @@ import CharacterAnalyzer from '@/views/CharacterAnalyzer';
 import CrystalKey from '@/views/CrystalKey';
 import DamageCalculator from '@/views/DamageCalculator';
 import ExistingPackets from '@/views/ExistingPackets';
+import ExpCalculator from '@/views/ExpCalculator';
 import GodCard from '@/views/GodCard';
 import HK from '@/views/HK';
 import Home from '@/views/Home';
@@ -126,5 +127,10 @@ export const constantRoutes: RouteObject[] = [
     path: '/app/miscellaneous/badword-check',
     id: 'BadwordCheck',
     element: <BadwordCheck />,
+  },
+  {
+    path: '/app/miscellaneous/exp-calculator',
+    id: 'ExpCalculator',
+    element: <ExpCalculator />,
   },
 ];

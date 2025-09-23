@@ -1,0 +1,21 @@
+{
+  "title": "Experience Calculator",
+  "description": "Calculate the total experience required for a pet to level up from its current level and experience to a target level.",
+  "input": "Input Parameters",
+  "petId": "Pet ID",
+  "petId_placeholder": "Enter the Pet ID",
+  "petId_required": "Please enter Pet ID",
+  "currentLevel": "Current Level",
+  "currentLevel_placeholder": "Enter the current level (1-100)",
+  "currentLevel_required": "Please enter current level",
+  "currentExp": "Current Experience",
+  "currentExp_placeholder": "Enter the experience at the current level",
+  "currentExp_required": "Please enter current experience",
+  "targetLevel": "Target Level",
+  "targetLevel_placeholder": "Enter the target level (1-100)",
+  "targetLevel_required": "Please enter target level",
+  "calculate": "Calculate",
+  "result": "Calculation Result",
+  "requiredExp": "Total Experience Required",
+  "calculation_failed": "Calculation failed"
+}

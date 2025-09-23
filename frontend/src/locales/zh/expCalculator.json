@@ -1,0 +1,21 @@
+{
+  "title": "经验计算器",
+  "description": "计算亚比从当前等级和经验升级到目标等级所需的总经验值。",
+  "input": "输入参数",
+  "petId": "亚比ID",
+  "petId_placeholder": "请输入亚比的ID",
+  "petId_required": "请输入亚比ID",
+  "currentLevel": "当前等级",
+  "currentLevel_placeholder": "请输入当前等级 (1-100)",
+  "currentLevel_required": "请输入当前等级",
+  "currentExp": "当前经验",
+  "currentExp_placeholder": "请输入当前等级下的经验值",
+  "currentExp_required": "请输入当前经验",
+  "targetLevel": "目标等级",
+  "targetLevel_placeholder": "请输入目标等级 (1-100)",
+  "targetLevel_required": "请输入目标等级",
+  "calculate": "计算",
+  "result": "计算结果",
+  "requiredExp": "所需总经验",
+  "calculation_failed": "计算失败"
+}

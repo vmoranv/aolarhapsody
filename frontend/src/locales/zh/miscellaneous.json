@@ -54,5 +54,8 @@
   "data_count": "{{count}} 条数据",
   "open_image_compressor": "打开图片压缩器",
   "open_character_analyzer": "打开性格分析器",
-  "open_poster_analyzer": "打开海报分析器"
+  "open_poster_analyzer": "打开海报分析器",
+  "exp_calculator": "经验计算器",
+  "exp_calculator_desc": "计算亚比升级所需的经验值",
+  "open_exp_calculator": "打开经验计算器"
 }

@@ -177,6 +177,13 @@ export const menuConfig: MenuItemConfig[] = [
         status: 'dev',
         parentKey: '4',
       },
+      {
+        key: '4-6',
+        path: '/app/miscellaneous/exp-calculator',
+        label: 'menu.exp_calculator',
+        status: 'release',
+        parentKey: '4',
+      },
     ],
   },
   {

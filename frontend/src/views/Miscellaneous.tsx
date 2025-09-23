@@ -18,6 +18,7 @@ import { motion } from 'framer-motion';
 import {
   Award,
   BrainCircuit,
+  Calculator,
   CheckSquare,
   Crop,
   Gem,
@@ -170,6 +171,14 @@ const getDataConfigs = (t: (key: string) => string) => [
     color: '#d4380d',
     endpoint: '', // No endpoint for this tool
     description: t('poster_desc'),
+  },
+  {
+    key: 'exp-calculator',
+    title: t('exp_calculator'),
+    icon: Calculator,
+    color: '#389e0d',
+    endpoint: '', // No endpoint for this tool
+    description: t('exp_calculator_desc'),
   },
 ];
 
@@ -470,6 +479,16 @@ const Miscellaneous = () => {
                     <div style={{ padding: '16px' }}>
                       <a href="/app/miscellaneous/poster" target="_blank" rel="noopener noreferrer">
                         <Button type="primary">{t('open_poster_analyzer')}</Button>
+                      </a>
+                    </div>
+                  ) : config.key === 'exp-calculator' ? (
+                    <div style={{ padding: '16px' }}>
+                      <a
+                        href="/app/miscellaneous/exp-calculator"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <Button type="primary">{t('open_exp_calculator')}</Button>
                       </a>
                     </div>
                   ) : (

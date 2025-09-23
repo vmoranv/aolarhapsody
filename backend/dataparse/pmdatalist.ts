@@ -244,9 +244,40 @@ export function calculateExp(
   targetLevel: number
 ): { success: boolean; requiredExp?: number; message?: string } {
   const pet = getPetFullDataById(petId);
+
+  // 检查pet是否存在
+  if (!pet) {
+    return { success: false, message: `未找到ID为 ${petId} 的亚比` };
+  }
+
   // 经验成长类型在index:21
-  const expType = String(pet!.rawData[21]);
+  const expType = String(pet.rawData[21]);
   const expTable = expMapCache[expType] || expMapCache['0'];
+
+  // 检查经验表是否存在
+  if (!expTable || expTable.length === 0) {
+    return { success: false, message: `未找到经验类型 ${expType} 的经验表` };
+  }
+
+  // 验证等级范围
+  if (
+    currentLevel < 1 ||
+    currentLevel > expTable.length ||
+    targetLevel < 1 ||
+    targetLevel > expTable.length
+  ) {
+    return { success: false, message: `等级必须在1到${expTable.length}之间` };
+  }
+
+  // 验证当前经验值
+  if (currentExp < 0) {
+    return { success: false, message: '当前经验值不能为负数' };
+  }
+
+  // 验证目标等级
+  if (targetLevel <= currentLevel) {
+    return { success: false, message: '目标等级必须大于当前等级' };
+  }
 
   // 计算当前等级的总经验值
   const currentLevelTotalExp = expTable[currentLevel - 1];
