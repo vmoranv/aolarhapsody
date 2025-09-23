@@ -29,3 +29,13 @@ export interface PetCard2Detail {
   raceList: number[];
   viewId: number;
 }
+
+export interface PetCard2Description {
+  level: number;
+  description: string;
+}
+
+export interface PetCard2DescriptionsResponse {
+  cardId: number;
+  descriptions: PetCard2Description[];
+}

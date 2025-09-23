@@ -28,6 +28,8 @@ export interface PetCard2 {
   raceList: number[];
   /** 视图ID */
   viewId: number;
+  /** 描述信息 */
+  description?: string;
 }
 /**
  * 定义 petcard2data.json 文件中已知的顶级子类

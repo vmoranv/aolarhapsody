@@ -1,8 +1,9 @@
 import { PetCard2 } from '../types/petcard2';
 import { URL_CONFIG } from '../types/urlconfig';
-import { fetchAndParseJSON } from './gamedataparser';
+import { fetchAndParseJSON, fetchJavaScriptFile } from './gamedataparser';
 
 const cachedPetCard2s: Record<string, PetCard2> = {};
+const cachedDescriptions: Record<string, string> = {};
 
 /**
  * 初始化特性晶石数据模块
@@ -42,6 +43,17 @@ export async function initPetCard2Module(): Promise<boolean> {
       }
     });
 
+    // 获取描述数据
+    await fetchAndCachePetCard2Descriptions();
+
+    // 将描述数据合并到特性晶石数据中
+    Object.values(cachedPetCard2s).forEach((card) => {
+      const descriptionKey = `${card.cardId}_${card.level}`;
+      if (cachedDescriptions[descriptionKey]) {
+        card.description = cachedDescriptions[descriptionKey];
+      }
+    });
+
     return true;
   } catch (error) {
     console.error('解析特性晶石数据时出错:', error);
@@ -64,4 +76,66 @@ export function getAllPetCard2s(): PetCard2[] {
  */
 export function getPetCard2ById(id: number): PetCard2 | undefined {
   return cachedPetCard2s[id];
+}
+
+/**
+ * 从main.js中获取并缓存特性晶石描述数据
+ * @returns {Promise<boolean>} 如果成功获取并缓存数据则返回true，否则返回false
+ */
+export async function fetchAndCachePetCard2Descriptions(): Promise<boolean> {
+  if (Object.keys(cachedDescriptions).length > 0) {
+    return true; // 已经缓存过数据
+  }
+
+  try {
+    const jsContent = await fetchJavaScriptFile(URL_CONFIG.gameMainJs);
+
+    // 使用正则表达式直接匹配对象赋值
+    const regex = new RegExp('PetCard2Descriptions\\.description\\s*=\\s*(\\{[\\s\\S]*?\\});', 'g');
+    const match = regex.exec(jsContent);
+
+    if (match && match[1]) {
+      let dataString = match[1];
+      // 移除注释
+      dataString = dataString.replace(/\/\*[\s\S]*?\*\/|\/\/.*/g, '');
+      // 解析JSON对象
+      const descriptionsData = JSON.parse(dataString) as Record<string, string>;
+
+      if (descriptionsData && typeof descriptionsData === 'object') {
+        Object.assign(cachedDescriptions, descriptionsData);
+        return true;
+      }
+    }
+    return false;
+  } catch (error) {
+    console.error('获取特性晶石描述数据时出错:', error);
+    return false;
+  }
+}
+
+/**
+ * 根据特性晶石ID获取所有等级的描述
+ * @param {number} cardId - 特性晶石的ID
+ * @returns {Array<{level: number, description: string}>} 包含等级和描述的对象数组
+ */
+export function getPetCard2DescriptionsById(
+  cardId: number
+): Array<{ level: number; description: string }> {
+  const descriptions: Array<{ level: number; description: string }> = [];
+
+  // 遍历所有缓存的描述，找到匹配的cardId
+  Object.entries(cachedDescriptions).forEach(([key, description]) => {
+    const [id, level] = key.split('_');
+    if (parseInt(id) === cardId) {
+      descriptions.push({
+        level: parseInt(level),
+        description: description,
+      });
+    }
+  });
+
+  // 按等级排序
+  descriptions.sort((a, b) => a.level - b.level);
+
+  return descriptions;
 }

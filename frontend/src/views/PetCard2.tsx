@@ -5,7 +5,7 @@ import { Trans, useTranslation } from 'react-i18next';
 import DataView from '../components/DataView';
 import ItemCard from '../components/ItemCard';
 import Layout from '../components/Layout';
-import type { PetCard2, PetCard2Detail } from '../types/petCard2';
+import type { PetCard2, PetCard2DescriptionsResponse,PetCard2Detail } from '../types/petCard2';
 import { fetchDataItem } from '../utils/api';
 import { getPetCard2ImageUrl } from '../utils/image-helper';
 
@@ -14,13 +14,21 @@ const { Title, Paragraph, Text } = Typography;
 const PetCard2Page = () => {
   const { t } = useTranslation('petCard2');
   const [detail, setDetail] = useState<PetCard2Detail | null>(null);
+  const [descriptions, setDescriptions] = useState<PetCard2DescriptionsResponse | null>(null);
   const [loadingDetail, setLoadingDetail] = useState(false);
 
   const handleCardClick = async (petCard2: PetCard2) => {
     setLoadingDetail(true);
     try {
-      const data = await fetchDataItem<PetCard2Detail>('petcard2s', petCard2.id.toString());
-      setDetail(data);
+      const [detailData, descriptionsData] = await Promise.all([
+        fetchDataItem<PetCard2Detail>('petcard2s', petCard2.id.toString()),
+        fetchDataItem<PetCard2DescriptionsResponse>(
+          'petcard2s/descriptions',
+          petCard2.id.toString()
+        ),
+      ]);
+      setDetail(detailData);
+      setDescriptions(descriptionsData);
     } catch (error) {
       console.error('Failed to fetch petCard2 detail', error);
     } finally {
@@ -84,41 +92,21 @@ const PetCard2Page = () => {
               />
               <div style={{ flex: 1 }}>
                 <Paragraph>
-                  <Text strong>{t('detail_trade')}: </Text>
-                  <Text>{detail.trade ? 'Yes' : 'No'}</Text>
+                  <Text strong>
+                    {t('detail_apply_id_and_descriptions', { applyId: detail.applyId })}
+                  </Text>
                 </Paragraph>
-                <Paragraph>
-                  <Text strong>{t('detail_vip')}: </Text>
-                  <Text>{detail.vip}</Text>
-                </Paragraph>
-                <Paragraph>
-                  <Text strong>{t('detail_limited_time')}: </Text>
-                  <Text>{detail.isLimitedTime ? 'Yes' : 'No'}</Text>
-                </Paragraph>
-                <Paragraph>
-                  <Text strong>{t('detail_price')}: </Text>
-                  <Text>{detail.price}</Text>
-                </Paragraph>
-                <Paragraph>
-                  <Text strong>{t('detail_rmb')}: </Text>
-                  <Text>{detail.rmb}</Text>
-                </Paragraph>
-                <Paragraph>
-                  <Text strong>{t('detail_level')}: </Text>
-                  <Text>{detail.level}</Text>
-                </Paragraph>
-                <Paragraph>
-                  <Text strong>{t('detail_apply_id')}: </Text>
-                  <Text>{detail.applyId}</Text>
-                </Paragraph>
-                <Paragraph>
-                  <Text strong>{t('detail_base_exp')}: </Text>
-                  <Text>{detail.baseExp}</Text>
-                </Paragraph>
-                <Paragraph>
-                  <Text strong>{t('detail_race_list')}: </Text>
-                  <Text>{detail.raceList.join(', ')}</Text>
-                </Paragraph>
+                {descriptions &&
+                  descriptions.descriptions.map((desc) => (
+                    <Paragraph key={desc.level}>
+                      <Text>
+                        {t('level_description', {
+                          level: desc.level,
+                          description: desc.description,
+                        })}
+                      </Text>
+                    </Paragraph>
+                  ))}
               </div>
             </div>
           ) : null

@@ -1,5 +1,9 @@
 import { Request, Response, Router } from 'express';
-import { getAllPetCard2s, getPetCard2ById } from '../dataparse/petcard2';
+import {
+  getAllPetCard2s,
+  getPetCard2ById,
+  getPetCard2DescriptionsById,
+} from '../dataparse/petcard2';
 
 const router = Router();
 
@@ -42,6 +46,36 @@ router.get('/petcard2s/:id', (req: Request, res: Response) => {
     res.status(404).json({
       success: false,
       message: 'Pet card 2 not found',
+      timestamp: new Date().toISOString(),
+    });
+  }
+});
+
+/**
+ * @route GET /petcard2s/descriptions/:id
+ * @description 通过ID获取特性晶石的所有等级描述
+ * @param {number} id - 特性晶石的唯一ID
+ * @returns {object} 200 - 成功获取特性晶石所有等级描述
+ * @returns {object} 404 - 未找到指定ID的特性晶石描述
+ */
+router.get('/petcard2s/descriptions/:id', (req: Request, res: Response) => {
+  const id = parseInt(req.params.id, 10);
+  const descriptions = getPetCard2DescriptionsById(id);
+
+  if (descriptions.length > 0) {
+    res.json({
+      success: true,
+      data: {
+        cardId: id,
+        descriptions: descriptions,
+      },
+      count: descriptions.length,
+      timestamp: new Date().toISOString(),
+    });
+  } else {
+    res.status(404).json({
+      success: false,
+      message: 'Pet card 2 descriptions not found',
       timestamp: new Date().toISOString(),
     });
   }
