@@ -170,7 +170,7 @@ UserPetCard3ExtInfo.addValue = [
 ### 数学表达式：
 
 设装备品质索引为 $i$，星级为 $s$，附加属性值数组为 $a$，属性系数数组为 $q$，则装备加成为：
-$$\text{装备加成} = \text{PetCard3Eff}[i][s] + \sum_{j=0}^{n-1} a[j] \times q[j]$$
+$$\text{PetCard3Eff} = \text{PetCard3Eff}[i][s] + \sum_{j=0}^{n-1} a[j] \times q[j]$$
 
 其中 $n$ 为属性种类数。
 
@@ -212,8 +212,8 @@ PetBattleEffHelper.MIRACLE_EFF_COEFFICIENTS = [1.5, 3, 2.4, 3, 2.4, 3];
 
 ### 数学表达式：
 
-设神迹加成系数数组为 $c$，材料增加能力值数组为 $m$，基础能力值数组为 $b$，则神迹加成为：
-$$\text{神迹加成} = \sum_{i=0}^{5} (m[i] + b[i]) \times c[i]$$
+设神迹加成系数数组为 $c$（神迹加成系数，对应六项基础属性），材料增加能力值数组为 $m$（通过神迹突破材料增加的能力值），基础能力值数组为 $b$（神迹亚比的基础能力值），则神迹加成为：
+$$\text{MiracleBonus} = \sum_{i=0}^{5} (m[i] + b[i]) \times c[i]$$
 
 ## 完全体神迹加成
 
@@ -323,14 +323,16 @@ PetBattleEffHelper.DegeneratorInscriptionAddArr = [300, 600, 900, 1200, 1500];
 
 ### 数学表达式：
 
-设铭文等级为 $l$，属性铭文附加属性数为 $n$，则铭文加成为：
+设铭文等级为 $l$ (inscription level)，属性铭文附加属性数为 $n$ (number of additional attributes for attribute inscription)，则铭文加成为：
 
 $$
-\text{铭文加成} = \begin{cases}
-\text{DegeneratorInscriptionAddArr}[l], & \text{非属性铭文} \\
-1500 + n \times 50, & \text{属性铭文}
+\text{InscriptionBonus} = \begin{cases}
+\text{DegeneratorInscriptionAddArr}[l], & \text{Non-attribute inscription} \\
+1500 + n \times 50, & \text{Attribute inscription}
 \end{cases}
 $$
+
+其中 $l$ 取值范围为 0-4。
 
 总铭文加成为两种铭文加成之和。
 
@@ -494,8 +496,8 @@ HKConfig.CardSlotMaxLevelArr = [1, 3, 5, 3, 1];
 
 ### 数学表达式：
 
-设魂卡数量为 $n$，第 $i$ 张魂卡开启的槽位数为 $s_i$，则魂卡加成为：
-$$\text{魂卡加成} = \sum_{i=0}^{n-1} \left(200 + \sum_{j=0}^{s_i-1} \text{BattleArr}[j]\right)$$
+设魂卡数量为 $n$（魂卡总数量），第 $i$ 张魂卡开启的槽位数为 $s_i$（第 $i$ 张魂卡已激活的词条槽数量），则魂卡加成为：
+$$\text{SoulCardBonus} = \sum_{i=0}^{n-1} \left(200 + \sum_{j=0}^{s_i-1} \text{BattleArr}[j]\right)$$
 
 ## 天赋额外加成
 
