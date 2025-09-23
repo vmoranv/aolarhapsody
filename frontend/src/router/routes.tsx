@@ -1,6 +1,7 @@
 import type { RouteObject } from 'react-router-dom';
 import AstralSpirit from '@/views/AstralSpirit';
 import Attribute from '@/views/Attribute';
+import BadwordCheck from '@/views/BadwordCheck';
 import CharacterAnalyzer from '@/views/CharacterAnalyzer';
 import CrystalKey from '@/views/CrystalKey';
 import DamageCalculator from '@/views/DamageCalculator';
@@ -120,5 +121,10 @@ export const constantRoutes: RouteObject[] = [
     path: '/app/petexchange',
     id: 'PetExchange',
     element: <PetExchange />,
+  },
+  {
+    path: '/app/miscellaneous/badword-check',
+    id: 'BadwordCheck',
+    element: <BadwordCheck />,
   },
 ];

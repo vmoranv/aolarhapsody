@@ -1,0 +1,12 @@
+{
+  "title": "Bad Word Check",
+  "description": "Check if the text contains sensitive words.",
+  "input": "Text Input",
+  "placeholder": "Please enter the text to check",
+  "check": "Check",
+  "result": "Check Result",
+  "legal": "The text is clean.",
+  "illegal": "The text contains sensitive words.",
+  "please_enter_text": "Please enter the text to check.",
+  "check_failed": "Check failed, please try again later."
+}

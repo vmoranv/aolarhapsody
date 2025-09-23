@@ -3,6 +3,7 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 import { initReactI18next } from 'react-i18next';
 import enAstralSpirit from './locales/en/astralSpirit.json';
 import enAttribute from './locales/en/attribute.json';
+import enBadwordCheck from './locales/en/badwordCheck.json';
 import enCharacterAnalyzer from './locales/en/characterAnalyzer.json';
 import enCommon from './locales/en/common.json';
 import enCrystalKey from './locales/en/crystalKey.json';
@@ -25,6 +26,7 @@ import enPoster from './locales/en/poster.json';
 import enTote from './locales/en/tote.json';
 import zhAstralSpirit from './locales/zh/astralSpirit.json';
 import zhAttribute from './locales/zh/attribute.json';
+import zhBadwordCheck from './locales/zh/badwordCheck.json';
 import zhCharacterAnalyzer from './locales/zh/characterAnalyzer.json';
 import zhCommon from './locales/zh/common.json';
 import zhCrystalKey from './locales/zh/crystalKey.json';
@@ -93,6 +95,7 @@ i18n
       'poster',
       'tote',
       'petexchange',
+      'badwordCheck',
     ],
     defaultNS: 'common',
     interpolation: {
@@ -123,6 +126,7 @@ i18n
         poster: enPoster,
         tote: enTote,
         petexchange: enPetExchange,
+        badwordCheck: enBadwordCheck,
       },
       zh: {
         common: zhCommon,
@@ -147,6 +151,7 @@ i18n
         poster: zhPoster,
         tote: zhTote,
         petexchange: zhPetExchange,
+        badwordCheck: zhBadwordCheck,
       },
     },
   });

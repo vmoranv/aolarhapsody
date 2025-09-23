@@ -1,0 +1,12 @@
+{
+  "title": "敏感词检查",
+  "description": "检查文本是否包含敏感词。",
+  "input": "文本输入",
+  "placeholder": "请输入要检查的文本",
+  "check": "检查",
+  "result": "检查结果",
+  "legal": "文本内容合法。",
+  "illegal": "文本内容包含敏感词。",
+  "please_enter_text": "请输入要检查的文本。",
+  "check_failed": "检查失败，请稍后重试。"
+}

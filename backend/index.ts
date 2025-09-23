@@ -3,8 +3,10 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import express, { Express, Request, Response } from 'express';
 import cron from 'node-cron';
+import { fetchAndCacheBadWords } from './dataparse/badwordcheck';
 import { initializers, reloadData } from './dataparse/index';
 import { initializeMonitors } from './dataparse/subclasschecker';
+import badWordCheckRoutes from './routes/badwordcheck';
 import allRoutes from './routes';
 import * as allTypes from './types';
 
@@ -71,6 +73,7 @@ app.get('/', (req: Request, res: Response) => {
 allRoutes.forEach((route) => {
   app.use('/api', route);
 });
+app.use('/api', badWordCheckRoutes);
 
 // 添加JSON解析错误处理中间件 - 放在所有路由之后
 app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
@@ -91,6 +94,7 @@ async function startServer() {
   await initializeMonitors();
   const initPromises = initializers.map((init) => init());
   await Promise.all(initPromises);
+  await fetchAndCacheBadWords();
 
   const listenWithRetry = (portToTry: number) => {
     const server = app.listen(portToTry, async () => {
