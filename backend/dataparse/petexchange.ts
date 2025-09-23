@@ -9,9 +9,9 @@ import { getPetDataMap, savePetDataMap, smartSaveUserPetInfos } from './user-pet
 const petDataCache: Record<string, PetInfo> = {};
 
 /**
- * 初始化宠物数据模块
+ * 初始化宠物交换数据模块
  */
-export async function initPetDataModule(): Promise<boolean> {
+export async function initPetExchangeDataModule(): Promise<boolean> {
   try {
     // 首先尝试从数据库获取宠物数据字典
     const dbPetDataMap = await getPetDataMap();
@@ -39,8 +39,6 @@ export async function initPetDataModule(): Promise<boolean> {
     await saveToCache(URL_CONFIG.yabiJs, petDataMap);
     await savePetDataMap(petDataMap);
     Object.assign(petDataCache, petDataMap);
-
-    console.warn(`从网络获取了 ${Object.keys(petDataMap).length} 个宠物数据并保存到缓存和数据库`);
 
     return true;
   } catch (error) {
