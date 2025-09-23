@@ -1,5 +1,50 @@
 import { defineConfig } from 'vitepress';
 
+// KaTeX 会生成一堆自定义 XML 标签，Vue 模板编译器默认不认识，
+// 必须一次性加进白名单，否则渲染时报 "Unknown custom element"。
+const katexWhitelist = [
+  'math',
+  'maction',
+  'maligngroup',
+  'malignmark',
+  'menclose',
+  'merror',
+  'mfenced',
+  'mfrac',
+  'mi',
+  'mlongdiv',
+  'mmultiscripts',
+  'mn',
+  'mo',
+  'mover',
+  'mpadded',
+  'mphantom',
+  'mroot',
+  'mrow',
+  'ms',
+  'mscarries',
+  'mscarry',
+  'msgroup',
+  'msline',
+  'mspace',
+  'msqrt',
+  'msrow',
+  'mstack',
+  'mstyle',
+  'msub',
+  'msup',
+  'msubsup',
+  'mtable',
+  'mtd',
+  'mtext',
+  'mtr',
+  'munder',
+  'munderover',
+  'semantics',
+  'annotation',
+  'annotation-xml',
+];
+
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: 'ARDocs',
@@ -13,6 +58,20 @@ export default defineConfig({
     ['meta', { name: 'msapplication-TileColor', content: '#da532c' }],
     ['meta', { name: 'theme-color', content: '#ffffff' }],
   ],
+  markdown: {
+    // 让 markdown-it 先吃插件
+    config: (md) => {
+      const katex = require('markdown-it-katex');
+      md.use(katex);
+    },
+  },
+  vue: {
+    template: {
+      compilerOptions: {
+        isCustomElement: (tag) => katexWhitelist.includes(tag),
+      },
+    },
+  },
   locales: {
     root: {
       label: '简体中文',
@@ -137,6 +196,7 @@ export default defineConfig({
           items: [
             { text: '封包解析', link: '/aola/packets' },
             { text: '伤害计算', link: '/aola/damage' },
+            { text: '战斗力计算', link: '/aola/battle-effectiveness' },
           ],
         },
         {
@@ -198,6 +258,7 @@ export default defineConfig({
           items: [
             { text: 'Packet Parsing', link: '/en/aola/packets' },
             { text: 'Damage Calculation', link: '/en/aola/damage' },
+            { text: 'Battle Effectiveness', link: '/en/aola/battle-effectiveness' },
           ],
         },
         {
