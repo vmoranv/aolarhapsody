@@ -57,5 +57,7 @@
   "open_poster_analyzer": "打开海报分析器",
   "exp_calculator": "经验计算器",
   "exp_calculator_desc": "计算亚比升级所需的经验值",
-  "open_exp_calculator": "打开经验计算器"
+  "open_exp_calculator": "打开经验计算器",
+  "abb_buffs": "域界 Buffs",
+  "abb_buffs_desc": "域界 Buffs 数据"
 }

@@ -1,4 +1,5 @@
 import astralSpiritRoutes from './astralspirit';
+import buffRoutes from './buff';
 import miscellaneousRoutes from './chatframe';
 import clothesRoutes from './clothes';
 import converterRoutes from './converter';
@@ -58,4 +59,5 @@ export default [
   monitorRoutes,
   posterRoutes,
   petExchangeRoutes,
+  buffRoutes,
 ];

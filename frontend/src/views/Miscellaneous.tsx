@@ -180,6 +180,14 @@ const getDataConfigs = (t: (key: string) => string) => [
     endpoint: '', // No endpoint for this tool
     description: t('exp_calculator_desc'),
   },
+  {
+    key: 'abbbuffs',
+    title: t('abb_buffs'),
+    icon: Zap,
+    color: '#1890ff',
+    endpoint: 'abbbuffs',
+    description: t('abb_buffs_desc'),
+  },
 ];
 
 // 数据展示组件

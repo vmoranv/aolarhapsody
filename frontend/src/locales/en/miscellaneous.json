@@ -57,5 +57,7 @@
   "open_poster_analyzer": "Open Poster Analyzer",
   "exp_calculator": "Experience Calculator",
   "exp_calculator_desc": "Calculate the experience required for pet leveling",
-  "open_exp_calculator": "Open Experience Calculator"
+  "open_exp_calculator": "Open Experience Calculator",
+  "abb_buffs": "ABB Buffs",
+  "abb_buffs_desc": "Data for ABB Buffs"
 }

@@ -1,4 +1,5 @@
 import { initAstralSpiritDataModule } from './astralspirit';
+import { initBuffModule } from './buff';
 import { initChatFrameModule } from './chatframe';
 import { initClothesModule } from './clothes';
 import { initCrystalKeyModule } from './crystalkey';
@@ -54,6 +55,7 @@ export const initializers = [
   initTaskModule,
   initTitleModule,
   initToteModule,
+  initBuffModule,
 ];
 
 export const reloadData = async () => {
