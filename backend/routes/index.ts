@@ -6,6 +6,7 @@ import commonBuffRoutes from './commonbuff';
 import converterRoutes from './converter';
 import crystalKeyRoutes from './crystalkey';
 import existingActivityRoutes from './existingactivity';
+import fetterRoutes from './fetter';
 import galaxyFleetMarkRoutes from './galaxyfleetmark';
 import godCardRoutes from './godcard';
 import headFrameRoutes from './headframe';
@@ -62,6 +63,7 @@ export default [
   monitorRoutes,
   posterRoutes,
   petExchangeRoutes,
+  fetterRoutes,
   commonBuffRoutes,
   itemChestRoutes,
   sanctuaryEffectsRoutes,

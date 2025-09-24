@@ -1,16 +1,6 @@
+import { ChestConfig, GiftSultConfig } from '../types/itemchest';
 import { URL_CONFIG } from '../types/urlconfig';
 import { fetchJavaScriptFile } from './gamedataparser';
-
-interface ChestConfig {
-  name: string;
-  data: (string | number)[];
-  random?: number[];
-}
-
-interface GiftSultConfig {
-  name: string;
-  data: string[];
-}
 
 let giftSultConfigCache: Record<string, GiftSultConfig> = {};
 let chestConfigCache: Record<string, ChestConfig> = {};

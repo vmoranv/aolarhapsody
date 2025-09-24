@@ -1,14 +1,6 @@
+import { CommonBuff } from '../types/commonbuff';
 import { URL_CONFIG } from '../types/urlconfig';
 import { fetchJavaScriptFile } from './gamedataparser';
-
-interface CommonBuff {
-  id: number;
-  tips: string;
-  detailTips: string;
-  type: number;
-  simpleTips: string;
-  defaultValue: string;
-}
 
 let commonBuffCache: Record<string, CommonBuff> = {};
 

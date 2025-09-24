@@ -4,6 +4,7 @@ import { initChatFrameModule } from './chatframe';
 import { initClothesModule } from './clothes';
 import { initCommonBuffModule } from './commonbuff';
 import { initCrystalKeyModule } from './crystalkey';
+import { initFetterModule } from './fetter';
 import { initGalaxyFleetMarkModule } from './galaxyfleetmark';
 import { initGodCardModule } from './godcard';
 import { initHeadFrameModule } from './headframe';
@@ -58,6 +59,7 @@ export const initializers = [
   initTaskModule,
   initTitleModule,
   initToteModule,
+  initFetterModule,
   initCommonBuffModule,
   initItemChestModule,
   initSanctuaryEffectsModule,

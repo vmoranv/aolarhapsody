@@ -1,10 +1,6 @@
+import { SanctuaryEffect } from '../types/sanctuaryeffects';
 import { URL_CONFIG } from '../types/urlconfig';
 import { fetchJavaScriptFile } from './gamedataparser';
-
-interface SanctuaryEffect {
-  tips: string;
-  name: string;
-}
 
 let sanctuaryEffectsCache: Record<string, SanctuaryEffect> = {};
 
