@@ -18,6 +18,7 @@ export * from './petcard2';
 export * from './petdictionary';
 export * from './petexchange';
 export * from './petimage';
+export * from './petskin';
 export * from './petstone';
 export * from './pettalk';
 export * from './petterritoryfight';

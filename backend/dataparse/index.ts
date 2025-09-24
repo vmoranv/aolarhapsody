@@ -18,6 +18,7 @@ import { initPetCardModule } from './petcard';
 import { initPetCard2Module } from './petcard2';
 import { initPetDictionaryModule } from './petdictionary';
 import { initPetExchangeDataModule } from './petexchange';
+import { initPetSkinModule } from './petskin';
 import { initPetStoneModule } from './petstone';
 import { initPetTalkModule } from './pettalk';
 import { initPetTerritoryFightModule } from './petterritoryfight';
@@ -68,6 +69,7 @@ export const initializers = [
   initSanctuaryEffectsModule,
   initBuffModule,
   initRecommendNameModule,
+  initPetSkinModule,
 ];
 
 export const reloadData = async () => {
