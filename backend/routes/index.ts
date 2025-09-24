@@ -2,6 +2,7 @@ import astralSpiritRoutes from './astralspirit';
 import buffRoutes from './buff';
 import miscellaneousRoutes from './chatframe';
 import clothesRoutes from './clothes';
+import commonBuffRoutes from './commonbuff';
 import converterRoutes from './converter';
 import crystalKeyRoutes from './crystalkey';
 import existingActivityRoutes from './existingactivity';
@@ -61,6 +62,7 @@ export default [
   monitorRoutes,
   posterRoutes,
   petExchangeRoutes,
+  commonBuffRoutes,
   itemChestRoutes,
   sanctuaryEffectsRoutes,
   buffRoutes,

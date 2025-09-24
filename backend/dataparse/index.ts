@@ -2,6 +2,7 @@ import { initAstralSpiritDataModule } from './astralspirit';
 import { initBuffModule } from './buff';
 import { initChatFrameModule } from './chatframe';
 import { initClothesModule } from './clothes';
+import { initCommonBuffModule } from './commonbuff';
 import { initCrystalKeyModule } from './crystalkey';
 import { initGalaxyFleetMarkModule } from './galaxyfleetmark';
 import { initGodCardModule } from './godcard';
@@ -57,6 +58,7 @@ export const initializers = [
   initTaskModule,
   initTitleModule,
   initToteModule,
+  initCommonBuffModule,
   initItemChestModule,
   initSanctuaryEffectsModule,
   initBuffModule,
