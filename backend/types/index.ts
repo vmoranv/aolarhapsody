@@ -24,6 +24,7 @@ export * from './petterritoryfight';
 export * from './pmdatalist';
 export * from './pmevolink';
 export * from './poster';
+export * from './randomname';
 export * from './sanctuaryeffects';
 export * from './summoner';
 export * from './task';

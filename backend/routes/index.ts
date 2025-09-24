@@ -27,6 +27,8 @@ import petTerritoryFightRoutes from './petterritoryfight';
 import pmRoutes from './pmdatalist';
 import spEvoRoutes from './pmevolink';
 import posterRoutes from './poster';
+import randomNameRoutes from './randomname';
+import recommendNameRoutes from './recommendname';
 import sanctuaryEffectsRoutes from './sanctuaryeffects';
 import summonerRoutes from './summoner';
 import taskRoutes from './task';
@@ -63,9 +65,11 @@ export default [
   monitorRoutes,
   posterRoutes,
   petExchangeRoutes,
+  randomNameRoutes,
   fetterRoutes,
   commonBuffRoutes,
   itemChestRoutes,
   sanctuaryEffectsRoutes,
   buffRoutes,
+  recommendNameRoutes,
 ];

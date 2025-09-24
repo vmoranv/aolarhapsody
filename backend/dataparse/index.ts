@@ -24,6 +24,8 @@ import { initPetTerritoryFightModule } from './petterritoryfight';
 import { initPetDataModule } from './pmdatalist';
 import { initSpEvoModule } from './pmevolink';
 import { initPosterModule } from './poster';
+import { initRandomNameModule } from './randomname';
+import { initRecommendNameModule } from './recommendname';
 import { initSanctuaryEffectsModule } from './sanctuaryeffects';
 import { initSummonerModule } from './summoner';
 import { initTaskModule } from './task';
@@ -59,11 +61,13 @@ export const initializers = [
   initTaskModule,
   initTitleModule,
   initToteModule,
+  initRandomNameModule,
   initFetterModule,
   initCommonBuffModule,
   initItemChestModule,
   initSanctuaryEffectsModule,
   initBuffModule,
+  initRecommendNameModule,
 ];
 
 export const reloadData = async () => {
