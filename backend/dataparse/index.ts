@@ -10,6 +10,7 @@ import { initHkModule } from './hk';
 import { initIconModule } from './icondata';
 import { initInscriptionModule } from './inscription';
 import { initItemModule } from './item';
+import { initItemChestModule } from './itemchest';
 import { initMiracleModule } from './miracle';
 import { initPetCardModule } from './petcard';
 import { initPetCard2Module } from './petcard2';
@@ -21,6 +22,7 @@ import { initPetTerritoryFightModule } from './petterritoryfight';
 import { initPetDataModule } from './pmdatalist';
 import { initSpEvoModule } from './pmevolink';
 import { initPosterModule } from './poster';
+import { initSanctuaryEffectsModule } from './sanctuaryeffects';
 import { initSummonerModule } from './summoner';
 import { initTaskModule } from './task';
 import { initTitleModule } from './title';
@@ -55,6 +57,8 @@ export const initializers = [
   initTaskModule,
   initTitleModule,
   initToteModule,
+  initItemChestModule,
+  initSanctuaryEffectsModule,
   initBuffModule,
 ];
 

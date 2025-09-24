@@ -12,6 +12,7 @@ import hkRoutes from './hk';
 import headIconRoutes from './icondata';
 import inscriptionRoutes from './inscription';
 import itemRoutes from './item';
+import itemChestRoutes from './itemchest';
 import miracleRoutes from './miracle';
 import monitorRoutes from './monitor';
 import petCardRoutes from './petcard';
@@ -24,6 +25,7 @@ import petTerritoryFightRoutes from './petterritoryfight';
 import pmRoutes from './pmdatalist';
 import spEvoRoutes from './pmevolink';
 import posterRoutes from './poster';
+import sanctuaryEffectsRoutes from './sanctuaryeffects';
 import summonerRoutes from './summoner';
 import taskRoutes from './task';
 import titleRoutes from './title';
@@ -59,5 +61,7 @@ export default [
   monitorRoutes,
   posterRoutes,
   petExchangeRoutes,
+  itemChestRoutes,
+  sanctuaryEffectsRoutes,
   buffRoutes,
 ];
