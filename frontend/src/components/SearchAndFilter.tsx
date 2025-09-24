@@ -1,7 +1,7 @@
+import React from 'react';
 import { Button, Input, Select, Space } from 'antd';
 import { motion } from 'framer-motion';
 import { Filter, RotateCcw, Search } from 'lucide-react';
-import React from 'react';
 import { useTheme } from '../hooks/useTheme';
 import { useSearchStore } from '../store/search';
 
@@ -9,6 +9,14 @@ const { Option } = Select;
 
 export type FilterType = 'all' | 'super' | 'normal' | string;
 
+/**
+ * @description SearchAndFilter 组件的 props
+ * @property {string} [searchPlaceholder] - 搜索框的占位符
+ * @property {{ label: string; value: FilterType }[]} [filterOptions] - 过滤选项
+ * @property {string} resetText - 重置按钮的文本
+ * @property {React.ReactNode} showingText - 显示文本
+ * @property {boolean} [hideFilter] - 隐藏过滤器
+ */
 interface SearchAndFilterProps {
   searchPlaceholder?: string;
   filterOptions?: { label: string; value: FilterType }[];
@@ -17,6 +25,11 @@ interface SearchAndFilterProps {
   hideFilter?: boolean;
 }
 
+/**
+ * @description 搜索和过滤组件
+ * @param {SearchAndFilterProps} props - 组件 props
+ * @returns {React.ReactElement} - 渲染的组件
+ */
 const SearchAndFilter: React.FC<SearchAndFilterProps> = ({
   searchPlaceholder,
   filterOptions,

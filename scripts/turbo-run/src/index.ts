@@ -1,6 +1,9 @@
 import cac from 'cac';
 import { run } from './run.js';
 
+/**
+ * @description 创建 CLI 工具
+ */
 const cli = cac('ar-turbo');
 
 cli

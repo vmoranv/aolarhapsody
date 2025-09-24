@@ -1,16 +1,27 @@
-import { Modal } from 'antd';
 import React from 'react';
+import { Modal } from 'antd';
 import { DataItem } from '../types/DataItem';
 import { getPetImageUrl } from '../utils/pet-helper';
 import DataView from './DataView';
 import ItemCard from './ItemCard';
 
+/**
+ * @description PetSelectionModal 组件的 props
+ * @property {boolean} visible - 是否可见
+ * @property {() => void} onClose - 关闭弹窗的回调函数
+ * @property {(raceId: string) => void} onSelect - 选择宠物的回调函数
+ */
 interface PetSelectionModalProps {
   visible: boolean;
   onClose: () => void;
   onSelect: (raceId: string) => void;
 }
 
+/**
+ * @description 宠物选择弹窗组件
+ * @param {PetSelectionModalProps} props - 组件 props
+ * @returns {React.ReactElement} - 渲染的组件
+ */
 const PetSelectionModal: React.FC<PetSelectionModalProps> = ({ visible, onClose, onSelect }) => {
   const handlePetSelect = (pet: DataItem) => {
     onSelect(pet.id.toString());

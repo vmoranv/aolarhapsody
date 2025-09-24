@@ -1,9 +1,9 @@
+import { useMemo, useState } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
 import { useQuery } from '@tanstack/react-query';
 import { Col, Divider, Row, Spin, Tag, Typography } from 'antd';
 import { motion } from 'framer-motion';
 import { Sword } from 'lucide-react';
-import { useMemo, useState } from 'react';
-import { Trans, useTranslation } from 'react-i18next';
 import DataView from '../components/DataView';
 import ItemCard from '../components/ItemCard';
 import Layout from '../components/Layout';
@@ -13,12 +13,32 @@ import { getGodCardImageUrl, getGodCardSuitImageUrl } from '../utils/image-helpe
 
 const { Title, Paragraph, Text } = Typography;
 
+/**
+ * @description 神兵展示页面组件
+ * @returns {JSX.Element} 神兵展示页面
+ */
 const GodCardPage = () => {
   const { t } = useTranslation('godCard');
+
+  /**
+   * @description 视图模式状态，'cards' 为卡牌视图，'suits' 为套装视图
+   */
   const [viewMode, setViewMode] = useState<'cards' | 'suits'>('cards');
+
+  /**
+   * @description 详情弹窗中显示的神兵或套装数据
+   */
   const [detail, setDetail] = useState<GodCard | GodCardSuit | null>(null);
+
+  /**
+   * @description 详情数据加载状态
+   */
   const [isLoading, setIsLoading] = useState(false);
 
+  /**
+   * @description 处理卡牌点击事件，获取并显示详情
+   * @param {GodCard | GodCardSuit} item - 被点击的卡牌或套装
+   */
   const handleCardClick = async (item: GodCard | GodCardSuit) => {
     setIsLoading(true);
     try {
@@ -33,16 +53,27 @@ const GodCardPage = () => {
     }
   };
 
+  /**
+   * @description 获取所有神兵卡牌数据
+   */
   const { data: allCards = [] } = useQuery<GodCard[]>({
     queryKey: ['god-cards-all'],
     queryFn: () => fetchData<GodCard>('godcards'),
   });
 
+  /**
+   * @description 过滤掉名称中包含 'LV' 的卡牌
+   */
   const filteredCards = useMemo(
     () => allCards.filter((card) => !card.name.includes('LV')),
     [allCards]
   );
 
+  /**
+   * @description 渲染详情弹窗内容
+   * @param {GodCard | GodCardSuit} item - 当前选中的神兵或套装
+   * @returns {JSX.Element | null} 详情弹窗内容
+   */
   const renderDetailDialog = (item: GodCard | GodCardSuit) => {
     if (isLoading) {
       return (
@@ -112,6 +143,9 @@ const GodCardPage = () => {
     }
   };
 
+  /**
+   * @description 视图切换器组件
+   */
   const viewSwitcher = (
     <div style={{ marginBottom: 24, display: 'flex', gap: 16 }}>
       <Tag.CheckableTag
@@ -131,6 +165,9 @@ const GodCardPage = () => {
     </div>
   );
 
+  /**
+   * @description 筛选选项
+   */
   const filterOptions = [
     { value: 'all', label: t('filter_all') },
     { value: 'super', label: t('filter_super') },

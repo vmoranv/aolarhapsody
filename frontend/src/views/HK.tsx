@@ -1,8 +1,28 @@
+/**
+ * @file 魂卡（HK）数据展示页面
+ * @description 该页面用于展示游戏中的魂卡数据。它利用通用的 DataView 组件来处理数据的获取、
+ * 分页、搜索和网格布局显示。当用户点击单个魂卡时，会进一步获取并展示该魂卡关联的
+ * Buff 效果的详细信息。
+ *
+ * @module views/HK
+ * @requires antd
+ * @requires framer-motion
+ * @requires lucide-react
+ * @requires react
+ * @requires react-i18next
+ * @requires ../components/DataView
+ * @requires ../components/ItemCard
+ * @requires ../components/Layout
+ * @requires ../types/hk
+ * @requires ../utils/api
+ * @requires ../utils/hk-utils
+ * @requires ../utils/image-helper
+ */
+import React, { useState } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
 import { Divider, Spin, Typography } from 'antd';
 import { motion } from 'framer-motion';
 import { Heart } from 'lucide-react';
-import React, { useState } from 'react';
-import { Trans, useTranslation } from 'react-i18next';
 import DataView from '../components/DataView';
 import ItemCard from '../components/ItemCard';
 import Layout from '../components/Layout';
@@ -13,34 +33,52 @@ import { getHKImageUrl } from '../utils/image-helper';
 
 const { Title, Paragraph, Text } = Typography;
 
+/**
+ * 魂卡（HK）数据展示页面组件。
+ *
+ * 该组件负责渲染魂卡数据的展示界面。
+ * - 使用 `useState` 管理当前选中魂卡的详细信息、加载状态以及关联的 Buff 详情。
+ * - 封装了 `handleCardClick` 方法，用于在用户点击卡片时异步获取魂卡及其关联 Buff 的详细数据。
+ * - 依赖 `DataView` 组件处理通用的数据展示逻辑。
+ * - 提供了 `parseHtmlTags` 和 `getProduceTypeText` 等辅助函数用于格式化显示。
+ *
+ * @component
+ * @returns {React.ReactElement} 渲染后的魂卡页面。
+ */
 const HKPage = () => {
   const { t } = useTranslation('hk');
   const [detail, setDetail] = useState<HKData | null>(null);
   const [loadingDetail, setLoadingDetail] = useState(false);
   const [buffDetails, setBuffDetails] = useState<Record<number, HKBuff>>({});
 
+  /**
+   * 处理魂卡卡片点击事件。
+   * 当用户点击一个魂卡时，该函数会：
+   * 1. 异步获取该魂卡的详细数据。
+   * 2. 解析 `wordBar` 字段以提取关联的 Buff ID 和等级。
+   * 3. 并行获取所有关联 Buff 的详细信息。
+   * 4. 更新组件状态以显示详细信息。
+   * @async
+   * @param {HKData} hk - 被点击的魂卡对象。
+   */
   const handleCardClick = async (hk: HKData) => {
     setLoadingDetail(true);
     try {
       const data = await fetchDataItem<HKData>('hkdata', hk.id.toString());
       setDetail(data);
 
-      // 解析wordBar并获取对应的Buff详情
       const buffItems = parseWordBar(data.wordBar);
       const buffDetailsMap: Record<number, HKBuff> = {};
 
-      // 获取所有相关的buff详情
       await Promise.all(
         buffItems.map(async ({ buffId }) => {
           try {
-            // 检查是否已经获取过这个buffId的信息，避免重复请求
             if (!buffDetailsMap[buffId]) {
               const buffDetail = await fetchHKBuffDetail(buffId);
               buffDetailsMap[buffId] = buffDetail;
             }
           } catch (error) {
             console.error(`Failed to fetch buff detail for ID ${buffId}`, error);
-            // 即使某个buff获取失败，也不影响其他buff的显示
           }
         })
       );
@@ -53,31 +91,40 @@ const HKPage = () => {
     }
   };
 
+  /**
+   * 用于 `DataView` 组件的筛选器选项。
+   * @type {Array<{value: string, label: string}>}
+   */
   const filterOptions = [
     { value: 'all', label: t('filter_all') },
     { value: 'super', label: t('filter_super') },
     { value: 'normal', label: t('filter_normal') },
   ];
 
-  // 解析HTML标签，特别是font标签
+  /**
+   * 一个简单的 HTML 解析器，用于将包含 `<font>` 标签的字符串转换为 React 元素。
+   * @param {string} html - 包含 HTML 标签的字符串。
+   * @returns {React.ReactElement} 渲染后的 React 元素。
+   */
   const parseHtmlTags = (html: string): React.ReactElement => {
-    // 简单的HTML解析器，处理font标签
     if (!html) return <>{html}</>;
 
-    // 匹配font标签
     const fontTagRegex = /<font\s+color=['"]([^'"]*)['"]>([^<]*)<\/font>/i;
     const match = html.match(fontTagRegex);
 
     if (match) {
       const [, color, text] = match;
-      return <span style={{ color: color }}>{text}</span>;
+      return <span style={{ color }}>{text}</span>;
     }
 
-    // 如果没有匹配到font标签，直接返回文本
     return <>{html}</>;
   };
 
-  // 获取产出类型文本
+  /**
+   * 根据产出类型代码返回对应的本地化文本。
+   * @param {number} produceType - 产出类型的数字代码。
+   * @returns {string} 本地化的产出类型名称。
+   */
   const getProduceTypeText = (produceType: number) => {
     switch (produceType) {
       case 0:
@@ -93,11 +140,17 @@ const HKPage = () => {
     }
   };
 
-  // 渲染单个buff信息（简化版本）
+  /**
+   * 渲染单个 Buff 的信息。
+   * @param {number} buffId - Buff 的 ID。
+   * @param {number} level - Buff 的等级。
+   * @param {number} index - 在列表中的索引，用于 key。
+   * @param {boolean} isMainBuff - 是否为主要 Buff（用于决定是否显示描述）。
+   * @returns {React.ReactElement} 渲染后的 Buff 信息元素。
+   */
   const renderBuffInfo = (buffId: number, level: number, index: number, isMainBuff: boolean) => {
     const buff = buffDetails[buffId];
     if (!buff) {
-      // 显示基础信息，即使详细信息获取失败
       return (
         <div key={`${buffId}-${index}`} style={{ marginBottom: 8 }}>
           <Paragraph style={{ margin: 0 }}>
@@ -108,13 +161,12 @@ const HKPage = () => {
       );
     }
 
-    // 确保等级在有效范围内
     const validLevel = Math.max(1, Math.min(level, buff.decs.length));
 
     return (
       <div key={`${buffId}-${index}`} style={{ marginBottom: 8 }}>
         <Paragraph style={{ margin: 0 }}>
-          {parseHtmlTags(buff.fontColor)} {/* 使用fontColor作为关键字显示 */}
+          {parseHtmlTags(buff.fontColor)}
           <Text> LV.{validLevel}</Text>
         </Paragraph>
         {isMainBuff && buff.decs && buff.decs.length > 0 && (
@@ -182,7 +234,6 @@ const HKPage = () => {
               />
               <div style={{ flex: 1 }}>
                 <div style={{ maxWidth: 400 }}>
-                  {/* 显示解析后的buff信息 */}
                   {parseWordBar(detail.wordBar).map(({ buffId, level }, index, array) =>
                     renderBuffInfo(buffId, level, index, index === array.length - 1)
                   )}

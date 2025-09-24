@@ -1,11 +1,20 @@
+import React, { useState } from 'react';
 import { Badge, Button, Dropdown, Empty, List, Space, Typography } from 'antd';
 import { motion } from 'framer-motion';
 import { Bell, Check, X } from 'lucide-react';
-import React, { useState } from 'react';
 import { useTheme } from '../hooks/useTheme';
 
 const { Text } = Typography;
 
+/**
+ * @description 通知项接口
+ * @property {string} id - ID
+ * @property {'success' | 'error' | 'warning' | 'info'} type - 类型
+ * @property {string} title - 标题
+ * @property {string} message - 消息
+ * @property {Date} timestamp - 时间戳
+ * @property {boolean} read - 是否已读
+ */
 export interface NotificationItem {
   id: string;
   type: 'success' | 'error' | 'warning' | 'info';
@@ -15,6 +24,14 @@ export interface NotificationItem {
   read: boolean;
 }
 
+/**
+ * @description NotificationDropdown 组件的 props
+ * @property {NotificationItem[]} notifications - 通知列表
+ * @property {(id: string) => void} onMarkAsRead - 标记为已读的回调函数
+ * @property {() => void} onMarkAllAsRead - 全部标记为已读的回调函数
+ * @property {(id: string) => void} onRemove - 删除通知的回调函数
+ * @property {() => void} onClearAll - 清空所有通知的回调函数
+ */
 interface NotificationDropdownProps {
   notifications: NotificationItem[];
   onMarkAsRead: (id: string) => void;
@@ -23,6 +40,12 @@ interface NotificationDropdownProps {
   onClearAll: () => void;
 }
 
+/**
+ * @description 通知下拉菜单组件
+ * 该组件用于显示和管理应用通知，支持标记已读、删除和清空等操作
+ * @param {NotificationDropdownProps} props - 组件 props
+ * @returns {React.ReactElement} - 渲染的组件
+ */
 const NotificationDropdown: React.FC<NotificationDropdownProps> = ({
   notifications,
   onMarkAsRead,
@@ -30,11 +53,19 @@ const NotificationDropdown: React.FC<NotificationDropdownProps> = ({
   onRemove,
   onClearAll,
 }) => {
+  // 控制下拉菜单的展开状态
   const [open, setOpen] = useState(false);
+  // 获取当前主题颜色配置
   const { colors } = useTheme()!;
 
+  // 计算未读通知数量
   const unreadCount = notifications.filter((n) => !n.read).length;
 
+  /**
+   * 根据通知类型获取对应的颜色
+   * @param type - 通知类型
+   * @returns 对应的颜色值
+   */
   const getTypeColor = (type: NotificationItem['type']) => {
     switch (type) {
       case 'success':
@@ -50,6 +81,11 @@ const NotificationDropdown: React.FC<NotificationDropdownProps> = ({
     }
   };
 
+  /**
+   * 根据通知类型获取对应的图标
+   * @param type - 通知类型
+   * @returns 对应的图标字符
+   */
   const getTypeIcon = (type: NotificationItem['type']) => {
     switch (type) {
       case 'success':
@@ -65,6 +101,11 @@ const NotificationDropdown: React.FC<NotificationDropdownProps> = ({
     }
   };
 
+  /**
+   * 格式化时间显示
+   * @param date - 时间戳
+   * @returns 格式化后的时间字符串
+   */
   const formatTime = (date: Date) => {
     const now = new Date();
     const diff = now.getTime() - date.getTime();
@@ -84,6 +125,7 @@ const NotificationDropdown: React.FC<NotificationDropdownProps> = ({
     return `${days}天前`;
   };
 
+  // 下拉菜单内容
   const dropdownContent = (
     <div
       style={{

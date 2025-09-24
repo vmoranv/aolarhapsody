@@ -22,10 +22,24 @@ import PosterPage from '@/views/Poster';
 import Tote from '@/views/Tote';
 
 /**
- * Defines the constant (public) routes for the application.
- * These routes are accessible to all users.
+ * @file 应用的静态路由配置文件
+ * @description 该文件定义了应用中所有无需动态加载或权限控制的公共路由。
+ * 每个路由对象都遵循 `react-router-dom` 的 `RouteObject` 格式，
+ * 将一个特定的 URL 路径映射到一个 React 组件。
+ *
+ * @module router/routes
+ * @requires react-router-dom
+ * @requires @/views/* - 导入所有页面级组件
+ */
+
+/**
+ * 应用的常量（公共）路由数组。
+ * 这些路由对所有用户开放，构成了应用的基础导航结构。
  *
  * @type {RouteObject[]}
+ * @property {string} path - 路由的 URL 路径。
+ * @property {string} id - 路由的唯一标识符，可用于链接生成或路由查找。
+ * @property {React.ReactElement} element - 当路由匹配时要渲染的 React 元素。
  */
 export const constantRoutes: RouteObject[] = [
   {

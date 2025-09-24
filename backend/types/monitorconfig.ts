@@ -1,3 +1,5 @@
+// --- 依赖导入 ---
+// 批量导入各个数据模块中定义的已知子类常量
 import { ASTRALSPIRIT_SUBCLASSES } from './astralspirit';
 import { CHATFRAME_SUBCLASSES } from './chatframe';
 import { CLOTHES_SUBCLASSES } from './clothes';
@@ -22,18 +24,38 @@ import { SUMMONER_SUBCLASSES } from './summoner';
 import { TASK_SUBCLASSES } from './task';
 import { TITLE_SUBCLASSES } from './title';
 import { TOTE_SUBCLASSES } from './tote';
+// 导入包含所有目标URL的配置对象
 import { URL_CONFIG } from './urlconfig';
 
+/**
+ * @description 定义了单个监控源的配置结构。
+ * 每个监控源都包含一个目标URL和一组已知的子类名。
+ * @interface MonitorSource
+ * @property {string} url - 需要监控和爬取数据的目标URL。
+ * @property {string[]} knownSubclasses - 一个字符串数组，包含了该数据源下所有已知的、需要处理的子类名称。
+ *                                        这些名称通常对应于数据文件中的特定字段或类别。
+ */
 export interface MonitorSource {
   url: string;
   knownSubclasses: string[];
 }
 
+/**
+ * @description 全局监控任务配置对象。
+ * 这是一个记录(Record)类型的对象，键是监控任务的名称（例如 'astralSpirit', 'chatFrame'），
+ * 值是符合 `MonitorSource` 接口的配置对象。
+ *
+ * 该配置是后端监控服务的核心，它驱动服务去指定的 `url` 获取数据，
+ * 并使用 `knownSubclasses` 来解析和处理这些数据。
+ * 这种结构使得添加、删除或修改监控任务变得非常简单和清晰。
+ */
 export const monitorConfig: Record<string, MonitorSource> = {
+  // 示例1: 监控星灵数据
   astralSpirit: {
-    url: URL_CONFIG.astralSpirit,
-    knownSubclasses: ASTRALSPIRIT_SUBCLASSES,
+    url: URL_CONFIG.astralSpirit, // 目标URL
+    knownSubclasses: ASTRALSPIRIT_SUBCLASSES, // 已知的星灵子类
   },
+  // 示例2: 监控聊天框数据
   chatFrame: {
     url: URL_CONFIG.chatFrame,
     knownSubclasses: CHATFRAME_SUBCLASSES,
@@ -90,6 +112,7 @@ export const monitorConfig: Record<string, MonitorSource> = {
     url: URL_CONFIG.petCard2,
     knownSubclasses: PETCARD2_SUBCLASSES,
   },
+  // 示例3: 监控亚比图鉴数据
   petDictionary: {
     url: URL_CONFIG.petDictionary,
     knownSubclasses: PETDICTIONARY_SUBCLASSES,

@@ -3,6 +3,12 @@ import { getSanctuaryEffects } from '../dataparse/sanctuaryeffects';
 
 const router = express.Router();
 
+/**
+ * @route GET /sanctuaryeffects
+ * @description 获取所有圣域效果数据
+ * @returns {object} 200 - 圣域效果数据
+ * @returns {object} 500 - 服务器错误
+ */
 router.get('/sanctuaryeffects', async (req: Request, res: Response) => {
   try {
     const effects = await getSanctuaryEffects();

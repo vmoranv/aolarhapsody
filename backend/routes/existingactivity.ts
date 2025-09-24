@@ -3,6 +3,12 @@ import { getExistingActivities } from '../dataparse/existingactivity';
 
 const router = express.Router();
 
+/**
+ * @route GET /existing-activities
+ * @description 获取所有现存活动数据
+ * @returns {object} 200 - 现存活动数据
+ * @returns {object} 500 - 服务器错误
+ */
 router.get('/existing-activities', async (req: Request, res: Response) => {
   try {
     const activities = await getExistingActivities();

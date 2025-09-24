@@ -4,6 +4,9 @@ import { SpeedInsights } from '@vercel/speed-insights/react';
 import MainContent from './components/MainContent';
 import '@copilotkit/react-ui/styles.css';
 
+/**
+ * @description 应用的主入口组件
+ */
 const App = () => {
   return (
     <CopilotKit

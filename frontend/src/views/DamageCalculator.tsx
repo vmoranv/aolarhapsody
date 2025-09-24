@@ -1,3 +1,5 @@
+import React, { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { PlusOutlined, UserOutlined } from '@ant-design/icons';
 import { useCopilotAction, useCopilotReadable } from '@copilotkit/react-core';
 import {
@@ -15,8 +17,6 @@ import {
   Typography,
 } from 'antd';
 import { AnimatePresence } from 'framer-motion';
-import React, { useEffect, useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import Layout from '../components/Layout';
 import Overlay from '../components/Overlay';
 import PetSelectionModal from '../components/PetSelectionModal';
@@ -29,14 +29,22 @@ import {
   splitToArray,
 } from '../utils/pet-helper';
 
-// --- Type Declarations ---
-declare const pako: any; // Declare pako for CDN usage
+// --- 类型声明 ---
+declare const pako: any; // 通过CDN引入的pako库声明
+
 const { Title, Paragraph, Text } = Typography;
 const { TextArea } = Input;
 
-// --- Sub-Components ---
+// --- 子组件 ---
 
-// 1. Global Calculation Parameters Form
+/**
+ * 全局计算参数表单组件
+ *
+ * 该组件用于设置影响所有亚比伤害计算的全局参数
+ * 包括攻击力加成、伤害加成、暴击伤害加成等
+ *
+ * 参数通过Ant Design表单管理，并与Zustand状态存储同步
+ */
 const CalculationParamsForm: React.FC = () => {
   const { t } = useTranslation('damageCalculator');
   const { configName, setConfigName, calculationParams, updateCalculationParams } =
@@ -47,6 +55,11 @@ const CalculationParamsForm: React.FC = () => {
     form.setFieldsValue({ ...calculationParams, configName });
   }, [calculationParams, configName, form]);
 
+  /**
+   * @description 处理表单值变化，更新 Zustand store
+   * @param {any} changedValues - 变化的值
+   * @param {any} allValues - 所有的值
+   */
   const handleValuesChange = (changedValues: any, allValues: any) => {
     if ('configName' in changedValues) {
       setConfigName(changedValues.configName);
@@ -59,66 +72,79 @@ const CalculationParamsForm: React.FC = () => {
   return (
     <Form form={form} layout="vertical" onValuesChange={handleValuesChange}>
       <Row gutter={16}>
+        {/* 配置名称 - 用于标识当前配置方案 */}
         <Col span={24}>
           <Form.Item label={t('configName')} name="configName">
             <Input placeholder={t('configNamePlaceholder')} />
           </Form.Item>
         </Col>
+        {/* 攻击力加成 - 影响面板攻击的百分比加成 */}
         <Col span={4}>
           <Form.Item label={t('powerBuff')} name="powerBuff">
             <InputNumber style={{ width: '100%' }} />
           </Form.Item>
         </Col>
+        {/* 伤害加成 - 对最终伤害的百分比加成 */}
         <Col span={4}>
           <Form.Item label={t('damageBuff')} name="damageBuff">
             <InputNumber style={{ width: '100%' }} />
           </Form.Item>
         </Col>
+        {/* 暴击伤害加成 - 暴击时额外伤害加成 */}
         <Col span={4}>
           <Form.Item label={t('critDamageBuff')} name="critDamageBuff">
             <InputNumber style={{ width: '100%' }} />
           </Form.Item>
         </Col>
+        {/* 数值增益 - 直接增加伤害数值的加成 */}
         <Col span={4}>
           <Form.Item label={t('numericBuff')} name="numericBuff">
             <InputNumber style={{ width: '100%' }} />
           </Form.Item>
         </Col>
+        {/* 穿透 - 减少目标防御效果 */}
         <Col span={4}>
           <Form.Item label={t('penetration')} name="penetration">
             <InputNumber style={{ width: '100%' }} />
           </Form.Item>
         </Col>
+        {/* 抑制系数 - 属性相克时的基础倍率 */}
         <Col span={4}>
           <Form.Item label={t('restraintFactor')} name="restraintFactor">
             <InputNumber style={{ width: '100%' }} />
           </Form.Item>
         </Col>
+        {/* 抑制倍率 - 属性相克时的额外倍率 */}
         <Col span={4}>
           <Form.Item label={t('restraintMultiplier')} name="restraintMultiplier">
             <InputNumber style={{ width: '100%' }} />
           </Form.Item>
         </Col>
+        {/* 面板攻击 - 角色基础攻击力 */}
         <Col span={4}>
           <Form.Item label={t('panelAttack')} name="panelAttack">
             <InputNumber style={{ width: '100%' }} />
           </Form.Item>
         </Col>
+        {/* 技能威力 - 技能的基础伤害系数 */}
         <Col span={4}>
           <Form.Item label={t('skillPower')} name="skillPower">
             <InputNumber style={{ width: '100%' }} />
           </Form.Item>
         </Col>
+        {/* 属性等级 - 影响属性克制效果的等级 */}
         <Col span={4}>
           <Form.Item label={t('attributeLevel')} name="attributeLevel">
             <InputNumber style={{ width: '100%' }} />
           </Form.Item>
         </Col>
+        {/* BOSS防御 - 目标BOSS的防御力值 */}
         <Col span={4}>
           <Form.Item label={t('bossDefense')} name="bossDefense">
             <InputNumber style={{ width: '100%' }} />
           </Form.Item>
         </Col>
+        {/* 技能段数 - 技能攻击的次数或段数 */}
         <Col span={4}>
           <Form.Item label={t('skillSegments')} name="skillSegments">
             <InputNumber style={{ width: '100%' }} />
@@ -129,12 +155,34 @@ const CalculationParamsForm: React.FC = () => {
   );
 };
 
-// --- Main Component ---
+// --- 主组件 ---
 
+/**
+ * 伤害计算器主页面组件
+ *
+ * 该组件提供完整的伤害计算功能，包括：
+ * 1. 全局计算参数设置
+ * 2. 亚比队列管理
+ * 3. 单个亚比详细配置（通过径向菜单）
+ * 4. 配置导入导出
+ * 5. 伤害计算执行
+ * 6. AI辅助操作支持
+ *
+ * 页面结构：
+ * - 标题和描述
+ * - 全局参数设置区域
+ * - 亚比队列显示区域
+ * - 计算结果展示区域
+ * - 导入导出模态框
+ */
 const DamageCalculator: React.FC = () => {
   const { t } = useTranslation(['damageCalculator', 'common']);
   const { message: messageApi } = App.useApp();
   const store = useDamageCalculatorStore();
+
+  /**
+   * 组件状态管理
+   */
   const [isPetSelectionModalVisible, setIsPetSelectionModalVisible] = useState(false);
   const [isImportExportModalVisible, setIsImportExportModalVisible] = useState(false);
   const [configString, setConfigString] = useState('');
@@ -288,6 +336,15 @@ const DamageCalculator: React.FC = () => {
     },
   });
 
+  /**
+   * 处理亚比选择事件
+   *
+   * 当用户从亚比选择模态框中选择一个亚比时调用
+   * 根据当前状态决定是添加新亚比还是替换现有亚比
+   * 同时自动获取该亚比的技能信息
+   *
+   * @param {string} raceId - 选中亚比的raceId
+   */
   const handlePetSelect = (raceId: string) => {
     let petIdForSkillFetch: string | null = null;
     const raceIdForSkillFetch: string = raceId;
@@ -322,6 +379,11 @@ const DamageCalculator: React.FC = () => {
     }
   };
 
+  /**
+   * 处理径向菜单中的替换按钮点击事件
+   *
+   * 设置替换目标并打开亚比选择模态框
+   */
   const handleSwapClick = () => {
     if (activePetConfig) {
       setSwapTargetId(activePetConfig.id);
@@ -329,6 +391,11 @@ const DamageCalculator: React.FC = () => {
     }
   };
 
+  /**
+   * 处理径向菜单中的移除按钮点击事件
+   *
+   * 从队列中移除当前激活的亚比并关闭菜单
+   */
   const handleRemoveClick = () => {
     if (activePetConfig) {
       store.removePetFromQueue(activePetConfig.id);
@@ -336,6 +403,11 @@ const DamageCalculator: React.FC = () => {
     }
   };
 
+  /**
+   * 导出当前配置
+   *
+   * 将当前配置压缩为Base64字符串，便于分享和保存
+   */
   const handleExport = () => {
     try {
       const { configName, calculationParams, petQueue } = store;
@@ -351,6 +423,11 @@ const DamageCalculator: React.FC = () => {
     }
   };
 
+  /**
+   * 导入配置
+   *
+   * 从Base64字符串导入配置并更新状态
+   */
   const handleImport = () => {
     if (!configString) {
       messageApi.error(t('alerts.importEmpty'));
@@ -379,6 +456,9 @@ const DamageCalculator: React.FC = () => {
     }
   };
 
+  /**
+   * 复制配置字符串到剪贴板
+   */
   const handleCopy = () => {
     navigator.clipboard.writeText(configString).then(
       () => {
@@ -390,6 +470,12 @@ const DamageCalculator: React.FC = () => {
     );
   };
 
+  /**
+   * 执行伤害计算
+   *
+   * 根据全局参数和亚比配置计算总伤害
+   * 结果存储在状态中并显示给用户
+   */
   const handleCalculate = () => {
     const {
       powerBuff = 0,

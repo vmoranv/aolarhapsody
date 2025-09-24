@@ -1,9 +1,17 @@
-import { useQuery } from '@tanstack/react-query';
-import { Card, Empty, Space, Typography } from 'antd';
-import { motion } from 'framer-motion';
+/**
+ * @file Attribute.tsx
+ * @description 属性克制关系展示页面。
+ * 该页面负责从API获取所有属性信息及其克制关系，
+ * 并通过交互式UI展示选定属性的攻击和防御关系。
+ * 支持通过URL参数直接定位到特定属性。
+ */
+
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import { Card, Empty, Space, Typography } from 'antd';
+import { motion } from 'framer-motion';
 import ErrorDisplay from '../components/ErrorDisplay';
 import Layout from '../components/Layout';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -20,16 +28,34 @@ import './Attribute.css';
 
 const { Title } = Typography;
 
-// 属性数据类型定义
+/**
+ * 单个属性的基本信息。
+ * @interface AttributeInfo
+ * @property {number} id - 属性的唯一标识符。
+ * @property {string} name - 属性的名称。
+ */
 interface AttributeInfo {
   id: number;
   name: string;
 }
 
+/**
+ * 属性克制关系集合，键为目标属性ID，值为关系描述字符串。
+ * @interface AttributeRelations
+ */
 interface AttributeRelations {
   [targetId: string]: string;
 }
 
+/**
+ * API响应的通用结构。
+ * @interface ApiResponse
+ * @template T - 响应数据的类型。
+ * @property {boolean} success - 请求是否成功。
+ * @property {T} data - 响应的核心数据。
+ * @property {number} [count] - 数据项的数量（可选）。
+ * @property {string} timestamp - 服务器响应的时间戳。
+ */
 interface ApiResponse<T> {
   success: boolean;
   data: T;
@@ -37,12 +63,21 @@ interface ApiResponse<T> {
   timestamp: string;
 }
 
-// 定义关系类型
+/**
+ * 定义了伤害关系的类型。
+ * 'immune': 免疫 (伤害-1)
+ * 'weak': 抵抗 (伤害0.5)
+ * 'strong': 克制 (伤害2)
+ * 'super': 超克制 (伤害3)
+ * 'superOrImmune': 一个临时的聚合类型，用于UI渲染，代表免疫或超克制。
+ */
 type RelationType = 'immune' | 'weak' | 'strong' | 'super' | 'superOrImmune';
 
-// 从工具函数导入，不要重复定义
-
-// 获取属性列表
+/**
+ * 从API异步获取所有属性的列表。
+ * @returns {Promise<AttributeInfo[]>} 属性信息数组的Promise。
+ * @throws {Error} 当网络请求或API响应失败时抛出错误。
+ */
 const fetchAttributes = async (): Promise<AttributeInfo[]> => {
   const baseUrl = import.meta.env.VITE_API_URL || '';
   const response = await fetch(`${baseUrl}/api/skill-attributes`);
@@ -56,7 +91,12 @@ const fetchAttributes = async (): Promise<AttributeInfo[]> => {
   return result.data;
 };
 
-// 获取特定属性的克制关系
+/**
+ * 根据给定的属性ID，从API异步获取其克制关系。
+ * @param {number} id - 要查询的属性ID。
+ * @returns {Promise<AttributeRelations>} 该属性的克制关系对象的Promise。
+ * @throws {Error} 当网络请求或API响应失败时抛出错误。
+ */
 const fetchAttributeRelations = async (id: number): Promise<AttributeRelations> => {
   const baseUrl = import.meta.env.VITE_API_URL || '';
   const response = await fetch(`${baseUrl}/api/attribute-relations/${id}`);
@@ -70,20 +110,23 @@ const fetchAttributeRelations = async (id: number): Promise<AttributeRelations> 
   return result.data;
 };
 
+/**
+ * 属性克制关系页面组件。
+ * @returns {JSX.Element} 渲染出的属性页面。
+ */
 const Attribute = () => {
   const { t } = useTranslation('attribute');
   const [selectedAttribute, setSelectedAttribute] = useState<number | null>(null);
-  const [showSuper, setShowSuper] = useState(false);
+  const [showSuper, setShowSuper] = useState(false); // 控制显示原系还是超系属性列表
   const { colors } = useTheme()!;
   const notifications = useNotificationContext();
   const navigate = useNavigate();
   const location = useLocation();
 
-  // 从URL获取属性ID
   const searchParams = new URLSearchParams(location.search);
   const attrIdFromUrl = searchParams.get('attrId');
 
-  // 获取属性列表
+  // 使用 React Query 获取属性列表
   const {
     data: attributes,
     isLoading,
@@ -93,20 +136,21 @@ const Attribute = () => {
     queryFn: fetchAttributes,
   });
 
-  // 获取选中属性的关系数据
+  // 使用 React Query 获取当前选中属性的攻击关系
   const { data: relations, isLoading: isLoadingRelations } = useQuery({
     queryKey: ['attribute-relations', selectedAttribute],
     queryFn: () => fetchAttributeRelations(selectedAttribute!),
-    enabled: !!selectedAttribute,
+    enabled: !!selectedAttribute, // 仅在 selectedAttribute 有值时执行
   });
 
-  // 获取所有属性的关系数据用于计算受击关系
+  // 使用 React Query 获取所有属性的关系数据，用于计算受击关系
   const { data: allRelations } = useQuery({
     queryKey: ['all-attribute-relations', attributes],
     queryFn: async () => {
       if (!attributes) {
         return;
       }
+      // 并行获取所有属性的关系数据
       const relationPromises = attributes.map((attr) =>
         fetchAttributeRelations(attr.id).then((relations) => ({ id: attr.id, relations }))
       );
@@ -117,10 +161,10 @@ const Attribute = () => {
       });
       return relationMap;
     },
-    enabled: !!attributes && attributes.length > 0,
+    enabled: !!attributes && attributes.length > 0, // 仅在属性列表加载后执行
   });
 
-  // 处理URL参数和默认选择
+  // Effect：处理URL参数和设置默认选中的属性
   useEffect(() => {
     if (attributes && attrIdFromUrl) {
       const attrId = parseInt(attrIdFromUrl);
@@ -132,7 +176,7 @@ const Attribute = () => {
         }
       }
     } else if (attributes && attributes.length > 0) {
-      // 默认选择第一个原系属性
+      // 如果没有URL参数，默认选择第一个非超能系（原系）属性
       const firstOrigin = attributes.find((attr) => !isSuperAttribute(attr.id));
       if (firstOrigin) {
         setSelectedAttribute(firstOrigin.id);
@@ -140,31 +184,39 @@ const Attribute = () => {
     }
   }, [attributes, attrIdFromUrl]);
 
-  // 处理错误
+  // Effect：处理数据加载错误并显示通知
   useEffect(() => {
     if (error) {
       notifications.error(t('data_load_failed'), t('data_load_failed_desc'));
     }
   }, [error, notifications.error, t]);
 
-  // 处理属性选择
+  /**
+   * 处理用户选择新属性的事件。
+   * @param {number} id - 被选中的属性ID。
+   */
   const handleAttributeSelect = (id: number) => {
     if (id === selectedAttribute) {
-      return;
+      return; // 如果点击的是当前已选中的属性，则不执行任何操作
     }
 
+    // 更新URL参数以反映新的选择
     const newParams = new URLSearchParams(searchParams);
     newParams.set('attrId', id.toString());
     navigate(`${location.pathname}?${newParams.toString()}`);
     setSelectedAttribute(id);
   };
 
-  // 渲染关系区域
+  /**
+   * 渲染攻击和防御关系的核心区域。
+   * @returns {JSX.Element | null} 渲染出的关系区域，或在数据未加载时返回 null。
+   */
   const renderRelationArea = () => {
     if (!selectedAttribute || !attributes || !relations) {
       return null;
     }
 
+    // 初始化攻击和防御关系的分组
     const groups = {
       attack: {
         immune: [] as AttributeInfo[],
@@ -185,7 +237,7 @@ const Attribute = () => {
     const isCurrentOrigin = !isSuperAttribute(selectedAttribute);
     const isCurrentSuper = isSuperAttribute(selectedAttribute);
 
-    // 处理攻击关系 - 当前属性对其他属性的伤害
+    // 1. 计算攻击关系：当前选中属性对其他属性的伤害效果
     Object.entries(relations).forEach(([targetId, value]) => {
       const damage = parseRelation(value);
       const id = parseInt(targetId, 10);
@@ -197,27 +249,27 @@ const Attribute = () => {
       const isTargetSuper = isSuperAttribute(id);
       const isTargetOrigin = !isSuperAttribute(id);
 
-      // 如果当前是原系，对超系的关系统一处理
+      // 特殊逻辑：原系对超系
       if (isCurrentOrigin && isTargetSuper) {
-        // 原系攻击超系固定是1/2倍伤害，统一归为weak类别
-        const superIcon = { id: 999, name: t('super_attribute') }; // 使用特殊ID表示超系图标
+        // 原系攻击超系固定为0.5倍伤害，统一归为'weak'类别
+        const superIcon = { id: 999, name: t('super_attribute') }; // 使用特殊ID表示“所有超系”
         if (!groups.attack.weak.find((attr) => attr.id === 999)) {
           groups.attack.weak.push(superIcon);
         }
         return;
       }
 
-      // 如果当前是超系，对原系的关系统一处理
+      // 特殊逻辑：超系对原系
       if (isCurrentSuper && isTargetOrigin) {
-        // 超系攻击原系固定是2倍伤害，统一归为strong类别
-        const originIcon = { id: 1000, name: t('origin_attribute') }; // 使用特殊ID表示原系图标
+        // 超系攻击原系固定为2倍伤害，统一归为'strong'类别
+        const originIcon = { id: 1000, name: t('origin_attribute') }; // 使用特殊ID表示“所有原系”
         if (!groups.attack.strong.find((attr) => attr.id === 1000)) {
           groups.attack.strong.push(originIcon);
         }
         return;
       }
 
-      // 其他正常关系处理
+      // 标准关系处理
       switch (damage) {
         case -1: {
           groups.attack.immune.push(targetAttr);
@@ -240,7 +292,7 @@ const Attribute = () => {
       }
     });
 
-    // 处理受击关系 - 其他属性对当前属性的伤害
+    // 2. 计算受击关系：其他属性对当前选中属性的伤害效果
     if (allRelations) {
       Object.entries(allRelations).forEach(([sourceId, sourceRelations]) => {
         const id = parseInt(sourceId, 10);
@@ -256,29 +308,30 @@ const Attribute = () => {
         const isSourceSuper = isSuperAttribute(id);
         const isSourceOrigin = !isSuperAttribute(id);
 
-        // 如果当前是原系，被超系攻击的关系统一处理
+        // 特殊逻辑：被超系攻击
         if (isCurrentOrigin && isSourceSuper) {
-          // 超系攻击原系固定是2倍伤害，统一归为strong类别
-          const superIcon = { id: 999, name: t('super_attribute') }; // 使用特殊ID表示超系图标
+          // 超系攻击原系固定为2倍伤害
+          const superIcon = { id: 999, name: t('super_attribute') };
           if (!groups.defend.strong.find((attr) => attr.id === 999)) {
             groups.defend.strong.push(superIcon);
           }
           return;
         }
 
-        // 如果当前是超系，被原系攻击的关系统一处理
+        // 特殊逻辑：被原系攻击
         if (isCurrentSuper && isSourceOrigin) {
-          // 原系攻击超系固定是1/2倍伤害，统一归为weak类别
-          const originIcon = { id: 1000, name: t('origin_attribute') }; // 使用特殊ID表示原系图标
+          // 原系攻击超系固定为0.5倍伤害
+          const originIcon = { id: 1000, name: t('origin_attribute') };
           if (!groups.defend.weak.find((attr) => attr.id === 1000)) {
             groups.defend.weak.push(originIcon);
           }
           return;
         }
 
+        // 从攻击方的关系数据中找到对当前属性的伤害值
         const damageToMe = parseRelation(sourceRelations[selectedAttribute.toString()]);
 
-        // 其他正常关系处理
+        // 标准关系处理
         switch (damageToMe) {
           case -1: {
             groups.defend.immune.push(sourceAttr);
@@ -322,7 +375,12 @@ const Attribute = () => {
     );
   };
 
-  // 渲染关系框
+  /**
+   * 渲染单个关系框（攻击或防御）。
+   * @param {string} title - 关系框的标题（例如，“攻击”）。
+   * @param {Record<RelationType, AttributeInfo[]>} relations - 该类型下的关系数据。
+   * @returns {JSX.Element} 渲染出的关系卡片。
+   */
   const renderRelationBox = (title: string, relations: Record<RelationType, AttributeInfo[]>) => (
     <motion.div
       initial={{ opacity: 0, scale: 0.9 }}
@@ -349,12 +407,15 @@ const Attribute = () => {
       >
         <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
           {(Object.entries(relations) as [RelationType, AttributeInfo[]][])
-            .filter(([type]) => type !== 'immune' && type !== 'super') // 过滤掉旧的
+            // 过滤掉临时的'immune'和'super'，因为它们已被合并到'superOrImmune'中进行统一渲染
+            .filter(([type]) => type !== 'immune' && type !== 'super')
             .map(([type, typeRelations], typeIndex) => {
+              // 如果'superOrImmune'类别没有内容，则不渲染
               if (type === 'superOrImmune' && typeRelations.length === 0) {
                 return null;
               }
 
+              // 动态决定'superOrImmune'应该显示为'super'还是'immune'的样式
               const isSuper = relations.super.length > 0;
               const dynamicType = type === 'superOrImmune' ? (isSuper ? 'super' : 'immune') : type;
 
@@ -397,7 +458,7 @@ const Attribute = () => {
                         key={`${type}-${attr.id}-${index}`}
                         className="attribute-item clickable"
                         onClick={() => {
-                          // 特殊图标不可点击跳转
+                          // 特殊图标（代表所有原系/超系）不可点击
                           if (attr.id === 999 || attr.id === 1000) return;
                           handleAttributeSelect(attr.id);
                         }}
@@ -428,7 +489,7 @@ const Attribute = () => {
                           alt={attr.name}
                           className="relation-icon"
                         />
-                        {/* 悬停提示 */}
+                        {/* 悬停时显示的属性名称提示 */}
                         <div className="attribute-tooltip">{attr.name}</div>
                       </motion.div>
                     ))}
@@ -441,6 +502,7 @@ const Attribute = () => {
     </motion.div>
   );
 
+  // 加载状态UI
   if (isLoading) {
     return (
       <Layout>
@@ -449,6 +511,7 @@ const Attribute = () => {
     );
   }
 
+  // 错误状态UI
   if (error) {
     return (
       <Layout>
@@ -460,6 +523,7 @@ const Attribute = () => {
     );
   }
 
+  // 数据为空状态UI
   if (!attributes) {
     return (
       <Layout>
@@ -468,18 +532,18 @@ const Attribute = () => {
     );
   }
 
-  // 后端已经返回排除过的列表，前端不需要再过滤，但需要去重
+  // 将属性列表分为原系和超系，并进行去重
   const originAttributes = attributes
     .filter((attr) => !isSuperAttribute(attr.id))
-    .filter((attr, index, arr) => arr.findIndex((a) => a.id === attr.id) === index); // 去重
+    .filter((attr, index, arr) => arr.findIndex((a) => a.id === attr.id) === index);
   const superAttributes = attributes
     .filter((attr) => isSuperAttribute(attr.id))
-    .filter((attr, index, arr) => arr.findIndex((a) => a.id === attr.id) === index); // 去重
+    .filter((attr, index, arr) => arr.findIndex((a) => a.id === attr.id) === index);
 
   return (
     <Layout>
       <Space direction="vertical" size="large" style={{ width: '100%' }}>
-        {/* 页面头部 */}
+        {/* 页面头部和标题 */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -499,7 +563,7 @@ const Attribute = () => {
             {t('title')}
           </Title>
 
-          {/* 标签切换 */}
+          {/* 原系/超系标签切换 */}
           <div
             style={{
               display: 'flex',
@@ -508,8 +572,9 @@ const Attribute = () => {
               margin: '20px 0',
             }}
           >
+            {/* 原系标签 */}
             <motion.div
-              className={`tab ${!showSuper ? 'active' : ''}`}
+              className={`tab ${showSuper ? '' : 'active'}`}
               onClick={() => setShowSuper(false)}
               whileHover={{ y: -2 }}
               style={{
@@ -550,6 +615,7 @@ const Attribute = () => {
               )}
             </motion.div>
 
+            {/* 超系标签 */}
             <motion.div
               className={`tab ${showSuper ? 'active' : ''}`}
               onClick={() => setShowSuper(true)}
@@ -594,7 +660,7 @@ const Attribute = () => {
           </div>
         </motion.div>
 
-        {/* 属性选择区域 */}
+        {/* 属性图标选择区域 */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

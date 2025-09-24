@@ -1,3 +1,9 @@
+/**
+ * @fileoverview
+ * This file serves as the entry point for all type definitions in the application.
+ * It exports all types from the individual type definition files.
+ */
+
 export * from './astralspirit';
 export * from './chatframe';
 export * from './clothes';

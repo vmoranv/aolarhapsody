@@ -1,10 +1,10 @@
+import React, { useMemo, useState } from 'react';
+import toast from 'react-hot-toast';
 import { useQuery } from '@tanstack/react-query';
 import { Card, Col, Empty, Pagination, Row, Space, Statistic } from 'antd';
 import zhCN from 'antd/es/locale/zh_CN';
 import { motion } from 'framer-motion';
 import { Database, PackageSearch, Star, TrendingUp } from 'lucide-react';
-import React, { useMemo, useState } from 'react';
-import toast from 'react-hot-toast';
 import { useTheme } from '../hooks/useTheme';
 import { useDialogStore } from '../store/dialog';
 import { useSearchStore } from '../store/search';
@@ -15,7 +15,13 @@ import Layout from './Layout';
 import LoadingSpinner from './LoadingSpinner';
 import SearchAndFilter, { FilterType } from './SearchAndFilter';
 
-// Generic data type constraint
+/**
+ * @description 通用数据项约束
+ * @interface DataItem
+ * @property {(number | string)} id - 唯一标识符
+ * @property {string} name - 名称
+ * @property {number} [quality] - 品质
+ */
 export interface DataItem {
   id: number | string;
   name: string;
@@ -23,7 +29,31 @@ export interface DataItem {
   [key: string]: any;
 }
 
-// Props for the DataView component
+/**
+ * @description DataView 组件的属性
+ * @interface DataViewProps
+ * @template T - 继承自 DataItem 的数据类型
+ * @property {(string | number)[]} queryKey - react-query 的查询键
+ * @property {string} [dataUrl] - 获取数据的 API 地址
+ * @property {T[]} [data] - 直接传入的数据
+ * @property {(item: T, index: number) => React.ReactNode} renderCard - 渲染卡片的函数
+ * @property {(item: T) => React.ReactNode} [renderDetailDialog] - 渲染详情弹窗内容的函数
+ * @property {(item: T) => Promise<void>} [onCardClick] - 卡片点击事件处理函数
+ * @property {(item: T) => string[]} getSearchableFields - 获取可搜索字段的函数
+ * @property {(item: T) => number} [getQuality] - 获取品质的函数
+ * @property {{ [key: string]: (data: T[]) => { value: number | string; icon: string } }} [statsCalculators] - 统计数据计算器
+ * @property {string} [searchPlaceholder] - 搜索框占位符
+ * @property {boolean} [noLayout] - 是否不使用默认布局
+ * @property {string} loadingText - 加载时显示的文本
+ * @property {string} errorText - 错误时显示的文本
+ * @property {(start: number, end: number, total: number) => string} paginationTotalText - 分页总数文本
+ * @property {string} noResultsText - 无搜索结果时显示的文本
+ * @property {string} noDataText - 无数据时显示的文本
+ * @property {{ label: string; value: FilterType }[]} [filterOptions] - 筛选选项
+ * @property {string} resetText - 重置按钮文本
+ * @property {(filteredCount: number, totalCount: number) => React.ReactNode} showingText - 显示条目数文本
+ * @property {React.ReactNode} [children] - 子组件
+ */
 interface DataViewProps<T extends DataItem> {
   queryKey: (string | number)[];
   dataUrl?: string;
@@ -49,6 +79,12 @@ interface DataViewProps<T extends DataItem> {
   children?: React.ReactNode;
 }
 
+/**
+ * @description 通用数据展示组件，用于获取、筛选、分页和展示数据
+ * @template T - 继承自 DataItem 的数据类型
+ * @param {DataViewProps<T>} props - 组件属性
+ * @returns {JSX.Element} 数据展示组件
+ */
 const DataView = <T extends DataItem>({
   queryKey,
   dataUrl,

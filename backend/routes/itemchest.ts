@@ -3,6 +3,12 @@ import { getItemChestConfig } from '../dataparse/itemchest';
 
 const router = express.Router();
 
+/**
+ * @route GET /itemchest
+ * @description 获取简化的礼品套装和宝箱配置列表
+ * @returns {object} 200 - 礼品套装和宝箱配置列表
+ * @returns {object} 500 - 服务器错误
+ */
 router.get('/itemchest', async (req: Request, res: Response) => {
   try {
     const { giftSultConfig, chestConfig } = await getItemChestConfig();
@@ -24,6 +30,14 @@ router.get('/itemchest', async (req: Request, res: Response) => {
   }
 });
 
+/**
+ * @route GET /itemchest/gift/:id
+ * @description 获取指定 ID 的礼品套装配置
+ * @param {string} req.params.id - 礼品套装 ID
+ * @returns {object} 200 - 礼品套装配置
+ * @returns {object} 404 - 未找到配置
+ * @returns {object} 500 - 服务器错误
+ */
 router.get('/itemchest/gift/:id', async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
@@ -39,6 +53,14 @@ router.get('/itemchest/gift/:id', async (req: Request, res: Response) => {
   }
 });
 
+/**
+ * @route GET /itemchest/chest/:id
+ * @description 获取指定 ID 的宝箱配置
+ * @param {string} req.params.id - 宝箱 ID
+ * @returns {object} 200 - 宝箱配置
+ * @returns {object} 404 - 未找到配置
+ * @returns {object} 500 - 服务器错误
+ */
 router.get('/itemchest/chest/:id', async (req: Request, res: Response) => {
   try {
     const { id } = req.params;

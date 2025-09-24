@@ -1,12 +1,22 @@
+import React from 'react';
 import { Spin } from 'antd';
 import { motion } from 'framer-motion';
-import React from 'react';
 
+/**
+ * @description LoadingSpinner 组件的 props 接口
+ * @interface LoadingSpinnerProps
+ * @property {string} [text] - 加载文本
+ * @property {'small' | 'default' | 'large'} [size] - 加载指示器的大小
+ */
 interface LoadingSpinnerProps {
   text?: string;
   size?: 'small' | 'default' | 'large';
 }
 
+/**
+ * @description 加载指示器组件
+ * @param {LoadingSpinnerProps} props - 组件 props
+ */
 const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
   text = '正在加载...',
   size = 'large',

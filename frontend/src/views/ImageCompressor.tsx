@@ -1,3 +1,6 @@
+import React, { useLayoutEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch';
 import { SettingOutlined, UploadOutlined } from '@ant-design/icons';
 import {
   App,
@@ -13,15 +16,23 @@ import {
   Upload,
 } from 'antd';
 import imageCompression from 'browser-image-compression';
-import React, { useLayoutEffect, useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch';
 import Layout from '../components/Layout';
 
 const { Title, Text } = Typography;
 
 import { Switch } from 'antd';
 
+/**
+ * @description 图片压缩设置面板组件
+ * @param {object} props - 组件属性
+ * @param {any} props.options - 压缩选项
+ * @param {(options: any) => void} props.setOptions - 设置压缩选项的函数
+ * @param {() => void} props.onCompress - 触发压缩的函数
+ * @param {boolean} props.disabled - 是否禁用压缩按钮
+ * @param {boolean} props.isBatchProcessing - 是否为批量处理模式
+ * @param {(isBatch: boolean) => void} props.setIsBatchProcessing - 设置批量处理模式的函数
+ * @returns {JSX.Element} 设置面板
+ */
 const SettingsPanel: React.FC<{
   options: any;
   setOptions: (options: any) => void;
@@ -100,25 +111,54 @@ const SettingsPanel: React.FC<{
   );
 };
 
+/**
+ * @description 图片压缩器主组件
+ * @returns {JSX.Element} 图片压缩器页面
+ */
 const ImageCompressor: React.FC = () => {
   const { t } = useTranslation('imageCompressor');
   const { message } = App.useApp();
+
+  /**
+   * @description 原始图片的数据 URL
+   */
   const [src, setSrc] = useState<string | null>(null);
+  /**
+   * @description 压缩后图片的数据 URL
+   */
   const [output, setOutput] = useState<string | null>(null);
+  /**
+   * @description 原始图片文件对象
+   */
   const [originalFile, setOriginalFile] = useState<File | null>(null);
+  /**
+   * @description 批量处理的文件列表
+   */
   const [fileList, setFileList] = useState<File[]>([]);
+  /**
+   * @description 是否为批量处理模式
+   */
   const [isBatchProcessing, setIsBatchProcessing] = useState(false);
+  /**
+   * @description 压缩选项
+   */
   const [options, setOptions] = useState({
     width: 960,
     height: 560,
     maxSizeMB: 1,
     quality: 0.8,
   });
+  /**
+   * @description 预览区域的缩放比例
+   */
   const [previewScale, setPreviewScale] = useState(1);
   const imgRef = useRef<HTMLImageElement | null>(null);
   const viewportRef = useRef<HTMLDivElement | null>(null);
   const transformRef = useRef<any>(null);
 
+  /**
+   * @description 动态计算预览区域的缩放比例
+   */
   useLayoutEffect(() => {
     if (viewportRef.current) {
       const { clientWidth, clientHeight } = viewportRef.current;
@@ -128,6 +168,9 @@ const ImageCompressor: React.FC = () => {
     }
   }, [src, options.width, options.height]);
 
+  /**
+   * @description 清除当前图片和状态
+   */
   const handleClear = () => {
     setSrc(null);
     setOutput(null);
@@ -137,6 +180,10 @@ const ImageCompressor: React.FC = () => {
     }
   };
 
+  /**
+   * @description 选择单个文件进行处理
+   * @param {File} file - 用户选择的文件
+   */
   const onSelectFile = (file: File) => {
     handleClear();
     setOriginalFile(file);
@@ -145,6 +192,10 @@ const ImageCompressor: React.FC = () => {
     reader.readAsDataURL(file);
   };
 
+  /**
+   * @description 选择多个文件进行批量处理
+   * @param {File[]} files - 用户选择的文件列表
+   */
   const onSelectFiles = (files: File[]) => {
     handleClear();
     setFileList(files);
@@ -152,6 +203,10 @@ const ImageCompressor: React.FC = () => {
     processNextFileInQueue(files);
   };
 
+  /**
+   * @description 处理批量队列中的下一个文件
+   * @param {File[]} queue - 文件队列
+   */
   const processNextFileInQueue = (queue: File[]) => {
     if (queue.length > 0) {
       const nextFile = queue[0];
@@ -162,13 +217,18 @@ const ImageCompressor: React.FC = () => {
     }
   };
 
-  // Auto-compress when a new file is loaded in batch mode
+  /**
+   * @description 在批量模式下，当新文件加载时自动开始压缩
+   */
   React.useEffect(() => {
     if (isBatchProcessing && src) {
       handleCompress();
     }
   }, [src, isBatchProcessing]);
 
+  /**
+   * @description 执行图片裁剪和压缩
+   */
   const handleCompress = async () => {
     if (!src || !imgRef.current) {
       message.error(t('upload_first'));
@@ -239,6 +299,9 @@ const ImageCompressor: React.FC = () => {
     }
   };
 
+  /**
+   * @description 下载压缩后的图片
+   */
   const handleDownload = () => {
     if (output) {
       const link = document.createElement('a');
@@ -416,6 +479,10 @@ const ImageCompressor: React.FC = () => {
   );
 };
 
+/**
+ * @description 图片压缩器页面的容器组件，包裹 Ant Design 的 App 组件以使用 message 等上下文
+ * @returns {JSX.Element} 页面容器
+ */
 const ImageCompressorPage = () => (
   <App>
     <ImageCompressor />

@@ -1,10 +1,10 @@
+import React, { useEffect, useMemo, useState } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
 import { useQuery } from '@tanstack/react-query';
 import { App, Button, Empty, List, Pagination, Space, Typography } from 'antd';
 import zhCN from 'antd/es/locale/zh_CN';
 import { motion } from 'framer-motion';
 import { Copy, Package } from 'lucide-react';
-import React, { useEffect, useMemo, useState } from 'react';
-import { Trans, useTranslation } from 'react-i18next';
 import ErrorDisplay from '../components/ErrorDisplay';
 import Layout from '../components/Layout';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -17,14 +17,16 @@ const { Title, Paragraph, Text } = Typography;
 
 /**
  * 现有封包数据类型定义
+ * 用于描述游戏中现有的封包数据结构
  */
 interface ExistingPacket {
-  name: string; // 封包名称
-  packet: string; // 封包内容
+  name: string; // 封包名称 - 描述封包用途的文本
+  packet: string; // 封包内容 - 实际的封包数据字符串
 }
 
 /**
  * 现有封包列表项组件
+ * 负责渲染单个封包数据项，提供复制功能
  * @param packet - 单个封包的数据
  */
 const ExistingPacketItem: React.FC<{ packet: ExistingPacket }> = ({ packet }) => {
@@ -32,11 +34,18 @@ const ExistingPacketItem: React.FC<{ packet: ExistingPacket }> = ({ packet }) =>
   const { colors } = useTheme()!;
   const { message } = App.useApp();
 
+  /**
+   * 复制封包内容到剪贴板
+   * 使用现代浏览器的Clipboard API实现
+   */
   const handleCopyPackage = async () => {
     try {
+      // 将封包内容写入剪贴板
       await navigator.clipboard.writeText(packet.packet);
+      // 显示成功提示
       message.success(t('copy_success'));
     } catch {
+      // 复制失败时显示错误提示
       message.error(t('copy_failed'));
     }
   };
@@ -128,14 +137,19 @@ const ExistingPacketItem: React.FC<{ packet: ExistingPacket }> = ({ packet }) =>
  * 现有封包页面组件内部实现
  * - 使用 React Query 获取现有封包数据
  * - 实现搜索和分页功能
+ * - 提供用户友好的界面展示封包数据
  */
 const ExistingPacketsContent = () => {
   const { t } = useTranslation(['existingPackets', 'common']);
   const { colors } = useTheme()!;
+  // 获取全局搜索状态管理
   const { searchValue, setResultCount } = useSearchStore();
+  // 当前页码状态
   const [currentPage, setCurrentPage] = useState(1);
+  // 每页显示的数据条数
   const pageSize = 10;
 
+  // 使用React Query获取封包数据
   const {
     data: packets = [],
     isLoading,
@@ -146,7 +160,7 @@ const ExistingPacketsContent = () => {
     queryFn: () => fetchData<ExistingPacket>('existing-activities'),
   });
 
-  // 筛选和搜索逻辑
+  // 筛选和搜索逻辑 - 根据搜索关键词过滤封包数据
   const filteredData = useMemo(() => {
     let filtered = packets;
 
@@ -162,12 +176,13 @@ const ExistingPacketsContent = () => {
     return filtered;
   }, [packets, searchValue]);
 
-  // 分页数据
+  // 分页数据 - 根据当前页码和页面大小计算需要显示的数据
   const paginatedData = useMemo(() => {
     const startIndex = (currentPage - 1) * pageSize;
     return filteredData.slice(startIndex, startIndex + pageSize);
   }, [filteredData, currentPage, pageSize]);
 
+  // 更新搜索结果计数
   useEffect(() => {
     setResultCount(filteredData.length);
   }, [filteredData.length, setResultCount]);
@@ -314,8 +329,12 @@ const ExistingPacketsContent = () => {
 };
 
 /**
- * 现有封包页面组件
- * 使用App组件包装以支持message功能
+ * 现有封包页面的主组件。
+ *
+ * 该组件作为容器，使用 Ant Design 的 `<App>` 组件包裹 `ExistingPacketsContent`，
+ * 以便在子组件中能够使用 `message`、`notification` 等上下文相关的API。
+ * @component
+ * @returns {React.ReactElement} 渲染后的现有封包页面。
  */
 const ExistingPackets = () => {
   return (

@@ -1,12 +1,23 @@
-import { motion } from 'framer-motion';
 import React, { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 
+/**
+ * @description Overlay 组件的 props 接口
+ * @interface OverlayProps
+ * @property {React.RefObject<HTMLElement | null>} anchorRef - 锚点元素的 ref
+ * @property {() => void} onClick - 点击遮罩层的回调函数
+ * @property {number} [padding] - 镂空区域的内边距
+ */
 interface OverlayProps {
   anchorRef: React.RefObject<HTMLElement | null>;
   onClick: () => void;
   padding?: number;
 }
 
+/**
+ * @description 创建一个带有镂空效果的遮罩层，用于引导用户操作
+ * @param {OverlayProps} props - 组件 props
+ */
 const Overlay: React.FC<OverlayProps> = ({ anchorRef, onClick, padding = 4 }) => {
   const [holeStyle, setHoleStyle] = useState({
     cx: 0,

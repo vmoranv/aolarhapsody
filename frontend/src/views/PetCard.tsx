@@ -1,9 +1,9 @@
+import { useMemo, useState } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
 import { useQuery } from '@tanstack/react-query';
 import { Col, Divider, Row, Spin, Switch, Tag, Typography } from 'antd';
 import { motion } from 'framer-motion';
-import { Crown, Shield,Zap } from 'lucide-react';
-import { useMemo, useState } from 'react';
-import { Trans, useTranslation } from 'react-i18next';
+import { Crown, Shield, Zap } from 'lucide-react';
 import DataView from '../components/DataView';
 import ItemCard from '../components/ItemCard';
 import Layout from '../components/Layout';
@@ -11,16 +11,26 @@ import type { PetCard, PetCardSuit } from '../types/petCard';
 import { fetchData, fetchDataItem } from '../utils/api';
 import { getPetCardImageUrl } from '../utils/image-helper';
 
-// 解析描述文本，处理换行符和强调关键字
+/**
+ * 解析描述文本，处理换行符和用 # 包围的强调关键字。
+ * 例如："这是第一行<br>这是第二行，#关键字#会被强调。"
+ * 会被解析成两个段落，并且"关键字"会被高亮显示。
+ * @param text - 需要解析的原始字符串
+ * @returns 解析后的 React JSX 元素数组，如果输入为空则返回 null
+ */
 const parseDescription = (text: string) => {
-  if (!text) return null;
+  if (!text) {
+    return null;
+  }
 
   // 分割文本为段落
   const paragraphs = text.split('<br>');
 
   return paragraphs
     .map((paragraph, pIndex) => {
-      if (!paragraph.trim()) return null;
+      if (!paragraph.trim()) {
+        return null;
+      }
 
       // 使用正则表达式匹配并替换强调关键字
       const elements = [];
@@ -62,15 +72,41 @@ const parseDescription = (text: string) => {
 
 const { Title, Paragraph, Text } = Typography;
 
+/**
+ * 宠物卡片页面组件。
+ * 该组件提供了两种视图模式：单个卡片视图和套装视图。
+ * 用户可以在此页面浏览、搜索和查看宠物卡片及其套装的详细信息。
+ * 主要功能包括：
+ * - 切换卡片/套装视图
+ * - 展示卡片/套装列表
+ * - 点击查看卡片/套装的详细信息，包括属性、效果和包含的装备
+ * - 对于套装效果，支持在新旧技能组描述之间切换
+ */
 const PetCardPage = () => {
   const { t } = useTranslation('petCard');
+
+  // 视图模式：'cards' 表示卡片视图，'suits' 表示套装视图
   const [viewMode, setViewMode] = useState<'cards' | 'suits'>('cards');
+
+  // 当前选中的卡片详细信息
   const [detail, setDetail] = useState<PetCard | null>(null);
+
+  // 卡片详情加载状态
   const [loadingDetail, setLoadingDetail] = useState(false);
+
+  // 当前选中的套装详细信息
   const [suitDetail, setSuitDetail] = useState<PetCardSuit | null>(null);
+
+  // 套装详情加载状态
   const [loadingSuitDetail, setLoadingSuitDetail] = useState(false);
+
+  // 套装技能组显示模式：true表示新技能组，false表示旧技能组
   const [isNewSkillGroup, setIsNewSkillGroup] = useState(false);
 
+  /**
+   * 处理卡片点击事件：获取并显示卡片的详细信息
+   * @param card - 被点击的卡片对象
+   */
   const handleCardClick = async (card: PetCard) => {
     setLoadingDetail(true);
     try {
@@ -83,6 +119,10 @@ const PetCardPage = () => {
     }
   };
 
+  /**
+   * 处理套装点击事件：获取并显示套装的详细信息，包括包含的装备和技能效果
+   * @param suit - 被点击的套装对象
+   */
   const handleSuitClick = async (suit: PetCardSuit) => {
     setLoadingSuitDetail(true);
     try {
@@ -108,16 +148,20 @@ const PetCardPage = () => {
     }
   };
 
+  // 使用 React Query 获取所有宠物卡片数据，提供缓存和错误处理
   const { data: allCards = [] } = useQuery<PetCard[]>({
     queryKey: ['pet-cards-all'],
     queryFn: () => fetchData<PetCard>('petcards'),
   });
 
+  // 过滤卡片数据：排除包含'LV'的卡片且ID不大于100000
+  // 这通常是为了过滤掉高等级卡片，专注于基础卡片显示
   const filteredCards = useMemo(
     () => allCards.filter((card) => !card.name.includes('LV') && card.id <= 100000),
     [allCards]
   );
 
+  // 视图切换器组件：提供卡片视图和套装视图之间的切换功能
   const viewSwitcher = (
     <div style={{ marginBottom: 24, display: 'flex', gap: 16 }}>
       <Tag.CheckableTag
@@ -272,7 +316,8 @@ const PetCardPage = () => {
               if (firstCard) {
                 imageUrl = getPetCardImageUrl(firstCard, allCards);
               } else {
-                // 如果找不到卡片，创建一个虚拟的PetCard对象
+                // 如果找不到卡片，创建一个虚拟的PetCard对象用于显示占位图片
+                // 这通常发生在数据不完整或卡片信息缺失的情况下
                 const virtualCard: PetCard = {
                   id: firstCardId,
                   name: `Card ${firstCardId}`,
@@ -335,14 +380,15 @@ const PetCardPage = () => {
                         }}
                       >
                         {suitDetail.idList.map((id) => {
-                          // 查找卡片的实际信息
+                          // 查找卡片的实际信息用于显示装备图片
                           const card = allCards.find((card) => card.id === id);
                           let imageUrl: string | undefined = undefined;
 
                           if (card) {
                             imageUrl = getPetCardImageUrl(card, allCards);
                           } else {
-                            // 如果找不到卡片，创建一个虚拟的PetCard对象
+                            // 如果找不到卡片，创建一个虚拟的PetCard对象作为占位符
+                            // 这种情况通常表示套装数据与卡片数据不同步
                             const virtualCard: PetCard = {
                               id: id,
                               name: `Card ${id}`,
@@ -412,11 +458,14 @@ const PetCardPage = () => {
                         checked={isNewSkillGroup}
                         onChange={(checked) => {
                           // 只有同时有新旧技能组数据时才允许切换
+                          // 检查旧技能组数据是否存在非空描述
                           const hasOldSkills =
                             suitDetail.dec && suitDetail.dec.some((desc) => desc !== '');
+                          // 检查新技能组数据是否存在非空提示
                           const hasNewSkills =
                             suitDetail.newTipsArr0 &&
                             suitDetail.newTipsArr0.some((tip) => tip !== '');
+                          // 仅当同时存在新旧技能组数据时才允许切换
                           if (hasOldSkills && hasNewSkills) {
                             setIsNewSkillGroup(checked);
                           }

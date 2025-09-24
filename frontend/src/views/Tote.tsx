@@ -1,8 +1,8 @@
+import { useState } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
 import { Divider, Spin, Typography } from 'antd';
 import { motion } from 'framer-motion';
 import { Package } from 'lucide-react';
-import { useState } from 'react';
-import { Trans, useTranslation } from 'react-i18next';
 import DataView from '../components/DataView';
 import ItemCard from '../components/ItemCard';
 import Layout from '../components/Layout';
@@ -12,12 +12,30 @@ import { getToteImageUrl } from '../utils/image-helper';
 
 const { Title, Paragraph, Text } = Typography;
 
+/**
+ * @description 背包物品展示页面组件
+ * @returns {JSX.Element} 背包页面
+ */
 const TotePage = () => {
   const { t } = useTranslation('tote');
+
+  /**
+   * @description 存储当前选中物品的详细信息
+   */
   const [detail, setDetail] = useState<ToteDetail | null>(null);
+  /**
+   * @description 存储“技巧”类物品的特殊效果描述
+   */
   const [specialEffectDescription, setSpecialEffectDescription] = useState<string>('');
+  /**
+   * @description 详情数据加载状态
+   */
   const [loadingDetail, setLoadingDetail] = useState(false);
 
+  /**
+   * @description 处理物品卡片点击事件，获取并显示详细信息
+   * @param {Tote} tote - 被点击的物品
+   */
   const handleCardClick = async (tote: Tote) => {
     setLoadingDetail(true);
     setSpecialEffectDescription('');
@@ -50,6 +68,9 @@ const TotePage = () => {
     }
   };
 
+  /**
+   * @description 筛选选项
+   */
   const filterOptions = [
     { value: 'all', label: t('filter_all') },
     { value: 'super', label: t('filter_super') },

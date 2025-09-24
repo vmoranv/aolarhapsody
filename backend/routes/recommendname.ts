@@ -3,6 +3,12 @@ import { getRecommendNameConfig } from '../dataparse/recommendname';
 
 const router = express.Router();
 
+/**
+ * @route GET /recommendname
+ * @description 获取一个随机生成的推荐名称
+ * @returns {object} 200 - 推荐名称
+ * @returns {object} 500 - 服务器错误
+ */
 router.get('/recommendname', async (_req, res) => {
   try {
     const { pre, pos } = await getRecommendNameConfig();

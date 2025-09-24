@@ -1,3 +1,5 @@
+import React, { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useQuery } from '@tanstack/react-query';
 import {
   Badge,
@@ -25,8 +27,6 @@ import {
   RotateCcw,
   Search,
 } from 'lucide-react';
-import React, { useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import ErrorDisplay from '../components/ErrorDisplay';
 import Layout from '../components/Layout';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -37,25 +37,53 @@ const { Option } = Select;
 
 const { Title, Paragraph } = Typography;
 
-// 子类监控数据类型
+/**
+ * @file Home.tsx
+ * @description
+ * 首页/仪表盘组件，用于监控一系列后端数据源的子类变化。
+ * 它会并行获取所有预定义监控目标的数据，展示统计信息，并允许用户
+ * 搜索、筛选和查看每个目标的详细信息，包括是否有新增的子类。
+ */
+
+/**
+ * 表示单个子类监控目标的数据结构。
+ */
 type SubclassMonitorData = {
+  /** 监控目标的名称 */
   name: string;
+  /** 监控目标的数据源URL */
   url: string;
+  /** 当前子类的总数 */
   subclassCount: number;
+  /** 所有子类的列表 */
   subclasses: string[];
+  /** 指示与上次检查相比是否有变化 */
   hasChange: boolean;
+  /** 新增的子类列表 */
   newSubclasses: string[];
 };
 
+/**
+ * API响应的通用接口。
+ * @template T 响应数据的类型。
+ */
 interface ApiResponse<T> {
+  /** 指示请求是否成功 */
   success: boolean;
+  /** 成功时返回的数据 */
   data?: T;
+  /** 失败时返回的错误信息 */
   error?: string;
+  /** 可选的数据总数 */
   count?: number;
+  /** 响应的时间戳 */
   timestamp: string;
 }
 
-// 预定义的监控目标列表
+/**
+ * 预定义的监控目标列表。
+ * @type {string[]}
+ */
 const MONITOR_TARGETS = [
   'hk',
   'tote',
@@ -84,16 +112,27 @@ const MONITOR_TARGETS = [
   'title',
 ];
 
+/**
+ * 从API获取指定监控目标的子类数据。
+ * @param {string} name - 监控目标的名称 (例如 'hk', 'tote')。
+ * @returns {Promise<SubclassMonitorData>} 返回一个包含子类监控数据的Promise。
+ * @throws {Error} 如果网络请求失败或API返回错误，则抛出错误。
+ */
 const fetchSubclassData = async (name: string): Promise<SubclassMonitorData> => {
+  // 构造API基础URL
   const baseUrl = import.meta.env.VITE_API_URL || '';
+  // 发起网络请求获取监控数据
   const response = await fetch(`${baseUrl}/api/monitor/${name}`);
 
+  // 检查HTTP响应状态
   if (!response.ok) {
     throw new Error(`HTTP error! status: ${response.status}`);
   }
 
+  // 解析JSON响应数据
   const result: ApiResponse<SubclassMonitorData> = await response.json();
 
+  // 检查API响应是否成功并包含数据
   if (result.success && result.data) {
     return result.data;
   } else {
@@ -101,22 +140,38 @@ const fetchSubclassData = async (name: string): Promise<SubclassMonitorData> => 
   }
 };
 
+/**
+ * 首页/仪表盘组件。
+ * 负责渲染整个子类监控页面，包括统计数据、筛选控件和监控目标网格。
+ * @returns {React.ReactElement} 渲染的首页组件。
+ */
 const Home = () => {
+  // 国际化翻译函数
   const { t } = useTranslation('home');
+  // 搜索关键词状态
   const [searchValue, setSearchValue] = useState('');
+  // 筛选类型状态 ('all' | 'changed' | 'stable')
   const [filterType, setFilterType] = useState<'all' | 'changed' | 'stable'>('all');
+  // 当前选中的监控目标状态
   const [selectedTarget, setSelectedTarget] = useState<string>('hk');
+  // 获取当前主题颜色配置
   const { colors } = useTheme()!;
+  // 获取通知上下文
   const notifications = useNotificationContext();
 
-  // 获取所有监控目标的数据
+  /**
+   * 使用React Query并行获取所有监控目标的数据
+   * 通过Promise.allSettled确保即使部分请求失败也不会影响其他请求的处理
+   */
   const monitorQueries = useQuery({
     queryKey: ['monitor-all'],
     queryFn: async () => {
+      // 并行获取所有监控目标的数据
       const results = await Promise.allSettled(
         MONITOR_TARGETS.map((target) => fetchSubclassData(target))
       );
 
+      // 处理结果，将成功和失败的情况分别处理
       return results.map((result, index) => ({
         name: MONITOR_TARGETS[index],
         data: result.status === 'fulfilled' ? result.value : null,
@@ -125,16 +180,22 @@ const Home = () => {
     },
   });
 
-  // 获取单个目标的详细数据
+  /**
+   * 获取单个监控目标的详细数据
+   * 仅在selectedTarget存在时启用查询
+   */
   const { data: selectedData, isLoading: isLoadingSelected } = useQuery({
     queryKey: ['monitor', selectedTarget],
     queryFn: () => fetchSubclassData(selectedTarget),
     enabled: !!selectedTarget,
   });
 
+  // 解构获取监控数据和加载状态
   const { data: monitorData = [], isLoading, error } = monitorQueries;
 
-  // Handle error states only - 移除初始加载成功通知
+  /**
+   * 处理错误状态 - 当监控数据获取失败时显示错误通知
+   */
   React.useEffect(() => {
     if (error) {
       notifications.error(
@@ -144,8 +205,12 @@ const Home = () => {
     }
   }, [error, notifications]);
 
-  // 筛选和搜索逻辑
+  /**
+   * 筛选和搜索逻辑
+   * 根据搜索关键词和筛选类型过滤监控数据
+   */
   const filteredData = useMemo(() => {
+    // 过滤出有数据的监控项
     let filtered = monitorData.filter((item) => item.data);
 
     // 按变化状态筛选
@@ -167,13 +232,18 @@ const Home = () => {
     return filtered;
   }, [monitorData, searchValue, filterType]);
 
-  // 统计数据
+  /**
+   * 计算统计数据
+   * 包括有效数据数量、有变化的数据数量、稳定状态数据数量和子类总数
+   */
   const validData = monitorData.filter((item) => item.data);
   const changedData = validData.filter((item) => item.data?.hasChange);
   const stableData = validData.filter((item) => !item.data?.hasChange);
   const totalSubclasses = validData.reduce((sum, item) => sum + (item.data?.subclassCount || 0), 0);
 
-  // 重置搜索和筛选
+  /**
+   * 重置搜索和筛选条件
+   */
   const handleReset = () => {
     setSearchValue('');
     setFilterType('all');

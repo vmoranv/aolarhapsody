@@ -3,6 +3,11 @@ import { getCommonBuffs } from '../dataparse/commonbuff';
 
 const router = express.Router();
 
+/**
+ * @description 获取所有通用 Buff 的简化列表
+ * @route GET /commonbuffs
+ * @returns {Array<{id: number, name: string}>} - 简化后的 Buff 列表
+ */
 router.get('/commonbuffs', async (req: Request, res: Response) => {
   try {
     const buffs = await getCommonBuffs();
@@ -17,6 +22,12 @@ router.get('/commonbuffs', async (req: Request, res: Response) => {
   }
 });
 
+/**
+ * @description 根据 ID 获取指定的通用 Buff 的详细信息
+ * @route GET /commonbuffs/:id
+ * @param {string} id - Buff 的 ID
+ * @returns {object} - Buff 的详细信息
+ */
 router.get('/commonbuffs/:id', async (req: Request, res: Response) => {
   try {
     const { id } = req.params;

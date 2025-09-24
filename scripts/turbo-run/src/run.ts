@@ -3,6 +3,21 @@ import { join } from 'node:path';
 import { intro, outro, select, spinner, isCancel, cancel } from '@clack/prompts';
 import { execa } from 'execa';
 
+/**
+ * @file run.ts
+ * @description
+ * 提供了在 pnpm monorepo 工作区中交互式地选择并运行 npm 脚本的核心逻辑。
+ * 它会解析 `pnpm-workspace.yaml` 文件来发现所有的包，然后通过一个用户友好的
+ * 命令行界面让用户选择要在哪个包中执行指定的脚本。
+ */
+
+/**
+ * 解析 `pnpm-workspace.yaml` 文件并发现 monorepo 中的所有包。
+ * @param {string} rootDir - monorepo 的根目录路径。
+ * @returns {Promise<Array<{name: string, path: string, value: string, label: string}>>}
+ *          一个包含所有已发现包信息的数组，每个包对象都包含了名称、路径等信息，
+ *          可以直接用于 `@clack/prompts` 的 select 组件。
+ */
 async function getPackages(rootDir: string) {
   const workspaceYamlPath = join(rootDir, 'pnpm-workspace.yaml');
   const packages = [];
@@ -69,10 +84,19 @@ async function getPackages(rootDir: string) {
   return packages;
 }
 
+/**
+ * 定义 `run` 函数的选项接口。
+ */
 interface RunOptions {
+  /** 需要在目标包中执行的 npm 脚本名称。 */
   script: string;
 }
 
+/**
+ * 主执行函数。
+ * 它协调整个流程：发现包、提示用户选择、然后执行指定的脚本。
+ * @param {RunOptions} options - 包含要运行的脚本名称的选项对象。
+ */
 export async function run(options: RunOptions) {
   const { script } = options;
   intro(`turbo-run: ${script}`);

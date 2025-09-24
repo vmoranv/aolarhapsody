@@ -1,8 +1,8 @@
+import React, { useCallback, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { App, Button, Card, Input, Space, Spin, Tabs, Tag, Typography } from 'antd';
 import { motion } from 'framer-motion';
 import { Copy, Download, ExternalLink, Heart } from 'lucide-react';
-import React, { useCallback, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import DataView from '../components/DataView';
 import ItemCard from '../components/ItemCard';
 import Layout from '../components/Layout';
@@ -10,6 +10,16 @@ import { ExtendedUserData } from '../types/petExchange';
 
 const { Title, Text } = Typography;
 
+/**
+ * 宠物兑换页面组件
+ * 
+ * 该组件提供以下主要功能：
+ * 1. 批量查询用户宠物信息
+ * 2. 解析网络数据包提取用户ID
+ * 3. 展示用户宠物列表和详细信息
+ * 4. 图片预加载优化用户体验
+ *  
+ */
 const PetExchange: React.FC = () => {
   const { t } = useTranslation('petexchange');
   const { message: messageApi } = App.useApp();
@@ -25,27 +35,31 @@ const PetExchange: React.FC = () => {
 
   // 批量添加用户ID的函数
   const batchAddIds = useCallback(() => {
+    // 按逗号、换行符、制表符、空格等分隔符分割用户ID，并去除空字符串和已存在的ID
     const ids = userIdInput
       .split(/[,\n\r\t\s]+/)
       .map((id) => id.trim())
       .filter((id) => id && !userIdList.includes(id));
 
-    // 去重处理
+    // 使用Set进行二次去重处理
     const uniqueIds = [...new Set(ids)];
 
     if (uniqueIds.length > 0) {
+      // 将新ID添加到现有列表中
       setUserIdList([...userIdList, ...uniqueIds]);
+      // 清空输入框
       setUserIdInput('');
+      // 显示成功添加的ID数量提示
       messageApi.success(`添加了 ${uniqueIds.length} 个用户ID`);
     }
   }, [userIdInput, userIdList]);
 
-  // 清空用户ID列表
+  // 清空用户ID列表函数 - 将用户ID列表重置为空数组
   const clearUserIdList = useCallback(() => {
     setUserIdList([]);
   }, []);
 
-  // 添加用户ID到列表
+  // 添加单个用户ID函数 - 将输入框中的单个用户ID添加到列表中（如果不存在）
   const addUserId = useCallback(() => {
     if (userIdInput.trim() && !userIdList.includes(userIdInput.trim())) {
       setUserIdList([...userIdList, userIdInput.trim()]);
@@ -53,7 +67,7 @@ const PetExchange: React.FC = () => {
     }
   }, [userIdInput, userIdList]);
 
-  // 删除用户ID
+  // 删除指定用户ID函数 - 从列表中移除指定的用户ID
   const removeUserId = useCallback(
     (userId: string) => {
       setUserIdList(userIdList.filter((id) => id !== userId));
@@ -61,8 +75,9 @@ const PetExchange: React.FC = () => {
     [userIdList]
   );
 
-  // 批量查询用户ID
+  // 批量查询用户ID函数 - 向后端发送请求获取用户宠物数据
   const fetchBatchPetIds = useCallback(async () => {
+    // 检查是否有待查询的用户ID
     if (userIdList.length === 0) {
       setError('请至少输入一个用户ID');
       return;
@@ -72,12 +87,15 @@ const PetExchange: React.FC = () => {
     setError(null);
 
     try {
+      // 构造API基础URL
       const baseUrl = import.meta.env.VITE_API_URL || '';
+      // 发送POST请求到后端API
       const response = await fetch(`${baseUrl}/api/extract-petid`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
+        // 将用户ID列表作为请求体发送
         body: JSON.stringify({ userIdList }),
       });
       const data = await response.json();

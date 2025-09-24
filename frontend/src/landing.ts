@@ -1,30 +1,40 @@
-// 全局变量声明
+// 全局变量声明 - 声明将在后续代码中使用的第三方库
 declare const gsap: any;
 declare const ScrollTrigger: any;
 declare const Swiper: any;
 
-// DOM 元素
+// DOM 元素引用 - 获取页面中的关键DOM元素
 const themeToggleButton = document.getElementById('theme-toggle');
 const { body } = document;
 const navbar = document.querySelector('.navbar');
 const cursorGlow = document.querySelector('.cursor-glow') as HTMLElement;
 
-// 主题切换功能（保持原有逻辑）
+/**
+ * 应用主题函数
+ * 根据传入的主题参数切换页面的整体视觉主题
+ * @param theme - 要应用的主题，'light-theme' 或 'dark-theme'
+ */
 const applyTheme = (theme: 'light-theme' | 'dark-theme') => {
   body.classList.remove('light-theme', 'dark-theme');
   body.classList.add(theme);
   localStorage.setItem('theme', theme);
 };
 
+/**
+ * 主题切换事件处理函数
+ * 处理用户点击主题切换按钮的事件，实现平滑的主题切换动画
+ */
 themeToggleButton?.addEventListener('click', (event: MouseEvent) => {
   const isDark = body.classList.contains('dark-theme');
   const newTheme = isDark ? 'light-theme' : 'dark-theme';
 
+  // 如果浏览器不支持View Transition API，则直接切换主题
   if (!document.startViewTransition) {
     applyTheme(newTheme);
     return;
   }
 
+  // 计算点击位置到视口边缘的最大距离，用于创建圆形展开动画
   const x = event.clientX;
   const y = event.clientY;
   const endRadius = Math.hypot(
@@ -32,14 +42,17 @@ themeToggleButton?.addEventListener('click', (event: MouseEvent) => {
     Math.max(y, window.innerHeight - y)
   );
 
+  // 根据当前主题设置动画方向
   if (isDark) {
     document.documentElement.classList.add('reveal-old-view');
   }
 
+  // 启动视图过渡动画
   const transition = document.startViewTransition(() => {
     applyTheme(newTheme);
   });
 
+  // 配置动画参数
   transition.ready.then(() => {
     const clipPath = [`circle(0px at ${x}px ${y}px)`, `circle(${endRadius}px at ${x}px ${y}px)`];
     document.documentElement.animate(
@@ -54,41 +67,59 @@ themeToggleButton?.addEventListener('click', (event: MouseEvent) => {
     );
   });
 
+  // 动画结束后的清理工作
   transition.finished.then(() => {
     document.documentElement.classList.remove('reveal-old-view');
   });
 });
 
-// 光标跟随效果
+// 光标位置跟踪变量
 let mouseX = 0;
 let mouseY = 0;
 let cursorX = 0;
 let cursorY = 0;
 
+/**
+ * 鼠标移动事件监听器
+ * 跟踪鼠标在页面中的实时位置
+ */
 document.addEventListener('mousemove', (e: MouseEvent) => {
   mouseX = e.clientX;
   mouseY = e.clientY;
 });
 
+/**
+ * 光标动画函数
+ * 创建一个跟随鼠标移动的发光光晕效果
+ */
 function animateCursor() {
+  // 计算光标当前位置与目标位置的差值
   const dx = mouseX - cursorX;
   const dy = mouseY - cursorY;
 
+  // 使用缓动函数使光标移动更加平滑
   cursorX += dx * 0.1;
   cursorY += dy * 0.1;
 
+  // 更新光标光晕的位置
   if (cursorGlow) {
     cursorGlow.style.left = cursorX + 'px';
     cursorGlow.style.top = cursorY + 'px';
   }
 
+  // 持续执行动画循环
   requestAnimationFrame(animateCursor);
 }
 
+// 启动光标动画
 animateCursor();
 
-// 粒子动画系统
+/**
+ * 粒子动画系统类
+ * 负责创建和管理页面中的动态粒子效果
+ */
 class ParticleSystem {
+  // 粒子数组，存储所有粒子的状态信息
   private particles: Array<{
     x: number;
     y: number;
@@ -98,23 +129,32 @@ class ParticleSystem {
     opacity: number;
   }> = [];
 
+  /**
+   * 构造函数
+   * 初始化粒子系统并启动动画循环
+   */
   constructor() {
     this.init();
     this.animate();
   }
 
+  /**
+   * 初始化粒子系统
+   * 创建粒子元素并设置初始状态
+   */
   private init() {
     const container = document.querySelector('.hero-particles') as HTMLElement;
     if (!container) {
       return;
     }
 
-    // 创建粒子
+    // 创建指定数量的粒子
     for (let i = 0; i < 50; i++) {
       const particle = document.createElement('div');
       particle.className = 'particle';
       container.appendChild(particle);
 
+      // 为每个粒子设置随机的初始状态
       this.particles.push({
         x: Math.random() * container.offsetWidth,
         y: Math.random() * container.offsetHeight,
@@ -126,18 +166,26 @@ class ParticleSystem {
     }
   }
 
+  /**
+   * 粒子动画循环
+   * 持续更新粒子位置并处理边界碰撞
+   */
   private animate() {
     const container = document.querySelector('.hero-particles') as HTMLElement;
     if (!container) {
       return;
     }
 
+    // 获取所有粒子DOM元素
     const particleElements = container.querySelectorAll('.particle');
 
+    // 更新每个粒子的状态
     this.particles.forEach((particle, index) => {
+      // 更新粒子位置
       particle.x += particle.vx;
       particle.y += particle.vy;
 
+      // 处理边界碰撞，实现反弹效果
       if (particle.x < 0 || particle.x > container.offsetWidth) {
         particle.vx *= -1;
       }
@@ -145,6 +193,7 @@ class ParticleSystem {
         particle.vy *= -1;
       }
 
+      // 更新粒子DOM元素的样式
       const element = particleElements[index] as HTMLElement;
       if (element) {
         element.style.transform = `translate(${particle.x}px, ${particle.y}px)`;
@@ -154,36 +203,54 @@ class ParticleSystem {
       }
     });
 
+    // 继续下一帧动画
     requestAnimationFrame(() => this.animate());
   }
 }
 
-// 数字滚动动画
+/**
+ * 数字滚动动画函数
+ * 创建一个从0到目标值的数字滚动动画效果
+ * @param element - 要显示数字的DOM元素
+ * @param target - 目标数字值
+ * @param duration - 动画持续时间（毫秒）
+ */
 const animateCounter = (element: HTMLElement, target: number, duration: number = 2000) => {
   let start = 0;
   const startTime = performance.now();
 
+  /**
+   * 更新计数器函数
+   * 在动画帧中更新数字显示
+   */
   const updateCounter = () => {
     const now = performance.now();
     const progress = (now - startTime) / duration;
 
+    // 如果动画未完成，继续更新数字
     if (progress < 1) {
       start = Math.ceil(target * progress);
       element.textContent = `${start}%`;
       requestAnimationFrame(updateCounter);
     } else {
+      // 动画完成，显示最终值
       element.textContent = `${target}%`;
     }
   };
 
+  // 启动动画
   updateCounter();
 };
 
-// 滚动监听，触发动画
+/**
+ * 滚动事件监听器
+ * 监听页面滚动事件，触发动画效果
+ */
 window.addEventListener('scroll', () => {
   const counter = document.getElementById('stats-counter');
   if (counter && !counter.classList.contains('animated')) {
     const rect = counter.getBoundingClientRect();
+    // 当元素进入视口时触发动画
     if (rect.top < window.innerHeight && rect.bottom >= 0) {
       animateCounter(counter, 98);
       counter.classList.add('animated');
@@ -191,7 +258,10 @@ window.addEventListener('scroll', () => {
   }
 });
 
-// 平滑滚动
+/**
+ * 初始化平滑滚动功能
+ * 为页面中的锚点链接添加平滑滚动效果
+ */
 function initSmoothScroll() {
   document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
     anchor.addEventListener('click', (e) => {
@@ -199,6 +269,7 @@ function initSmoothScroll() {
       const targetId = (anchor as HTMLAnchorElement).getAttribute('href');
       const targetElement = document.querySelector(targetId!);
       if (targetElement) {
+        // 使用浏览器原生的平滑滚动功能
         targetElement.scrollIntoView({
           behavior: 'smooth',
           block: 'start',
@@ -208,7 +279,10 @@ function initSmoothScroll() {
   });
 }
 
-// Swiper 初始化
+/**
+ * 初始化Swiper滑动组件
+ * 配置并启动Swiper实例
+ */
 function initSwiper() {
   new Swiper('.swiper-container', {
     loop: true,
@@ -239,7 +313,10 @@ function initSwiper() {
   });
 }
 
-// GSAP 动画
+/**
+ * 初始化GSAP动画
+ * 配置并启动GSAP动画效果
+ */
 function initGSAPAnimations() {
   gsap.registerPlugin(ScrollTrigger);
 
@@ -345,7 +422,10 @@ function initGSAPAnimations() {
   );
 }
 
-// 初始化所有功能
+/**
+ * 初始化所有功能
+ * 启动页面中的所有交互和动画效果
+ */
 function init() {
   // 应用保存的主题
   const savedTheme =

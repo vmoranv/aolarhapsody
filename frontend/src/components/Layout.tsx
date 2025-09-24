@@ -1,12 +1,12 @@
+import React, { useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useCopilotAction, useCopilotReadable } from '@copilotkit/react-core';
 import { useQuery } from '@tanstack/react-query';
 import type { MenuProps } from 'antd';
 import { Avatar, Dropdown, Layout as AntLayout, Menu, Space } from 'antd';
 import { motion } from 'framer-motion';
 import { BookOpen, Search, Settings, User } from 'lucide-react';
-import React, { useEffect, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useLocation, useNavigate } from 'react-router-dom';
 import { useNotificationContext } from '../hooks/useNotificationContext';
 import { useTheme } from '../hooks/useTheme';
 import { menuConfig } from '../router/menuConfig';
@@ -23,58 +23,90 @@ import ThemeToggle from './ThemeToggle';
 const { Header, Sider, Content } = AntLayout;
 
 /**
- * 布局组件的属性
+ * @file Layout.tsx
+ * @description
+ * 应用的主布局组件，负责构建页面的整体框架，包括侧边栏导航、顶部标题栏和内容区域。
+ * 该组件还集成了 Copilot Kit，允许通过自然语言与应用进行交互。
+ */
+
+/**
+ * 布局组件的属性接口。
  */
 interface LayoutProps {
-  children: React.ReactNode; // 子组件
+  /**
+   * 需要在布局内容区域中渲染的子组件。
+   * @type {React.ReactNode}
+   */
+  children: React.ReactNode;
 }
 
 /**
- * 主布局组件
- * 包含侧边栏、头部和内容区域，为应用提供统一的页面结构。
- * @param children - 要在内容区域渲染的子组件。
+ * 主布局组件。
+ * 该组件提供了一个包含侧边栏、头部和内容区域的响应式布局。
+ * 它还处理：
+ * - 动态生成和管理导航菜单。
+ * - 用户设置、主题切换和通知中心。
+ * - 与 Copilot Kit 的集成，以支持自然语言命令。
+ * @param {LayoutProps} props - 组件属性，包含子组件。
+ * @returns {React.ReactElement} 渲染的布局组件。
  */
 const Layout: React.FC<LayoutProps> = ({ children }) => {
+  // 路由导航钩子
   const navigate = useNavigate();
+  // 当前路由位置信息
   const location = useLocation();
+  // 获取主题颜色配置
   const { colors } = useTheme()!;
+  // 获取通知上下文
   const notifications = useNotificationContext();
+  // 设置抽屉打开状态
   const [settingsOpen, setSettingsOpen] = useState(false);
+  // 获取全局设置状态
   const { betaMode, performanceMonitoring, kimiMode } = useSettingStore();
+  // 国际化翻译函数
   const { t } = useTranslation('common');
+  // 获取搜索状态管理
   const { searchValue, filterType, resultCount, setSearchValue, setFilterType } = useSearchStore();
+  // 获取对话框状态管理
   const { showDetail, setIsLoading } = useDialogStore();
 
+  // 获取所有神兵卡片数据
   const { data: allGodCards = [] } = useQuery<GodCard[]>({
     queryKey: ['god-cards-all'],
     queryFn: () => fetchData<GodCard>('godcards'),
   });
 
+  // 向Copilot提供可读的神兵卡片列表信息
   useCopilotReadable({
     description: 'List of all God Cards (神兵)',
     value: allGodCards.map((card: GodCard) => card.name),
   });
 
+  // 向Copilot提供神兵卡片总数信息
   useCopilotReadable({
     description: 'Total number of God Cards (神兵)',
     value: allGodCards.length,
   });
 
+  // 向Copilot提供当前搜索值信息
   useCopilotReadable({
     description: 'Current search value',
     value: searchValue,
   });
 
+  // 向Copilot提供当前筛选类型信息
   useCopilotReadable({
     description: 'Current filter type',
     value: filterType,
   });
 
+  // 向Copilot提供搜索结果数量信息
   useCopilotReadable({
     description: 'Number of search results',
     value: resultCount,
   });
 
+  // 定义Copilot可执行的搜索操作
   useCopilotAction({
     name: 'search',
     description: 'Search for items.',
@@ -91,6 +123,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     },
   });
 
+  // 定义Copilot可执行的筛选操作
   useCopilotAction({
     name: 'filter',
     description: 'Filter items.',
@@ -107,6 +140,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     },
   });
 
+  // 定义Copilot可执行的显示神兵详情操作
   useCopilotAction({
     name: 'showGodCardDetails',
     description: 'Show the details of a specific God Card (神兵).',
@@ -119,14 +153,16 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       },
     ],
     handler: async ({ name }) => {
+      // 查找指定名称的神兵卡片
       const card = allGodCards.find((c) => c.name === name);
       if (card) {
         setIsLoading(true);
         try {
+          // 获取神兵卡片详细信息
           const data = await fetchDataItem<GodCard>('godcards', card.id.toString());
           const cardDetails = { ...data, id: data.cardId };
           showDetail(cardDetails);
-          // Return a detailed string for the Copilot to "speak"
+          // 返回详细信息供Copilot"朗读"
           return `
             ${cardDetails.name} 的效果是:
             - 描述: ${cardDetails.desc}
@@ -149,24 +185,30 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     },
   });
 
+  // 菜单配置和状态计算 - 根据当前路由和设置动态生成菜单项
   const { menuItems, selectedKeys, openKeys, currentPageStatus } = useMemo(() => {
     const path = location.pathname;
+    // 查找当前路由对应的菜单项
     let currentItem = menuConfig
       .flatMap((item) => item.children || item)
       .find((item) => item.path === path);
+    // 如果未找到匹配项，使用默认首页项
     if (!currentItem) {
       const fallbackItem = menuConfig.find((item) => item.key === '1');
       currentItem = fallbackItem!;
     }
 
+    // 设置当前选中项和展开项
     const selectedKeys = [currentItem.key];
     const openKeys = currentItem.parentKey ? [currentItem.parentKey] : [];
     const currentPageStatus = currentItem.status;
 
+    // 转换菜单项结构的函数
     const transformMenuItems = (items: any[]): MenuProps['items'] => {
       return items
         .filter((item) => betaMode || item.status !== 'dev')
         .map((item) => {
+          // 处理子菜单项
           if (item.children) {
             const filteredChildren = item.children.filter(
               (child: any) => betaMode || child.status !== 'dev'
@@ -181,6 +223,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             }
             return null;
           }
+          // 处理普通菜单项
           return {
             key: item.key,
             icon: item.icon,
@@ -195,6 +238,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     return { menuItems, selectedKeys, openKeys, currentPageStatus };
   }, [location.pathname, betaMode, t, kimiMode]);
 
+  // 菜单点击处理函数 - 处理菜单项点击事件并导航到对应页面
   const handleMenuClick = ({ key }: { key: string }) => {
     const targetItem = menuConfig
       .flatMap((item) => item.children || item)
@@ -204,12 +248,14 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     }
   };
 
+  // 用户菜单点击处理函数 - 处理用户头像下拉菜单的点击事件
   const handleUserMenuClick = ({ key }: { key: string }) => {
     if (key === 'settings') {
       setSettingsOpen(true);
     }
   };
 
+  // 用户菜单项配置
   const userMenuItems: MenuProps['items'] = [
     {
       key: 'profile',
@@ -230,6 +276,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     },
   ];
 
+  // Beta模式权限检查 - 如果当前页面是开发中页面且用户未开启Beta模式，则重定向到首页
   useEffect(() => {
     if (!betaMode && (currentPageStatus as string) === 'dev') {
       navigate('/app');

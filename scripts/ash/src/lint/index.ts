@@ -1,6 +1,10 @@
 import type { CAC } from 'cac';
 import { execa } from 'execa';
 
+/**
+ * @description 定义 lint 命令
+ * @param {CAC} cli - CAC 实例
+ */
 export function defineLintCommand(cli: CAC) {
   cli
     .command('lint', 'Lint all files')

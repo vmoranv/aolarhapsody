@@ -1,42 +1,64 @@
-import { Col, Divider, Row, Spin, Typography } from 'antd';
-import { motion } from 'framer-motion';
-import { Scroll } from 'lucide-react';
-import { useState } from 'react';
-import { Trans, useTranslation } from 'react-i18next';
-import DataView from '../components/DataView';
-import ItemCard from '../components/ItemCard';
-import Layout from '../components/Layout';
-import type { Inscription } from '../types/inscription';
-import { fetchDataItem } from '../utils/api';
-import { getInscriptionImageUrl } from '../utils/image-helper';
+// 导入React及相关库
+import { useState } from 'react'; // React hook
+import { Trans, useTranslation } from 'react-i18next'; // 国际化库
+import { Col, Divider, Row, Spin, Typography } from 'antd'; // Ant Design 组件
+import { motion } from 'framer-motion'; // 动画库
+import { Scroll } from 'lucide-react'; // 图标库
+// 导入自定义组件和类型
+import DataView from '../components/DataView'; // 数据展示视图组件
+import ItemCard from '../components/ItemCard'; // 项目卡片组件
+import Layout from '../components/Layout'; // 布局组件
+import type { Inscription } from '../types/inscription'; // 铭文类型定义
+// 导入工具函数
+import { fetchDataItem } from '../utils/api'; // API数据获取函数
+import { getInscriptionImageUrl } from '../utils/image-helper'; // 图片URL获取辅助函数
 
+// 从Typography中解构出常用组件
 const { Title, Paragraph, Text } = Typography;
 
+/**
+ * @description 铭文页面组件。
+ * 该组件负责展示一个包含各种铭文信息的页面。
+ * 用户可以查看铭文列表，点击卡片查看铭文的详细信息，并进行搜索和筛选。
+ * @returns {React.ReactElement} - 渲染的铭文页面组件。
+ */
 const InscriptionPage = () => {
+  // 使用useTranslation hook获取国际化函数t
   const { t } = useTranslation('inscription');
+  // 定义状态，用于存储当前选中的铭文的详细信息
   const [detail, setDetail] = useState<Inscription | null>(null);
+  // 定义状态，用于控制加载铭文详情时的加载动画
   const [loadingDetail, setLoadingDetail] = useState(false);
 
+  /**
+   * @description 处理铭文卡片点击事件。
+   * 当用户点击一个铭文卡片时，此函数会异步获取该铭文的详细数据并更新状态。
+   * @param {Inscription} inscription - 被点击的铭文对象。
+   */
   const handleCardClick = async (inscription: Inscription) => {
-    setLoadingDetail(true);
+    setLoadingDetail(true); // 开始加载，显示加载动画
     try {
+      // 调用API获取铭文的详细数据
       const data = await fetchDataItem<Inscription>('inscriptions', inscription.id.toString());
-      setDetail(data);
+      setDetail(data); // 更新状态，存储获取到的详情
     } catch (error) {
+      // 如果获取失败，在控制台打印错误信息
       console.error('Failed to fetch inscription detail', error);
     } finally {
-      setLoadingDetail(false);
+      setLoadingDetail(false); // 加载结束，隐藏加载动画
     }
   };
 
+  // 定义筛选选项，用于DataView组件的过滤器
   const filterOptions = [
-    { value: 'all', label: t('filter_all') },
-    { value: 'super', label: t('filter_super') },
-    { value: 'normal', label: t('filter_normal') },
+    { value: 'all', label: t('filter_all') }, // 全部
+    { value: 'super', label: t('filter_super') }, // 超级
+    { value: 'normal', label: t('filter_normal') }, // 普通
   ];
 
   return (
     <Layout>
+      {/* 页面标题和副标题，使用framer-motion实现入场动画 */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -58,20 +80,24 @@ const InscriptionPage = () => {
           {t('page_subtitle_inscriptions')}
         </Paragraph>
       </motion.div>
+      {/* 使用DataView组件来展示和管理铭文数据 */}
       <DataView<Inscription>
-        queryKey={['inscriptions-view']}
-        dataUrl="inscriptions"
-        onCardClick={handleCardClick}
+        queryKey={['inscriptions-view']} // React Query的查询键
+        dataUrl="inscriptions" // 数据获取的API端点
+        onCardClick={handleCardClick} // 卡片点击事件的回调
+        // 自定义卡片渲染逻辑
         renderCard={(inscription, index) => (
           <ItemCard
             item={inscription}
             index={index}
             imageUrl={getInscriptionImageUrl(inscription.id)}
-            icon={<Scroll size={48} color="white" />}
+            icon={<Scroll size={48} color="white" />} // 卡片图标
           />
         )}
+        // 自定义详情弹窗的渲染逻辑
         renderDetailDialog={() =>
           loadingDetail ? (
+            // 如果正在加载，显示加载动画
             <div
               style={{
                 display: 'flex',
@@ -83,6 +109,7 @@ const InscriptionPage = () => {
               <Spin size="large" />
             </div>
           ) : detail ? (
+            // 如果加载完成且有数据，显示铭文详情
             <div style={{ display: 'flex', gap: '24px' }}>
               <img
                 src={getInscriptionImageUrl(detail.id)}
@@ -93,6 +120,7 @@ const InscriptionPage = () => {
                 <Paragraph>{detail.desc}</Paragraph>
                 <Divider />
                 <Row gutter={[16, 16]}>
+                  {/* 展示铭文的各种属性 */}
                   <Col span={12}>
                     <Text strong>ID: </Text>
                     {detail.id}
@@ -130,13 +158,16 @@ const InscriptionPage = () => {
             </div>
           ) : null
         }
+        // 定义可用于搜索的字段
         getSearchableFields={(inscription) => [
           inscription.name,
           inscription.id.toString(),
           inscription.desc,
         ]}
+        // 根据铭文等级定义卡片品质（用于视觉区分）
         getQuality={(inscription) => inscription.level}
-        noLayout
+        noLayout // 不使用DataView的默认布局
+        // 国际化文本配置
         loadingText={t('loading_data')}
         errorText={t('load_failed')}
         paginationTotalText={(start, end, total) =>
@@ -145,8 +176,9 @@ const InscriptionPage = () => {
         noResultsText={t('no_results')}
         noDataText={t('no_data')}
         searchPlaceholder={t('search_placeholder')}
-        filterOptions={filterOptions}
+        filterOptions={filterOptions} // 筛选选项
         resetText={t('reset')}
+        // “显示中”文本的渲染，使用Trans组件处理带格式的翻译
         showingText={(filteredCount, totalCount) => (
           <Trans
             i18nKey="showing_items"

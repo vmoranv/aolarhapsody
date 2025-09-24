@@ -3,6 +3,11 @@ import { getBuffs } from '../dataparse/buff';
 
 const router = express.Router();
 
+/**
+ * @description 获取所有 BUFF 数据
+ * @route GET /abbbuffs
+ * @returns {object} - BUFF 数据
+ */
 router.get('/abbbuffs', async (req: Request, res: Response) => {
   try {
     const buffs = await getBuffs();

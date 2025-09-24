@@ -1,8 +1,8 @@
+import React, { useState } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
 import { Col, Divider, Row, Spin, Tag, Typography } from 'antd';
 import { motion } from 'framer-motion';
 import { Crown, Zap } from 'lucide-react';
-import React, { useState } from 'react';
-import { Trans, useTranslation } from 'react-i18next';
 import DataView from '../components/DataView';
 import ItemCard from '../components/ItemCard';
 import Layout from '../components/Layout';
@@ -12,26 +12,68 @@ import { getAstralSpiritImageUrl, getAstralSpiritSuitImageUrl } from '../utils/i
 
 const { Title, Paragraph, Text } = Typography;
 
+/**
+ * @file AstralSpirit.tsx
+ * @description
+ * 星灵展示页面组件，用于展示游戏中的星灵和星灵套装信息。
+ * 支持两种视图模式：星灵视图和套装视图，用户可以在两者之间切换。
+ * 组件使用DataView进行数据展示和交互处理，并提供详情弹窗功能。
+ */
+
+/**
+ * @description 星灵展示页面组件
+ * @returns {JSX.Element} 星灵展示页面
+ */
 const AstralSpiritPage: React.FC = () => {
+  // 国际化翻译函数
   const { t } = useTranslation('astralSpirit');
+
+  /**
+   * @description 视图模式状态，'spirits' 为星灵视图，'suits' 为套装视图
+   */
   const [viewMode, setViewMode] = useState<'spirits' | 'suits'>('spirits');
+
+  /**
+   * @description 详情弹窗中显示的星灵或套装数据
+   */
   const [detail, setDetail] = useState<AstralSpirit | AstralSpiritSuit | null>(null);
+
+  /**
+   * @description 详情数据加载状态
+   */
   const [loadingDetail, setLoadingDetail] = useState(false);
 
+  /**
+   * @description 处理卡牌点击事件，获取并显示详情
+   * 当用户点击星灵或套装卡片时，调用API获取详细信息并在弹窗中显示
+   * @param {AstralSpirit | AstralSpiritSuit} item - 被点击的星灵或套装
+   */
   const handleCardClick = async (item: AstralSpirit | AstralSpiritSuit) => {
+    // 设置加载状态
     setLoadingDetail(true);
     try {
+      // 根据当前视图模式确定API端点
       const endpoint = viewMode === 'suits' ? 'astral-spirit-suit' : 'astral-spirit';
+      // 调用API获取详细信息
       const data = await fetchDataItem<AstralSpirit | AstralSpiritSuit>(endpoint, String(item.id));
+      // 设置详情数据状态
       setDetail(data);
     } catch (error) {
+      // 错误处理
       console.error('Failed to fetch astral spirit detail', error);
     } finally {
+      // 重置加载状态
       setLoadingDetail(false);
     }
   };
 
+  /**
+   * @description 渲染详情弹窗内容
+   * 根据详情数据类型（星灵或套装）渲染不同的详情内容
+   * @returns {JSX.Element | null} 详情弹窗内容
+   */
   const renderDetailDialog = () => {
+    // 如果正在加载，显示加载指示器
     if (loadingDetail) {
       return (
         <div
@@ -47,10 +89,12 @@ const AstralSpiritPage: React.FC = () => {
       );
     }
 
+    // 如果没有详情数据，返回null
     if (!detail) {
       return null;
     }
 
+    // 根据数据类型渲染不同的详情内容
     if ('surIds' in detail) {
       // Render AstralSpiritSuit detail
       const suit = detail as AstralSpiritSuit;
@@ -175,6 +219,10 @@ const AstralSpiritPage: React.FC = () => {
     }
   };
 
+  /**
+   * @description 视图切换器组件
+   * 允许用户在星灵视图和套装视图之间切换
+   */
   const viewSwitcher = (
     <div style={{ marginBottom: 24, display: 'flex', gap: 16 }}>
       <Tag.CheckableTag

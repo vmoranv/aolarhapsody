@@ -4,8 +4,20 @@ import { ExistingActivity } from '../types/existingactivity';
 import { URL_CONFIG } from '../types/urlconfig';
 import { getFromCache, saveToCache } from './file-cache';
 
+/**
+ * 将字符串转换为小写。
+ * @param name - 要转换的字符串。
+ * @returns 小写形式的字符串。
+ */
 const lowerCase = (name: string) => name.toLowerCase();
 
+/**
+ * 获取现存活动列表。
+ * 该函数首先尝试从缓存中加载数据。如果缓存中不存在，则从远程URL获取XML数据，
+ * 解析该数据以提取活动信息，然后将结果存入缓存并返回。
+ * @returns 一个包含现存活动对象的数组的Promise。
+ * @throws 如果获取或解析数据失败，则抛出错误。
+ */
 export async function getExistingActivities(): Promise<ExistingActivity[]> {
   const cachedData = await getFromCache<ExistingActivity[]>(URL_CONFIG.sceneItem);
   if (cachedData) {

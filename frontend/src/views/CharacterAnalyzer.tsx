@@ -4,7 +4,21 @@
  * 分析亚比性格对战斗属性的影响，提供直观的五边形图表展示
  *
  * @component CharacterAnalyzer
+ *
+ * 功能说明：
+ * 1. 提供交互式属性选择界面
+ * 2. 实时计算并显示对应的性格类型
+ * 3. 通过雷达图可视化属性影响
+ * 4. 提供完整的性格属性对照表
+ *
+ * 技术实现：
+ * - 使用Chart.js绘制雷达图
+ * - 使用Framer Motion实现动画效果
+ * - 使用Zustand进行状态管理（通过useTheme hook）
+ * - 国际化支持（react-i18next）
  */
+import React, { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Button, Card, Space, Typography } from 'antd';
 import {
   Chart,
@@ -17,8 +31,6 @@ import {
   Tooltip,
 } from 'chart.js';
 import { motion } from 'framer-motion';
-import React, { useEffect, useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import Layout from '../components/Layout';
 import { useTheme } from '../hooks/useTheme';
 import { characterEffects } from '../utils/character-helper';
@@ -36,18 +48,50 @@ Chart.register(
   Filler
 );
 
+/**
+ * 属性键值类型定义
+ *
+ * 定义游戏中五大核心属性的键值
+ */
 type AttributeKey = 'attack' | 'special_attack' | 'defense' | 'special_defense' | 'speed';
+
+/**
+ * 属性对象接口定义
+ *
+ * 封装属性的键值和显示标签
+ */
 type Attribute = { key: AttributeKey; label: string };
 
+/**
+ * 性格分析器主组件
+ *
+ * 该组件提供完整的性格分析功能，包括：
+ * 1. 属性选择界面
+ * 2. 性格计算和显示
+ * 3. 雷达图可视化
+ * 4. 性格属性对照表
+ *
+ * 页面结构：
+ * - 标题区域
+ * - 当前性格显示区域
+ * - 主要内容区域（雷达图和控制面板）
+ * - 性格属性对照表
+ */
 const CharacterAnalyzer: React.FC = () => {
+  // 国际化翻译函数
   const { t } = useTranslation('characterAnalyzer');
+  // 图表canvas元素的引用
   const chartRef = useRef<HTMLCanvasElement>(null);
+  // Chart.js实例的引用
   const chartInstance = useRef<Chart<'radar'> | null>(null);
+  // 状态：当前选择的提升属性
   const [selectedIncrease, setSelectedIncrease] = useState<Attribute | null>(null);
+  // 状态：当前选择的降低属性
   const [selectedDecrease, setSelectedDecrease] = useState<Attribute | null>(null);
+  // 状态：根据选择计算出的当前性格
   const [currentCharacter, setCurrentCharacter] = useState(t('balanced'));
 
-  // 游戏属性列表
+  // 定义游戏中的五大核心属性
   const attributes: Attribute[] = [
     { key: 'attack', label: t('attack') },
     { key: 'special_attack', label: t('special_attack') },
@@ -56,34 +100,43 @@ const CharacterAnalyzer: React.FC = () => {
     { key: 'speed', label: t('speed') },
   ];
 
-  // 处理属性选择
+  /**
+   * @description 处理用户选择提升或降低的属性。
+   *
+   * 实现单选逻辑：
+   * - 点击已选中的属性会取消选择
+   * - 点击未选中的属性会设置为当前选择
+   * - 自动计算并更新对应的性格类型
+   *
+   * @param {Attribute} attribute - 用户点击的属性对象
+   * @param {'increase' | 'decrease'} type - 操作类型，'increase'表示提升，'decrease'表示降低
+   */
   const handleAttributeSelect = (attribute: Attribute, type: 'increase' | 'decrease') => {
     if (type === 'increase') {
-      // 如果点击了已选中的属性，则取消选择
+      // 如果用户点击了已经选中的"提升"属性，则取消选择
       if (selectedIncrease?.key === attribute.key) {
         setSelectedIncrease(null);
-        // 如果没有降低属性被选中，则性格为平衡
+        // 如果此时也没有选择"降低"属性，则性格重置为"平衡"
         if (!selectedDecrease) {
           setCurrentCharacter(t('balanced'));
         }
       } else {
+        // 否则，设置新的"提升"属性
         setSelectedIncrease(attribute);
-        // 如果已有降低属性，则查找对应性格
+        // 如果此时已经选择了"降低"属性，则立即查找对应的性格
         if (selectedDecrease) {
           findCharacter(attribute, selectedDecrease);
         }
       }
     } else if (type === 'decrease') {
-      // 如果点击了已选中的属性，则取消选择
+      // 对"降低"属性进行类似处理
       if (selectedDecrease?.key === attribute.key) {
         setSelectedDecrease(null);
-        // 如果没有提高属性被选中，则性格为平衡
         if (!selectedIncrease) {
           setCurrentCharacter(t('balanced'));
         }
       } else {
         setSelectedDecrease(attribute);
-        // 如果已有提高属性，则查找对应性格
         if (selectedIncrease) {
           findCharacter(selectedIncrease, attribute);
         }
@@ -91,21 +144,34 @@ const CharacterAnalyzer: React.FC = () => {
     }
   };
 
-  // 查找对应性格
+  /**
+   * @description 根据选择的提升和降低属性，查找并设置对应的性格名称。
+   *
+   * 查找逻辑：
+   * 1. 如果提升和降低的是同一个属性，则性格为"平衡"
+   * 2. 否则从预定义的性格效果表中查找对应的性格
+   * 3. 如果找不到则显示"未知"
+   *
+   * @param {Attribute} increase - 提升的属性
+   * @param {Attribute} decrease - 降低的属性
+   */
   const findCharacter = (increase: Attribute, decrease: Attribute) => {
+    // 如果提升和降低的是同一个属性，则性格为"平衡"
     if (increase.key === decrease.key) {
       setCurrentCharacter(t('balanced'));
       return;
     }
 
+    // 从预定义的性格效果表中查找对应的性格
     const character = characterEffects[increase.key]?.[decrease.key];
+    // 设置性格，如果找不到则显示"未知"
     setCurrentCharacter(character ? t(character) : t('unknown'));
   };
 
-  // 使用项目的颜色系统
+  // 从自定义hook中获取当前主题的颜色配置
   const { colors, theme } = useTheme()!;
 
-  // Chart.js 需要实际的颜色值，不能使用 CSS 变量
+  // 为Chart.js准备一个独立的颜色对象，因为它不支持CSS变量
   const chartColors = {
     primary: theme === 'dark' ? '#667eea' : '#667eea',
     error: theme === 'dark' ? '#ff7875' : '#ff4d4f',
@@ -117,71 +183,98 @@ const CharacterAnalyzer: React.FC = () => {
     elevated: theme === 'dark' ? '#2d2d2d' : '#fafafa',
   };
 
-  // 生成五边形图表数据
+  /**
+   * @description 根据当前选择的属性，生成雷达图所需的数据。
+   *
+   * 数据映射规则：
+   * - 提升的属性值设为15（最大）
+   * - 降低的属性值设为5（最小）
+   * - 其他属性值为10（中间值）
+   *
+   * @returns {object} Chart.js雷达图的数据对象
+   */
   const generateChartData = () => {
     return {
-      labels: attributes.map((attr) => attr.label),
+      labels: attributes.map((attr) => attr.label), // 图表的标签（攻击、特攻等）
       datasets: [
         {
           label: t('attribute_value'),
           data: attributes.map((attr) => {
             if (selectedIncrease?.key === attr.key) {
-              return 15; // 直接到顶
+              return 15; // 提升的属性值设为最大
             } else if (selectedDecrease?.key === attr.key) {
-              return 5; // 缩回到底
+              return 5; // 降低的属性值设为最小
             }
-            return 10; // 保持中间
+            return 10; // 其他属性值为中间值
           }),
-          fill: true,
-          backgroundColor: `${chartColors.primary}30`,
-          borderColor: chartColors.primary,
+          fill: true, // 填充区域
+          backgroundColor: `${chartColors.primary}30`, // 填充颜色
+          borderColor: chartColors.primary, // 边框颜色
+          // 根据属性状态设置数据点的背景色
           pointBackgroundColor: attributes.map((attr) => {
             if (selectedIncrease?.key === attr.key) {
-              return chartColors.error;
+              return chartColors.error; // 提升属性为红色
             } else if (selectedDecrease?.key === attr.key) {
-              return chartColors.info;
+              return chartColors.info; // 降低属性为蓝色
             }
-            return chartColors.primary;
+            return chartColors.primary; // 其他为主题色
           }),
           pointBorderColor: chartColors.surface,
           pointHoverBackgroundColor: chartColors.surface,
           pointHoverBorderColor: chartColors.primary,
-          pointRadius: 8, // 统一大小
+          pointRadius: 8, // 数据点半径
         },
       ],
     };
   };
 
-  // 更新图表配置
+  /**
+   * @description 使用useEffect hook来创建、更新和销毁Chart.js实例。
+   *
+   * 生命周期管理：
+   * 1. 组件挂载时创建图表实例
+   * 2. 依赖变化时更新图表数据
+   * 3. 组件卸载时销毁图表实例
+   *
+   * 依赖项：
+   * - selectedIncrease: 提升的属性
+   * - selectedDecrease: 降低的属性
+   * - chartColors: 图表颜色配置
+   */
   useEffect(() => {
+    // 如果已有图表实例，先销毁它
     if (chartInstance.current) {
       chartInstance.current.destroy();
     }
 
+    // 确保canvas元素已挂载
     if (chartRef.current) {
       const ctx = chartRef.current.getContext('2d');
       if (!ctx) {
         return;
       }
 
+      // 创建新的Chart.js雷达图实例
       chartInstance.current = new Chart(ctx, {
         type: 'radar',
-        data: generateChartData(),
+        data: generateChartData(), // 使用生成的数据
         options: {
           scales: {
             r: {
-              min: 0,
-              max: 15,
+              min: 0, // 最小值
+              max: 15, // 最大值
               ticks: {
                 stepSize: 5,
-                display: false,
+                display: false, // 不显示刻度值
                 color: chartColors.textSecondary,
               },
+              // 属性标签（攻击、特攻等）的样式
               pointLabels: {
                 font: {
                   size: 14,
                   weight: 'bold',
                 },
+                // 根据属性状态设置标签颜色
                 color: (context) => {
                   const attr = attributes[context.index];
                   if (selectedIncrease?.key === attr.key) {
@@ -193,17 +286,18 @@ const CharacterAnalyzer: React.FC = () => {
                 },
               },
               grid: {
-                color: `${chartColors.border}40`,
+                color: `${chartColors.border}40`, // 网格线颜色
               },
               angleLines: {
-                color: `${chartColors.border}60`,
+                color: `${chartColors.border}60`, // 角度线颜色
               },
             },
           },
           plugins: {
             legend: {
-              display: false,
+              display: false, // 不显示图例
             },
+            // 自定义提示框（Tooltip）
             tooltip: {
               backgroundColor: chartColors.elevated,
               titleColor: chartColors.text,
@@ -227,17 +321,18 @@ const CharacterAnalyzer: React.FC = () => {
               },
             },
           },
-          maintainAspectRatio: false,
+          maintainAspectRatio: false, // 不保持宽高比，使其填充容器
         },
       });
     }
 
+    // 组件卸载时销毁图表实例，防止内存泄漏
     return () => {
       if (chartInstance.current) {
         chartInstance.current.destroy();
       }
     };
-  }, [selectedIncrease, selectedDecrease, chartColors]);
+  }, [selectedIncrease, selectedDecrease, chartColors]); // 依赖项数组
 
   return (
     <Layout>

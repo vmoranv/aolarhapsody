@@ -1,17 +1,38 @@
+import React, { useEffect, useRef, useState } from 'react';
 import { Card, Col, Row, Switch, Typography } from 'antd';
 import { Activity, Clock, Cpu, Zap } from 'lucide-react';
-import React, { useEffect, useRef, useState } from 'react';
 import { useTheme } from '../hooks/useTheme';
 
 const { Text } = Typography;
 
+/**
+ * @file PerformanceMonitor.tsx
+ * @description
+ * 一个用于实时监控前端性能的React组件。
+ * 它以浮动窗口的形式展示应用的FPS、帧时间、内存使用情况和特定事件（如主题切换）的渲染时间。
+ * 当性能指标低于阈值时，会在控制台输出警告，帮助开发者定位性能问题。
+ */
+
+/**
+ * 定义性能统计数据的结构。
+ */
 interface PerformanceStats {
+  /** 每秒帧数 (Frames Per Second) */
   fps: number;
+  /** 渲染单帧所需的平均时间 (毫秒) */
   frameTime: number;
+  /** JS堆内存使用量 (MB) */
   memoryUsage: number;
+  /** 特定操作（如主题切换）的渲染时间 (毫秒) */
   renderTime: number;
 }
 
+/**
+ * 性能监控组件。
+ * 使用 `requestAnimationFrame` 来持续测量性能指标，并通过状态更新UI。
+ * 提供了快捷键 (Ctrl+Shift+P) 来切换显示/隐藏。
+ * @returns {React.ReactElement | null} 渲染的性能监控面板，或者在隐藏时返回 null。
+ */
 const PerformanceMonitor: React.FC = () => {
   const { colors } = useTheme()!;
   const [stats, setStats] = useState<PerformanceStats>({

@@ -1,3 +1,5 @@
+import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import type { InputNumberProps } from 'antd';
 import {
   App,
@@ -14,8 +16,6 @@ import {
 } from 'antd';
 import { get } from 'lodash';
 import { Copy, TestTube } from 'lucide-react';
-import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import Layout from '../components/Layout';
 import {
   generateCombinationsFromPlaceholders,
@@ -26,6 +26,20 @@ import {
 const { Title, Paragraph } = Typography;
 const { TextArea } = Input;
 
+/**
+ * @file MultiPointBurst.tsx
+ * @description
+ * 提供了“多点爆破”工具的 UI 和逻辑。
+ * 该工具允许用户输入一个包含 JSON 数据的文本模板，自动识别其中的数值占位符，
+ * 为这些占位符设置一个范围，然后生成所有可能的组合，填充回模板中。
+ * 这对于需要批量生成相似但数值不同的数据（例如测试用例）的场景非常有用。
+ */
+
+/**
+ * “多点爆破”工具的主组件。
+ * 负责管理模板输入、占位符设置、结果生成和 UI 交互。
+ * @returns {React.ReactElement} 渲染的“多点爆破”页面组件。
+ */
 const MultiPointBurst: React.FC = () => {
   const { t } = useTranslation(['miscellaneous', 'multiPointBurst']);
   const { message } = App.useApp();
@@ -35,6 +49,13 @@ const MultiPointBurst: React.FC = () => {
   const [result, setResult] = useState('');
   const [previewHtml, setPreviewHtml] = useState('');
 
+  /**
+   * 根据输入的文本和解析出的占位符，生成一个带有高亮标记的 HTML 预览字符串。
+   * 高亮的部分是模板中被识别为占位符的数值。
+   * @param {string} text - 原始模板文本。
+   * @param {Placeholder[]} phs - 从模板中解析出的占位符数组。
+   * @returns {string} 包含 HTML `<span>` 标签以高亮占位符的字符串。
+   */
   const generatePreviewHtml = (text: string, phs: Placeholder[]): string => {
     if (!text || phs.length === 0) {
       return text;
@@ -117,6 +138,12 @@ const MultiPointBurst: React.FC = () => {
     setPreviewHtml(preview);
   }, [template]);
 
+  /**
+   * 处理占位符范围（起始值或结束值）变化的函数。
+   * @param {string} path - 正在更改的占位符的路径。
+   * @param {'start' | 'end'} key - 正在更改的范围部分（'start' 或 'end'）。
+   * @param {InputNumberProps['value']} value - 新的数值。
+   */
   const handleRangeChange = (
     path: string,
     key: 'start' | 'end',
@@ -128,12 +155,20 @@ const MultiPointBurst: React.FC = () => {
     );
   };
 
+  /**
+   * 当用户点击“生成”按钮时触发。
+   * 它会获取选中的占位符及其范围，并调用辅助函数来生成所有组合的结果。
+   */
   const handleGenerateClick = () => {
     const selectedPlaceholders = placeholders.filter((p) => selectedPaths.includes(p.path));
     const output = generateCombinationsFromPlaceholders(template, selectedPlaceholders);
     setResult(output);
   };
 
+  /**
+   * 当用户点击“复制”按钮时触发。
+   * 将生成的结果复制到剪贴板。
+   */
   const handleCopyResult = () => {
     if (result) {
       navigator.clipboard.writeText(result).then(
@@ -240,6 +275,12 @@ const MultiPointBurst: React.FC = () => {
   );
 };
 
+/**
+ * “多点爆破”页面的顶层包裹组件。
+ * 主要作用是提供 Ant Design 的 `App` context，以便 `MultiPointBurst` 组件
+ * 可以使用 `message` 等全局提示功能。
+ * @returns {React.ReactElement} 包含 App Provider 的“多点爆破”页面。
+ */
 const MultiPointBurstPage = () => (
   <App>
     <MultiPointBurst />

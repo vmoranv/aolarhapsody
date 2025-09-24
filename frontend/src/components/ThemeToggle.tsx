@@ -1,11 +1,28 @@
+import React from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Moon, Sun } from 'lucide-react';
-import React from 'react';
 import { useTheme } from '../hooks/useTheme';
 
+/**
+ * @file ThemeToggle.tsx
+ * @description
+ * 一个用于在亮色和暗色主题之间切换的按钮组件。
+ * 它使用 `framer-motion` 库为主题图标的切换提供平滑的动画效果。
+ */
+
+/**
+ * 主题切换按钮组件。
+ * 点击时会调用 `useTheme` hook 提供的 `toggleTheme` 函数来改变全局主题。
+ * 图标（太阳/月亮）的切换伴随着旋转和淡入淡出的动画。
+ * @returns {React.ReactElement} 渲染的主题切换按钮。
+ */
 const ThemeToggle: React.FC = React.memo(() => {
   const { theme, colors, toggleTheme } = useTheme()!;
 
+  /**
+   * 定义了 framer-motion 使用的动画变体，
+   * 用于图标的进入、显示和退出动画。
+   */
   const iconVariants = {
     hidden: { opacity: 0, rotate: -90, scale: 0.8 },
     visible: { opacity: 1, rotate: 0, scale: 1 },

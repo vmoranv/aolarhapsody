@@ -1,8 +1,13 @@
 import express from 'express';
-import { getPetSkinById,getPetSkins } from '../dataparse/petskin';
+import { getPetSkinById, getPetSkins } from '../dataparse/petskin';
 
 const router = express.Router();
 
+/**
+ * @description 获取所有宠物皮肤的简化列表
+ * @route GET /petskins
+ * @returns {Array<{id: number, name: string}>} - 简化后的皮肤列表
+ */
 router.get('/petskins', (_req, res) => {
   try {
     const skins = getPetSkins();
@@ -17,6 +22,12 @@ router.get('/petskins', (_req, res) => {
   }
 });
 
+/**
+ * @description 根据 ID 获取指定的宠物皮肤的详细信息
+ * @route GET /petskins/:id
+ * @param {string} id - 皮肤的 ID
+ * @returns {object} - 皮肤的详细信息
+ */
 router.get('/petskins/:id', (req, res) => {
   try {
     const id = parseInt(req.params.id, 10);

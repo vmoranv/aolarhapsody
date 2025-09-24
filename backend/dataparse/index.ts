@@ -1,3 +1,9 @@
+/**
+ * @fileoverview
+ * This file serves as the entry point for all data parsing modules.
+ * It imports and initializes all data modules, and provides a function to reload all data.
+ */
+
 import { initAstralSpiritDataModule } from './astralspirit';
 import { initBuffModule } from './buff';
 import { initChatFrameModule } from './chatframe';
@@ -35,6 +41,9 @@ import { initToteModule } from './tote';
 
 export * from './converter';
 
+/**
+ * @description An array of all data module initializers.
+ */
 export const initializers = [
   initPosterModule,
   initPetExchangeDataModule,
@@ -72,6 +81,9 @@ export const initializers = [
   initPetSkinModule,
 ];
 
+/**
+ * @description Reloads all game data by calling all initializers.
+ */
 export const reloadData = async () => {
   try {
     await Promise.all(initializers.map((init) => init()));

@@ -1,3 +1,5 @@
+import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useQuery } from '@tanstack/react-query';
 import {
   Alert,
@@ -32,8 +34,6 @@ import {
   Swords,
   Zap,
 } from 'lucide-react';
-import React, { useState } from 'react';
-import { useTranslation } from 'react-i18next';
 // import toast from 'react-hot-toast';
 import Layout from '../components/Layout';
 import { fetchData } from '../utils/api';
@@ -42,7 +42,43 @@ const { Title, Paragraph, Text } = Typography;
 
 // 这些接口定义在运行时通过any类型处理，不需要具体的TypeScript接口定义
 
-// 数据配置
+/**
+ * @file Miscellaneous.tsx
+ * @description
+ * 这是一个"杂项"页面，用于展示和浏览各种游戏内的零散数据，
+ * 例如聊天框、服装、称号、头像框等。
+ * 同时，它也作为入口，链接到一些独立的功能性工具页面，如图片压缩器、经验计算器等。
+ * 页面通过可折叠的面板来分类展示数据，并显示每个分类的数据总数。
+ * 
+ * 页面主要功能：
+ * 1. 展示各种游戏数据（聊天框、服装、称号等）
+ * 2. 提供数据统计概览
+ * 3. 链接到专用工具页面（图片压缩器、角色分析器等）
+ * 
+ * 技术实现：
+ * - 使用React Query进行数据获取和状态管理
+ * - 使用Framer Motion实现页面动画效果
+ * - 使用Ant Design组件构建用户界面
+ * - 使用Lucide React图标库提供图标
+ */
+
+/**
+ * 获取所有杂项数据和工具的配置数组。
+ * 
+ * 该函数返回一个配置对象数组，每个对象定义了一种数据类型或工具的展示方式。
+ * 包括显示标题、图标、颜色主题、API端点和描述信息。
+ * 
+ * @param t - i18next的翻译函数，用于国际化文本显示
+ * @returns 返回一个包含所有数据/工具配置对象的数组。每个对象都定义了其唯一的key、标题、图标、颜色、API端点和描述。
+ * 
+ * 配置对象结构说明：
+ * - key: 唯一标识符，用于React列表渲染和状态管理
+ * - title: 显示标题，通过t函数进行国际化
+ * - icon: 图标组件，使用Lucide React图标
+ * - color: 主题颜色，用于图标和标签着色
+ * - endpoint: API端点路径，空字符串表示工具链接
+ * - description: 数据简要描述，通过t函数进行国际化
+ */
 const getDataConfigs = (t: (key: string) => string) => [
   {
     key: 'chatframes',
@@ -190,7 +226,23 @@ const getDataConfigs = (t: (key: string) => string) => [
   },
 ];
 
-// 数据展示组件
+/**
+ * 用于显示单个数据类别的组件
+ * 
+ * 该组件负责：
+ * 1. 处理数据加载状态显示
+ * 2. 处理数据加载错误显示
+ * 3. 渲染数据内容列表
+ * 4. 显示数据总数标签
+ * 5. 提供数据预览（前10条）
+ * 
+ * @param props - 组件属性
+ * @param props.config - 当前数据分区的配置对象
+ * @param props.data - 从API获取的数据数组
+ * @param props.loading - 指示数据是否正在加载的布尔值
+ * @param props.error - 加载数据时发生的错误对象
+ * @returns 渲染的数据分区或加载/错误状态
+ */
 const DataSection: React.FC<{
   config: ReturnType<typeof getDataConfigs>[0];
   data: any[];
@@ -198,8 +250,10 @@ const DataSection: React.FC<{
   error: any;
 }> = ({ config, data, loading, error }) => {
   const { t } = useTranslation('miscellaneous');
+  // 获取当前配置的图标组件
   const IconComponent = config.icon;
 
+  // 处理数据加载状态
   if (loading) {
     return (
       <Card
@@ -221,6 +275,7 @@ const DataSection: React.FC<{
     );
   }
 
+  // 处理错误状态
   if (error) {
     return (
       <Card
@@ -242,6 +297,7 @@ const DataSection: React.FC<{
     );
   }
 
+  // 渲染数据内容
   return (
     <Card
       title={
@@ -342,16 +398,37 @@ const DataSection: React.FC<{
   );
 };
 
+/**
+ * "杂项"页面的主组件
+ * 
+ * 该组件负责：
+ * 1. 获取并管理所有数据/工具的配置
+ * 2. 使用 React Query 为每个数据端点发起并行的数据请求
+ * 3. 渲染页面布局，包括标题、统计卡片和可折叠的数据面板
+ * 4. 管理折叠面板的展开/收起状态
+ * 5. 根据配置，为每个面板渲染对应的数据预览（使用 `DataSection`）或工具链接
+ * 
+ * 页面结构：
+ * - 页面标题区域（带动画效果）
+ * - 数据统计卡片区域（4个主要数据类别的数量统计）
+ * - 可折叠数据面板区域（所有数据类别和工具的详细展示）
+ * 
+ * @returns 渲染的杂项页面
+ */
 const Miscellaneous = () => {
   const { t } = useTranslation('miscellaneous');
+  // 控制折叠面板的展开状态
   const [activeKeys, setActiveKeys] = useState<string[]>(['chatframes']);
+  // 获取所有数据配置
   const dataConfigs = getDataConfigs(t);
 
   // 为每个数据类型创建查询
   const queries = dataConfigs.map((config) => {
+    // 对于工具类配置，不发起API请求
     if (!config.endpoint) {
       return { data: [], isLoading: false, error: null };
     }
+    // 使用React Query获取数据
     return useQuery({
       queryKey: [config.key],
       queryFn: () => fetchData(config.endpoint),
@@ -359,7 +436,11 @@ const Miscellaneous = () => {
     });
   });
 
-  // 处理面板变化
+  /**
+   * 处理面板展开/收起状态变化
+   * 
+   * @param keys - 当前展开的面板key数组或单个key
+   */
   const handlePanelChange = (keys: string | string[]) => {
     const newKeys = Array.isArray(keys) ? keys : [keys];
     setActiveKeys(newKeys);
