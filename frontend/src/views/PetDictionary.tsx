@@ -590,24 +590,28 @@ export default function PetDictionary() {
                     ))}
                   </div>
                 </Card>
-                <div className="skills-section">
-                  <div className="skills-header">
-                    <h3>{t('skills')}</h3>
-                    <div className="skill-toggle">
-                      <Space>
-                        <span>{t('old_version')}</span>
-                        <Switch
-                          checked={isNewSkillSet}
-                          onChange={handleSkillSetChange}
-                          checkedChildren={t('new_version')}
-                          unCheckedChildren={t('old_version')}
-                        />
-                        <span>{t('new_version')}</span>
-                      </Space>
-                    </div>
-                  </div>
-                  <Collapse items={skillItems} defaultActiveKey={['exclusive', 'common']} />
-                </div>
+                <Card
+                  title={t('skills')}
+                  style={{ marginTop: '20px' }}
+                  extra={
+                    <Space>
+                      <span>{t('old_version')}</span>
+                      <Switch
+                        checked={isNewSkillSet}
+                        onChange={handleSkillSetChange}
+                        checkedChildren={t('new_version')}
+                        unCheckedChildren={t('old_version')}
+                      />
+                      <span>{t('new_version')}</span>
+                    </Space>
+                  }
+                >
+                  <Collapse
+                    items={skillItems}
+                    defaultActiveKey={['exclusive', 'common']}
+                    bordered={false}
+                  />
+                </Card>
               </div>
             </div>
           </Card>
