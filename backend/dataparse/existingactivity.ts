@@ -51,6 +51,7 @@ export async function getExistingActivities(): Promise<ExistingActivity[]> {
 
     const scenes = result.config.scene || [];
     const activities: ExistingActivity[] = [];
+    const uniqueActivities = new Set<string>(); // 用于跟踪唯一的活动
 
     for (const scene of scenes) {
       const items = scene.item;
@@ -70,11 +71,18 @@ export async function getExistingActivities(): Promise<ExistingActivity[]> {
           item.action.res.$.file &&
           item.action.res.$.cls
         ) {
-          const activity: ExistingActivity = {
-            name: item.$.tips,
-            packet: `#activ='${item.action.res.$.file}','${item.action.res.$.cls}'`,
-          };
-          activities.push(activity);
+          const name = item.$.tips;
+          const packet = `#activ='${item.action.res.$.file}','${item.action.res.$.cls}'`;
+          const uniqueKey = `${name}|${packet}`;
+
+          if (!uniqueActivities.has(uniqueKey)) {
+            uniqueActivities.add(uniqueKey);
+            const activity: ExistingActivity = {
+              name,
+              packet,
+            };
+            activities.push(activity);
+          }
         }
       }
     }
