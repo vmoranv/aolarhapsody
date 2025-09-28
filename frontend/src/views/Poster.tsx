@@ -106,7 +106,7 @@ const PosterItem: React.FC<{ poster: Poster }> = ({ poster }) => {
                     color: 'white',
                   }}
                 >
-                  {t('preview')} // 预览文本
+                  {t('preview')}
                 </div>
               ),
             }}
@@ -122,7 +122,7 @@ const PosterItem: React.FC<{ poster: Poster }> = ({ poster }) => {
                   background: colors.fillSecondary, // 背景色
                 }}
               >
-                <ImageIcon size={48} color={colors.textSecondary} /> // 占位图标
+                <ImageIcon size={48} color={colors.textSecondary} />
               </div>
             }
           />
@@ -136,7 +136,7 @@ const PosterItem: React.FC<{ poster: Poster }> = ({ poster }) => {
             onClick={handleDownload} // 点击事件处理
             style={{ color: colors.textSecondary }} // 按钮样式
           >
-            {t('download')} // 下载文本
+            {t('download')}
           </Button>,
         ]}
       >
