@@ -1,21 +1,12 @@
-// 导入CopilotKit相关的hooks和组件
-// 导入React hooks
 import { useEffect } from 'react';
-// 导入React Router
 import { HashRouter } from 'react-router-dom';
 import { useCopilotAction, useCopilotReadable } from '@copilotkit/react-core';
 import { CopilotKitCSSProperties, CopilotSidebar } from '@copilotkit/react-ui';
-// 导入Ant Design组件和主题配置
 import { App as AntApp, ConfigProvider, theme } from 'antd';
-// 导入上下文提供者
 import { NotificationProvider } from '../contexts/NotificationContext';
-// 导入自定义hooks
 import { useTheme } from '../hooks/useTheme';
-// 导入路由配置
 import Router from '../router';
-// 导入状态管理
 import { useSettingStore } from '../store/setting';
-// 导入性能监控组件
 import PerformanceMonitor from './PerformanceMonitor';
 
 /**

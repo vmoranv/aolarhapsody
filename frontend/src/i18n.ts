@@ -1,9 +1,6 @@
-// 导入i18next核心库和相关插件
 import { initReactI18next } from 'react-i18next'; // React绑定插件
 import i18n from 'i18next'; // i18next核心
 import LanguageDetector from 'i18next-browser-languagedetector'; // 浏览器语言检测插件
-// --- 导入英文(en)语言资源文件 ---
-// 每个文件对应一个命名空间(namespace)，用于组织翻译内容
 import enAstralSpirit from './locales/en/astralSpirit.json';
 import enAttribute from './locales/en/attribute.json';
 import enBadwordCheck from './locales/en/badwordCheck.json';
@@ -28,7 +25,6 @@ import enPetExchange from './locales/en/petexchange.json';
 import enPmDataList from './locales/en/pmDataList.json';
 import enPoster from './locales/en/poster.json';
 import enTote from './locales/en/tote.json';
-// --- 导入中文(zh)语言资源文件 ---
 import zhAstralSpirit from './locales/zh/astralSpirit.json';
 import zhAttribute from './locales/zh/attribute.json';
 import zhBadwordCheck from './locales/zh/badwordCheck.json';
@@ -53,7 +49,6 @@ import zhPetExchange from './locales/zh/petexchange.json';
 import zhPmDataList from './locales/zh/pmDataList.json';
 import zhPoster from './locales/zh/poster.json';
 import zhTote from './locales/zh/tote.json';
-// 导入Zustand状态管理，用于获取kimi模式的状态
 import { useSettingStore } from './store/setting';
 
 /**

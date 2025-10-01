@@ -1,17 +1,13 @@
-// 导入React及相关库
 import { useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useCopilotAction, useCopilotReadable } from '@copilotkit/react-core';
 import { Spin, Typography } from 'antd';
 import { motion } from 'framer-motion';
-// 导入自定义组件
 import DataView from '../components/DataView';
 import ItemCard from '../components/ItemCard';
 import Layout from '../components/Layout';
 import { useSearchStore } from '../store/search';
-// 导入类型定义
 import type { PetCard2, PetCard2DescriptionsResponse, PetCard2Detail } from '../types/petCard2';
-// 导入API和图像帮助函数
 import { fetchDataItem } from '../utils/api';
 import { getPetCard2ImageUrl } from '../utils/image-helper';
 

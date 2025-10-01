@@ -1,5 +1,3 @@
-// --- 依赖导入 ---
-// 批量导入各个数据模块中定义的已知子类常量
 import { ASTRALSPIRIT_SUBCLASSES } from './astralspirit';
 import { CHATFRAME_SUBCLASSES } from './chatframe';
 import { CLOTHES_SUBCLASSES } from './clothes';
@@ -24,7 +22,6 @@ import { SUMMONER_SUBCLASSES } from './summoner';
 import { TASK_SUBCLASSES } from './task';
 import { TITLE_SUBCLASSES } from './title';
 import { TOTE_SUBCLASSES } from './tote';
-// 导入包含所有目标URL的配置对象
 import { URL_CONFIG } from './urlconfig';
 
 /**

@@ -120,6 +120,15 @@ export default function PetDictionary() {
     ],
     handler: async ({ query }) => {
       setSearchKeyword(query);
+      setShowSearchResults(true);
+
+      // 等待状态更新后触发搜索
+      setTimeout(() => {
+        const filteredPets = filterPets(pets, query, selectedAttribute);
+        if (filteredPets.length > 0) {
+          handleSelectPet(filteredPets[0]);
+        }
+      }, 100);
     },
   });
 
@@ -136,7 +145,19 @@ export default function PetDictionary() {
     ],
     handler: async ({ petName }) => {
       if (pets) {
-        const pet = pets.find((p) => p.name.includes(petName));
+        // 首先尝试精确匹配
+        let pet = pets.find((p) => p.name === petName);
+
+        // 如果没找到精确匹配，尝试模糊匹配
+        if (!pet) {
+          pet = pets.find((p) => p.name.toLowerCase().includes(petName.toLowerCase()));
+        }
+
+        // 如果还是没找到，尝试匹配ID
+        if (!pet) {
+          pet = pets.find((p) => p.id.toString() === petName);
+        }
+
         if (pet) {
           handleSelectPet(pet);
         }
@@ -246,44 +267,49 @@ export default function PetDictionary() {
   // --- Memos (Derived Data) ---
   // 根据搜索关键字和属性筛选，生成搜索结果选项
   const searchOptions = useMemo(() => {
-    const options = generateSearchOptions(pets, searchKeyword, selectedAttribute, filterPets);
-    return options.map(({ value, pet }) => ({
-      value,
-      pet,
-      label: (
-        // 自定义搜索结果的渲染
-        <div className="search-option" onClick={() => handleSelectPet(pet)}>
-          <img
-            src={getPetImageUrl(pet.id, 'small')}
-            alt={pet.name}
-            className="search-option-icon"
-            onError={(e) => {
-              (e.target as HTMLImageElement).style.display = 'none';
-            }}
-          />
-          <div className="search-option-info">
-            <span className="search-option-name">{pet.name}</span>
-            <span className="search-option-id">ID: {pet.id}</span>
+    // 当搜索关键词不为空或者通过属性筛选时才生成搜索选项
+    if ((searchKeyword && searchKeyword.trim() !== '') || selectedAttribute !== 'all') {
+      const options = generateSearchOptions(pets, searchKeyword, selectedAttribute, filterPets);
+      return options.map(({ value, pet }) => ({
+        value,
+        pet,
+        label: (
+          // 自定义搜索结果的渲染
+          <div className="search-option" onClick={() => handleSelectPet(pet)}>
+            <img
+              src={getPetImageUrl(pet.id, 'small')}
+              alt={pet.name}
+              className="search-option-icon"
+              onError={(e) => {
+                (e.target as HTMLImageElement).style.display = 'none';
+              }}
+            />
+            <div className="search-option-info">
+              <span className="search-option-name">{pet.name}</span>
+              <span className="search-option-id">ID: {pet.id}</span>
+            </div>
+            {pet.attribute1 && pet.attribute1 !== '0' && (
+              <div className="search-option-attribute">
+                <img
+                  src={getAttributeIconUrl(Number(pet.attribute1))}
+                  alt={getAttributeName(pet.attribute1, attributeNameMap)}
+                />
+              </div>
+            )}
+            {pet.attribute2 && pet.attribute2 !== '0' && pet.attribute1 !== pet.attribute2 && (
+              <div className="search-option-attribute">
+                <img
+                  src={getAttributeIconUrl(Number(pet.attribute2))}
+                  alt={getAttributeName(pet.attribute2, attributeNameMap)}
+                />
+              </div>
+            )}
           </div>
-          {pet.attribute1 && pet.attribute1 !== '0' && (
-            <div className="search-option-attribute">
-              <img
-                src={getAttributeIconUrl(Number(pet.attribute1))}
-                alt={getAttributeName(pet.attribute1, attributeNameMap)}
-              />
-            </div>
-          )}
-          {pet.attribute2 && pet.attribute2 !== '0' && pet.attribute1 !== pet.attribute2 && (
-            <div className="search-option-attribute">
-              <img
-                src={getAttributeIconUrl(Number(pet.attribute2))}
-                alt={getAttributeName(pet.attribute2, attributeNameMap)}
-              />
-            </div>
-          )}
-        </div>
-      ),
-    }));
+        ),
+      }));
+    }
+    // 当没有搜索关键词且没有属性筛选时，返回空数组
+    return [];
   }, [pets, searchKeyword, selectedAttribute, attributeNameMap, handleSelectPet, getAttributeName]);
 
   // 根据获取到的原始数据和图鉴数据，计算亚比的最终种族值

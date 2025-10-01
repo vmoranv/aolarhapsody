@@ -1,17 +1,14 @@
-// 导入React及相关库
 import { useState } from 'react'; // React hook
 import { Trans, useTranslation } from 'react-i18next'; // 国际化库
 import { useCopilotAction, useCopilotReadable } from '@copilotkit/react-core'; // CopilotKit
 import { Col, Divider, Row, Spin, Typography } from 'antd'; // Ant Design 组件
 import { motion } from 'framer-motion'; // 动画库
 import { Scroll } from 'lucide-react'; // 图标库
-// 导入自定义组件和类型
 import DataView from '../components/DataView'; // 数据展示视图组件
 import ItemCard from '../components/ItemCard'; // 项目卡片组件
 import Layout from '../components/Layout'; // 布局组件
 import { useSearchStore } from '../store/search';
 import type { Inscription } from '../types/inscription'; // 铭文类型定义
-// 导入工具函数
 import { fetchDataItem } from '../utils/api'; // API数据获取函数
 import { getInscriptionImageUrl } from '../utils/image-helper'; // 图片URL获取辅助函数
 

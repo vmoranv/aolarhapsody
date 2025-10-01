@@ -154,7 +154,8 @@ const Attribute = () => {
     ],
     handler: async ({ attributeName }) => {
       if (attributes) {
-        const attribute = attributes.find((attr) => attr.name === attributeName);
+        // 使用通用的属性匹配函数
+        const attribute = findAttributeByName(attributes, attributeName);
         if (attribute) {
           handleAttributeSelect(attribute.id);
         }
@@ -175,6 +176,204 @@ const Attribute = () => {
     ],
     handler: async ({ view }) => {
       setShowSuper(view === 'super');
+    },
+  });
+
+  /**
+   * 通过名称查找属性，支持模糊匹配和后缀处理
+   * @param attributes 属性列表
+   * @param attributeName 要查找的属性名称
+   * @returns 匹配的属性或undefined
+   */
+  const findAttributeByName = (
+    attributes: AttributeInfo[],
+    attributeName: string
+  ): AttributeInfo | undefined => {
+    // 1. 精确匹配
+    let attribute = attributes.find((attr) => attr.name === attributeName);
+    if (attribute) {
+      return attribute;
+    }
+
+    // 2. 特殊处理带"系"后缀的查询，避免匹配到子字符串
+    if (attributeName.endsWith('系')) {
+      // 不进行包含匹配，直接进入第3步处理"系"后缀
+    } else {
+      // 直接包含匹配（不带"系"后缀的常规查询）
+      attribute = attributes.find(
+        (attr) =>
+          (attr.name.includes(attributeName) && attr.name !== attributeName) ||
+          (attributeName.includes(attr.name) && attributeName !== attr.name)
+      );
+      if (attribute) {
+        return attribute;
+      }
+    }
+
+    // 3. 处理"系"后缀问题 - 如果用户查询包含"系"，尝试去掉"系"后再匹配
+    if (attributeName.endsWith('系')) {
+      const nameWithoutSuffix = attributeName.slice(0, -1); // 去掉"系"
+
+      // 对于"超王系"这类名称，优先匹配超系属性
+      if (attributeName.startsWith('超')) {
+        const superAttributes = attributes.filter((attr) => isSuperAttribute(attr.id));
+        // 精确匹配去掉"系"后缀的名称
+        attribute = superAttributes.find((attr) => attr.name === nameWithoutSuffix);
+        if (attribute) {
+          return attribute;
+        }
+
+        // 如果没有精确匹配，尝试完整名称匹配
+        attribute = superAttributes.find((attr) => attr.name === attributeName);
+        if (attribute) {
+          return attribute;
+        }
+      } else {
+        // 普通属性的匹配
+        attribute = attributes.find(
+          (attr) => attr.name === nameWithoutSuffix || attr.name.includes(nameWithoutSuffix)
+        );
+        if (attribute) {
+          return attribute;
+        }
+      }
+    }
+
+    // 4. 更宽松的匹配 - 去掉可能的后缀后匹配
+    const normalizedQuery = attributeName
+      .replace(/(系|属性)$/, '') // 去掉"系"或"属性"后缀
+      .trim();
+
+    if (normalizedQuery !== attributeName) {
+      // 优先匹配超系属性
+      if (attributeName.startsWith('超')) {
+        const superAttributes = attributes.filter((attr) => isSuperAttribute(attr.id));
+        attribute = superAttributes.find(
+          (attr) => attr.name.includes(normalizedQuery) || attr.name === normalizedQuery
+        );
+        if (attribute) {
+          return attribute;
+        }
+      }
+
+      // 再匹配普通属性
+      attribute = attributes.find(
+        (attr) => attr.name.includes(normalizedQuery) || attr.name === normalizedQuery
+      );
+      if (attribute) {
+        return attribute;
+      }
+    }
+
+    // 5. 如果查询以"超"开头，尝试在所有超系属性中查找
+    if (attributeName.startsWith('超')) {
+      const superAttributes = attributes.filter((attr) => isSuperAttribute(attr.id));
+      const queryWithoutChao = attributeName.substring(1); // 去掉"超"
+
+      // 首先尝试精确匹配去掉"超"后的名称
+      attribute = superAttributes.find((attr) => attr.name === queryWithoutChao);
+      if (attribute) {
+        return attribute;
+      }
+
+      // 然后尝试匹配完整名称
+      attribute = superAttributes.find((attr) => attr.name === attributeName);
+      if (attribute) {
+        return attribute;
+      }
+
+      // 再尝试匹配去掉"系"后缀的名称
+      if (attributeName.endsWith('系')) {
+        const nameWithoutSuffix = attributeName.slice(0, -1);
+        attribute = superAttributes.find((attr) => attr.name === nameWithoutSuffix);
+        if (attribute) {
+          return attribute;
+        }
+      }
+
+      // 最后尝试包含匹配
+      attribute = superAttributes.find(
+        (attr) =>
+          attr.name.includes(queryWithoutChao) ||
+          attr.name.replace('超', '').includes(queryWithoutChao) ||
+          queryWithoutChao.includes(attr.name.replace('超', ''))
+      );
+      if (attribute) {
+        return attribute;
+      }
+    }
+
+    return attribute;
+  };
+
+  useCopilotAction({
+    name: 'getAttributeAdvantages',
+    description: '获取指定属性的克制关系信息',
+    parameters: [
+      {
+        name: 'attributeName',
+        type: 'string',
+        description: '要查询克制关系的属性名称',
+      },
+    ],
+    handler: async ({ attributeName }) => {
+      if (attributes) {
+        // 使用通用的属性匹配函数
+        const attribute = findAttributeByName(attributes, attributeName);
+
+        if (attribute) {
+          handleAttributeSelect(attribute.id);
+          setShowSuper(isSuperAttribute(attribute.id));
+
+          // 获取该属性的克制关系
+          const attributeRelations = await fetchAttributeRelations(attribute.id);
+
+          // 分析克制关系并生成自然语言描述
+          const strongRelations: string[] = [];
+          const superRelations: string[] = [];
+          const weakRelations: string[] = [];
+
+          Object.entries(attributeRelations).forEach(([targetId, value]) => {
+            const damage = parseRelation(value);
+            const id = parseInt(targetId, 10);
+            const targetAttr = attributes.find((attr) => attr.id === id);
+            if (!targetAttr) return;
+
+            switch (damage) {
+              case 2: {
+                strongRelations.push(targetAttr.name);
+                break;
+              }
+              case 3: {
+                superRelations.push(targetAttr.name);
+                break;
+              }
+              case 0.5: {
+                weakRelations.push(targetAttr.name);
+                break;
+              }
+            }
+          });
+
+          let response = '';
+          if (superRelations.length > 0) {
+            response += `${attribute.name}绝对克制${superRelations.join('、')}。`;
+          }
+          if (strongRelations.length > 0) {
+            response += `${attribute.name}克制${strongRelations.join('、')}。`;
+          }
+          if (weakRelations.length > 0) {
+            response += `${attribute.name}被${weakRelations.join('、')}所克制。`;
+          }
+          if (response === '') {
+            response = `${attribute.name}没有明显的克制面。`;
+          }
+
+          return response;
+        } else {
+          return `我无法找到"${attributeName}"的克制关系。请确认您输入的属性名称是否正确。`;
+        }
+      }
     },
   });
 

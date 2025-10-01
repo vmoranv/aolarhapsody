@@ -330,8 +330,10 @@ export const filterPets = (
   searchKeyword: string,
   selectedAttribute: string
 ): PetListItem[] => {
+  // 修改条件，即使没有搜索关键词也要返回结果（特别是通过CopilotKit调用时）
   if (!searchKeyword && selectedAttribute === 'all') {
-    return [];
+    // 当没有搜索关键词和属性筛选时，返回前10个宠物
+    return pets.slice(0, 10);
   }
 
   let filteredPets = pets;
@@ -351,7 +353,7 @@ export const filterPets = (
     );
   }
 
-  return filteredPets.slice(0, 5);
+  return filteredPets.slice(0, 10);
 };
 
 export const fetchPetCardSets = async () => {

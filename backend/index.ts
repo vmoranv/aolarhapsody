@@ -1,4 +1,3 @@
-// 导入必要的模块
 import cors from 'cors';
 import dotenv from 'dotenv';
 import express, { Express, Request, Response } from 'express';
