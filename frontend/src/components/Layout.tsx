@@ -30,7 +30,7 @@ const { Header, Sider, Content } = AntLayout;
  */
 
 /**
- * 布局组件的属性接口。
+ * 布图组件的属性接口。
  */
 interface LayoutProps {
   /**
@@ -182,6 +182,111 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       } else {
         return `God Card with name "${name}" not found.`;
       }
+    },
+  });
+
+  // 定义通用导航操作
+  useCopilotAction({
+    name: 'navigateToAttributePage',
+    description: 'Navigate to the attribute克制关系 page',
+    handler: async () => {
+      navigate('/app/attribute');
+    },
+  });
+
+  useCopilotAction({
+    name: 'navigateToPetDictionary',
+    description: 'Navigate to the pet dictionary page',
+    handler: async () => {
+      navigate('/app/pets');
+    },
+  });
+
+  useCopilotAction({
+    name: 'navigateToAstralSpirit',
+    description: 'Navigate to the astral spirit page',
+    handler: async () => {
+      navigate('/app/astralspirit');
+    },
+  });
+
+  useCopilotAction({
+    name: 'navigateToCrystalKey',
+    description: 'Navigate to the crystal key page',
+    handler: async () => {
+      navigate('/app/crystalkey');
+    },
+  });
+
+  useCopilotAction({
+    name: 'navigateToGodCard',
+    description: 'Navigate to the god card page',
+    handler: async () => {
+      navigate('/app/godcard');
+    },
+  });
+
+  useCopilotAction({
+    name: 'navigateToHK',
+    description: 'Navigate to the HK (魂卡) page',
+    handler: async () => {
+      navigate('/app/hk');
+    },
+  });
+
+  useCopilotAction({
+    name: 'navigateToInscription',
+    description: 'Navigate to the inscription page',
+    handler: async () => {
+      navigate('/app/inscription');
+    },
+  });
+
+  useCopilotAction({
+    name: 'navigateToPetCard',
+    description: 'Navigate to the pet card page',
+    handler: async () => {
+      navigate('/app/petcard');
+    },
+  });
+
+  useCopilotAction({
+    name: 'navigateToPetCard2',
+    description: 'Navigate to the pet card 2 page',
+    handler: async () => {
+      navigate('/app/petcard2');
+    },
+  });
+
+  useCopilotAction({
+    name: 'navigateToTote',
+    description: 'Navigate to the tote page',
+    handler: async () => {
+      navigate('/app/tote');
+    },
+  });
+
+  useCopilotAction({
+    name: 'navigateToExistingPackets',
+    description: 'Navigate to the existing packets page',
+    handler: async () => {
+      navigate('/app/existing-packets');
+    },
+  });
+
+  useCopilotAction({
+    name: 'navigateToPoster',
+    description: 'Navigate to the poster page',
+    handler: async () => {
+      navigate('/app/miscellaneous/poster');
+    },
+  });
+
+  useCopilotAction({
+    name: 'navigateToDamageCalculator',
+    description: 'Navigate to the damage calculator page',
+    handler: async () => {
+      navigate('/app/packet-analysis/damage-calculator');
     },
   });
 

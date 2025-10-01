@@ -19,6 +19,7 @@
  */
 import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useCopilotAction } from '@copilotkit/react-core';
 import { Button, Card, Space, Typography } from 'antd';
 import {
   Chart,
@@ -99,6 +100,36 @@ const CharacterAnalyzer: React.FC = () => {
     { key: 'special_defense', label: t('special_defense') },
     { key: 'speed', label: t('speed') },
   ];
+
+  useCopilotAction({
+    name: 'analyzeCharacter',
+    description: '分析亚比性格',
+    parameters: [
+      {
+        name: 'increaseAttribute',
+        type: 'string',
+        description: '要提升的属性',
+        enum: attributes.map((attr) => attr.label),
+      },
+      {
+        name: 'decreaseAttribute',
+        type: 'string',
+        description: '要降低的属性',
+        enum: attributes.map((attr) => attr.label),
+      },
+    ],
+    handler: async ({ increaseAttribute, decreaseAttribute }) => {
+      const increaseAttr = attributes.find((attr) => attr.label === increaseAttribute);
+      const decreaseAttr = attributes.find((attr) => attr.label === decreaseAttribute);
+
+      if (increaseAttr) {
+        handleAttributeSelect(increaseAttr, 'increase');
+      }
+      if (decreaseAttr) {
+        handleAttributeSelect(decreaseAttr, 'decrease');
+      }
+    },
+  });
 
   /**
    * @description 处理用户选择提升或降低的属性。

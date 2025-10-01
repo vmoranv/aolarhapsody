@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
+import { useCopilotAction, useCopilotReadable } from '@copilotkit/react-core';
 import { useQuery } from '@tanstack/react-query';
 import { App, Button, Empty, List, Pagination, Space, Typography } from 'antd';
 import zhCN from 'antd/es/locale/zh_CN';
@@ -143,7 +144,7 @@ const ExistingPacketsContent = () => {
   const { t } = useTranslation(['existingPackets', 'common']);
   const { colors } = useTheme()!;
   // 获取全局搜索状态管理
-  const { searchValue, setResultCount } = useSearchStore();
+  const { searchValue, setResultCount, setSearchValue } = useSearchStore();
   // 当前页码状态
   const [currentPage, setCurrentPage] = useState(1);
   // 每页显示的数据条数
@@ -158,6 +159,27 @@ const ExistingPacketsContent = () => {
   } = useQuery({
     queryKey: ['existing-packets'],
     queryFn: () => fetchData<ExistingPacket>('existing-activities'),
+  });
+
+  // 添加 CopilotKit 操作
+  useCopilotReadable({
+    description: '当前封包页面搜索状态',
+    value: `当前搜索关键词: ${searchValue}`,
+  });
+
+  useCopilotAction({
+    name: 'searchPackets',
+    description: '搜索现有封包',
+    parameters: [
+      {
+        name: 'query',
+        type: 'string',
+        description: '搜索关键词',
+      },
+    ],
+    handler: async ({ query }) => {
+      setSearchValue(query);
+    },
   });
 
   // 筛选和搜索逻辑 - 根据搜索关键词过滤封包数据

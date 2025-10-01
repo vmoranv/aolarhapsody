@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
+import { useCopilotAction, useCopilotReadable } from '@copilotkit/react-core';
 import { useQuery } from '@tanstack/react-query';
 import { Col, Divider, Row, Spin, Tag, Typography } from 'antd';
 import { motion } from 'framer-motion';
@@ -7,6 +8,7 @@ import { Sword } from 'lucide-react';
 import DataView from '../components/DataView';
 import ItemCard from '../components/ItemCard';
 import Layout from '../components/Layout';
+import { useSearchStore } from '../store/search';
 import type { GodCard, GodCardSuit } from '../types/godcard';
 import { fetchData, fetchDataItem } from '../utils/api';
 import { getGodCardImageUrl, getGodCardSuitImageUrl } from '../utils/image-helper';
@@ -19,6 +21,7 @@ const { Title, Paragraph, Text } = Typography;
  */
 const GodCardPage = () => {
   const { t } = useTranslation('godCard');
+  const { setSearchValue, setFilterType } = useSearchStore();
 
   /**
    * @description 视图模式状态，'cards' 为卡牌视图，'suits' 为套装视图
@@ -52,6 +55,84 @@ const GodCardPage = () => {
       setIsLoading(false);
     }
   };
+
+  // 添加 CopilotKit 操作
+  useCopilotReadable({
+    description: '当前神兵页面视图模式',
+    value: `当前正在查看${viewMode === 'cards' ? '神兵' : '套装'}`,
+  });
+
+  useCopilotAction({
+    name: 'searchGodCards',
+    description: '在神兵或套装中搜索',
+    parameters: [
+      {
+        name: 'query',
+        type: 'string',
+        description: '要搜索的关键词',
+      },
+    ],
+    handler: async ({ query }) => {
+      setSearchValue(query);
+    },
+  });
+
+  useCopilotAction({
+    name: 'filterGodCards',
+    description: '筛选神兵或套装',
+    parameters: [
+      {
+        name: 'filterType',
+        type: 'string',
+        description: '筛选类型',
+        enum: ['all', 'super', 'normal'],
+      },
+    ],
+    handler: async ({ filterType }) => {
+      setFilterType(filterType);
+    },
+  });
+
+  useCopilotAction({
+    name: 'toggleGodCardView',
+    description: '切换神兵或套装视图',
+    parameters: [
+      {
+        name: 'view',
+        type: 'string',
+        description: '要切换到的视图',
+        enum: ['cards', 'suits'],
+      },
+    ],
+    handler: async ({ view }) => {
+      setViewMode(view);
+    },
+  });
+
+  useCopilotAction({
+    name: 'showGodCardDetails',
+    description: '显示特定神兵或套装的详细信息',
+    parameters: [
+      {
+        name: 'name',
+        type: 'string',
+        description: '要显示详细信息的神兵或套装名称',
+        required: true,
+      },
+    ],
+    handler: async ({ name }) => {
+      if (viewMode === 'cards') {
+        const allCards = await fetchData<GodCard>('godcards');
+        const card = allCards.find((card) => card.name.toLowerCase().includes(name.toLowerCase()));
+        if (card) {
+          handleCardClick(card);
+        }
+      } else {
+        // 对于套装视图，需要实现相应的搜索逻辑
+        // console.log(`Searching for suit with name: ${name}`);
+      }
+    },
+  });
 
   /**
    * @description 获取所有神兵卡牌数据
@@ -116,6 +197,7 @@ const GodCardPage = () => {
             />
           )}
           <div style={{ flex: 1 }}>
+            <Paragraph>{card.desc}</Paragraph>
             <Divider />
             <Row gutter={[16, 16]}>
               <Col span={8}>

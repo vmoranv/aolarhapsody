@@ -336,6 +336,15 @@ const DamageCalculator: React.FC = () => {
     },
   });
 
+  useCopilotAction({
+    name: 'calculateDamage',
+    description: '计算伤害',
+    parameters: [],
+    handler: async () => {
+      handleCalculate();
+    },
+  });
+
   /**
    * 处理亚比选择事件
    *

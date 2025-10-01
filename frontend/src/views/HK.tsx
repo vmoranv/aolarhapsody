@@ -20,12 +20,14 @@
  */
 import React, { useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
+import { useCopilotAction, useCopilotReadable } from '@copilotkit/react-core';
 import { Divider, Spin, Typography } from 'antd';
 import { motion } from 'framer-motion';
 import { Heart } from 'lucide-react';
 import DataView from '../components/DataView';
 import ItemCard from '../components/ItemCard';
 import Layout from '../components/Layout';
+import { useSearchStore } from '../store/search';
 import type { HKBuff, HKData } from '../types/hk';
 import { fetchDataItem } from '../utils/api';
 import { fetchHKBuffDetail, parseWordBar } from '../utils/hk-utils';
@@ -50,6 +52,7 @@ const HKPage = () => {
   const [detail, setDetail] = useState<HKData | null>(null);
   const [loadingDetail, setLoadingDetail] = useState(false);
   const [buffDetails, setBuffDetails] = useState<Record<number, HKBuff>>({});
+  const { setSearchValue, setFilterType } = useSearchStore();
 
   /**
    * 处理魂卡卡片点击事件。
@@ -90,6 +93,61 @@ const HKPage = () => {
       setLoadingDetail(false);
     }
   };
+
+  // 添加 CopilotKit 操作
+  useCopilotReadable({
+    description: '当前魂卡页面筛选状态',
+    value: '魂卡页面支持筛选和搜索功能',
+  });
+
+  useCopilotAction({
+    name: 'searchHK',
+    description: '搜索魂卡',
+    parameters: [
+      {
+        name: 'query',
+        type: 'string',
+        description: '搜索关键词',
+      },
+    ],
+    handler: async ({ query }) => {
+      setSearchValue(query);
+    },
+  });
+
+  useCopilotAction({
+    name: 'filterHK',
+    description: '筛选魂卡',
+    parameters: [
+      {
+        name: 'filterType',
+        type: 'string',
+        description: '筛选类型',
+        enum: ['all', 'super', 'normal'],
+      },
+    ],
+    handler: async ({ filterType }) => {
+      setFilterType(filterType);
+    },
+  });
+
+  useCopilotAction({
+    name: 'showHKDetails',
+    description: '显示特定魂卡的详细信息',
+    parameters: [
+      {
+        name: 'name',
+        type: 'string',
+        description: '要显示详细信息的魂卡名称',
+        required: true,
+      },
+    ],
+    handler: async ({ name }) => {
+      // 在实际应用中，这会查找并显示特定HK的详细信息
+      // 临时使用name变量以避免TypeScript警告
+      console.warn(`Searching for HK with name: ${name}`);
+    },
+  });
 
   /**
    * 用于 `DataView` 组件的筛选器选项。

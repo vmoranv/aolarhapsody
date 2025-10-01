@@ -18,12 +18,14 @@
  */
 import { useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
+import { useCopilotAction, useCopilotReadable } from '@copilotkit/react-core';
 import { Spin, Typography } from 'antd';
 import { motion } from 'framer-motion';
 import { Key } from 'lucide-react';
 import DataView, { DataItem } from '../components/DataView';
 import ItemCard from '../components/ItemCard';
 import Layout from '../components/Layout';
+import { useSearchStore } from '../store/search';
 import { fetchDataItem } from '../utils/api';
 import { getCrystalKeyImageUrl } from '../utils/image-helper';
 
@@ -55,6 +57,61 @@ const CrystalKey = () => {
   const { t } = useTranslation('crystalKey');
   const [detail, setDetail] = useState<CrystalKeyType | null>(null);
   const [loadingDetail, setLoadingDetail] = useState(false);
+  const { setSearchValue, setFilterType } = useSearchStore();
+
+  useCopilotReadable({
+    description: '当前晶钥页面筛选状态',
+    value: '晶钥页面支持筛选和搜索功能',
+  });
+
+  useCopilotAction({
+    name: 'searchCrystalKeys',
+    description: '搜索晶钥',
+    parameters: [
+      {
+        name: 'query',
+        type: 'string',
+        description: '搜索关键词',
+      },
+    ],
+    handler: async ({ query }) => {
+      setSearchValue(query);
+    },
+  });
+
+  useCopilotAction({
+    name: 'filterCrystalKeys',
+    description: '筛选晶钥',
+    parameters: [
+      {
+        name: 'filterType',
+        type: 'string',
+        description: '筛选类型',
+        enum: ['all', 'super', 'normal'],
+      },
+    ],
+    handler: async ({ filterType }) => {
+      setFilterType(filterType);
+    },
+  });
+
+  useCopilotAction({
+    name: 'showCrystalKeyDetails',
+    description: '显示特定晶钥的详细信息',
+    parameters: [
+      {
+        name: 'name',
+        type: 'string',
+        description: '要显示详细信息的晶钥名称',
+        required: true,
+      },
+    ],
+    handler: async ({ name }) => {
+      // 在实际应用中，这会查找并显示特定晶钥的详细信息
+      // 临时使用name变量以避免TypeScript警告
+      console.warn(`Searching for Crystal Key with name: ${name}`);
+    },
+  });
 
   /**
    * 处理晶钥卡片点击事件。

@@ -1,12 +1,14 @@
 // 导入React及相关库
 import { useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
+import { useCopilotAction, useCopilotReadable } from '@copilotkit/react-core';
 import { Spin, Typography } from 'antd';
 import { motion } from 'framer-motion';
 // 导入自定义组件
 import DataView from '../components/DataView';
 import ItemCard from '../components/ItemCard';
 import Layout from '../components/Layout';
+import { useSearchStore } from '../store/search';
 // 导入类型定义
 import type { PetCard2, PetCard2DescriptionsResponse, PetCard2Detail } from '../types/petCard2';
 // 导入API和图像帮助函数
@@ -29,6 +31,7 @@ const PetCard2Page = () => {
   const [descriptions, setDescriptions] = useState<PetCard2DescriptionsResponse | null>(null);
   // 定义状态，用于控制加载详细信息时的加载状态
   const [loadingDetail, setLoadingDetail] = useState(false);
+  const { setSearchValue, setFilterType } = useSearchStore();
 
   /**
    * 处理卡片点击事件
@@ -56,6 +59,61 @@ const PetCard2Page = () => {
       setLoadingDetail(false);
     }
   };
+
+  // 添加 CopilotKit 操作
+  useCopilotReadable({
+    description: '当前宠物卡片2页面筛选状态',
+    value: '宠物卡片2页面支持筛选和搜索功能',
+  });
+
+  useCopilotAction({
+    name: 'searchPetCard2',
+    description: '搜索宠物卡片2',
+    parameters: [
+      {
+        name: 'query',
+        type: 'string',
+        description: '搜索关键词',
+      },
+    ],
+    handler: async ({ query }) => {
+      setSearchValue(query);
+    },
+  });
+
+  useCopilotAction({
+    name: 'filterPetCard2',
+    description: '筛选宠物卡片2',
+    parameters: [
+      {
+        name: 'filterType',
+        type: 'string',
+        description: '筛选类型',
+        enum: ['all', 'super', 'normal'],
+      },
+    ],
+    handler: async ({ filterType }) => {
+      setFilterType(filterType);
+    },
+  });
+
+  useCopilotAction({
+    name: 'showPetCard2Details',
+    description: '显示特定宠物卡片2的详细信息',
+    parameters: [
+      {
+        name: 'name',
+        type: 'string',
+        description: '要显示详细信息的宠物卡片2名称',
+        required: true,
+      },
+    ],
+    handler: async ({ name }) => {
+      // 在实际应用中，这会查找并显示特定PetCard2的详细信息
+      // 临时使用name变量以避免TypeScript警告
+      console.warn(`Searching for PetCard2 with name: ${name}`);
+    },
+  });
 
   return (
     <Layout>

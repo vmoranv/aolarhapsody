@@ -1,6 +1,7 @@
 // 导入React及相关库
 import { useState } from 'react'; // React hook
 import { Trans, useTranslation } from 'react-i18next'; // 国际化库
+import { useCopilotAction, useCopilotReadable } from '@copilotkit/react-core'; // CopilotKit
 import { Col, Divider, Row, Spin, Typography } from 'antd'; // Ant Design 组件
 import { motion } from 'framer-motion'; // 动画库
 import { Scroll } from 'lucide-react'; // 图标库
@@ -8,6 +9,7 @@ import { Scroll } from 'lucide-react'; // 图标库
 import DataView from '../components/DataView'; // 数据展示视图组件
 import ItemCard from '../components/ItemCard'; // 项目卡片组件
 import Layout from '../components/Layout'; // 布局组件
+import { useSearchStore } from '../store/search';
 import type { Inscription } from '../types/inscription'; // 铭文类型定义
 // 导入工具函数
 import { fetchDataItem } from '../utils/api'; // API数据获取函数
@@ -29,6 +31,7 @@ const InscriptionPage = () => {
   const [detail, setDetail] = useState<Inscription | null>(null);
   // 定义状态，用于控制加载铭文详情时的加载动画
   const [loadingDetail, setLoadingDetail] = useState(false);
+  const { setSearchValue, setFilterType } = useSearchStore();
 
   /**
    * @description 处理铭文卡片点击事件。
@@ -48,6 +51,61 @@ const InscriptionPage = () => {
       setLoadingDetail(false); // 加载结束，隐藏加载动画
     }
   };
+
+  // 添加 CopilotKit 操作
+  useCopilotReadable({
+    description: '当前铭文页面筛选状态',
+    value: '铭文页面支持筛选和搜索功能',
+  });
+
+  useCopilotAction({
+    name: 'searchInscriptions',
+    description: '搜索铭文',
+    parameters: [
+      {
+        name: 'query',
+        type: 'string',
+        description: '搜索关键词',
+      },
+    ],
+    handler: async ({ query }) => {
+      setSearchValue(query);
+    },
+  });
+
+  useCopilotAction({
+    name: 'filterInscriptions',
+    description: '筛选铭文',
+    parameters: [
+      {
+        name: 'filterType',
+        type: 'string',
+        description: '筛选类型',
+        enum: ['all', 'super', 'normal'],
+      },
+    ],
+    handler: async ({ filterType }) => {
+      setFilterType(filterType);
+    },
+  });
+
+  useCopilotAction({
+    name: 'showInscriptionDetails',
+    description: '显示特定铭文的详细信息',
+    parameters: [
+      {
+        name: 'name',
+        type: 'string',
+        description: '要显示详细信息的铭文名称',
+        required: true,
+      },
+    ],
+    handler: async ({ name }) => {
+      // 在实际应用中，这会查找并显示特定铭文的详细信息
+      // 临时使用name变量以避免TypeScript警告
+      console.warn(`Searching for Inscription with name: ${name}`);
+    },
+  });
 
   // 定义筛选选项，用于DataView组件的过滤器
   const filterOptions = [

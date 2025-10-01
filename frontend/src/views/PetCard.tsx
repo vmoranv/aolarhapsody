@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
+import { useCopilotAction, useCopilotReadable } from '@copilotkit/react-core';
 import { useQuery } from '@tanstack/react-query';
 import { Col, Divider, Row, Spin, Switch, Tag, Typography } from 'antd';
 import { motion } from 'framer-motion';
@@ -7,7 +8,8 @@ import { Crown, Shield, Zap } from 'lucide-react';
 import DataView from '../components/DataView';
 import ItemCard from '../components/ItemCard';
 import Layout from '../components/Layout';
-import type { PetCard, PetCardSuit } from '../types/petCard';
+import { useSearchStore } from '../store/search';
+import type { PetCard, PetCardSuit } from '../types/petCard.ts';
 import { fetchData, fetchDataItem } from '../utils/api';
 import { getPetCardImageUrl } from '../utils/image-helper';
 
@@ -84,6 +86,7 @@ const { Title, Paragraph, Text } = Typography;
  */
 const PetCardPage = () => {
   const { t } = useTranslation('petCard');
+  const { setSearchValue, setFilterType } = useSearchStore();
 
   // 视图模式：'cards' 表示卡片视图，'suits' 表示套装视图
   const [viewMode, setViewMode] = useState<'cards' | 'suits'>('cards');
@@ -102,6 +105,76 @@ const PetCardPage = () => {
 
   // 套装技能组显示模式：true表示新技能组，false表示旧技能组
   const [isNewSkillGroup, setIsNewSkillGroup] = useState(false);
+
+  useCopilotReadable({
+    description: '当前宠物卡片页面视图模式',
+    value: `当前正在查看${viewMode === 'cards' ? '宠物卡片' : '套装'}`,
+  });
+
+  useCopilotAction({
+    name: 'searchPetCards',
+    description: '在宠物卡片或套装中搜索',
+    parameters: [
+      {
+        name: 'query',
+        type: 'string',
+        description: '要搜索的关键词',
+      },
+    ],
+    handler: async ({ query }) => {
+      setSearchValue(query);
+    },
+  });
+
+  useCopilotAction({
+    name: 'filterPetCards',
+    description: '筛选宠物卡片或套装',
+    parameters: [
+      {
+        name: 'filterType',
+        type: 'string',
+        description: '筛选类型',
+        enum: ['all', 'super', 'normal'],
+      },
+    ],
+    handler: async ({ filterType }) => {
+      setFilterType(filterType);
+    },
+  });
+
+  useCopilotAction({
+    name: 'togglePetCardView',
+    description: '切换宠物卡片或套装视图',
+    parameters: [
+      {
+        name: 'view',
+        type: 'string',
+        description: '要切换到的视图',
+        enum: ['cards', 'suits'],
+      },
+    ],
+    handler: async ({ view }) => {
+      setViewMode(view);
+    },
+  });
+
+  useCopilotAction({
+    name: 'showPetCardDetails',
+    description: '显示特定宠物卡片或套装的详细信息',
+    parameters: [
+      {
+        name: 'name',
+        type: 'string',
+        description: '要显示详细信息的宠物卡片或套装名称',
+        required: true,
+      },
+    ],
+    handler: async ({ name }) => {
+      // 在实际应用中，这会查找并显示特定宠物卡片或套装的详细信息
+      // 临时使用name变量以避免TypeScript警告
+      console.warn(`Searching for Pet Card or Suit with name: ${name}`);
+    },
+  });
 
   /**
    * 处理卡片点击事件：获取并显示卡片的详细信息
@@ -487,7 +560,7 @@ const PetCardPage = () => {
                       {' '}
                       {/* 为右上角的Switch留出空间 */}
                       {(isNewSkillGroup ? suitDetail.newTipsArr0 || [] : suitDetail.dec || []).map(
-                        (desc, index) => (
+                        (desc: string, index: number) => (
                           <div key={index} style={{ margin: '4px 0' }}>
                             {desc && <Tag>{index + 1}/4</Tag>} {parseDescription(desc)}
                           </div>

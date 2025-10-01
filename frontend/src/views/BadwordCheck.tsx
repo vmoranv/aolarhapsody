@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useCopilotAction } from '@copilotkit/react-core';
 import { Alert, App, Button, Card, Col, Input, Row, Spin, Typography } from 'antd';
 import { Search } from 'lucide-react';
 import Layout from '../components/Layout';
@@ -26,6 +27,22 @@ const BadwordCheck: React.FC = () => {
   const [result, setResult] = useState<{ isIllegal: boolean } | null>(null);
   // 存储API请求或处理过程中发生的错误信息
   const [error, setError] = useState<string | null>(null);
+
+  useCopilotAction({
+    name: 'checkBadWord',
+    description: '检查文本是否包含敏感词',
+    parameters: [
+      {
+        name: 'text',
+        type: 'string',
+        description: '要检查的文本',
+      },
+    ],
+    handler: async ({ text }) => {
+      setText(text);
+      await handleCheck();
+    },
+  });
 
   /**
    * @description 处理“检查”按钮的点击事件。

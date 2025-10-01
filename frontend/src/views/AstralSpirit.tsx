@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
+import { useCopilotAction, useCopilotReadable } from '@copilotkit/react-core';
 import { Col, Divider, Row, Spin, Tag, Typography } from 'antd';
 import { motion } from 'framer-motion';
 import { Crown, Zap } from 'lucide-react';
 import DataView from '../components/DataView';
 import ItemCard from '../components/ItemCard';
 import Layout from '../components/Layout';
+import { useSearchStore } from '../store/search';
 import type { AstralSpirit, AstralSpiritSuit } from '../types/astralSpirit';
 import { fetchDataItem } from '../utils/api';
 import { getAstralSpiritImageUrl, getAstralSpiritSuitImageUrl } from '../utils/image-helper';
@@ -32,6 +34,59 @@ const AstralSpiritPage: React.FC = () => {
    * @description 视图模式状态，'spirits' 为星灵视图，'suits' 为套装视图
    */
   const [viewMode, setViewMode] = useState<'spirits' | 'suits'>('spirits');
+  const { setSearchValue, setFilterType } = useSearchStore();
+
+  useCopilotReadable({
+    description: '当前星灵页面视图模式',
+    value: `当前正在查看${viewMode === 'spirits' ? '星灵' : '套装'}`,
+  });
+
+  useCopilotAction({
+    name: 'searchAstralSpirits',
+    description: '在星灵或套装中搜索',
+    parameters: [
+      {
+        name: 'query',
+        type: 'string',
+        description: '要搜索的关键词',
+      },
+    ],
+    handler: async ({ query }) => {
+      setSearchValue(query);
+    },
+  });
+
+  useCopilotAction({
+    name: 'filterAstralSpirits',
+    description: '筛选星灵或套装',
+    parameters: [
+      {
+        name: 'filterType',
+        type: 'string',
+        description: '筛选类型',
+        enum: ['all', 'super', 'normal'],
+      },
+    ],
+    handler: async ({ filterType }) => {
+      setFilterType(filterType);
+    },
+  });
+
+  useCopilotAction({
+    name: 'toggleAstralSpiritView',
+    description: '切换星灵或套装视图',
+    parameters: [
+      {
+        name: 'view',
+        type: 'string',
+        description: '要切换到的视图',
+        enum: ['spirits', 'suits'],
+      },
+    ],
+    handler: async ({ view }) => {
+      setViewMode(view);
+    },
+  });
 
   /**
    * @description 详情弹窗中显示的星灵或套装数据

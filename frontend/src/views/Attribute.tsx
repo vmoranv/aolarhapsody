@@ -9,6 +9,7 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useCopilotAction, useCopilotReadable } from '@copilotkit/react-core';
 import { useQuery } from '@tanstack/react-query';
 import { Card, Empty, Space, Typography } from 'antd';
 import { motion } from 'framer-motion';
@@ -134,6 +135,47 @@ const Attribute = () => {
   } = useQuery({
     queryKey: ['attributes'],
     queryFn: fetchAttributes,
+  });
+
+  useCopilotReadable({
+    description: '当前属性克制页面视图',
+    value: `正在查看${showSuper ? '超系' : '原系'}属性列表`,
+  });
+
+  useCopilotAction({
+    name: 'selectAttribute',
+    description: '选择一个属性以查看其克制关系',
+    parameters: [
+      {
+        name: 'attributeName',
+        type: 'string',
+        description: '要选择的属性名称',
+      },
+    ],
+    handler: async ({ attributeName }) => {
+      if (attributes) {
+        const attribute = attributes.find((attr) => attr.name === attributeName);
+        if (attribute) {
+          handleAttributeSelect(attribute.id);
+        }
+      }
+    },
+  });
+
+  useCopilotAction({
+    name: 'toggleAttributeView',
+    description: '切换原系或超系属性视图',
+    parameters: [
+      {
+        name: 'view',
+        type: 'string',
+        description: '要切换到的视图',
+        enum: ['origin', 'super'],
+      },
+    ],
+    handler: async ({ view }) => {
+      setShowSuper(view === 'super');
+    },
   });
 
   // 使用 React Query 获取当前选中属性的攻击关系

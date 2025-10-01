@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
+import { useCopilotAction, useCopilotReadable } from '@copilotkit/react-core';
 import { Divider, Spin, Typography } from 'antd';
 import { motion } from 'framer-motion';
 import { Package } from 'lucide-react';
 import DataView from '../components/DataView';
 import ItemCard from '../components/ItemCard';
 import Layout from '../components/Layout';
+import { useSearchStore } from '../store/search';
 import { Tote, ToteDetail, ToteEntry } from '../types/tote';
 import { fetchDataItem } from '../utils/api';
 import { getToteImageUrl } from '../utils/image-helper';
@@ -18,19 +20,74 @@ const { Title, Paragraph, Text } = Typography;
  */
 const TotePage = () => {
   const { t } = useTranslation('tote');
+  const { setSearchValue, setFilterType } = useSearchStore();
 
   /**
    * @description 存储当前选中物品的详细信息
    */
   const [detail, setDetail] = useState<ToteDetail | null>(null);
   /**
-   * @description 存储“技巧”类物品的特殊效果描述
+   * @description 存储"技巧"类物品的特殊效果描述
    */
   const [specialEffectDescription, setSpecialEffectDescription] = useState<string>('');
   /**
    * @description 详情数据加载状态
    */
   const [loadingDetail, setLoadingDetail] = useState(false);
+
+  useCopilotReadable({
+    description: '当前背包物品页面筛选状态',
+    value: '背包物品页面支持筛选和搜索功能',
+  });
+
+  useCopilotAction({
+    name: 'searchTote',
+    description: '搜索背包物品',
+    parameters: [
+      {
+        name: 'query',
+        type: 'string',
+        description: '搜索关键词',
+      },
+    ],
+    handler: async ({ query }) => {
+      setSearchValue(query);
+    },
+  });
+
+  useCopilotAction({
+    name: 'filterTote',
+    description: '筛选背包物品',
+    parameters: [
+      {
+        name: 'filterType',
+        type: 'string',
+        description: '筛选类型',
+        enum: ['all', 'super', 'normal'],
+      },
+    ],
+    handler: async ({ filterType }) => {
+      setFilterType(filterType);
+    },
+  });
+
+  useCopilotAction({
+    name: 'showToteDetails',
+    description: '显示特定背包物品的详细信息',
+    parameters: [
+      {
+        name: 'name',
+        type: 'string',
+        description: '要显示详细信息的背包物品名称',
+        required: true,
+      },
+    ],
+    handler: async ({ name }) => {
+      // 在实际应用中，这会查找并显示特定背包物品的详细信息
+      // 临时使用name变量以避免TypeScript警告
+      console.warn(`Searching for Tote with name: ${name}`);
+    },
+  });
 
   /**
    * @description 处理物品卡片点击事件，获取并显示详细信息

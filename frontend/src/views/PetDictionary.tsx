@@ -12,6 +12,7 @@ import {
   PauseCircleOutlined,
   SoundOutlined,
 } from '@ant-design/icons';
+import { useCopilotAction, useCopilotReadable } from '@copilotkit/react-core';
 import { useQuery } from '@tanstack/react-query';
 import { App, Card, Collapse, Empty, Image, Input, Select, Space, Switch, Typography } from 'antd';
 import { motion } from 'framer-motion';
@@ -101,6 +102,62 @@ export default function PetDictionary() {
   const [showSearchResults, setShowSearchResults] = useState(false);
   // 是否显示新版技能集
   const [isNewSkillSet, setIsNewSkillSet] = useState(true);
+
+  useCopilotReadable({
+    description: '当前亚比图鉴页面状态',
+    value: selectedPet ? `正在查看 ${selectedPet.name} 的详细信息` : '未选择特定亚比',
+  });
+
+  useCopilotAction({
+    name: 'searchPetDictionary',
+    description: '搜索亚比',
+    parameters: [
+      {
+        name: 'query',
+        type: 'string',
+        description: '要搜索的亚比名称',
+      },
+    ],
+    handler: async ({ query }) => {
+      setSearchKeyword(query);
+    },
+  });
+
+  useCopilotAction({
+    name: 'selectPet',
+    description: '选择特定的亚比',
+    parameters: [
+      {
+        name: 'petName',
+        type: 'string',
+        description: '要选择的亚比名称',
+        required: true,
+      },
+    ],
+    handler: async ({ petName }) => {
+      if (pets) {
+        const pet = pets.find((p) => p.name.includes(petName));
+        if (pet) {
+          handleSelectPet(pet);
+        }
+      }
+    },
+  });
+
+  useCopilotAction({
+    name: 'filterPetByAttribute',
+    description: '按属性筛选亚比',
+    parameters: [
+      {
+        name: 'attribute',
+        type: 'string',
+        description: '要筛选的属性',
+      },
+    ],
+    handler: async ({ attribute }) => {
+      setSelectedAttribute(attribute || 'all');
+    },
+  });
 
   // 音频播放器状态
   const [audioState, setAudioState] = useState({

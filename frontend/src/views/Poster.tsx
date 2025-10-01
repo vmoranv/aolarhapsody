@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useCopilotAction, useCopilotReadable } from '@copilotkit/react-core';
 import { useQuery } from '@tanstack/react-query';
 import { App, Button, Card, Empty, Image, List, Pagination, Space, Typography } from 'antd';
 import zhCN from 'antd/es/locale/zh_CN';
@@ -166,7 +167,7 @@ const PosterContent = () => {
   // 获取当前主题颜色配置
   const { colors } = useTheme()!;
   // 获取搜索状态管理
-  const { searchValue, setResultCount } = useSearchStore();
+  const { searchValue, setResultCount, setSearchValue } = useSearchStore();
   // 当前页码状态
   const [currentPage, setCurrentPage] = useState(1);
   // 每页显示的海报数量
@@ -185,6 +186,27 @@ const PosterContent = () => {
   } = useQuery({
     queryKey: ['posters'], // 查询键
     queryFn: () => fetchData<Poster>('posters'), // 查询函数
+  });
+
+  // 添加 CopilotKit 操作
+  useCopilotReadable({
+    description: '当前海报页面搜索状态',
+    value: `当前搜索关键词: ${searchValue}`,
+  });
+
+  useCopilotAction({
+    name: 'searchPosters',
+    description: '搜索海报',
+    parameters: [
+      {
+        name: 'query',
+        type: 'string',
+        description: '搜索关键词',
+      },
+    ],
+    handler: async ({ query }) => {
+      setSearchValue(query);
+    },
   });
 
   /**

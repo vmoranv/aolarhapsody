@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useCopilotAction, useCopilotReadable } from '@copilotkit/react-core';
 import { App, Button, Card, Input, Space, Spin, Tabs, Tag, Typography } from 'antd';
 import { motion } from 'framer-motion';
 import { Copy, Download, ExternalLink, Heart } from 'lucide-react';
@@ -12,13 +13,13 @@ const { Title, Text } = Typography;
 
 /**
  * 宠物兑换页面组件
- * 
+ *
  * 该组件提供以下主要功能：
  * 1. 批量查询用户宠物信息
  * 2. 解析网络数据包提取用户ID
  * 3. 展示用户宠物列表和详细信息
  * 4. 图片预加载优化用户体验
- *  
+ *
  */
 const PetExchange: React.FC = () => {
   const { t } = useTranslation('petexchange');
@@ -32,6 +33,47 @@ const PetExchange: React.FC = () => {
   const [detailLoading, setDetailLoading] = useState<boolean>(false);
   const [databaseLoading, setDatabaseLoading] = useState<boolean>(false);
   const [imagePreloadProgress, setImagePreloadProgress] = useState<number>(0);
+
+  useCopilotReadable({
+    description: '当前宠物兑换页面状态',
+    value: `当前有 ${userIdList.length} 个用户ID`,
+  });
+
+  useCopilotAction({
+    name: 'addPetExchangeUserId',
+    description: '添加要查询的用户ID',
+    parameters: [
+      {
+        name: 'userId',
+        type: 'string',
+        description: '要添加的用户ID',
+      },
+    ],
+    handler: async ({ userId }) => {
+      if (userId && !userIdList.includes(userId)) {
+        setUserIdList([...userIdList, userId]);
+      }
+    },
+  });
+
+  useCopilotAction({
+    name: 'clearPetExchangeUserIds',
+    description: '清空所有用户ID',
+    parameters: [],
+    handler: async () => {
+      setUserIdList([]);
+    },
+  });
+
+  useCopilotAction({
+    name: 'searchPetExchange',
+    description: '执行宠物兑换信息查询',
+    parameters: [],
+    handler: async () => {
+      // 触发查询操作
+      fetchBatchPetIds();
+    },
+  });
 
   // 批量添加用户ID的函数
   const batchAddIds = useCallback(() => {
