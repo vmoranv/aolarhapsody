@@ -42,6 +42,13 @@
 └── pnpm-workspace.yaml
 ```
 
+## 📚 API 文档
+
+后端 API 文档可以在以下地址访问：
+
+- [https://apifox.614447.xyz](https://apifox.614447.xyz)
+- [https://aolarhapsody.apifox.cn](https://aolarhapsody.apifox.cn)
+
 ## 🚀 快速开始
 
 1.  **克隆项目**

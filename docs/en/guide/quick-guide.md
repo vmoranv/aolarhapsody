@@ -10,6 +10,13 @@ Aolarhapsody is a feature-rich full-stack project that includes the following ma
 - **Backend**: RESTful API service built with Node.js, Express, and TypeScript
 - **Internal Tools**: Including code checking, formatting, and deployment scripts
 
+## API Documentation
+
+The project's backend API documentation can be accessed at the following addresses:
+
+- [https://apifox.614447.xyz](https://apifox.614447.xyz)
+- [https://aolarhapsody.apifox.cn](https://aolarhapsody.apifox.cn)
+
 ## Environment Preparation
 
 Before getting started, make sure your development environment meets the following requirements:

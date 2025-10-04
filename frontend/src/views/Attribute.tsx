@@ -337,7 +337,9 @@ const Attribute = () => {
             const damage = parseRelation(value);
             const id = parseInt(targetId, 10);
             const targetAttr = attributes.find((attr) => attr.id === id);
-            if (!targetAttr) return;
+            if (!targetAttr) {
+              return;
+            }
 
             switch (damage) {
               case 2: {

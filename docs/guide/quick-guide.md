@@ -10,6 +10,13 @@ Aolarhapsody 是一个功能丰富的全栈项目，包含以下主要组件：
 - **后端**: 使用 Node.js、Express 和 TypeScript 构建的 RESTful API 服务
 - **内部工具**: 包括代码检查、格式化和部署脚本等辅助工具
 
+## API 文档
+
+项目的后端 API 文档可以在以下地址访问：
+
+- [https://apifox.614447.xyz](https://apifox.614447.xyz)
+- [https://aolarhapsody.apifox.cn](https://aolarhapsody.apifox.cn)
+
 ## 环境准备
 
 在开始之前，请确保您的开发环境满足以下要求：

@@ -42,6 +42,13 @@ This project is a monorepo based on pnpm workspaces to manage all the code for A
 └── pnpm-workspace.yaml
 ```
 
+## 📚 API Documentation
+
+The backend API documentation can be accessed at the following addresses:
+
+- [https://apifox.614447.xyz](https://apifox.614447.xyz)
+- [https://aolarhapsody.apifox.cn](https://aolarhapsody.apifox.cn)
+
 ## 🚀 Quick Start
 
 1.  **Clone the project**
