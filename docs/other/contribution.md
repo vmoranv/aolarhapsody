@@ -1,13 +1,13 @@
 # 贡献指南
 
-欢迎参与 Aolarhapsody 项目的开发！我们非常感谢任何形式的贡献。
+欢迎参与 Aolarhapsody 项目的开发！我们非常感谢任何形式的贡献.
 
 ## 贡献方式
 
 ### 报告问题
 
 - 在 GitHub Issues 中搜索是否已存在相同问题
-- 如果不存在，创建新的 Issue
+- 如果不存在,创建新的 Issue
 - 详细描述问题现象和复现步骤
 - 提供相关环境信息
 
@@ -105,10 +105,10 @@
 
 ## 联系方式
 
-如有任何问题，请通过以下方式联系我们：
+如有任何问题,请通过以下方式联系我们：
 
 - GitHub Issues: [提交问题和建议](https://github.com/vmoranv/aolarhapsody/issues)
 - 邮箱: [vmoranv@outlook.com](mailto:vmoranv@outlook.com)
-- QQ群/微信群: 实时交流（暂未开放）
+- QQ群/微信群: 实时交流(暂未开放)
 
 感谢您的贡献！

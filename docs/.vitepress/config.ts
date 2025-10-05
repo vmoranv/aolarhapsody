@@ -1,7 +1,7 @@
 import { defineConfig } from 'vitepress';
 
-// KaTeX 会生成一堆自定义 XML 标签，Vue 模板编译器默认不认识，
-// 必须一次性加进白名单，否则渲染时报 "Unknown custom element"。
+// KaTeX 会生成一堆自定义 XML 标签,Vue 模板编译器默认不认识,
+// 必须一次性加进白名单,否则渲染时报 "Unknown custom element"。
 const katexWhitelist = [
   'math',
   'maction',

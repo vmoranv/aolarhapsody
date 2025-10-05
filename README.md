@@ -1,6 +1,6 @@
 # Aolarhapsody Monorepo
 
-> Aolarhapsody 项目的官方 monorepo，包含前端、后端和内部工具链。
+> Aolarhapsody 项目的官方 monorepo,包含前端、后端和内部工具链。
 
 [English](./README.en.md) | 简体中文
 
@@ -15,7 +15,7 @@
 
 ## 📖 项目简介
 
-本项目是一个基于 pnpm workspace 的 monorepo，用于管理 Aolarhapsody 的所有代码。它整合了现代化的前端和后端技术，并配备了一套强大的、受 `vben` 启发的内部脚本工具，以确保代码质量和开发效率。
+本项目是一个基于 pnpm workspace 的 monorepo,用于管理 Aolarhapsody 的所有代码。它整合了现代化的前端和后端技术,并配备了一套强大的、受 `vben` 启发的内部脚本工具,以确保代码质量和开发效率。
 
 ## ✨ 技术栈
 
@@ -109,7 +109,7 @@
     pnpm build:docker:backend
     ```
 
-    构建成功后，你可以使用 `docker images` 查看名为 `aolarhapsody-backend` 的镜像。
+    构建成功后,你可以使用 `docker images` 查看名为 `aolarhapsody-backend` 的镜像。
 
 2.  **运行 Docker 容器**
 
@@ -123,7 +123,7 @@
     - `-p 3000:3000`: 将主机的 3000 端口映射到容器的 3000 端口。
     - `--name`: 为容器指定一个名称。
 
-    服务启动后，可以通过 `http://localhost:3000` 访问。
+    服务启动后,可以通过 `http://localhost:3000` 访问。
 
 ## 📄 许可证
 

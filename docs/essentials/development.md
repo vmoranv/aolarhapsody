@@ -2,22 +2,22 @@
 
 ::: tip 提示
 
-项目使用 pnpm workspace 管理 monorepo，通过统一的命令进行开发。
+项目使用 pnpm workspace 管理 monorepo,通过统一的命令进行开发.
 
 :::
 
 ## 环境准备
 
-在开始开发前，请确保安装了以下工具：
+在开始开发前,请确保安装了以下工具：
 
 - **Node.js**: v20 或更高版本
 - **pnpm**: v10.13.1 或更高版本
 - **Git**: 版本管理工具
-- **VS Code**: 推荐的编辑器（可选）
+- **VS Code**: 推荐的编辑器(可选)
 
 ## 环境变量配置
 
-项目使用环境变量来配置各种设置，特别是后端的CORS配置。
+项目使用环境变量来配置各种设置,特别是后端的CORS配置.
 
 ### 后端环境变量
 
@@ -27,14 +27,14 @@
 # 后端服务端口
 PORT=3000
 
-# 允许访问的前端域名（多个域名用逗号分隔）
+# 允许访问的前端域名(多个域名用逗号分隔)
 FRONTEND_URLS=https://aolarhapsody.614447.xyz,http://localhost:3000,http://localhost:5173
 ```
 
 #### 环境变量说明
 
-- **PORT**: 后端服务监听的端口号，默认为 3000
-- **FRONTEND_URLS**: **必需配置**，指定允许访问后端API的前端域名列表。多个域名用逗号分隔，不支持通配符。
+- **PORT**: 后端服务监听的端口号,默认为 3000
+- **FRONTEND_URLS**: **必需配置**,指定允许访问后端API的前端域名列表.多个域名用逗号分隔,不支持通配符.
 
 #### 配置示例
 
@@ -42,7 +42,7 @@ FRONTEND_URLS=https://aolarhapsody.614447.xyz,http://localhost:3000,http://local
 # 生产环境配置
 FRONTEND_URLS=https://aolarhapsody.614447.xyz
 
-# 开发环境配置（支持本地开发）
+# 开发环境配置(支持本地开发)
 FRONTEND_URLS=http://localhost:3000,http://localhost:5173,https://aolarhapsody.614447.xyz
 
 # 多个前端应用配置
@@ -51,9 +51,9 @@ FRONTEND_URLS=https://app1.example.com,https://app2.example.com,http://localhost
 
 ::: warning 注意
 
-- `FRONTEND_URLS` 是必需的环境变量，如果未配置，将没有任何前端域名能够访问后端API
-- 域名必须包含协议（http:// 或 https://）
-- 不支持通配符域名（如 \*.example.com）
+- `FRONTEND_URLS` 是必需的环境变量,如果未配置,将没有任何前端域名能够访问后端API
+- 域名必须包含协议(http:// 或 https://)
+- 不支持通配符域名(如 \*.example.com)
 - 配置修改后需要重启后端服务才能生效
   :::
 
@@ -61,10 +61,10 @@ FRONTEND_URLS=https://app1.example.com,https://app2.example.com,http://localhost
 
 项目提供了环境变量示例文件：
 
-- `backend/.env`: 实际使用的环境变量配置（不要提交到版本控制）
-- `backend/.env.example`: 环境变量示例文件（可以作为配置参考）
+- `backend/.env`: 实际使用的环境变量配置(不要提交到版本控制)
+- `backend/.env.example`: 环境变量示例文件(可以作为配置参考)
 
-首次设置项目时，请复制 `.env.example` 为 `.env` 并根据实际需求修改配置：
+首次设置项目时,请复制 `.env.example` 为 `.env` 并根据实际需求修改配置：
 
 ```bash
 # 复制环境变量示例文件
@@ -211,24 +211,24 @@ pnpm lint:publint
 
 ### 前端调试
 
-前端使用 Vite 开发服务器，支持热更新和源码映射，可以直接在浏览器中调试。
+前端使用 Vite 开发服务器,支持热更新和源码映射,可以直接在浏览器中调试.
 
 ### 后端调试
 
-后端支持 Node.js 调试，可以通过以下方式启动调试模式：
+后端支持 Node.js 调试,可以通过以下方式启动调试模式：
 
 ```bash
 # 使用 inspect 模式启动后端
 node --inspect backend/dist/index.js
 ```
 
-然后在 Chrome 浏览器中访问 `chrome://inspect` 进行调试。
+然后在 Chrome 浏览器中访问 `chrome://inspect` 进行调试.
 
 ## 问题解决
 
 ### 依赖问题
 
-如果遇到依赖相关问题，可以尝试重新安装依赖：
+如果遇到依赖相关问题,可以尝试重新安装依赖：
 
 ```bash
 # 清理并重新安装依赖
@@ -237,7 +237,7 @@ pnpm reinstall
 
 ### 构建失败
 
-如果构建失败，可以尝试清理项目后重新构建：
+如果构建失败,可以尝试清理项目后重新构建：
 
 ```bash
 # 清理项目

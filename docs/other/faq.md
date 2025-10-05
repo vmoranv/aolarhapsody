@@ -4,7 +4,7 @@
 
 ### 如何启动开发环境？
 
-确保已安装 Node.js (v20+) 和 pnpm (v10.13.1+)，然后运行：
+确保已安装 Node.js (v20+) 和 pnpm (v10.13.1+),然后运行：
 
 ```bash
 pnpm install
@@ -100,7 +100,7 @@ VITE_COPILOT_LICENSE_KEY=your_license_key
 ### 如何报告 Bug？
 
 1. 在 GitHub Issues 中搜索是否已存在相同问题
-2. 如果不存在，创建新的 Issue
+2. 如果不存在,创建新的 Issue
 3. 详细描述问题现象和复现步骤
 4. 提供相关环境信息
 
@@ -108,10 +108,10 @@ VITE_COPILOT_LICENSE_KEY=your_license_key
 
 ### 项目使用什么许可证？
 
-本项目使用 GNU Affero General Public License v3.0 许可证，详情请查看 LICENSE 文件。
+本项目使用 GNU Affero General Public License v3.0 许可证,详情请查看 LICENSE 文件.
 
 ### 可以用于商业项目吗？
 
-GNU Affero General Public License v3.0 是一个自由软件许可证，允许在商业项目中使用、修改和分发代码，但需要遵守 AGPLv3 的条款。具体要求请查看 LICENSE 文件。
+GNU Affero General Public License v3.0 是一个自由软件许可证,允许在商业项目中使用、修改和分发代码,但需要遵守 AGPLv3 的条款.具体要求请查看 LICENSE 文件.
 
-如有其他问题，请在 GitHub Issues 中提问或通过项目提供的联系方式与我们联系。
+如有其他问题,请在 GitHub Issues 中提问或通过项目提供的联系方式与我们联系.

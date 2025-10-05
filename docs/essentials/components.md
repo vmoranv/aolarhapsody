@@ -1,31 +1,31 @@
 # 组件介绍
 
-Aolarhapsody 使用现代化的前端技术构建用户界面，主要包括 Ant Design 组件库和自定义组件。本文档将介绍这些组件的定义和使用方法。
+Aolarhapsody 使用现代化的前端技术构建用户界面,主要包括 Ant Design 组件库和自定义组件.本文档将介绍这些组件的定义和使用方法.
 
 ## 组件使用方式
 
-在 Aolarhapsody 项目中，所有组件都使用 React 和 TypeScript 编写。要使用这些组件，首先需要从对应的文件中导入它们：
+在 Aolarhapsody 项目中,所有组件都使用 React 和 TypeScript 编写.要使用这些组件,首先需要从对应的文件中导入它们：
 
 ```tsx
 import { Button } from 'antd'; // 使用 Ant Design 组件
 import { AttributeCard } from '@/components/AttributeCard'; // 使用自定义组件
 ```
 
-其中 `@` 是项目的别名，指向 `frontend/src` 目录。
+其中 `@` 是项目的别名,指向 `frontend/src` 目录.
 
 ## 自定义组件
 
-项目中包含多个自定义组件以满足特定的业务需求。以下是对每个组件的详细说明和使用示例：
+项目中包含多个自定义组件以满足特定的业务需求.以下是对每个组件的详细说明和使用示例：
 
 ### AttributeCard 属性卡片
 
-用于展示宠物或物品的属性信息。
+用于展示宠物或物品的属性信息.
 
 **Props:**
 
-- `attribute`: 包含属性数据的对象，具有 `id`、`name` 和 `isSuper` 属性
+- `attribute`: 包含属性数据的对象,具有 `id`、`name` 和 `isSuper` 属性
 - `imageUrl`: 属性图片的 URL
-- `index`: 列表中的索引，用于动画效果
+- `index`: 列表中的索引,用于动画效果
 
 **使用示例：**
 
@@ -55,7 +55,7 @@ function AttributeList() {
 
 ### ConfigList 配置列表
 
-一个用于管理配置列表的组件，具有添加/删除功能。
+一个用于管理配置列表的组件,具有添加/删除功能.
 
 **Props:**
 
@@ -102,7 +102,7 @@ function ConfigManager() {
 
 ### DataView 数据视图
 
-一个通用的数据展示组件，具有搜索、过滤和分页功能。
+一个通用的数据展示组件,具有搜索、过滤和分页功能.
 
 **Props:**
 
@@ -158,7 +158,7 @@ function PetList() {
 
 ### DetailDialog 详情对话框
 
-用于显示详细信息的模态对话框。
+用于显示详细信息的模态对话框.
 
 **Props:**
 
@@ -205,7 +205,7 @@ function ItemWithDetail() {
 
 ### ErrorDisplay 错误展示
 
-用于显示错误信息。
+用于显示错误信息.
 
 **Props:**
 
@@ -224,12 +224,12 @@ function ErrorHandler({ error, onRetry }) {
 
 ### ItemCard 物品卡片
 
-用于展示游戏物品信息。
+用于展示游戏物品信息.
 
 **Props:**
 
 - `item`: 物品数据对象
-- `index`: 列表中的索引，用于动画效果
+- `index`: 列表中的索引,用于动画效果
 - `children`: 子组件
 - `imageUrl`: 物品图片的 URL
 - `icon`: 要显示的图标元素
@@ -263,7 +263,7 @@ function ItemList() {
 
 ### Layout 布局
 
-应用程序的主要布局组件，包括顶部导航、侧边栏和内容区域。
+应用程序的主要布局组件,包括顶部导航、侧边栏和内容区域.
 
 **Props:**
 
@@ -278,7 +278,7 @@ function App() {
   return (
     <Layout>
       <h1>页面内容</h1>
-      <p>此内容将在主布局中渲染。</p>
+      <p>此内容将在主布局中渲染.</p>
     </Layout>
   );
 }
@@ -286,7 +286,7 @@ function App() {
 
 ### LoadingSpinner 加载指示器
 
-页面加载指示器组件。
+页面加载指示器组件.
 
 **Props:**
 
@@ -305,7 +305,7 @@ function LoadingState() {
 
 ### MainContent 主内容
 
-设置应用程序路由和主题的主内容区域组件。
+设置应用程序路由和主题的主内容区域组件.
 
 **Props:**
 无
@@ -322,7 +322,7 @@ function App() {
 
 ### NotificationDropdown 通知下拉菜单
 
-用于显示系统通知的下拉组件。
+用于显示系统通知的下拉组件.
 
 **Props:**
 
@@ -365,7 +365,7 @@ function Header() {
 
 ### Overlay 遮罩
 
-在目标元素周围创建孔洞的遮罩组件。
+在目标元素周围创建孔洞的遮罩组件.
 
 **Props:**
 
@@ -399,7 +399,7 @@ function OverlayDemo() {
 
 ### PerformanceMonitor 性能监控
 
-用于监控应用程序性能指标的组件。
+用于监控应用程序性能指标的组件.
 
 **Props:**
 无
@@ -421,7 +421,7 @@ function App() {
 
 ### PetSelectionModal 宠物选择模态框
 
-用于选择宠物的模态框组件。
+用于选择宠物的模态框组件.
 
 **Props:**
 
@@ -457,7 +457,7 @@ function PetSelector() {
 
 ### RadialMenu 径向菜单
 
-用于显示快速操作的圆形径向菜单组件。
+用于显示快速操作的圆形径向菜单组件.
 
 **Props:**
 
@@ -504,7 +504,7 @@ function PetCard() {
 
 ### SearchAndFilter 搜索和过滤
 
-提供搜索和过滤功能的组件。
+提供搜索和过滤功能的组件.
 
 **Props:**
 
@@ -539,7 +539,7 @@ function SearchableList() {
 
 ### SettingsDrawer 设置抽屉
 
-应用程序设置的抽屉组件。
+应用程序设置的抽屉组件.
 
 **Props:**
 
@@ -571,7 +571,7 @@ function SettingsButton() {
 
 ### SkillCard 技能卡片
 
-用于展示技能信息。
+用于展示技能信息.
 
 **Props:**
 
@@ -601,7 +601,7 @@ function SkillList() {
 
 ### ThemeToggle 主题切换
 
-用于切换网站主题的组件。
+用于切换网站主题的组件.
 
 **Props:**
 无
@@ -622,7 +622,7 @@ function Header() {
 
 ### ViewSwitcher 视图切换器
 
-用于在不同视图之间切换的组件。
+用于在不同视图之间切换的组件.
 
 **Props:**
 
@@ -651,4 +651,4 @@ function MultiViewPage() {
 }
 ```
 
-所有这些组件都位于 `frontend/src/components` 目录下，可以根据需要进行复用和扩展。
+所有这些组件都位于 `frontend/src/components` 目录下,可以根据需要进行复用和扩展.

@@ -1,10 +1,10 @@
 # 快速开始
 
-欢迎使用 Aolarhapsody！这是一个基于 pnpm workspace 的 monorepo 项目，整合了现代化的前端和后端技术栈。
+欢迎使用 Aolarhapsody！这是一个基于 pnpm workspace 的 monorepo 项目,整合了现代化的前端和后端技术栈.
 
 ## 项目概述
 
-Aolarhapsody 是一个功能丰富的全栈项目，包含以下主要组件：
+Aolarhapsody 是一个功能丰富的全栈项目,包含以下主要组件：
 
 - **前端**: 基于 React、TypeScript 和 Vite 构建的现代化用户界面
 - **后端**: 使用 Node.js、Express 和 TypeScript 构建的 RESTful API 服务
@@ -19,11 +19,11 @@ Aolarhapsody 是一个功能丰富的全栈项目，包含以下主要组件：
 
 ## 环境准备
 
-在开始之前，请确保您的开发环境满足以下要求：
+在开始之前,请确保您的开发环境满足以下要求：
 
 - **Node.js**: v20 或更高版本
-- **pnpm**: v10.13.1 或更高版本（本项目强制使用 pnpm 作为包管理器）
-- **Docker**: （可选）用于容器化部署
+- **pnpm**: v10.13.1 或更高版本(本项目强制使用 pnpm 作为包管理器)
+- **Docker**: (可选)用于容器化部署
 
 ## 安装步骤
 
@@ -40,7 +40,7 @@ cd aolarhapsody
 pnpm install
 ```
 
-> 注意：本项目强制使用 pnpm 作为包管理器，使用 npm 或 yarn 可能导致依赖问题。
+> 注意：本项目强制使用 pnpm 作为包管理器,使用 npm 或 yarn 可能导致依赖问题.
 
 ## 开发模式
 
@@ -52,7 +52,7 @@ pnpm dev
 
 ### 单独启动服务
 
-如果您只想启动特定的服务，可以使用以下命令：
+如果您只想启动特定的服务,可以使用以下命令：
 
 ```bash
 # 仅启动前端
@@ -64,13 +64,13 @@ pnpm dev:backend
 
 ## 构建项目
 
-要为生产环境构建项目，运行：
+要为生产环境构建项目,运行：
 
 ```bash
 pnpm build
 ```
 
-这将构建前端和后端的所有代码。
+这将构建前端和后端的所有代码.
 
 您也可以单独构建各个部分：
 
@@ -84,11 +84,11 @@ pnpm build:backend
 
 ## 部署
 
-### Docker 部署（推荐）
+### Docker 部署(推荐)
 
-本项目支持使用 Docker 进行容器化部署，您可以选择从 DockerHub 拉取预构建的镜像或者自己构建。
+本项目支持使用 Docker 进行容器化部署,您可以选择从 DockerHub 拉取预构建的镜像或者自己构建.
 
-#### 选项1：使用 DockerHub 预构建镜像（推荐）
+#### 选项1：使用 DockerHub 预构建镜像(推荐)
 
 从 DockerHub 拉取并运行后端服务：
 
@@ -98,7 +98,7 @@ docker run -d -p 3000:3000 --name aolarhapsody-backend vmoranv/aolarhapsody-back
 
 #### 选项2：自己构建 Docker 镜像
 
-如果您需要自定义构建镜像，可以使用以下命令：
+如果您需要自定义构建镜像,可以使用以下命令：
 
 ```bash
 pnpm build:docker:backend
@@ -124,9 +124,9 @@ docker run -d -p 3000:3000 --name aolarhapsody-backend-container aolarhapsody-ba
 
 ## 故障排除
 
-1. **端口冲突**: 如果 3000 或 5173 端口已被占用，后端服务会自动尝试使用下一个可用端口。
+1. **端口冲突**: 如果 3000 或 5173 端口已被占用,后端服务会自动尝试使用下一个可用端口.
 
-2. **依赖安装问题**: 确保使用 pnpm 安装依赖，不要使用 npm 或 yarn。
+2. **依赖安装问题**: 确保使用 pnpm 安装依赖,不要使用 npm 或 yarn.
 
 3. **构建失败**: 尝试清理项目并重新安装依赖：
    ```bash
@@ -134,4 +134,4 @@ docker run -d -p 3000:3000 --name aolarhapsody-backend-container aolarhapsody-ba
    pnpm install
    ```
 
-现在您已经了解了如何设置和运行 Aolarhapsody 项目，可以开始开发您的功能了！
+现在您已经了解了如何设置和运行 Aolarhapsody 项目,可以开始开发您的功能了！

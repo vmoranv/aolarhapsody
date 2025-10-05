@@ -25,7 +25,7 @@
 |#send={"param":{"index":0},"cmd":"MB250221_refresh","id":42}|
 ```
 
-点击活动(id=42)，`MBMB250221` 活动中的 `refresh` 刷新命令，`index=0` 为奇灵神树月副本左边的序号；可通过反编译 code/doc 后缀的 swf->sprites->client 缀得出包体。
+点击活动(id=42),`MBMB250221` 活动中的 `refresh` 刷新命令,`index=0` 为奇灵神树月副本左边的序号;可通过反编译 code/doc 后缀的 swf->sprites->client 缀得出包体.
 
 ### 1.1 战斗封包
 
@@ -51,7 +51,7 @@
 |#time=%num%|
 ```
 
-等待 `%num%` ms 后执行下一行。
+等待 `%num%` ms 后执行下一行.
 
 例如：
 
@@ -59,7 +59,7 @@
 |#time=500|
 ```
 
-则等待 500ms 后执行下一行。
+则等待 500ms 后执行下一行.
 
 ## 3. 自动战斗控制命令
 
@@ -87,7 +87,7 @@
 |#activ='url','cls'|
 ```
 
-活动路径封包，具体参考：
+活动路径封包,具体参考：
 
 - [vmoranv/aola_mya_extract](https://github.com/vmoranv/aola_mya_extract)：奥拉星提取活动路径并封装为 mya 的 py 脚本
 - [vmoranv/aola_code_panel_extract](https://github.com/vmoranv/aola_code_panel_extract)：根据 url 后缀=code/doc 和 cls=后缀=MainPl/MainPanel 提取活动路径并封装为 mya 封包
@@ -178,8 +178,8 @@
 - line6: 等 5s (大概 20 回合)
 - line7: 确认战斗结束
 - line9: 获得光之灵气
-- line13-20: 右边的暗之宝玉战斗入口，可以发现只是修改了包体的 index:0->1
-- line22-27: 圣树升阶 6 扩展升级，同样遍历 index
-- line29-31: 注入灵气，num 是灵气个数
+- line13-20: 右边的暗之宝玉战斗入口,可以发现只是修改了包体的 index:0->1
+- line22-27: 圣树升阶 6 扩展升级,同样遍历 index
+- line29-31: 注入灵气,num 是灵气个数
 - line33-34: 圣树压制
-- line36-69: 成就奖励领奖 (tmd 不同界面 `index` 和 `type` 根本没有规律，艹)
+- line36-69: 成就奖励领奖 (tmd 不同界面 `index` 和 `type` 根本没有规律,艹)
