@@ -13,13 +13,13 @@
 |#send={"param":{ },"cmd":" ","id":%num%}|
 ```
 
-其中：
+其中:
 
 - `param` 后的 `{ }` 内是包体
 - `cmd` 后的是活动cmd panel
 - `id` 后的数字 `%num%` 指明活动类型
 
-例如：奇灵神树月副本刷新：
+例如:奇灵神树月副本刷新:
 
 ```json
 |#send={"param":{"index":0},"cmd":"MB250221_refresh","id":42}|
@@ -33,7 +33,7 @@
 |#send={"id":13,"param":{"turn":0,"tarPSId":0,"ussi":-1,"isAuto":false,"skillId":350040,"tarSId":11,"reqPSId":0},"cmd":"1401"}|
 ```
 
-参数说明：
+参数说明:
 
 - `reqPSId`: 我方亚比位置
 - `skillId`: 技能列表
@@ -53,7 +53,7 @@
 
 等待 `%num%` ms 后执行下一行.
 
-例如：
+例如:
 
 ```json
 |#time=500|
@@ -87,10 +87,10 @@
 |#activ='url','cls'|
 ```
 
-活动路径封包,具体参考：
+活动路径封包,具体参考:
 
-- [vmoranv/aola_mya_extract](https://github.com/vmoranv/aola_mya_extract)：奥拉星提取活动路径并封装为 mya 的 py 脚本
-- [vmoranv/aola_code_panel_extract](https://github.com/vmoranv/aola_code_panel_extract)：根据 url 后缀=code/doc 和 cls=后缀=MainPl/MainPanel 提取活动路径并封装为 mya 封包
+- [vmoranv/aola_mya_extract](https://github.com/vmoranv/aola_mya_extract):奥拉星提取活动路径并封装为 mya 的 py 脚本
+- [vmoranv/aola_code_panel_extract](https://github.com/vmoranv/aola_code_panel_extract):根据 url 后缀=code/doc 和 cls=后缀=MainPl/MainPanel 提取活动路径并封装为 mya 封包
 
 ## 6. 实际案例分析
 
@@ -168,7 +168,7 @@
 |#send={"param":{"index":25,"type":2},"id":42,"cmd":"MB250221_ag"}|
 ```
 
-行说明：
+行说明:
 
 - line1: 使用自动战斗以适配不同时代的亚比
 - line2: 刷新 boss 防止打不过还在反复打
