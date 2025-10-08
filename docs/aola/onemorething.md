@@ -164,7 +164,7 @@
 - 第**4**回合:逍遥切换梦想精灵
 - 第**5**回合:梦想精灵使用回忆泡沫**打本体**直到出100%血死魂
 - 第**6**回合:梦想精灵使用回忆泡沫**打本体**直到出100%血死魂
-  ![](images/document_582190/image_150.png)
+  ![](images/document_582190/onemorething_150.png)
 
 :::tip
 一般一把也就**2-3**次使用回忆泡沫的机会,如果**2-3**次回忆泡沫厚没有出死魂,重开即可
@@ -560,17 +560,17 @@
   :::
 
 - **My登录器**上方点开**拓展**选择**全地图**并**刷新游戏**
-  ![](images/document_582190/image_151.png)![](images/document_582190/image_152.png)
+  ![](images/document_582190/onemorething_151.png)![](images/document_582190/onemorething_152.png)
 
 地图场景搜索:**英雄试炼城**
 
 进入场景选择魔方迷宫;
 
-![](images/document_582190/image_153.png)
+![](images/document_582190/onemorething_153.png)
 
 里面每日**十次**获得装备的机会(**大概率**出**体力刀**)
 
-![](images/document_582190/image_154.png)
+![](images/document_582190/onemorething_154.png)
 
 获取**体力刀**之后,进行升级**进阶**成**钻装**
 
@@ -583,41 +583,41 @@
 :::
 
 - **My登录器**上方拓展的辅助功能;
-- ![](images/document_582190/image_155.png)选择**辉月巨灵**![](images/document_582190/image_156.png)
+- ![](images/document_582190/onemorething_155.png)选择**辉月巨灵**![](images/document_582190/onemorething_156.png)
 - 进入**挑战**(单人和组队挑战一天可获得**90辉月之力**)
 
-![](images/document_582190/image_157.png)
+![](images/document_582190/onemorething_157.png)
 
 用**辉月之力**兑换**紫色**进阶星能(一天限**5**个)
 
-![](images/document_582190/image_158.png)
+![](images/document_582190/onemorething_158.png)
 
 - **金色**进阶星能通过**紫色**进阶星能合成获得;
 - **王者**进阶星能通过**战队商店**贡献兑换获得(**周**限**5**个):
-  ![](images/document_582190/image_159.png)
+  ![](images/document_582190/onemorething_159.png)
 
 :::tip
 其他提高体力值的方法
 :::
 
 - **1**.战队或者舰队的**天工树**(局内增加体力上限);
-  ![](images/document_582190/image_160.png)
+  ![](images/document_582190/onemorething_160.png)
 
 - **2.**携带**基础体力值**较高的护符(例如:樱花护符,百星护符等);
-  ![](images/document_582190/image_161.png)
+  ![](images/document_582190/onemorething_161.png)
 
 - **3**.学习力把**体力**拉满;
-  ![](images/document_582190/image_162.png)
+  ![](images/document_582190/onemorething_162.png)
 
 :::tip
 如果**已经刷错了**可以通过商店购买**降级喷雾**(**100级**晴明)和各种**遗忘喷雾**遗忘学习力并重新刷取;
 :::
 
 - **4**.携带**体力**铭文(尽量多**歪点**体力副词条);
-  ![](images/document_582190/image_163.png)![](images/document_582190/image_164.png)
+  ![](images/document_582190/onemorething_163.png)![](images/document_582190/onemorething_164.png)
 
 - **5.**亚比军团(上限能加**588**点体力值)
-  ![](images/document_582190/image_165.png)
+  ![](images/document_582190/onemorething_165.png)
 
 :::tip
 如果经过以上**培养**仍没能达到进入局内**万血**状态,则可以将召唤师技能更改为**巨化**以达万血目的

@@ -36,35 +36,35 @@
 - **获取方式:挑战完成后抽取一套随机王者**
 - (8) [混沌寂烬-厄瑞玻斯异界满战]
 - My登录器的拓展-辅助功能-扩展-旧活动列表
-  ![](images/document_582190/image_142.png)
+  ![](images/document_582190/free-petcard2_142.png)
 
 往下拉找到回归福利1 点击
 
-![](images/document_582190/image_143.png)
+![](images/document_582190/free-petcard2_143.png)
 
 游戏内点击弹出页面左下角1折商店按钮
 
-![](images/document_582190/image_144.png)
+![](images/document_582190/free-petcard2_144.png)
 
 点击变换后的的页面上方新手指引按钮
 
-![](images/document_582190/image_145.png)
+![](images/document_582190/free-petcard2_145.png)
 
 点击前往
 
-![](images/document_582190/image_146.png)
+![](images/document_582190/free-petcard2_146.png)
 
 点击此处
 
-![](images/document_582190/image_147.png)
+![](images/document_582190/free-petcard2_147.png)
 
 点击此皮肤跳转
 
-![](images/document_582190/image_148.png)
+![](images/document_582190/free-petcard2_148.png)
 
 点击此活动
 
-![](images/document_582190/image_149.png)
+![](images/document_582190/free-petcard2_149.png)
 
 右边即可领取免费异界满战
 

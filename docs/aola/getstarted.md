@@ -18,7 +18,7 @@ Win请先安装网盘内的VC++和.net运行库
 注意是免费的,不要被坑钱了
 :::
 
-![](images/document_582190/image_003.png)
+![](images/document_582190/getstarted_003.png)
 
 ## 游戏平台对比
 
@@ -40,17 +40,17 @@ Win请先安装网盘内的VC++和.net运行库
 - 注重流畅度和基础功能的玩家可选择 H5 版本
   :::
 
-![](images/document_582190/image_004.png)
+![](images/document_582190/getstarted_004.png)
 
 - **辅助功能**包括但不限于自动领奖、每周小游戏、小游戏亚比等.
 - **拓展**内置旧活动来白嫖奖励、获得老亚比等,前往 [自动化提取工具](https://github.com/vmoranv/aola_mya_extract) 以获取更多信息.
 - **战斗设置**可开关出招动画、伤害显示等.
 
-  ![](images/document_582190/image_005.png)
+  ![](images/document_582190/getstarted_005.png)
 
 - **开发者工具**此处只介绍基本用法:发包(将封包复制到开发者工具发包界面,执行脚本).具体语法参考[My语法文档](/aola/packets)。
 
-  ![](images/document_582190/image_006.png)
+  ![](images/document_582190/getstarted_006.png)
 
 高帧率可以让游戏流畅不少,但是不要和加速一起开,开一个就够了.
 
@@ -64,10 +64,10 @@ Win请先安装网盘内的VC++和.net运行库
 
 ### 白嫖怪环节
 
-![](images/document_582190/image_007.png)![](images/document_582190/image_008.png)![](images/document_582190/image_009.png)![](images/document_582190/image_010.png)
+![](images/document_582190/getstarted_007.png)![](images/document_582190/getstarted_008.png)![](images/document_582190/getstarted_009.png)![](images/document_582190/getstarted_010.png)
 白送的东西,可能送亚比、王专、资源什么的,挨个点就行了.
 
-![](images/document_582190/image_011.png)
+![](images/document_582190/getstarted_011.png)
 
 召唤阵,大部分亚比**都能打**,推荐兑换**群星**,后期可以开图鉴用.
 
@@ -75,7 +75,7 @@ Win请先安装网盘内的VC++和.net运行库
 
 ### 最新活动
 
-![](images/document_582190/image_012.png)
+![](images/document_582190/getstarted_012.png)
 
 关注主题活动,经常能白嫖一些资源.
 
@@ -83,24 +83,24 @@ Win请先安装网盘内的VC++和.net运行库
 
 ### 亚比养成
 
-![](images/document_582190/image_013.png)
+![](images/document_582190/getstarted_013.png)
 
 日常获得资源的,上面一行非常重要,下面一行基本都是白嫖.
 
-![](images/document_582190/image_014.png)**必做**,可以拿各类资源,还可以拿秘宝结晶、流星碎片、白嫖火天使、一部分神兵亚比和王专.
+![](images/document_582190/getstarted_014.png)**必做**,可以拿各类资源,还可以拿秘宝结晶、流星碎片、白嫖火天使、一部分神兵亚比和王专.
 ::: tip
 My有做日常的脚本.
 :::
 
 ### pve环节
 
-![](images/document_582190/image_015.png)![](images/document_582190/image_016.png)
+![](images/document_582190/getstarted_015.png)![](images/document_582190/getstarted_016.png)
 **新手必打一个个打就完事了**
 
-![](images/document_582190/image_017.png)
+![](images/document_582190/getstarted_017.png)
 快捷入口,大部分挑战都在里面.
 
-![](images/document_582190/image_018.png)
+![](images/document_582190/getstarted_018.png)
 
 - **异界幻想**主要获得洗练魂器的花草,也有魂卡资源.数值低,大部分关都可以用星诺打.打反弹5w伤害的关召唤师带巨化,反弹20%伤害用缔界星诺玛.
 - **域界降临**可以获得群星本体及其王专,还有限定魂器和萌皮,还能光启亚比大集结.**当周域界有额外奖励**.小关很简单,随便打;实在不行还能达人币通过.大关一般是当月主推阵容+一个老阵容,萌新随缘就好.注意大关上下两关会锁亚比,一关用了并且通关了,另一关就用不了了.
@@ -108,7 +108,7 @@ My有做日常的脚本.
 - **时光副本**可以获得当月版本之子及其王专,一般不难,但是给的亚比也仅供收藏或娱乐.此外还给一些零碎的资源.累计进度奖励可以白嫖满战轮回队.
 - **幻想史诗**:高难挑战,前期不建议碰,能打过说明pve水平已经差不多了.没有很多女皇子牙也不要担心,一般会有平民攻略,但是还是需要养不少亚比,而且需要凹.三个月左右一期,可以获得整套随机王专.随机次数达到40次可以自选.
 - **挑战档案**几乎收录了所有挑战亚比,从后往前打就行了.
-  ![](images/document_582190/image_019.png)
+  ![](images/document_582190/getstarted_019.png)
 
 - **凯文岛**给召唤券.通关就能拿奖励,过关就好.大部分物理岛可以拿唤灵圣天伊横推,魔法岛可以拿唤灵星诺玛横推.后期可能需要较多克制打手甚至秘宝.
 - **绝望之谷**除了寂灭魂塔外都很简单,但是奖励也不多,除非闲得没事干了再考虑.寂灭魂塔难度很高,需要高群星点、绝对克制打手和凹.
@@ -128,7 +128,7 @@ My有做日常的脚本.
 **先拜师再打不然拜不了师血亏**
 :::
 
-- 可能会有不喜欢pvp或觉得太烧money的玩家.然而,pvp能产出一定量**星币**,还有王者钻石等重要资源.不用担心,有系统阵容和平民无脑阵容都可以打到较高段位,my还有脚本可以挂机.![](images/document_582190/image_020.png)
+- 可能会有不喜欢pvp或觉得太烧money的玩家.然而,pvp能产出一定量**星币**,还有王者钻石等重要资源.不用担心,有系统阵容和平民无脑阵容都可以打到较高段位,my还有脚本可以挂机.![](images/document_582190/getstarted_020.png)
 
 - **异界双宠**目前最主流的、最易上手的pvp.后续会有专门章节介绍.
 - **多亚比对战**:玩家较少,套路相对固定.依赖秘宝和年费,需要部分老亚比.
