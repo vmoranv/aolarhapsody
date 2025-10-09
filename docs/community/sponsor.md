@@ -39,7 +39,7 @@ Aolarhapsody 是一个开源项目,您的赞助将帮助我们：
 如果您愿意赞助本项目,请通过以下方式联系我们：
 
 - 邮箱：[vmoranv@outlook.com](mailto:vmoranv@outlook.com)
-- QQ群：[群号暂定]
+- QQ群：1058690779
 
 ### 付款码
 

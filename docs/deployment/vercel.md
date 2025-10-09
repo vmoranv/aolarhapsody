@@ -11,13 +11,13 @@
   "rewrites": [
     {
       "source": "/proxy/:path*",
-      "destination": "https://your-backend-domain.com/:path*"
+      "destination": "https://aola.100bt.com/:path*"
     }
   ]
 }
 ```
 
-这个配置将 `/proxy` 路径的请求代理到 `https://your-backend-domain.com`,用于访问游戏数据接口.
+这个配置将 `/proxy` 路径的请求代理到 `https://aola.100bt.com`,用于访问游戏数据接口.
 
 ## 部署步骤
 

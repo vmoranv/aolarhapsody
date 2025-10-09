@@ -39,7 +39,7 @@ Aolarhapsody is an open-source project, and your sponsorship will help us:
 If you would like to sponsor this project, please contact us through the following methods:
 
 - Email: [vmoranv@outlook.com](mailto:vmoranv@outlook.com)
-- QQ Group: [Group number to be determined]
+- QQ Group: 1058690779
 
 ### Payment QR Codes
 

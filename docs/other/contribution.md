@@ -109,6 +109,6 @@
 
 - GitHub Issues: [提交问题和建议](https://github.com/vmoranv/aolarhapsody/issues)
 - 邮箱: [vmoranv@outlook.com](mailto:vmoranv@outlook.com)
-- QQ群/微信群: 实时交流(暂未开放)
+- QQ群: 1058690779
 
 感谢您的贡献！
