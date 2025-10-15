@@ -108,6 +108,6 @@ For any questions, please contact us through the following methods:
 
 - GitHub Issues: [Submit questions and suggestions](https://github.com/vmoranv/aolarhapsody/issues)
 - Email: [vmoranv@outlook.com](mailto:vmoranv@outlook.com)
-- QQ/WeChat groups: Real-time communication (not yet available)
+- QQ Group: 1058690779
 
-Thank you for your contribution!
+Thank you for your contribution！
