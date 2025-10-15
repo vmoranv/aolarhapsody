@@ -48,35 +48,35 @@
 ## 混沌寂烬-厄瑞玻斯异界满战
 
 - My登录器的拓展-辅助功能-扩展-旧活动列表
-  ![](../public/aola/free-petcard2_142.png)
+  ![](/aola/free-petcard2_142.png)
 
 往下拉找到回归福利1 点击
 
-![](../public/aola/free-petcard2_143.png)
+![](/aola/free-petcard2_143.png)
 
 游戏内点击弹出页面左下角1折商店按钮
 
-![](../public/aola/free-petcard2_144.png)
+![](/aola/free-petcard2_144.png)
 
 点击变换后的的页面上方新手指引按钮
 
-![](../public/aola/free-petcard2_145.png)
+![](/aola/free-petcard2_145.png)
 
 点击前往
 
-![](../public/aola/free-petcard2_146.png)
+![](/aola/free-petcard2_146.png)
 
 点击此处
 
-![](../public/aola/free-petcard2_147.png)
+![](/aola/free-petcard2_147.png)
 
 点击此皮肤跳转
 
-![](../public/aola/free-petcard2_148.png)
+![](/aola/free-petcard2_148.png)
 
 点击此活动
 
-![](../public/aola/free-petcard2_149.png)
+![](/aola/free-petcard2_149.png)
 
 右边即可领取免费异界满战
 

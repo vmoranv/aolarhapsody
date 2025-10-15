@@ -180,7 +180,7 @@
 - 第4回合:逍遥切换梦想精灵
 - 第5回合:梦想精灵使用回忆泡沫打本体直到出100%血死魂
 - 第6回合:梦想精灵使用回忆泡沫打本体直到出100%血死魂
-  ![](../public/aola/onemorething_150.png)
+  ![](/aola/onemorething_150.png)
 
 一般一把也就2-3次使用回忆泡沫的机会,如果2-3次回忆泡沫厚没有出死魂,重开即可
 
@@ -361,17 +361,17 @@
 体力刀获取方法:
 
 My登录器上方点开拓展选择全地图并刷新游戏
-![](../public/aola/onemorething_151.png)![](../public/aola/onemorething_152.png)
+![](/aola/onemorething_151.png)![](/aola/onemorething_152.png)
 
 地图场景搜索:英雄试炼城
 
 进入场景选择魔方迷宫;
 
-![](../public/aola/onemorething_153.png)
+![](/aola/onemorething_153.png)
 
 里面每日十次获得装备的机会(大概率出体力刀)
 
-![](../public/aola/onemorething_154.png)
+![](/aola/onemorething_154.png)
 
 获取体力刀之后,进行升级进阶成钻装
 
@@ -382,37 +382,37 @@ My登录器上方点开拓展选择全地图并刷新游戏
 紫色进阶星能获取方法:
 
 My登录器上方拓展的辅助功能;
-![](../public/aola/onemorething_155.png)选择辉月巨灵![](../public/aola/onemorething_156.png)
+![](/aola/onemorething_155.png)选择辉月巨灵![](/aola/onemorething_156.png)
 进入挑战(单人和组队挑战一天可获得90辉月之力)
 
-![](../public/aola/onemorething_157.png)
+![](/aola/onemorething_157.png)
 
 用辉月之力兑换紫色进阶星能(一天限5个)
 
-![](../public/aola/onemorething_158.png)
+![](/aola/onemorething_158.png)
 
 金色进阶星能通过紫色进阶星能合成获得;
 王者进阶星能通过战队商店贡献兑换获得(周限5个):
-![](../public/aola/onemorething_159.png)
+![](/aola/onemorething_159.png)
 
 其他提高体力值的方法
 
 1.战队或者舰队的天工树(局内增加体力上限);
-![](../public/aola/onemorething_160.png)
+![](/aola/onemorething_160.png)
 
 2.携带基础体力值较高的护符(例如:樱花护符,百星护符等);
-![](../public/aola/onemorething_161.png)
+![](/aola/onemorething_161.png)
 
 3.学习力把体力拉满;
-![](../public/aola/onemorething_162.png)
+![](/aola/onemorething_162.png)
 
 如果已经刷错了可以通过商店购买降级喷雾(100级晴明)和各种遗忘喷雾遗忘学习力并重新刷取;
 
 4.携带体力铭文(尽量多歪点体力副词条);
-![](../public/aola/onemorething_163.png)![](../public/aola/onemorething_164.png)
+![](/aola/onemorething_163.png)![](/aola/onemorething_164.png)
 
 5.亚比军团(上限能加588点体力值)
-![](../public/aola/onemorething_165.png)
+![](/aola/onemorething_165.png)
 
 ### 晴明万血培养
 
