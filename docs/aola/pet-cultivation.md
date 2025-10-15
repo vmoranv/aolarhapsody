@@ -8,7 +8,7 @@
 
 新技能组与旧技能组亚比对比如下:
 
-![](images/document_582190/pet-cultivation_021.jpg)![](images/document_582190/pet-cultivation_022.png)
+![](../public/aola/pet-cultivation_021.jpg)![](../public/aola/pet-cultivation_022.png)
 简单来讲,光启第一年的亚比都是旧技能组,新技能组是为了4v2服务的.区分新技能组和旧技能组非常容易,旧技能组亚比一般有1个pp技能、1个1光技能和1个2光技能;新技能组可以技能配置来更换技能(该功能一般是pvp使用的).
 
 :::warning
@@ -16,7 +16,7 @@
 :::
 
 - 2024年年初及之后出的亚比就没有旧技能组了.策划承诺会给所有旧技能组的亚比开新技能组,但是目前只有一部分旧技能组亚比可以切换到新技能组.
-  ![](images/document_582190/pet-cultivation_023.jpg)
+  ![](../public/aola/pet-cultivation_023.jpg)
 
 例如辅助黑翼,右上角的按钮可以在旧技能组和新技能组间切换.值得注意的是,对于这类拥有新技能组的老亚比,王者专属同时有旧技能组和新技能组效果.
 :::warning
@@ -24,7 +24,7 @@
 
 本节同时揭示了两种黑翼不能上场自爆这个问题的答案:使用了新技能组或者穿戴的是异界装备,没有上场满光.
 :::
-![](images/document_582190/pet-cultivation_024.png)![](images/document_582190/pet-cultivation_025.png)
+![](../public/aola/pet-cultivation_024.png)![](../public/aola/pet-cultivation_025.png)
 
 :::tip
 因为魂器与晶钥的加成.**旧技能组亚比需要达到一定战力来使技能满级.**
@@ -52,7 +52,7 @@ pve亚比基本上均刚需**专属装备,**除年费、秘宝外均在**装备�
 
 对比示例(上方为王专,下方为异界)
 
-![](images/document_582190/pet-cultivation_026.png)![](images/document_582190/pet-cultivation_027.png)![](images/document_582190/pet-cultivation_028.png)
+![](../public/aola/pet-cultivation_026.png)![](../public/aola/pet-cultivation_027.png)![](../public/aola/pet-cultivation_028.png)
 理想情况下当然希望所有亚比都带王专.然而王专每月免费获取有限.现给出王专的优先级如下.
 
 - **T0**:**关键常用通用辅**例:女皇,子牙,女帝,阿赖,火天使,孟婆等必须上王者.女皇和子牙没异界.女帝、阿赖的王专新手送,火天使的王专达人王获得,孟婆的可以连环购获得.弱化类亚比如果只有异界,对伤害影响很大
@@ -81,7 +81,7 @@ pve亚比基本上均刚需**专属装备,**除年费、秘宝外均在**装备�
 
 ## 魂卡
 
-![](images/document_582190/pet-cultivation_029.png)
+![](../public/aola/pet-cultivation_029.png)
 
 - **魂卡特效**
 - **魂卡词条**
@@ -91,7 +91,7 @@ pve亚比基本上均刚需**专属装备,**除年费、秘宝外均在**装备�
 - **魂卡词条:**词条分为普攻,特攻等,普攻是**橙色**,特攻是**蓝色,**双攻是**白色**
 - **词条成长值**词条附带的数字,通过后面的+x来进行加法计算
 - **生效魂座:**本魂卡词条和词条成长值达到需要的**魂座阶级**才会进行生效计算,意思是五级魂座上的魂卡**从上往下**前五条生效,三级魂座上的魂卡从上往下前三条生效,一级魂座只有第一条生效.魂座初始均为一级,需要魂砂升级.
-  ![](images/document_582190/pet-cultivation_030.png)
+  ![](../public/aola/pet-cultivation_030.png)
 
 - **当前成长值**
 - **当前词条**
@@ -99,7 +99,7 @@ pve亚比基本上均刚需**专属装备,**除年费、秘宝外均在**装备�
 - **增益只与等级有关**,14/20也只算3级,同理20、21、22效果相同
 - **当前成长值:**通过魂卡的**生效的魂卡成长值相加**得到
 - **免费卡通过魂卡祈愿获得.回归玩家**以及**萌新**魂卡祈愿可按照此**心愿单**进行设置:
-  ![](images/document_582190/pet-cultivation_031.png)
+  ![](../public/aola/pet-cultivation_031.png)
 
 - **星诺玛和小星诺**分别为**吟卡、岁卡**,是输出主卡,放在五级魂座,效果为普/特攻能力值+10;威力+[20+目标体力上限/5000]1%,上限值=60%
 - **赫尔墨斯、厄瑞波斯**卡分别为凑特攻/普攻、双攻的卡,放在三级魂座,分别可换为**昭烈帝/成吉思汗**,效果相同.
@@ -117,7 +117,7 @@ pve亚比基本上均刚需**专属装备,**除年费、秘宝外均在**装备�
 
 - **三星位置**放**特攻/普攻+双攻+特攻/普攻**的卡;**一星位置**上放**特攻/普攻**卡
   :::tip
-  **氪金卡的伤害明显高于免费卡,如果有余力建议购入普攻特攻各两张.不建议直接购买,可以通过魂卡夺宝/魂卡团购等活动获得.**![](images/document_582190/pet-cultivation_032.png)![](images/document_582190/pet-cultivation_033.png)
+  **氪金卡的伤害明显高于免费卡,如果有余力建议购入普攻特攻各两张.不建议直接购买,可以通过魂卡夺宝/魂卡团购等活动获得.**![](../public/aola/pet-cultivation_032.png)![](../public/aola/pet-cultivation_033.png)
   :::
 
 - **pve目前最泛用**的**特攻**氪金卡是**尘卡**(闲看庭前花开花落-渡)
@@ -128,8 +128,8 @@ pve亚比基本上均刚需**专属装备,**除年费、秘宝外均在**装备�
 - 花卡词条不带特攻,难以凑20特攻.如果有流星十二宫中+3**特攻的卡,可以凑**15**特攻**16**爆伤**5暴击.
 - **图4**为**特**攻**乐卡:20**特攻**7**爆伤**2**攻击(三星位置特攻+双攻+特攻,一星位置特攻)
 
-![](images/document_582190/pet-cultivation_034.png)![](images/document_582190/pet-cultivation_035.png)
-![](images/document_582190/pet-cultivation_036.png)![](images/document_582190/pet-cultivation_037.png)
+![](../public/aola/pet-cultivation_034.png)![](../public/aola/pet-cultivation_035.png)
+![](../public/aola/pet-cultivation_036.png)![](../public/aola/pet-cultivation_037.png)
 
 - **PVE目前**最泛用的**普攻**氪金卡为**应卡**(山海志-至臻阿卜苏)
 - **诺卡**(一生之诺)大部分情况是应卡的下位替代,伤害高于免费卡,但不推荐专门购买.
@@ -139,22 +139,22 @@ pve亚比基本上均刚需**专属装备,**除年费、秘宝外均在**装备�
 - **图3**为**普**攻**诺卡:20**普攻**13**爆伤(可20普攻15爆伤,需要**十二宫卡**)
 - **图4**为**普**攻**诺卡:20**普攻**7**爆伤**6**暴击
 
-![](images/document_582190/pet-cultivation_038.png)![](images/document_582190/pet-cultivation_039.png)![](images/document_582190/pet-cultivation_040.png)![](images/document_582190/pet-cultivation_041.png)
+![](../public/aola/pet-cultivation_038.png)![](../public/aola/pet-cultivation_039.png)![](../public/aola/pet-cultivation_040.png)![](../public/aola/pet-cultivation_041.png)
 
 - **站场辅助**使用的免费魂卡包括**铁/佑/愈/祝**,可增强生存能力,一般搭配boss对应的防御,优先凑**20**体力(凑**15**也没关系),建议输出卡充足后祈愿.适量抽取词条为体力+任意属性+体力的卡凑词条.搭配较随意,示例如下:
 - **图1**为特防**铁**卡,可提升队友**特防**(祈愿明王/曹操卡;普防祈愿巫山神女)
 - **图2**为特攻**佑**卡,每回合末提高属性(祈愿沫夏卡;普攻祈愿虚空龙灵)
 - **图3**为普防**愈**卡.每回合回复体力(祈愿未知之影,上位氪金卡为龙母)
-- **图4**为特攻**祝**卡.提高体力上限(祈愿穷穷小恶霸;普攻祈愿星空下的誓约)![](images/document_582190/pet-cultivation_042.png)![](images/document_582190/pet-cultivation_043.png)![](images/document_582190/pet-cultivation_044.png)![](images/document_582190/pet-cultivation_045.png)
+- **图4**为特攻**祝**卡.提高体力上限(祈愿穷穷小恶霸;普攻祈愿星空下的誓约)![](../public/aola/pet-cultivation_042.png)![](../public/aola/pet-cultivation_043.png)![](../public/aola/pet-cultivation_044.png)![](../public/aola/pet-cultivation_045.png)
 - **站场辅助**使用的氪金魂卡包括**壁卡**(妖魅睨红尘-波旬)提高队友的双防和**暴击率;秘卡**(时界秘藏-至臻奇灵王)提高队友威力.基于泛用性和获得难易,更推荐**壁卡**.同时这两张卡也可用于pvp,方便起见叠**20**速度**15**防御即可.
-  **![](images/document_582190/pet-cultivation_046.png)**
+  **![](../public/aola/pet-cultivation_046.png)**
 
 若希望提高站场能力可选择**龙卡**(执掌因果万世轮回-帝俊),降低前四回合受到的伤害和**源**卡(破虚空衍万龙-龙母)回合末回血.副卡搭配boss对应的防御和体力即可,也可以和pvp共用一套,叠**20**速.
 
-![](images/document_582190/pet-cultivation_047.png)![](images/document_582190/pet-cultivation_048.png)
+![](../public/aola/pet-cultivation_047.png)![](../public/aola/pet-cultivation_048.png)
 此外**环**卡可以用于多段攻击特攻亚比.**攻击次数大于等于4**时伤害高于尘卡(如法芙娜、月亮星诺、卡奥斯等).搭配为**20**特攻**10**爆伤**5**体力.
 
-![](images/document_582190/pet-cultivation_049.png)
+![](../public/aola/pet-cultivation_049.png)
 
 :::tip
 **个人推荐优先级:尘约等于应(各有两张最佳)大于壁大于环其他**氪金魂卡不是刚需,但在星币购买项目中优先级相对较高.
@@ -168,7 +168,7 @@ pve亚比基本上均刚需**专属装备,**除年费、秘宝外均在**装备�
 **领取系统送的魂卡培养之前,一定要把原来装的魂卡拆掉！！！**
 :::
 
-![](images/document_582190/pet-cultivation_050.png)
+![](../public/aola/pet-cultivation_050.png)
 
 如果希望某亚比的魂卡不会被系统自动拆下,点击左上角的小锁即可.当然**不建议点这个锁,前期魂卡比较少.**
 
@@ -181,7 +181,7 @@ pve亚比基本上均刚需**专属装备,**除年费、秘宝外均在**装备�
 
 品质**史诗级**比传说级更强.
 
-![](images/document_582190/pet-cultivation_051.png)
+![](../public/aola/pet-cultivation_051.png)
 
 - **魂器特效**
 - **特效条件**
@@ -199,13 +199,13 @@ pve亚比基本上均刚需**专属装备,**除年费、秘宝外均在**装备�
 一般**两条特攻鱼+两条普攻鱼+两本特攻书+两朵普攻花**即可满足大部分情况.新手任务就送的差不多了,慢慢洗吧.**前期千万不要洗斧头、带斧头！**
 
 - **技巧型魂器**推荐:**永不服输的咸鱼(首选),适应性进攻模块(首选),域界兑换的流光斩(连击用)、其后的抉择和猫咪警戒玩偶(反击用)**,都是给主C用的.如图所示:
-  ![](images/document_582190/pet-cultivation_052.jpg)**![](images/document_582190/pet-cultivation_053.jpg)**
+  ![](../public/aola/pet-cultivation_052.jpg)**![](../public/aola/pet-cultivation_053.jpg)**
 
-![](images/document_582190/pet-cultivation_054.jpg)![](images/document_582190/pet-cultivation_055.png)
+![](../public/aola/pet-cultivation_054.jpg)![](../public/aola/pet-cultivation_055.png)
 
-**![](images/document_582190/pet-cultivation_056.png)**
+**![](../public/aola/pet-cultivation_056.png)**
 
-- **强力型魂器**推荐:**生命之泉涌**(普攻),**圣骑士异闻录**(特攻),如图所示:![](images/document_582190/pet-cultivation_057.jpg)![](images/document_582190/pet-cultivation_058.jpg)
+- **强力型魂器**推荐:**生命之泉涌**(普攻),**圣骑士异闻录**(特攻),如图所示:![](../public/aola/pet-cultivation_057.jpg)![](../public/aola/pet-cultivation_058.jpg)
 - 其他**pve**可能用到的技巧型魂器:
 - **风化的锁链:**可使孟婆/炽天使**自爆回合不死**,从而使**群星**阵容启动更快,特殊关卡配合愈卡可实现**第二次自爆**,延长buff回合.总之非常推荐.
 - **盗火者遗契**(域界兑换):阵亡时给下个亚比**60%**威力提升**3**回合
@@ -213,15 +213,15 @@ pve亚比基本上均刚需**专属装备,**除年费、秘宝外均在**装备�
 - **贤者的反击**:**替换上场**受击时清除对方增益,可针对龙母/贝利亚等.
 - **照世之灯**:造成**固定伤害**提高30%,目前仅供**固伤渡**使用.
 - **新生的回响、树果**:回血,提高辅助的生存能力
-  ![](images/document_582190/pet-cultivation_059.jpg)![](images/document_582190/pet-cultivation_060.png)
+  ![](../public/aola/pet-cultivation_059.jpg)![](../public/aola/pet-cultivation_060.png)
 
-![](images/document_582190/pet-cultivation_061.jpg)![](images/document_582190/pet-cultivation_062.png)
+![](../public/aola/pet-cultivation_061.jpg)![](../public/aola/pet-cultivation_062.png)
 
-![](images/document_582190/pet-cultivation_063.jpg)![](images/document_582190/pet-cultivation_064.jpg)
+![](../public/aola/pet-cultivation_063.jpg)![](../public/aola/pet-cultivation_064.jpg)
 
 - **免死金牌**自身上场时**75**免疫一次非克制伤害,可保护辅助
 - **同行者的共鸣**:队友使用**与自身属性相同**的技能时提升**30**伤害
-  ![](images/document_582190/pet-cultivation_065.jpg)![](images/document_582190/pet-cultivation_066.png)
+  ![](../public/aola/pet-cultivation_065.jpg)![](../public/aola/pet-cultivation_066.png)
 
 - **魂器继承系统**的使用条件:
 - **1**.  只能是**传说**级魂器的词条传给**史诗**级魂器,不可以史诗级魂器之间互传,传说级魂器也是.
@@ -239,7 +239,7 @@ pve亚比基本上均刚需**专属装备,**除年费、秘宝外均在**装备�
 释放光烬也会受到**斧头**和**暗黑咒语**的只能使用一个技能**限制,一般pve不要给输出带这种东西,除非你的输出只靠大招打输出**.斧头的优先级判定非常高,英雄技、系统技等都会判定成一个技能,很不建议使用.
 :::
 
-![](images/document_582190/pet-cultivation_067.png)
+![](../public/aola/pet-cultivation_067.png)
 
 - **魂器也有预组功能**,鼠标移到右上角的当前配置处即可使用.
 
@@ -253,7 +253,7 @@ pve亚比基本上均刚需**专属装备,**除年费、秘宝外均在**装备�
 
 每个亚比可以装备两个晶钥,部分晶钥可重复.晶钥一旦装备即与该亚比绑定,不可再装备给其他亚比.两只相同亚比的晶钥是可以共用的.此外亚比及其璀璨版、星环师加冕前后(8.8更新)也可以共用.
 
-![](images/document_582190/pet-cultivation_068.png)
+![](../public/aola/pet-cultivation_068.png)
 
 2024年12月16日前出的亚比自带推荐晶钥.之后出的亚比则需要手动装备.然而和魂卡推荐一样,系统推荐的都不是最好的.
 
