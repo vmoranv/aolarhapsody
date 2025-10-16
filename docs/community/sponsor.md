@@ -46,4 +46,4 @@ Aolarhapsody 是一个开源项目,您的赞助将帮助我们：
 微信收款码: ./wechat-pay-qrcode.png (占位符)
 支付宝收款码: ./alipay-qrcode.png (占位符)
 
-感谢您的支持！
+感谢您的支持!

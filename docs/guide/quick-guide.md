@@ -1,6 +1,6 @@
 # 快速开始
 
-欢迎使用 Aolarhapsody！这是一个基于 pnpm workspace 的 monorepo 项目,整合了现代化的前端和后端技术栈.
+欢迎使用 Aolarhapsody!这是一个基于 pnpm workspace 的 monorepo 项目,整合了现代化的前端和后端技术栈.
 
 ## 项目概述
 
@@ -134,4 +134,4 @@ docker run -d -p 3000:3000 --name aolarhapsody-backend-container aolarhapsody-ba
    pnpm install
    ```
 
-现在您已经了解了如何设置和运行 Aolarhapsody 项目,可以开始开发您的功能了！
+现在您已经了解了如何设置和运行 Aolarhapsody 项目,可以开始开发您的功能了!

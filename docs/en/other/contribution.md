@@ -110,4 +110,4 @@ For any questions, please contact us through the following methods:
 - Email: [vmoranv@outlook.com](mailto:vmoranv@outlook.com)
 - QQ Group: 1058690779
 
-Thank you for your contribution！
+Thank you for your contribution!

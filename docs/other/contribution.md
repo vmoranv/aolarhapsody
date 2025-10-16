@@ -1,6 +1,6 @@
 # 贡献指南
 
-欢迎参与 Aolarhapsody 项目的开发！我们非常感谢任何形式的贡献.
+欢迎参与 Aolarhapsody 项目的开发!我们非常感谢任何形式的贡献.
 
 ## 贡献方式
 
@@ -111,4 +111,4 @@
 - 邮箱: [vmoranv@outlook.com](mailto:vmoranv@outlook.com)
 - QQ群: 1058690779
 
-感谢您的贡献！
+感谢您的贡献!
