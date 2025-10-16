@@ -66,7 +66,7 @@ Ideally, of course, we want all pets to have King Excl. However, free acquisitio
   For commonly used Light Ash, Suisuiqi and Freya's King Excl can be freely exchanged in the fleet! Given to new players in 1314!
   :::
 
-- **T3**: **Other formation supports, Supreme Glory** e.g.: Star Ring Master, Ace Team, Third Gen Monkey, etc. Star Ring Master without King Excl will have one less star, Ace Team and Monkey are more specialized, can use Fire Tian as substitute temporarily. Supreme Glory recommended to cultivate after commonly used formations, slowly补through free activities, can replace part of formation team.
+- **T3**: **Other formation supports, Supreme Glory** e.g.: Star Ring Master, Ace Team, Third Gen Monkey, etc. Star Ring Master without King Excl will have one less star, Ace Team and Monkey are more specialized, can use Fire Tian as substitute temporarily. Supreme Glory recommended to cultivate after commonly used formations, slowly supplement through free activities, can replace part of formation team.
 - **T4**: Version Child, Light Initiation God Weapon, Constellation Feather **e.g.**: God Weapon Luo Xi, Chunjun, etc. Supplement as opportunity arises, not recommended to specifically exchange. Version Child except Fantasy Epic basically not usable. Some God Weapon pets can be obtained for free through activities or Master King exchange, Constellation King Excl can be slowly exchanged through Domain.
 - **T5**: Formation team stand-in supports **e.g.**: Luo Xi (Xihe team), Mad Dragon (Immortal Dragon team). Employment has almost been replaced by Constellation. Give Otherworld set to make do when Constellation points are very few early on, no need to cultivate later.
 - **Special**: **Annual Fee Du, Abys, Universe Secret Treasure** have no Otherworld, must have King Exclusive, don't equip Lazy Set anymore
@@ -101,7 +101,7 @@ Mixing Otherworld/King Excl cannot trigger effects, cannot have two King Excl an
 - **Free cards obtained through soul card wish. Returning players** and **new players** can set wish according to this **wishlist**:
   ![](/aola/pet-cultivation_031.png)
 
-- **Xinuoma and Little Xinuo** are **Chant Card and Year Card** respectively, output main cards, placed in level 5 soul seat, effect is Normal/Special Attack stat +10; Power +[20+target HP上限/5000]1%,上限=60%
+- **Xinuoma and Little Xinuo** are **Chant Card and Year Card** respectively, output main cards, placed in level 5 soul seat, effect is Normal/Special Attack stat +10; Power +[20+target HP limit/5000]1%, limit=60%
 - **Hermes and Erebos** cards are for stacking Special Attack/Normal Attack and Dual Attack respectively, placed in level 3 soul seat, can be replaced with **Zhaolie Emperor/ Genghis Khan**, same effect.
 - **Far right** is **Awareness Card**, effect: Pet carrying this soul card **dies** and our side gains 50% all skill damage boost for 8 rounds, same type effect only triggers once (give to last self-destruct pet). Multiple Awareness Cards can refresh rounds. **When resources tight**, **self-destruct pets** only need to upgrade **level 5 soul seat** to carry **Awareness** card
 - **Soul Card Combination:**
@@ -112,18 +112,18 @@ Mixing Otherworld/King Excl cannot trigger effects, cannot have two King Excl an
 - **Free card** main DPS **PVE** card combination generally **Year/Chant Card 20 Attack 11 Dual Attack**, as shown in Figure 1:
 - **Figure 2** is **Special Attack** Year Card: 20 Special Attack 11 Dual Attack; right figure is **Normal Attack** Chant Card: **20 Normal Attack 11 Dual Attack**
   :::tip
-  **Note: Circle Card damage slightly lower than Year/Chant Card, also needs 20 Attack 11 Attack combination, other cards not recommended.** Cards with **Circle** entry have multiple types, please look for Dual Attack entries with Xiaoyao/Fantian, Crit Damage entries are副cards.
+  **Note: Circle Card damage slightly lower than Year/Chant Card, also needs 20 Attack 11 Attack combination, other cards not recommended.** Cards with **Circle** entry have multiple types, please look for Dual Attack entries with Xiaoyao/Fantian, Crit Damage entries are secondary cards.
   :::
 
 - **Three-star position** place **Special Attack/Normal Attack + Dual Attack + Special Attack/Normal Attack** cards; **One-star position** place **Special Attack/Normal Attack** cards
   :::tip
-  **Paid cards' damage明显higher than free cards, if able建议purchase one each of Normal Attack and Special Attack. Not recommended to buy directly, can obtain through soul card treasure hunt/soul card group buy events.**
+  **Paid cards' damage obviously higher than free cards, if able recommend purchase one each of Normal Attack and Special Attack. Not recommended to buy directly, can obtain through soul card treasure hunt/soul card group buy events.**
   :::
   ![](/aola/pet-cultivation_032.png)![](/aola/pet-cultivation_033.png)
 
 - **Most versatile** **Special Attack** paid card in **PvE** is **Dust Card** (Leisurely Watching Courtyard Flowers Bloom and Fade - Du)
-- **Flower Card** (Spring and Blooms - Supreme Apsu) and **Music Card** (Happy Music) have higher stats, but versatility不如Dust Card, mostly **inferior alternatives** to Dust Card, often used for stat-stacking support pets (like Du's seasonal fee, Angel Covenant's kk and Laituo Ruoxi, etc.), not recommended to specifically purchase. **Soul Card Combination** as follows:
-- **Figure 1** is **Special Attack** Dust Card: 20 **Special Attack** 15 **Dual Attack** (Three-star position Special Attack + Dual Attack + Special Attack, one-star position Dual Attack; or three-star position Dual Attack + Special Attack + Dual Attack, one-star position Special Attack) Higher极限damage
+- **Flower Card** (Spring and Blooms - Supreme Apsu) and **Music Card** (Happy Music) have higher stats, but versatility is not as good as Dust Card, mostly **inferior alternatives** to Dust Card, often used for stat-stacking support pets (like Du's seasonal fee, Angel Covenant's kk and Laituo Ruoxi, etc.), not recommended to specifically purchase. **Soul Card Combination** as follows:
+- **Figure 1** is **Special Attack** Dust Card: 20 **Special Attack** 15 **Dual Attack** (Three-star position Special Attack + Dual Attack + Special Attack, one-star position Dual Attack; or three-star position Dual Attack + Special Attack + Dual Attack, one-star position Special Attack) Higher limit damage
 - **Figure 2** is **Special Attack** Dust Card: 20 **Special Attack** 10 **Crit** 5 **Dual Attack** (Three-star position Special Attack + Crit + Special Attack, one-star position Crit; or three-star position Crit + Special Attack + Crit, one-star position Special Attack) Relatively more stable
 - **Figure 3** is **Special Attack** Flower Card: 20 **Crit Damage** 10 **Special Attack** 2 **Crit** (Three-star position Special Attack + Crit Damage + Special Attack, one-star position Crit Damage; or three-star position Crit Damage + Special Attack + Crit Damage, one-star position Special Attack)
 - Flower Card entries don't include Special Attack, hard to stack 20 Special Attack. If have Twelve Palaces +3 **Special Attack** card, can stack **15** Special Attack **16** Crit Damage 5 Crit.
@@ -146,11 +146,12 @@ Mixing Otherworld/King Excl cannot trigger effects, cannot have two King Excl an
 - **Figure 1** is Special Defense **Iron** Card, can boost teammates' **Special Defense** (wish Ming Wang/Cao Cao card; Normal Defense wish Wushan Goddess)
 - **Figure 2** is Special Attack **Guard** Card, boosts attributes at round end (wish Mo Xia card; Normal Attack wish Void Dragon Spirit)
 - **Figure 3** is Normal Defense **Heal** Card. Recovers HP each round (wish Unknown Shadow, superior paid card is Dragon Mother)
-- **Figure 4** is Special Attack **Wish** Card. Boosts HP上限(wish Poor Little Evil; Normal Attack wish Vow Under Starry Sky)![](/aola/pet-cultivation_042.png)![](/aola/pet-cultivation_043.png)![](/aola/pet-cultivation_044.png)![](/aola/pet-cultivation_045.png)
+- **Figure 4** is Special Attack **Wish** Card. Boosts HP limit (wish Poor Little Evil; Normal Attack wish Vow Under Starry Sky)![](/aola/pet-cultivation_042.png)![](/aola/pet-cultivation_043.png)![](/aola/pet-cultivation_044.png)![](/aola/pet-cultivation_045.png)
+
 - **Paid soul cards** used by **stand-in supports** include **Wall Card** (Enchanting Gaze Into Red Dust - Bohan) boosts teammates' dual defense and **crit rate; Secret Card** (Time Domain Secret - Supreme Qiling King) boosts teammates' power. Based on versatility and ease of acquisition, **Wall Card** more recommended. These two cards can also be used in PvP, for convenience stack **20** speed **15** defense.
   **![](/aola/pet-cultivation_046.png)**
 
-For improved stand-in ability can choose **Dragon Card** (Mastering Causality Through Eternity - Di Jun), reduces damage taken in first four rounds and **Source** Card (Breaking Void, Ten Thousand Dragons - Dragon Mother) heals at round end.副card paired with boss corresponding defense and HP, can also share set with PvP, stack **20** speed.
+For improved stand-in ability can choose **Dragon Card** (Mastering Causality Through Eternity - Di Jun), reduces damage taken in first four rounds and **Source** Card (Breaking Void, Ten Thousand Dragons - Dragon Mother) heals at round end. Secondary card paired with boss corresponding defense and HP, can also share set with PvP, stack **20** speed.
 
 ![](/aola/pet-cultivation_047.png)![](/aola/pet-cultivation_048.png)
 Additionally **Ring** Card can be used for multi-hit Special Attack pets. **Attack count ≥ 4** damage higher than Dust Card (like Fafnir, Moon Xinuo, Chaos, etc.). Pairing is **20** Special Attack **10** Crit Damage **5** HP.
@@ -171,7 +172,7 @@ If too lazy to configure soul cards, can use smart assembly function, pairing Pv
 
 ![](/aola/pet-cultivation_050.png)
 
-If希望a pet's soul cards won't be automatically removed by system, click small lock in top left. Of course **not recommended to click this lock, soul cards relatively scarce early on.**
+If hope a pet's soul cards won't be automatically removed by system, click small lock in top left. Of course **not recommended to click this lock, soul cards relatively scarce early on.**
 
 ## Soul Weapons
 
@@ -199,8 +200,9 @@ In **PvE**, we generally wash soul weapons for **Normal Attack** or **Special At
 
 Generally **two Special Attack fish + two Normal Attack fish + two Special Attack books + two Normal Attack flowers** sufficient for most situations. New player tasks give most of these, wash slowly. **Don't wash axes early on, don't equip axes!**
 
-- **Technique Type Soul Weapons** recommended: **Never Give Up Lazy Fish (首选), Adaptive Offensive Module (首选), Domain-exchanged Light Slash (for combos), Subsequent Choice and Cat Alert Doll (for counterattacks)**, all for main DPS. As shown:
-  ![](/aola/pet-cultivation_052.jpg)**![](/aola/pet-cultivation_053.jpg)**
+- **Technique Type Soul Weapons** recommended: **Never Give Up Lazy Fish (preferred), Adaptive Offensive Module (preferred), Domain-exchanged Light Slash (for combos), Subsequent Choice and Cat Alert Doll (for counterattacks)**, all for main DPS. As shown:
+
+![](/aola/pet-cultivation_052.jpg)**![](/aola/pet-cultivation_053.jpg)**
 
 ![](/aola/pet-cultivation_054.jpg)![](/aola/pet-cultivation_055.png)
 
@@ -208,7 +210,7 @@ Generally **two Special Attack fish + two Normal Attack fish + two Special Attac
 
 - **Power Type Soul Weapons** recommended: **Fountain of Life** (Normal Attack), **Paladin Chronicles** (Special Attack), as shown: ![](/aola/pet-cultivation_057.jpg)![](/aola/pet-cultivation_058.jpg)
 - Other **PvE** possibly useful technique soul weapons:
-- **Weathered Chains:** Can make Mengpo/Fire Angel **not die** on self-destruct round, making **Constellation** formation start faster, special levels配合Heal Card can achieve **second self-destruct**, extend buff rounds. Highly recommended.
+- **Weathered Chains:** Can make Mengpo/Fire Angel **not die** on self-destruct round, making **Constellation** formation start faster, special levels in conjunction with Heal Card can achieve **second self-destruct**, extend buff rounds. Highly recommended.
 - **Fire Stealer's Covenant** (Domain exchange): On death gives next pet **60%** power boost for **3** rounds
 - **Witch's Eternal Garden** provides teammates **24** damage boost
 - **Sage's Counterattack**: **Switching in** when attacked clears enemy buffs, targets Longmu/Beiliya, etc.
@@ -237,7 +239,7 @@ Releasing Light Ash also counts as one coffin skill used
 :::
 
 :::tip
-Releasing Light Ash also受**Axe** and **Dark Spell** restriction of only using one skill, generally don't give these to DPS in PvE unless your DPS only deals damage through ultimate. Axe priority判定is very high, Hero Skills, System Skills, etc. all count as one skill, not recommended to use.
+Releasing Light Ash also subject to **Axe** and **Dark Spell** restriction of only using one skill, generally don't give these to DPS in PvE unless your DPS only deals damage through ultimate. Axe priority determination is very high, Hero Skills, System Skills, etc. all count as one skill, not recommended to use.
 :::
 
 ![](/aola/pet-cultivation_067.png)
@@ -260,6 +262,6 @@ Pets released before December 16, 2024 come with recommended crystal keys. Pets 
 
 Best crystal key combination for output: **Assault Key (Normal Attack +10%)/Psychic Key (Special Attack +10%) + Resonance Key (same-type skill final damage increase 12%)**
 
-However, crystal key acquisition is also limited, **not all pets need极限damage setup**. Generally just give two with 6% corresponding attack, for high-stat attackers can even skip crystal keys. Generally recommended for very commonly used attackers, or when really lacking damage, then consider equipping best crystal keys.
+However, crystal key acquisition is also limited, **not all pets need limit damage setup**. Generally just give two with 6% corresponding attack, for high-stat attackers can even skip crystal keys. Generally recommended for very commonly used attackers, or when really lacking damage, then consider equipping best crystal keys.
 
 New skill group supports, like Empress, Mengpo, Fire Angel, Constellation, etc. can equip **Power Key (all backpack pets Normal Attack +3%)/Wisdom Key (all backpack pets Special Attack +3%), more effects the better, as icing on the cake** these crystal keys no need to waste selectable crystal keys, random crystal keys obtain as luck allows.

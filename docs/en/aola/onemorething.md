@@ -1,577 +1,1243 @@
-- 大招赋予亚比乱魂,60%命中错误目标
+# Appendix
 
-**处理方法:** 使用my计算光能,确认其不使用大招再输出
+## Appendix 1: Boss challenges where you can currently borrow pets
 
-#### 2. 三位一体-至尊精灵王(超神秘):封印、冻结
+**Leader Battle (6v1)**
+Second Generation Empress, Qiankun, Wushan Shennü, Lilith, Seraph, Pangu, Chengying, Kexila, Fifth Generation He, Fourth Generation He, Frigg, Emissary, Yuan, Dragon Abu Su, Moye, White Moebius, Immortal Loran, Chixiao, Tianming Wang, Isaac, Shengxiu Ankaidi, Venus, Gengu Shuling, Nidhogg, Tiamat, Shaman King, Ke Lan, Mo Xia, Death God Mi'er Final Battle, Donghuang Taiyi, Pita, First Generation Empress, Emperor Dragon, Second Generation Black Wing, Michael, Auxiliary Xihe, Chunjun, Zhanlu, Wuhuo Empress, Tai'a, Yunimet, Xuanhuang, Mipan, Second Generation Shura, Qixing Longyuan, Haina Baichuan, Second Generation Wolf King, Kuanglong, Hedinghong, After Light Ember Truth, Progenitor Shadow Dragon, Laitruoxi, Hero Angel King, Jiazhutao, Huanling Shengtianyi, Jueqingdan, Nezha.
 
-- 上场获得2+目标背包亚比数的光能,大招逼退并禁止目标上场若干回合,回合数=目标背包亚比数.属性技能概率上冻结,20%无法行动.
+**Dual Pet Battle (4v2)**
+Guangjin Ji Lubi, Fafnir, Chihan Shuangfeng, Guangjin Meng, Hero Qiling Wang, Second Generation Qilin, Zhigao Alai, Zhigao Yinhe, Second Generation Luoxi, Zhigao Longmu, Guangjin Ailin, Huanling Pangu, Tiannü, Sixth Generation He.
 
-  处理方法:首发子牙化解封印;群星多站几回合把封印吃了再上主C.
+**Single Challenge**
+Yunmie-Shijie, Mona, Boxun Final Battle, Guangjin Yelan
 
-3. 深渊安魂曲-奈亚(完全系):特殊机制、乱魂、雷击
-
-上场赋予任意目标深渊印记(可传递),吞噬自身及有深渊印记的目标的全属性值与能力变化;大招乱魂(50%命中错误目标);连锁技雷击(30%停止行动).
-
-处理方法:使用清持续亚比;使用星辉神灵亚比让印记挂到神灵上;4v2多试几次,让印记别挂到要切换成主C 的亚比身上.
-
-4. 千山落樱之辉-夜樱(虚境系):高固伤、沉眠、恐惧
-
-小招一次沉眠;大招伤害特别高,还有高固伤和恐惧.最近不那么常见了,
-
-处理方法:61正义群殴,龙王保护;单挑使用针对性亚比尽快击杀.4v2出场不多,遇到了建议多试试,优先击杀.
-
-5. 破虚空衍群龙-龙母(超神秘系):化解、高固伤、斩杀
-   被动梦之纱根据消耗的光能概率免疫技能,对五光大招免疫概率为70%
-   首次使用攻击技能获得龙潭:50%回合末反弹受到伤害的50%,上限20000
-   大招最多扣除30000固伤,且造成伤害后斩杀体力低于20%的目标
-
-处理方法:使用清持续亚比/使用不耗光能的输出,芙蕾雅、神羲和、阿比斯等
-
-龙潭可以通过贤者的反击/kk对位清除,大招只能说注意自己的血量吧
-
-6. 圣树临辉光暗双耀-奇灵王(超电系):快速削属、雷击、削弱体力上限
-   每次受到攻击削弱3级属性;小技能30%将随机属性削弱至与自身相同;3级雷击(30%无法行动)4回合;每次攻击前3次攻击削弱5%体力上限,光烬可吸取20%体力上限、削弱2级全属性.小技能最多一回合21000固伤.
-
-处理方法:女皇开保护属性;4v2可以用双天或圣天伊、盘古等快速击杀
-
-7. 天国守护者-白天使王(超王系):高伤害
-
-一手无视80%特防刀刀真伤
-
-处理方法:单挑遇到使用启元赖,波旬等处理;61有龙王保护,正义群殴
-
-8. 睥睨众臣-女帝(超时空系):开局灵佑、神佑、乱魂
-
-开局保护等级和能力值;首次攻击乱魂(40%).
-
-处理方法:女皇无视护属降低属性;至高荣耀需要站场4回合;等乱魂结束了再打或者直接拼脸.
-
-9. 武绝凌天-貘(完全系):回合末高固伤、斩杀
-
-每回合扣除全场固伤,上限(10000+我方背包未阵亡亚比数/2,最多30000),大招斩杀体力低于20000,否则扣除20000固伤
-
-处理方法:尽快击杀并注意站场辅助的血量
-
-10. 棋临无间-无冕之王(超王系):化解
-    概率免疫攻击技能,概率=[自身速度种族值-目标种族值]1%
-
-处理方法:使用清持续亚比;女皇带精准神兵;主C用速度种族值高的或自带精准的,比如英雄亚比.
-
-11. 漆夜破空之刃-使者/漆漆-使者(虚境/超时空系):记忆修改、高伤害
-    新晋出生榜榜首亚比,一手先发的幻化清梦属性技赋予记忆修改,随机释放技能
-
-处理方法:6v1可使用宙斯等五光打手,因为光启爆发技>先发小技能,可以无视幻化清梦.4v2可使用:渡、潘多拉之类亚比,或者高伤害直接短时间处理掉提高容错.被打死了只能说运气不好,多试试吧.
-
-12. 万王天谕-圣王麒麟(超王系):逼退、雷击、高固伤
-    一手出生逼退给人当皮球踢,还有雷击和高固伤
-
-处理方法:不要带死不掉的亚比,防止逼退,带群星就首发吃药送死.如果对面数值较低,也可以带域界给的防逼退魂器.
-
-13. 天地惊弦-六龙圣王(超王系):异常、逼退
-    靠一手大招异常折磨人,还有个逼退
-
-处理方法:顶着异常打就行,不要带死不掉的/群星首发吃药送死
-
-14. 圣铃妙音-阿赖耶识(虚境系):反击、固伤
-
-阿蒙王必吃榜.25%反击,每次反击还扣固伤.
-
-处理方法:能用其他阵容时就别用阿蒙了.推荐快速击杀,辅助在收集能量进入cd时候吃药,不要乱动,或者多试试.
-
-没有详细说明处理方法的都建议优先击杀,或者顶着硬打,或者多试试
-
-15. 傲凡尘启仙灵-女娲(仙灵系):血禁、高固伤 处理方法:多试
-
-16. 超越纪元的新生-海蒂拉玛(超数码系):高伤害、高固伤、无光
-    双圣魂之一,圣魂斩杀是超乾坤系的,打人很疼,不建议使用超龙/超光打手.
-
-处理方法:6v1可以群星多站几回合等吃到幻想具现再换;4v2多试.
-
-17. 万神之王-宙斯(超电系):罚站、扣光、清增益、高固伤
-    Evp幻神,一人拥有两种异常:磁场和雷击(可在附录6查看),并且可以额外消耗敌方光能,自身拥有护盾,拥有清增益,大招拥有最多60%穿防.真神出生,只要数值给高点,就是噩梦.
-
-处理方法:1.雷击只能赌运气 2.6v1让龙王子牙先上场自爆,女皇使用1光技能保护属性再自爆3.打手推荐使用高数值的圣天伊、盘古、艾琳等快速击杀.
-
-18. 造自然耀万物-盖亚(超光系):恐惧、高固伤 处理方法只能多试
-
-19. 神兽尊主-苍穹圣龙(超光系):玩异常的,还好没逼退
-
-处理方法:顶着异常打,只能多试,记得保证续航,祈祷少吃几个恐惧
-
-2. 新技能组 看似是原始人,但是作为boss时也有比较麻烦的
-3. 异界史诗-渡(生命系/不朽系):较高伤害、固伤、快速提属
-   一回合两动,会切形态,很影响体验,回合末烧血,伤害还不低.
-
-处理方法:女皇自爆给他,优先击杀.辅助搞肉点.
-
-21. 大道无名-天命王(超王系):大招打全场带高固伤,龙母的好队友
-
-处理方法:女皇/孟婆扣他光,辅助搞肉点,优先击杀.
-
-22. 长夜墟渊-烛龙(超龙系):大招清弱化 扣光,多试试,优先击杀.
-
-23. 梵星音律-乾达婆(超光系):乱魂、星梦、抗性提升
-
-大招赋予亚比乱魂 75%概率命中错误目标.6v1自带全属性和抗性提升
-
-处理方法:1.使用清持续亚比 2.算好光能,乾达婆有开大的光能时候注意出招,出招后有乱魂buff不要攻击 3.直接灌伤害秒掉
-
-没有详细说明处理方法的都建议优先击杀,或者顶着硬打,或者多试试24. 群星守护寰宇光辉-神银河(湮灭系):高额固伤,击杀连击,能力值膨胀
-
-清持续/优先击杀,如果有专属更恐怖,平时没有.
-
-25. 审判命运之战-奥丁大帝(超神系):清空光能,高额固伤 吃药攒光能
-
-26. 终末的残响-诺亚(完全系):有个雷击
-
-27. 断海沧澜-龙太子(超龙系):伤害比较高
-
-28. 审神律理-无冕之王(超王系):有时候会睡人,大招驱散两个增益
-
-29. 寒夜破晓之刃-使者(虚境系):有记忆修改
-
-30. 神威地龙-摩罗迦(超神系):会懦弱和失明,降低伤害和命中率
-
-31. 境神临之噬-赫耳墨斯/噬界傀人-赫耳墨斯(超暗系/完全系)
-
-evp常客,快速提属,伤害很高.如果两个一起,女皇锁一个,先杀另一个
-
-32. 灵骸烬染之潮-夜樱(虚境系):沉眠,斩杀
-
-evp常客,小技能沉眠,大招先扣固伤再斩杀血量低于10%,专门斩杀阿蒙
-
-处理方法:少用阿蒙王或优先击杀
-
-33. 月影映斑斓-夜樱(虚境系):小技能失明,大招沉眠和驱散增益
-
-34. 风摇影清荷-琉璃(仙灵系):被动每回合清一个剩余回合＜10的debuff
-
-处理方法:用子牙/圣灵星诺挂弱化就不会被清了
-
-35. 黑翎之妄朽界之暗-梵天(超暗系):削属比较快,大招驱散两个增益
-
-36. 天启纪元缔世圣冕-梵天(超光系):提属较快,还有个清两项负属性的技能
-
-37. 横戟破军-吕布(超暗系):嘲讽替换上场的单位,大招恐惧.少用双C打
-
-38. 神行至尊-玄皇(超上古系):束缚,清属性等级 群星首发或带椅子
-
-39. 诡影噬夜-黑翼王(超圣灵系):小招驱散一个减益,每回合提升友方双防
-
-40. 全维衍化之钥-阿比斯(超数码系):独特机制、清增属性
-
-6v1中会把包里最后一个亚比拉出来;4v2中会把不对位的亚比关进小黑屋.剥离之锋会清一项最高的属性,从普攻开始从下往上清.大招驱散增益.
-
-处理方法:女皇/群星和她处于对位,别让输出被关了,记得开护属
-
-41. 建构终端-格莉娅(生命系):大招清两项属性和驱散两个增益,小技能束缚
-
-42. 圣仪临世-烈焰凤凰(超火系):灼烧,扣固伤,动的越多扣的越多.
-
-43. 空寂无尘万法唯心-阿赖耶识(虚境系):自己和队友每次被攻击都扣固伤
-
-44. 一桥一诺一相逢-梦(黯星):削属性较快,大招沉眠.有专属更可怕,梦之纱免疫攻击特效,非常建议清个持续.
-
-45. 幽泉使者-孟婆(超暗系):小技能清空pp,大招失明
-
-46. 吞天黑潮-凯撒(超暗系):小技能恐惧,大招清两项属性
-
-47. 神霆点苍-奇灵王(超电系):每次受击削3级属性;小技能清属性和雷击.
-
-48. 纵马引弓巾帼志-孙尚香(超神系):挨打反击,小技能清属性,大招虚化一次,75%免疫伤害.伤害被吞了就是打到虚化上了.可以多试或者算光能
-
-49. 日辉月影之扉-羲和(超神系):削属性比较快,大招驱散2个增益
-
-50. 虚堕之君王-贝利亚(超火系):新晋出生,上场带炼狱4回合,技能连击一次;神·烈火战马高额固伤,小技能带有恐惧和灼伤.可用贤者的反击清炼狱.
-
-51. 七罪圣裁-伊撒尔(超龙系):新晋出生,开局2回合永恒之力免疫减益,大招伤害不低,小技能带斩杀.6v1造成击杀还会炸背包.
-
-处理方法:群星首发带锁链吃药站两回合,或者使用贤者的反击等清持续.尽快把属性降下来或使用化解类,减少辅助被132击杀.
-
-52. 光穹永耀之辉-天使王(超飞行系):大招有一次虚化
-
-53. 预命之固伤-瓦沙克(超神秘系):每回合末扣固伤,剩余体力越少扣的越多;技能打全场还会溅射给队友.辅助一定搞肉点.
-
-54. 诡匿之君王-巴拉姆(超格斗系):新晋出生,小技能会清空自身光能和增益效果,扣除目标等额光能和增益效果;放逐会把2回合内50%伤害在2回合后以固伤形式结算,由于免疫非克制伤害会免疫固伤,相当于直接吃掉50%伤害;大招双攻降低30%,预言成功还会扣1光.建议优先击杀和多试.
-
-55. 宙域终域-上古星龙(超上古系):每回合提属性,大招灵盾一次化解,小技能清除2个减益.带专属还会化解每个亚比第一次技能,非常出生.好在目前出现不多,但是幻想史诗有个一千多万体力带专属的.
-
-处理方法:每个自爆亚比使用小技能打一下再自爆,可以带两个削属亚比如女皇和孟婆来应对快速提升属性.如果未来在42出现,建议尽快击杀.
-
-::: warning
-大部分带专属的亚比提升属性和削弱属性都很快,一定要锁属护属啊.
-
-遇到莫名其妙的情况建议多看看技能或关卡buff.
+::: tip
+You can borrow one from your master, one from a friend, and two from a close friend (summer vacation benefit), for a total of 4 pets, enough for a whole 4v2 team. It is recommended to take advantage of the summer vacation to complete all the 4v2 challenges that allow borrowing pets. If you are not a new/returning player, you cannot borrow pets from friends.
 :::
 
-## 附录9:部分亚比打法推荐
+::: info
+The soul cards, soul weapons, etc., of pets are updated from time to time, so it is recommended to communicate with experienced players about which pets to borrow. The borrowed constellation pets use your own constellation points. In the early stage, it is recommended to borrow commonly used powerful DPS pets, including Du, Huanling Xingnuoma, Abisi, Mibao 132, Boluo, Xinglong, etc. You can find experienced players in the group to borrow them.
+:::
+
+## Appendix 2: Ranking of pets that clear persistent effects and numerical values
+
+This refers to buffs that last for 999 rounds (such as Xingmeng, Longtan, etc.). Buffs with a duration of less than 10 rounds can be cleared by a pet with Sage's Counterattack (such as 132's Eternal Power, Belial's Purgatory, etc.). Guangqi's KK can clear the opponent's buffs with a duration of less than 10 rounds when it enters the field, and the second-generation Caesar can also do so upon death.
+
+### The One True God
+
+1.  **Otherworldly Nuwa**
+    - **How to use:** As long as it's not the first pet, it clears all persistent effects on the opponent's side immediately upon switching in. No exclusive equipment is needed, but the passive skill must be maxed out.
+    - **How to obtain:** Search for Nuwa's Palace in the scene and purchase for 298 star coins / Otherworldly Blind Box
+
+Clearing persistent effects will also remove debuffs applied by our support pets, so it is recommended to switch her in after the initial constellation pet.
+
+### T0
+
+1.  **Spirit Liu Bei**
+    - **How to use:** Use ultimate skill upon entering the field to clear a single target's effects (must hit). No exclusive equipment needed.
+    - **How to obtain:** Draw from the Otherworldly Summoning Array during Spirit Week / Otherworldly Blind Box
+2.  **Super-dimensional Pangu**
+    - **How to use:** Clears opponent's persistent effects when hit or using ultimate skill. Requires exclusive equipment.
+
+### T1
+
+- **Aoyi Angel Yin**
+  - **How to use:** Use Super Aoyi at the beginning of the battle. High probability of clearing a single target's effects when hit (beware of constant revival).
+  - **How to obtain:** Beg from experienced players, requires 5000 intimacy. No exclusive equipment needed.
+- **Otherworldly Cherry**
+  - **How to use:** Clears all effects on the field with an attribute skill, no need to hit.
+- **Super-dimensional Caesar**
+  - **How to use:** Clears all effects on the field with an attribute skill, no need to hit.
+
+### T2:
+
+- **Aoyi Xuanyuan:** Use attribute skill [Xuejian Xuanyuan]. If the opponent uses a skill that can hit you within 3 rounds, their single target effects will be cleared.
+- **Shenqi Heikun:** [Xuanxu Liuhe] Clears single target (can miss).
+- **Shenhua Wumian:** [Wuming Shuangying] Clears single target at the end of the round (can miss).
+- **Legendary Zhanhuo Zhiwang:** Attribute skill [Zhanyi Zhansha] clears single target.
+- **Aoyi Hades:** Attribute skill [Linghun Chongzhi] clears single target.
+- **Huixiang Gandharva:** Small skill + attribute skill can clear the entire field.
+
+### T3:
+
+- **Legendary Xiukai:** [Shengguang Chengjie] Clears single target (this one is blind and can miss).
+- **King Hades:** Accumulate 4 energy to use ultimate skill [Wanming Tianzui] to clear single target.
+- **Legendary Pangu:** After activating the domain, [Kaitian Shengfu] clears single target (this skill is a guaranteed hit).
+- **Chaos Angel King:** Accumulate 3 stars to use ultimate skill with a chance to clear single target (exclusive equipment provides invincibility for the first round on the field, which is good for survival).
+- **Aoyi Emperor Dragon:** If your speed stat is higher than the opponent's, the attribute skill [Shayi Wushuang] clears single target at the end of the round (can be used directly with the summer/winter vacation buff, otherwise use Aoyi to reduce the opponent's speed first, then use the attribute skill).
+
+### T4:
+
+- **Legendary Seraph K:** Accumulate 5 souls to use ultimate skill to clear single target (takes a long time to accumulate).
+- **Aoyi Huanxing Langshen:** [Lijiu Tianliu] Low probability to clear single target (this skill is a guaranteed hit, but the probability is very low).
+
+::: tip
+Clearing persistent effects clears buffs, which is different from clearing numerical values.
+
+Pets that clear numerical values can only clear the opponent's increased numerical values, including Xingmeng and level buffs.
+
+It is recommended to use Otherworldly [Natural Origin] Shenqi Gaia, which can be obtained from the old event list in My. It can trigger the effect of clearing numerical values upon entering the field, but the passive skill needs to be maxed out. You can also use the attribute skill as the first move. The same applies to Xinghui's Qingyin Miaolü · Gandharva. With exclusive equipment, it can clear numerical values upon entering the field, otherwise, you need to use the attribute skill manually.
+
+If you don't have it, you can also use Otherworldly Super-dimensional pets, whose names are generally [xxxx] Super-dimensional xx. They clear the opponent's increased numerical values at the end of each round.
+:::
+
+## Appendix 3: PVE roles of some Xinghui/Otherworldly pets
+
+### Xinghui SSS Pets
+
+1.  **Shenling Yuzhe:** Exclusive equipment invalidates boss attributes for five rounds, refreshed upon entering the field.
+2.  **Xianzhe de Beige · L:** Five-star execution at 25%. Can only deal 100k damage to Guangqi 99 true resistance.
+3.  **Lunhui Wumian:** Exclusive equipment limits damage.
+4.  **Zhanyi Hai:** Exclusive equipment triggers attribute upon entering the field, invalidating boss skills.
+5.  **Shenling Donghuang:** Attribute skill seals all attribute skills on the field for six rounds, preventing enemy attribute levels and numerical values from increasing and our own from decreasing. Exclusive equipment triggers attribute skill upon entering the field.
+6.  **Shenling Fenghuang:** Advanced revival, refreshes Shenling level upon switching in.
+7.  **Juyuan Nuwa:** Same as Xianzhe de Beige · L.
+8.  **Zhanyi Shikong Wang:** Upon its own death, adds a revival buff to the next pet that enters the field. Not affected by exclusive equipment.
+9.  **Sp Meng:** Attribute skill can assist in lowering the boss's dual attack.
+10. **Qingyin Miaolü · Gandharva:** Resets the enemy's stats, can be used to clear numerical values/cooperate with Adam.
+11. **Zhidi Weilai zhi Chenxing · Tongling Fantian:** Attribute skill continuously increases our side's numerical values and attribute levels based on the number of pets on the field. Summoning the Dragon Emperor can increase our side's critical hit rate. Exclusive equipment activates attribute skill upon entering the field.
+12. **Shenling Qiling Wang:** Reduces boss's numerical values when hit.
+13. **Shenling Gaia:** Second-level Shenling infinitely restores to full state. Exclusive equipment protects HP limit.
+14. **Chaos Angel King:** Ultimate skill has a chance to clear Guangqi boss's passive. Exclusive equipment provides immunity to all skills for the first round on the field and seals attribute skills for three rounds.
+15. **Zhengni Zhousi:** Five-star invalidates all skills of Guangqi pets for 3 rounds.
+16. **Weilai Dunhu Shuanggou:** Low-star HP deduction buff. Requires exclusive equipment.
+17. **Zhenli zhi Hou:** In dual pet battles, continuously reduces the enemy's all-attribute levels on the entire field.
+18. **Zhanyi Nüdi:** Passive skill Fuxiu zhi Hua deals a small amount of fixed damage.
+19. **King Heiyi Wang:** Infinitely stacks HP limit to 2.1 billion.
+20. **Tiandi Haotian:** Upon entering the field, locks all attribute levels and numerical values on the field, preventing them from increasing or decreasing. At 3 stars, can use Xuanxiao Guiwei skill to seal attributes for 5 rounds.
+21. **Mojun Yeyuan:** Tests boss's stats. Obsolete.
+22. **Legendary Shikong Wang:** Passive skill takes effect upon entering the field, prohibiting the enemy from increasing all attribute numerical values.
+23. **sp Luoyisi:** Same as Legendary Shikong Wang.
+24. **Yuangu Jingling Wang · Yisaer:** Attribute reduces the boss's current percentage of HP limit when hit.
+25. **King Xihe:** Reduces the boss's HP limit by 5000 each round it is on the field.
+26. **King Sun Wukong:** Passive skill Cuoluan, effective for our entire side. Cooperate with Wagner's attribute skill to clear the Bond Tower.
+27. **Chudai Guiwei Meng:** With exclusive equipment, use analysis at the beginning of the battle to seal attributes. For bosses that are certain to use attribute skills in the first round (such as Du), it can seal attributes for up to 15 rounds.
+28. **Medusa:** Cooperate with Juedou Huizhuan Kou. The probability is very low, not recommended.
+29. **Alaya-vijnana:** Cheese some challenges.
+30. **Lingjie - Yuzhe:** Guangnian Baoshi cooperates with Adam to absorb numerical values.
 
-### 硬件要求:
+### Xinghui SS Pets
 
-- 召唤师
-- 印记一定要先点好
-- 训练师也弄弄
-- 魂卡和魂器准备一下
+1.  **Bingluo Huang:** Attribute skill prohibits the enemy from increasing attribute levels and numerical values for 6 rounds, and protects our side's attribute levels and numerical values for 6 rounds. Exclusive equipment triggers attribute skill upon entering the field.
+2.  **Shenli Longmu:** Same as Legendary Shikong Wang.
+3.  **Xinghui Qingming:** Undead, hangs back and pulls souls.
+4.  **Xinghui Jiang Ziya:** Five-star prohibits healing for infinite rounds and absorbs numerical values.
+5.  **Honghuang Wang:** Exclusive equipment reduces all attribute numerical values by up to 50%. Can be effective at the same time as Guangqi Jiang Ziya's passive.
+6.  **Hunyuan Heyi · Qiling Wang:** Passive skill deducts 10% of current all-attribute numerical values once when hit, up to three times. Exclusive equipment deducts 15% once, with a maximum of 45%.
+7.  **Huangyu Sheng Wuji · Donghuang Taiyi:** Attribute skill seals attributes for five rounds.
+8.  **Xinghui Xiaoyao:** Huajie, infinite rounds.
+9.  **Sijie Gongzhu · Qiankun:** Unconditional Cuoluan.
+10. **Yongzhui Xingyu · Xingmo:** Infinite rounds of fixed damage, for hanging back/large HP deduction.
+11. **Hong Xihe:** Infinite rounds of critical damage and lifesteal.
+12. **Zui Hongyan · Luoluoli:** Our entire side is immune to being stopped.
 
-#### 唤灵圣天伊
+### Xinghui S Pets
 
-- **小关:** 借星辉阿赖,必须怒识,没专属没神兵都无所谓,点系统开属性
-- **大关:** 借个秘宝132,如果用星诺f4需要弄点群星点
-- **注意事项:** 如果我方圣天伊被打死了建议多试试或者先自爆削属性
+1.  **Ao Xing:** Limits damage.
+2.  **Huaguan Gongzhu:** Self-destructs to increase the HP limit of subsequently fielded Xinghui pets.
+3.  **Xia Dui:** Life-extending buff when leaving the field.
+4.  **Mangzhong:** Attribute skill protects HP limit, which can be inherited.
 
-#### 唤灵盘古
+### Otherworldly Pets
 
-- **配置:** 全选60级
-- **特点:** 无视规则就可以,几乎随便打
+1.  **Otherworldly Qingming:** Undead, hangs back and pulls dual souls. Do not upgrade the system.
+2.  **Super-dimensional Caesar:** Reduces true resistance (can be summoned by Spirit 132, summoned units are less likely to be attacked).
+3.  **Otherworldly Nuwa:** Clears persistent effects.
+4.  **Spirit Adam:** Absorbs numerical values to cheese challenges.
+5.  **Shuangsheng Shuanggou/Qiankun:** Large HP deduction (any Shuangsheng pet will do, but these two start with full energy).
+6.  **Soul Tianming Wang:** Pulls dual souls; records the target's all-attribute levels and stats. Each time the target loses HP, it is reset to the lowest recorded value.
+7.  **[Hunshi Motong] Nezha:** Damage reduction, domain cheese (requires removing one piece of exclusive equipment).
 
-#### 必备阵容第一页
+### Other Pets
 
-- **特点:** 几乎都可以星诺打,打不过借亚比
+1.  **Mengxiang Jingling:** 20% chance to reset all attributes and statuses on the field. Cooperate with Otherworldly Adam to absorb numerical values to cheese challenges; cooperate with Xinghui Ziya to reset Xinghui bosses.
+2.  **Legendary Zeus:** 70% chance to reverse all attribute skills on the field. Cooperate with Wagner to reset non-Guangqi bosses. (Requires annual VIP).
 
-#### 至高荣耀
+## Appendix 4: Spirit Adam Cheesing Tutorial
 
-- **特点:** 有buff非常好打,几乎随便打
+Spirit Adam directly deducts HP, ignoring immunity to fixed damage and immunity to non-super-effective damage, and can cheese 6v1 challenges.
 
-#### 露易丝
+### 1. Adam Mengxiang Jingling Team (High-speed, unstable, most practical)
 
-- **推荐阵容:** 星诺队、星诺队/阿蒙队、逍遥队/岁岁、无冕队,梵天队/奇灵队/路西法/白梅+露龙
+#### Team Members:
 
-#### 黑翼王
+- **Basic version:** Soul Pet, Guangqi Guilingzhe, Mengxiang Jingling, Xiaoyao, Adam
+- **Advanced version:** Soul Pet, Guangqi Guilingzhe, Mengxiang Jingling, Xiaoyao, Otherworldly King Xihe, Adam
 
-- **推荐阵容:** 阿蒙/奇灵王、黑梅、无冕
-- **注意事项:** 看规则控回合
+#### Pet Roles:
 
-#### 奇灵王
+- **Soul Pet (Soul Pulling):** Otherworldly soul pets can pull dual souls and absorb the numerical values of two souls. Qingming is the top recommendation, but other soul pets will also work.
+- **Guangqi Guilingzhe:** Clears the opponent's light energy upon entering the field, ensuring Xiaoyao can switch out safely; leaves a debuff on the entire enemy team that can be cleared by Mengxiang Jingling, which indirectly increases Mengxiang Jingling's reset probability and turns the reset soul into a 100% HP dead soul, allowing for more numerical value absorption (usable in Otherworld, level 1 is best).
+- **Mengxiang Jingling (Dead Soul):** The skill Huiyi Paomo resets the entire field, turning souls into dead souls. Dead souls are PVP units, and some powerful skills that are ineffective against bosses can now be used to their full potential.
+- **Xiaoyao (Protection):** Protects Mengxiang Jingling and Adam.
+- **Otherworldly King Xihe (Reset):** Because Adam absorbs numerical values, the absorbed soul's numerical values will be lost. Xihe's Shili mark can restore the soul to a high numerical value state, improving Adam's absorption efficiency.
+- If you don't have it, you can replace it with the Xinghui annual VIP Yuzhe, using the Guangnian Baoshi to speed up the absorption of numerical values.
+- **Spirit Adam (Absorbing Numerical Values):** Absorbs the numerical values of dead souls. Through the large amount of absorbed numerical values, it ignores HP lock each round and absorbs 15% of the enemy Adam's total attributes in HP, achieving cross-era output.
 
-- **推荐阵容:** 唤灵圣天伊可以横推,或者借唤灵诺玛也行
-- **星诺阵容:** 太阳星诺+黑星诺+圣灵星诺+唤灵星诺玛,随便打
+#### Operation Flow:
 
-#### 凯撒
+- **Round 1:** Soul pet enters the field and uses Super Yuanqi · Shou to pull souls.
+- **Round 2:** Soul pet switches to Guilingzhe.
+- **Round 3:** Guilingzhe switches to Xiaoyao.
+- **Round 4:** Xiaoyao switches to Mengxiang Jingling.
+- **Round 5:** Mengxiang Jingling uses Huiyi Paomo on the main body until a 100% HP dead soul appears.
+- **Round 6:** Mengxiang Jingling uses Huiyi Paomo on the main body until a 100% HP dead soul appears.
+  ![](/aola/onemorething_150.png)
 
-- **推荐阵容:** 星诺队/阿蒙队、梵天队/露易丝队、星诺队/岁岁+1314、梵天队/岁岁
+Generally, you only have 2-3 chances to use Huiyi Paomo in one battle. If a dead soul doesn't appear after 2-3 uses, just restart.
 
-#### 羲和
+- **Round 7:** After a dead soul appears, switch to Xiaoyao.
+- **Round 8:** Switch to Adam (if you have Xihe, switch to Xihe).
+- **Round 9:** Use Tianming Weiwo once on the dead soul to absorb HP and improve battlefield performance.
+- **Round 10:** Use Jiushi Zhaohuan to absorb numerical values until the soul dies.
+- **Round 11:** Use Jiushi Zhaohuan to absorb numerical values until the soul dies.
+- **Round 12:** After the soul dies, you can use either Tianming Weiwo or Jiushi Zhaohuan.
 
-- **推荐阵容:** 星诺队+轮回队+奇灵王队
-- **特点:** 很好打,注意回合数
+::: warning
 
-#### 洛羲
+- Mengxiang Jingling has a chance to be dodged when attacking Otherworldly souls. It is recommended to attack the main body directly. After the skill hits and resets the soul to a dead soul, there is another 20% probability calculation. Applying a debuff that can be cleared can increase the probability.
 
-- **顺序:** 乾、坤、震、巽、坎、离、艮、兑
-- **对应阵容:**
-  - 乾:逍遥队/岁岁
-  - 坤:奇灵队/路西法
-  - 震:无冕队(注意压血量,用大招收割,防止英雄审判抢人头)
-  - 巽:永恒队
-  - 坎:羲和/芙蕾雅(注意中间吃药多点回合,琳琅多开几个大)
-  - 离:露易丝
-  - 艮:阿蒙队
-  - 兑:圣天伊队/艾琳
-- **最后一关:** 用露易丝队(先杀神兵洛羲)
-- **建议:** 多养几个体系再打
+- Adam's recommended spirit contract is Eve (90% true resistance when HP is >80%). Eve is not mandatory, others will also work if you don't have her. She can be drawn from the Otherworldly Summoning Array during the Juejie week. Mengxiang Jingling needs to be leveled up to 60 to learn the skill Huiyi Paomo.
 
-#### 不朽龙
+- Guangqi Guilingzhe can be replaced by other pets that can apply long-duration debuffs to the entire enemy team. If you don't have one, the enemy soul will be reset to a 0 HP soul, which cannot be targeted by skills but can be targeted by code, which is more complicated.
 
-- **推荐boss组合:**
-  - 阿卜苏+夜兰:用无冕打
-  - 阿比斯+露易丝:用奇灵王打
-  - 至高赖+孟婆:用阿蒙王打
-  - 夜樱+女娲:用阿蒙王打
+- Do not use Adam's sacrifice skill, as it will reset the absorbed attributes.
 
-#### 狂龙
+- After Adam leaves the field, the absorbed numerical values will be reset, but the absorbed HP limit will be retained.
+  :::
 
-- **模式:** 6v1
-- **方法:** 可借亚比
-- **注意事项:** 记得把停止行动和免疫非绝对克制给好打的boss
+### 2. Adam Tongling Wumian Team (Lowest configuration, slow, stable)
 
-#### 天使王
+#### Team Members:
 
-- **模式:** 6v1
-- **特点:** 数值较高
-- **推荐方法:** 可以借亚当逃课/借打手
-- **最后一关:** 推荐唤灵盘古
+- **Tongling Wumian version:** Xiaoyao, Otherworldly Qingming, Guangqi Guilingzhe, Tongling Wumian, Xiaoyao, Adam
 
-#### 唤灵星诺玛
+#### Pet Roles:
 
-- **需求:** 需要体系较多,刚需一个锁链,最好准备炽天使二号
-- **各星诺打法:**
-  - **太阳星诺:** 炽天使带愈卡锁链,第二回合吃药,必须释放出来第二个大招,群星buff要点持续回合+5
-  - **火星诺:** 用密潘,无冕给圣灵星诺
-  - **暗星诺:** 用黑梅叠刀打天凤
-  - **暗星诺:** 用黑梅叠刀打天凤
-  - **龙星诺:** 最好用艾琳打
-- **辅助:** 生存压力大的几关带阿赖/夜樱的阵容
+- **Otherworldly Qingming (Soul Pulling):** Otherworldly Qingming can pull dual souls and absorb the numerical values of two souls. Since it needs to stay on the field, it needs to have 10,000 HP. Starting with Xiaoyao and switching to Qingming can ensure that Qingming does not reflect damage, thus preserving two 1% HP souls. If you use other soul pets, you need to cooperate with Otherworldly Ta Wang to stay on the field (replacing Guilingzhe).
+- **Guangqi Guilingzhe:** Clears the opponent's light energy upon entering the field, ensuring Xiaoyao can switch out safely.
+- **Tongling Wumian:** Delays the damage received by the target until the end of the round. Upon death, it ensures that Adam does not lose soul HP when entering the field, thus allowing it to absorb the numerical values of two 1% HP souls. Can be obtained from the old event list in My.
 
-#### 天女
+#### Operation Flow:
 
-- **推荐方法:** 建议借一整队打,比如至高荣耀
-- **注意事项:** 不然太难打了
+#### Phase 1: Soul Pulling Phase
 
-#### 六代赫
+- **Round 1:** Xiaoyao switches to Otherworldly Qingming.
+- **Round 2:** Otherworldly Qingming enters the field and uses Super Yuanqi · Shou to pull souls.
+- Otherworldly Qingming takes medicine and stays on the field until the soul has only 26% HP.
 
-- **推荐方法:** 借一整队
-- **特点:** 不限次数
-- **备选方案:** 也可以借一队大扣血
+#### Phase 2: First Soul Absorption Phase
 
-## 附录10:秘宝/年费亚比pve简介
+- **Round 8:** Otherworldly Qingming switches to Xiaoyao.
+- **Round 9:** Xiaoyao switches to Spirit Adam.
+- **Round 10:** Spirit Adam takes medicine.
+- **Round 11:** Spirit Adam uses its burst skill to execute the 1% HP soul and absorb its HP limit.
+- **Round 12:** Spirit Adam switches to Xiaoyao.
 
-### 前言
+#### Phase 3: Second Soul Pulling Phase
 
-- **不建议为了pve买秘宝!**
-- **年费阿比斯:** 量力而行,有拉人可以降低不少配置,本身也是好用的超数码打手
+- **Round 13:** Xiaoyao switches to Otherworldly Qingming and pulls souls again.
+- Otherworldly Qingming takes medicine and stays on the field until the soul has only 26% HP.
 
-### 装备说明
+#### Phase 4: Final Soul Absorption Phase
 
-装备中的"获得所有多亚比模式中的额外效果",指的是:
+- **Round 18:** Otherworldly Qingming switches to Guilingzhe to clear light energy. Guilingzhe dies and switches to Tongling Wumian.
+- **Round 19:** Tongling Wumian takes medicine. Upon death, switches to Spirit Adam.
+- **Round 20:** Adam uses spirit summon to absorb the all-attribute stats of the dual souls. Afterwards, you can use either Tianming Weiwo or Jiushi Zhaohuan.
 
-- 亚比技能中的多亚比模式效果
-- 装备中的多亚比模式效果
-- 这些效果在4v2时也可以触发
+::: info
+Can only absorb the numerical values of one soul, but can absorb dual souls. It is cheaper and more stable.
+:::
 
-### 1. 全维衍化之钥-阿比斯
+### 3. Adam 3S Gandharva/Tongling Wumian Team (Medium speed, stable)
 
-- **系别:** 超数码系
-- **定位:** 普攻打手,也可作为辅助
-- **特点:** 超数码系数值非常高的打手
+#### Team Members:
 
-#### 系统
+- Xiaoyao, Otherworldly Qingming, 3S Gandharva, Tongling Wumian, Adam, Otherworldly Youlaiya
 
-- **6v1:** 拉出背包中最后一个亚比,使我方场上亚比数为2
-  - 如果阿比斯是背包里最后一只亚比,则拉出除了阿比斯外的背包中最后一只亚比
-  - 拉出来的亚比无法给自己使用道具,无法自爆,吃不到继承的buff
-  - 一般被打的概率也偏低,一般拉的都是辅助
-- **4v2:** 系统pve一般不使用
+#### Pet Roles:
 
-#### 作为打手
+- **Otherworldly Qingming (Soul Pulling):** Otherworldly Qingming can pull dual souls and absorb the numerical values of two souls. Since it needs to stay on the field, it needs to have 10,000 HP. Starting with Xiaoyao and switching to Qingming can ensure that Qingming does not reflect damage, preserving two 1% HP souls.
+- **3S Gandharva:** Resets the soul's HP to its maximum. Requires exclusive equipment.
+- **Tongling Wumian:** Delays the damage received by the target until the end of the round. Upon death, it ensures that Adam does not lose soul HP when entering the field, thus allowing it to absorb the numerical values of two 1% HP souls. Can be obtained from the old event list in My.
+- **Otherworldly Youlaiya:** Applies freeze to the entire enemy team at the end of each round, speeding up the soul's HP deduction. Can be obtained from the dungeon.
 
-- **基础阵容:** f4+群星+阿比斯即可应付大多数情况
-- **高伤阵容:** 女皇+炽天使+群星+星尘+阿比斯+次元守护132/二代黑翼
-- **双C阵容:** 场上亚比数=2时,阿比斯自带克制倍率,因此可以作为4v2的双c之一
+#### Operation Flow:
 
-#### 作为辅助
+#### Phase 1: Preparation Phase
 
-- **条件:** 打手有增加对应属性克制倍率的亚比时(一般指体系队辅助)
-- **阵容:** 女皇+子牙/炽天使/女帝/孟婆+阿比斯+群星+打手+对应辅助
-  - 例:使用奇灵王作为打手时,拉凯撒增加超电系克制倍率
-- **备选:** 如果没有对应辅助,可以使用阿赖/次元守护132/二代黑翼/启元羲和(新技能组)
-- **替代方案:** 也可以直接把群星拉出来,最重要的是吃到场上亚比数=2的加成
+- **Round 1:** Xiaoyao switches to Otherworldly Qingming.
+- **Round 2:** Otherworldly Qingming enters the field and uses Super Yuanqi · Shou to pull souls.
+- **Round 3:** Otherworldly Qingming switches to Youlaiya (if the boss kills Youlaiya this round, restart).
+- **Round 4:** Youlaiya switches to Qingming.
 
-### 2. 宙域终律-上古星龙
+#### Phase 2: First Soul Absorption Phase
 
-- **系别:** 超上古系/逆上古系
-- **定位:** 特攻打手
-- **特点:**
-  - 可变身为逆上古,可带超上古系技能,克制面非常广
-  - pve加成很高,段数也多,伤害高
-  - 打手天花板之一,在凯文岛特攻岛大放异彩
+- **Round 5:** Qingming switches to Xiaoyao.
+- **Round 6:** Xiaoyao switches to Spirit Adam.
+- **Round 7:** Spirit Adam uses its burst skill to execute the 1% HP soul and absorb its HP limit.
+- **Round 8:** Spirit Adam switches to Qingming.
 
-#### 系统
+#### Phase 3: Reset Phase
 
-- **6v1:** 拉出背包中下一个亚比(需要背包中有存活亚比才能献祭)
-- **4v2:** 献祭队友,召唤星神之躯
-  - 全属性能力变为150%
-  - 继承队友回合数＜10的buff
-  - 无法切换,视作场上亚比数=2
-  - 逆上古属性的专属自带200%暴击率
+- **Round 9:** Qingming pulls souls again.
+- **Round 10:** Otherworldly Qingming switches to Gandharva to trigger the HP reset.
+- **Round 11:** Gandharva dies and switches to Tongling Wumian.
+- **Round 12:** Tongling Wumian dies and switches to Adam.
 
-#### 阵容推荐
+#### Phase 4: Final Soul Absorption Phase
 
-- **6v1阵容:** 一般使用f4+群星+星龙即可,不需要阿比斯拉人.变身输出即可
-- **4v2阵容:** 推荐使用女皇+女帝+星龙+洛兰
-  - 由于星龙继承队友回合数＜10的buff,因此可以女皇女帝第一回合都自爆
-  - 洛兰开群星并开大
-  - 星龙等第3回合群星持续回合数=9时开启系统献祭
-  - 星龙自带高爆伤因此推荐用女帝
-  - 洛兰大招会有一个燃血的buff可以给星龙继承
+- **Round 13:** Adam uses spirit summon to absorb the all-attribute stats of the dual souls. Afterwards, you can use either Tianming Weiwo or Jiushi Zhaohuan.
 
-注:洛兰不要点持续回合数+5的群星,女帝不要带盗火者,会顶替同名buff。
+::: info
+Can only absorb the numerical values of one soul, but can absorb dual souls. It is faster and more stable.
+:::
 
-洛兰也可以换为超上古系群星御星璃,此时正常女帝站场,女皇自爆换群星切星龙即可,也可以点持续回合数+5的群星。
+### 4v2 Lineup
 
-### 3. 七罪圣裁-伊撒尔:超龙系 普攻打手
+- Otherworldly Qingming + Zhanyi Hai + 3S Gandharva + Spirit Adam. Relatively fragile, requires two sets of exclusive equipment.
 
-大招自带回复光能,攻击7次,pve有高加成,场上亚比数=2时还自带克制倍率.最强超龙系打手,也是全系别打手中比较顶尖的.系统6v1时献祭自己,但是召唤的亚比段数低,一般pve时候不使用(即使有阿比斯拉人也是献祭自己).pve时候一般也不用管三个契约小弟,给的属性对pve影响不大.
+#### Operation Flow:
 
-#### 阵容推荐
+#### Phase 1: Preparation Phase
 
-- **6v1阵容:** 一般使用f4+群星+伊撒尔即可,追求更高伤害可以带星尘/阿比斯
-- **4v2阵容:** 女皇+炽天使+群星+伊撒尔即可.由于场上亚比=2时自带克制倍率,可以与其他C组成双C阵容.由于大招攻击次数7,可以配合缔界师卡奥斯.
+- **Round 1:** Qingming uses Super Yuanqi · Shou to pull souls, Zhanyi Hai switches to Gandharva.
+- **Round 2:** Qingming switches to Zhanyi Hai, Gandharva switches to Spirit Adam.
 
-### 4. 永恒炽阳-神阿波罗:超圣灵系 特攻打手
+#### Phase 2: Soul Absorption Phase
 
-高穿防和22加成,所有技能都会连击一次专属,超圣灵系最强打手.
+- **Round 3:** Adam uses Jiushi Zhaohuan to absorb numerical values.
 
-系统:pve时可以不异维升格,也可以不用系统,直接专属技能和大招,有大开大.如果带星尘(可以不带)可以点三下神序然后用神·日曜天穹.4v2时可以先用小技能,用神序攒一次神·日曜天穹,因为是打全场的技能.
+#### Notes:
 
-- **6v1阵容:** 一般使用f4+群星+菠萝即可,追求更高伤害可以带阿比斯
-- **4v2阵容:** 女皇+女帝/孟婆+群星+菠萝即可.
+- On the other side, repeat the process of Qingming pulling souls - Zhanyi Hai protecting - Gandharva resetting - Zhanyi Hai protecting.
 
-### 5. 执掌万世轮回因果-帝俊:超神系 特攻打手
+#### Adam Configuration Requirements:
 
-有pve加成但是没有22加成,不刚需阿比斯,但是伤害不如有阿比斯拉人的神羲和.使用新技能组,否则没有pve加成.需要星尘,因为大招伤害比较高.
+- Adam needs the Jianyi inscription and high HP. Lanjie is best, otherwise Xianyu set will do. Also requires some luck.
 
-#### 阵容推荐
+## Appendix 5: Introduction to 4v2 Large HP Deduction Cheesing
 
-- **6v1阵容:** 女皇+子牙+龙王+群星+星尘+帝俊
-- **4v2阵容:** 感觉不如神羲和
+### Team Members and Principle
 
-### 6. 群星守护寰宇光辉-神银河:湮灭系 普攻打手
+- **Team Members:** Zhanyi Hai + Yongzhui Xingyu · Xingmo + two Shuangsheng pets
+- **Principle:** When a Shuangsheng pet's clone dies, and another Shuangsheng pet creates a clone, an untargetable clone will be stuck. Both the boss and our side will not act, but the rounds will continue. Since the battle round limit is achieved by resetting our pet's HP to 0, the stuck clone cannot be targeted, thus ignoring the level's round limit. This allows Xingmo's infinite-round fixed damage to kill the boss.
 
-有pve加成但是没有22加成.湮灭系最强打手,但是湮灭克制面一般,想玩也可以,湮灭系群星应该快来了.可以把自身数值膨胀到200%,伤害主要靠大招,因此刚需星尘.系统预言对方行为,预言成功可以强化技能并额外获得光能.pve时候每次预言对方攻击自己即可.
+### Pet Roles
 
-- **6v1阵容:** 女皇+子牙+龙王+群星+星尘+神银河,4v2不建议.
+- **Zhanyi Hai (Protection):** Protects the Shuangsheng pets. Exclusive equipment, strongest protection in 4v2. Can be replaced with Xiaoyao if you don't have it.
+- **Xingmo:** Fixed damage. With exclusive equipment, it can be used upon entering the field. Without exclusive equipment, it needs Xiaoyao's protection to release skills and stack poison.
+- **Shuangsheng Pet:** Bug exploitation. The top choices are Yuanzui Shuanggou (can create a clone upon entering the field) and Shuangsheng Qiankun (can create a clone upon entering the field), followed by Shuangfeng (can revive). Other Shuangsheng pets are theoretically feasible but not as good as these three.
 
-7. 吾即深渊-拉莱耶:完全系 普攻打手
+### Operation Flow Example
 
-有pve加成但是没有22加成.pve加成也不多,主要在大招上.伤害不如五代赫和真理之后,也没有群星.想玩的话一定要带星尘,开真神形态,一直开大.
+#### Preparation Phase
 
-- **6v1阵容:** 女皇+子牙+龙王+群星+星尘+神银河,4v2不建议.
+- Relatively flexible, not limited to this order. Assuming the use of Shuanggou and Qiankun.
 
-8. 吾即永恒-阿卜苏:永恒系 普攻打手 不推荐pve使用
+#### Phase 1: Cloning Phase
 
-### 9. 异界史诗-渡:不朽系 特攻打手/固伤打手
+- **Round 1:** Shuangsheng pet A creates a clone, Shuangsheng pet B is replaced by Xingmo. If Xingmo is killed, replace with Hai.
+- **Round 2:** Shuangsheng pet A uses a small skill, Hai is replaced by Shuangsheng pet B.
+- **Round 3:** If Shuangsheng pet A's clone is dead, Shuangsheng pet B creates a clone.
 
-目前已经绝版,可以借大佬的用.曾经pve非常强,不需要队友站场,造成固伤的50%溅射给目标队友,每回合扣除全场高额固伤可以打大部分关卡.但现在高数值打手很多,打不克制目标也有唤灵星诺玛,加上很多关卡都免疫固伤/非克制伤害,已经不是很必需了.不建议专门补,除非非常喜欢或者钱很多.
+#### Subsequent Phases
 
-系统:渡能pve的核心,渡本系生命系伤害很低,但是变身成的不朽系pve伤害很高.pve时每回合扣除所有亚比(包括在背包中的)5%最大体力以50%效率转化为不朽者体力(扣除与转化上限均=渡特攻能力值),大招攻击全场造成的伤害也能转化为不朽者体力.主动释放时变身为不朽形态并再行动一次,不朽者体力释放技能,大招自带连击.使用的硬性要求是要求背包中特攻值为30000.
+- After that, just wait for the other pets to be killed. Sometimes the battle will end when a certain amount of HP is deducted.
 
-阵容:6v1一般配合女皇、子牙、生命系群星、终结兔、红羲和等,可以艾比拉星辉通灵梵天.4v2使用女皇+女帝/龙王+星辉通灵梵天+渡,星辉通灵梵天最好有王专,不需要神兵,刚需契约兽,是谁无所谓.没有可以换生命群星
-使用方法:使用系统技能-虚空剑影-系统技能-大招-系统技能-吃药循环即可,不朽者形态用永生诛绝.直伤带尘卡和流光斩,固伤带命卡和灯.
+::: warning
 
-## 附录11:跳转场景挑战
+- Some levels' immunity to non-super-effective buffs will disappear after 999 rounds. You can use large HP deduction.
+- Do not have two pets create clones at the same time. Do not use Super Yuanqi He after creating a clone.
+- It can also be used in 6v1, but requires Abisi.
+  :::
 
-### 头领战:
+## Appendix 6: Qingming 10,000 HP and AFK Guide
 
-- 星诺玛: flash的跳转到错误场景,h5的挑战档案点进去可以白嫖一套星诺队
-- 陆小果(现已绝版,h5挑战档案里点会卡住)
-- 永恒阿卜苏(挑战档案里点不进去,从必备阵容进入)
-- 二代琉璃(从曙光之旅进入即可)
-- 无祸女皇(挑战档案里跳转场景是错的,地图搜索光年之外即可)
+::: danger
+Remember not to upgrade the soul system when cultivating Qingming.
+:::
 
-### 双宠战:
+You need to carry a HP sword (a weapon with a HP stat).
 
-- 座天使: 需要从必备阵容-阿卜苏队进入挑战
-- 各个星诺: 挑战档案里跳转场景是错的,直接从必备阵容/全民必过挑战中进入即可
+**How to get a HP sword:**
 
-### 其他挑战:
+Click on the expansion at the top of the My launcher, select the full map, and refresh the game.
+![](/aola/onemorething_151.png)![](/aola/onemorething_152.png)
 
-- 两只狗都没了,点进去会跳转到旧挑战之旅
+Search for the map scene: Hero Trial City
+
+Enter the scene and select the Magic Cube Labyrinth;
+
+![](/aola/onemorething_153.png)
+
+You have ten chances to get equipment daily (high probability of getting a HP sword).
+
+![](/aola/onemorething_154.png)
+
+After getting the HP sword, upgrade and advance it to diamond equipment.
+
+Blue stardust can be obtained by dismantling other blue equipment.
+Purple stardust can be obtained by synthesizing blue stardust.
+Gold stardust can be obtained from the Mirror Tower and the guild store.
+
+**How to get purple advanced star energy:**
+
+My launcher's auxiliary function in the top expansion;
+![](/aola/onemorething_155.png)Select Huiyue Juling![](/aola/onemorething_156.png)
+Enter the challenge (you can get 90 Huiyue power per day from single and team challenges)
+
+![](/aola/onemorething_157.png)
+
+Exchange Huiyue power for purple advanced star energy (limited to 5 per day)
+
+![](/aola/onemorething_158.png)
+
+Gold advanced star energy can be obtained by synthesizing purple advanced star energy;
+King advanced star energy can be obtained by exchanging contributions in the guild store (limited to 5 per week):
+![](/aola/onemorething_159.png)
+
+**Other ways to increase HP:**
+
+1.  Guild or fleet's Tiangong tree (increases HP limit in battle);
+    ![](/aola/onemorething_160.png)
+
+2.  Carry a talisman with a high base HP (e.g., Sakura Talisman, Baixing Talisman, etc.);
+    ![](/aola/onemorething_161.png)
+
+3.  Max out HP in training;
+    ![](/aola/onemorething_162.png)
+
+    If you have already trained it incorrectly, you can buy a demotion spray (for level 100 Qingming) and various forgetting sprays in the store to forget the training and retrain;
+
+4.  Carry HP inscriptions (try to get as many HP sub-stats as possible);
+    ![](/aola/onemorething_163.png)![](/aola/onemorething_164.png)
+
+5.  Pet legion (can add up to 588 HP)
+    ![](/aola/onemorething_165.png)
+
+### Qingming 10,000 HP Cultivation
+
+If you still haven't reached 10,000 HP in battle after the above cultivation, you can change the summoner skill to Juhua to achieve the goal of 10,000 HP.
+
+### Best Combination
+
+- Suoxue + Caesar + Qingming + Shengyu Gou (4v2) + Xiaoyao + Dalishen (6v1)
+
+#### Recommended Pets:
+
+1.  **Xinghui Ziya** (with exclusive equipment, starts with full stars, uses ultimate to lock HP)
+2.  **Dalishen Jiang** (obtained from the legion, HP burning skill: Huangsha Kuangchao for 999 rounds)
+3.  **Huangyan Zhanshen/Aoyue Wushen** (obtained from old My pets, Shengyu applies burn/freeze)
+4.  **Xinghui ss Xingmo** (with exclusive equipment, applies full poison upon entering the field, otherwise needs to attack to apply poison)
+5.  **Otherworldly Super-dimensional Caesar** (stays on the field for one round to absorb 20% of the enemy's single target's true resistance, doubled if no damage is taken, better with Spirit Yisaer's contract)
+6.  **Super Aoyi Chihan Tianfeng** (Super Aoyi applies Nuhuo mark, which explodes and deals fixed damage when it reaches three stacks)
+7.  **Yinyang Baigui Zhu Soul Qingming** (Otherworldly, undead, up to 9999 times). Recommended to use Otherworldly Qingming for 6v1, Xinghui is also fine.
+8.  **Yinyang Zhu Baigui Wang · Qingming** (Xinghui, undead, up to 9999 times). Recommended to use Xinghui Qingming for 4v2, Otherworldly is also fine.
+
+### Difference between Xinghui Qingming and Otherworldly Qingming
+
+| Item                     | Xinghui Qingming                                                                             | Otherworldly Qingming                               |
+| :----------------------- | :------------------------------------------------------------------------------------------- | :-------------------------------------------------- |
+| Equipment                | Requires exclusive equipment                                                                 | Does not require exclusive equipment                |
+| Soul Pulling Quantity    | Pulls one in both 6v1 and 4v2                                                                | Can pull two in 6v1, one in 4v2                     |
+| Soul Pulling Probability | Chance to pull a soul at the end of each round + guaranteed pull with a star-consuming skill | Guaranteed pull only with an energy-consuming skill |
+| Cultivation Difficulty   | Easy                                                                                         | Difficult                                           |
+| AFK Speed                | Better in 4v2                                                                                | Better in 6v1                                       |
+
+**Handling Method:**
+
+- **6v1:** Righteous gang up, Dragon King protection; use targeted pets to kill quickly in single challenges.
+- **4v2:** Not common, if you encounter it, it is recommended to try a few more times and prioritize killing it.
+
+### 5. Poxu Kongyan Qunlong - Longmu (Super Mystic Type): Huajie, High Fixed Damage, Execution
+
+#### Skill Features:
+
+- **Passive Meng zhi Sha:** Chance to be immune to skills based on the amount of light energy consumed. 70% chance to be immune to the ultimate skills of the five lights.
+- **Longtan:** Obtained after using an attack skill for the first time. 50% chance to reflect 50% of the damage received at the end of the round, up to 20,000.
+- **Ultimate:** Deducts up to 30,000 fixed damage and executes targets with less than 20% HP after dealing damage.
+
+#### Handling Method:
+
+- Use pets that clear persistent effects / use output that does not consume light energy, such as Freya, Shen Xihe, Abisi, etc.
+- Longtan can be cleared by Sage's Counterattack / KK's counter.
+- For the ultimate, just pay attention to your own HP.
+
+### 6. Shengshu Linhui Guang'an Shuangyao - Qiling Wang (Super Electric Type): Fast Attribute Reduction, Thunderstrike, HP Limit Reduction
+
+#### Skill Features:
+
+- Reduces 3 levels of attributes each time it is attacked.
+- Small skill has a 30% chance to reduce a random attribute to be the same as its own.
+- Level 3 Thunderstrike (30% chance to be unable to act) for 4 rounds.
+- Reduces HP limit by 5% for the first 3 attacks.
+- Guangjin can absorb 20% of the HP limit and reduce 2 levels of all attributes.
+- Small skill can deal up to 21,000 fixed damage in one round.
+
+#### Handling Method:
+
+- Empress activates attribute protection.
+- In 4v2, you can use Shuangtian or Sheng Tianyi, Pangu, etc. to kill it quickly.
+
+### 7. Tianguo Shouhuzhe - Bai Tianshi Wang (Super King Type): High Damage
+
+- Ignores 80% of special defense, dealing true damage with every hit.
+
+- **Handling Method:** In single challenges, use Qiyuan Lai, Boxun, etc. to deal with it; in 6v1, with the Dragon King's protection, use a righteous gang up.
+
+### 8. Pini Zhongchen - Nüdi (Super Spacetime Type): Lingyou, Shenyou, Luanhun at the start of the battle
+
+- Protects level and stats at the start of the battle; first attack causes Luanhun (40%).
+
+- **Handling Method:** Empress ignores attribute protection to reduce attributes; Zhigao Rongyao needs to stay on the field for 4 rounds; wait for Luanhun to end before attacking or just try your luck.
+
+### 9. Wujue Lingtian - Mo (Complete Type): High fixed damage at the end of the round, execution
+
+- Deducts fixed damage from the entire field each round, up to (10,000 + number of non-fainted pets in our backpack / 2, max 30,000). Ultimate executes targets with less than 20,000 HP, otherwise deducts 20,000 fixed damage.
+
+- **Handling Method:** Kill it as soon as possible and pay attention to the HP of the support pets on the field.
+
+### 10. Qilin Wujian - Wumian zhi Wang (Super King Type): Huajie
+
+- Chance to be immune to attack skills, probability = [own speed base stat - target's base stat] \* 1%.
+- **Handling Method:** Use pets that clear persistent effects; Empress with Jingzhun Shenbing; main DPS with high speed base stat or built-in precision, such as hero pets.
+
+### 11. Qiye Pokong zhi Ren - Shizhe / Qiqi - Shizhe (Illusion / Super Spacetime Type): Memory modification, high damage
+
+- The new top pet on the "birth" list. Its first-move attribute skill, Huanhua Qingmeng, grants memory modification, causing it to use skills randomly.
+- **Handling Method:** In 6v1, you can use Zeus and other five-light attackers, because the Guangqi burst skill > first-move small skill, so you can ignore Huanhua Qingmeng. In 4v2, you can use pets like Du, Pandora, or deal high damage to quickly finish it off and increase fault tolerance. If you get killed, it's just bad luck, try a few more times.
+
+### 12. Wanwang Tianyu - Shengwang Qilin (Super King Type): Force retreat, thunderstrike, high fixed damage
+
+- Its "birth" force retreat skill treats people like a ball, and it also has thunderstrike and high fixed damage.
+- **Handling Method:** Don't bring pets that can't die to prevent being forced to retreat. If you bring a constellation pet, let it take medicine and die first. If the opponent's stats are low, you can also bring the anti-force retreat soul weapon from the domain.
+
+### 13. Tiandi Jingxian - Liulong Shengwang (Super King Type): Abnormal status, force retreat
+
+- Relies on its ultimate's abnormal status to torture people, and also has a force retreat.
+- **Handling Method:** Just fight through the abnormal status. Don't bring pets that can't die / let the constellation pet take medicine and die first.
+
+### 14. Shengling Miaoyin - Alaya-vijnana (Illusion Type): Counterattack, fixed damage
+
+- A must-have for Amon King. 25% counterattack, and each counterattack also deducts fixed damage.
+
+- **Handling Method:** When you can use other lineups, don't use Amon. It is recommended to kill it quickly. The support pet should take medicine when collecting energy and entering cooldown, don't move around, or try a few more times.
+
+### 15. Aofanchen Qi Xianling - Nuwa (Fairy Spirit Type): Blood ban, high fixed damage. Handling method: try a few more times.
+
+### 16. Chaoyue Jiyuan de Xinsheng - Hedy Lamarr (Super Digital Type): High damage, high fixed damage, no light
+
+- One of the dual holy souls, the holy soul execution is of the super Qiankun type, it hits hard, not recommended to use super dragon/super light attackers.
+- **Handling Method:** In 6v1, you can let the constellation pet stay on the field for a few more rounds and wait until it gets the Huanxiang Juxian before switching; in 4v2, try a few more times.
+
+### 17. Wanshen zhi Wang - Zeus (Super Electric Type): Stun, light deduction, buff clearing, high fixed damage
+
+- EVP god, has two abnormal statuses: magnetic field and thunderstrike (can be checked in Appendix 6), and can additionally consume the enemy's light energy. It has a shield, can clear buffs, and its ultimate has up to 60% defense penetration. A true god is born, as long as the stats are high enough, it's a nightmare.
+- **Handling Method:** 1. Thunderstrike can only be gambled on luck. 2. In 6v1, let the Dragon Prince Ziya go on the field first and self-destruct, the Empress uses a 1-light skill to protect attributes and then self-destructs. 3. It is recommended to use high-stat attackers such as Sheng Tianyi, Pangu, Ailin, etc. to kill it quickly.
+
+### 18. Zao Ziran Yao Wanwu - Gaia (Super Light Type): Fear, high fixed damage. Handling method can only be to try a few more times.
+
+### 19. Shenshou Zunzhu - Cangqiong Shenglong (Super Light Type): Plays with abnormal statuses, luckily no force retreat.
+
+- **Handling Method:** Fight through the abnormal statuses, you can only try a few more times. Remember to ensure your survivability and pray for fewer fears.
+
+### 2. New Skill Set: Looks like a primitive, but can be troublesome as a boss.
+
+### 3. Yijie Shishi - Du (Life Type / Immortal Type): High damage, fixed damage, fast attribute increase
+
+- Moves twice in one round, changes forms, which greatly affects the experience. Burns HP at the end of the round, and the damage is not low.
+- **Handling Method:** Empress self-destructs on it, prioritize killing it. Make the support pets tankier.
+
+### 4. Dadao Wuming - Tianming Wang (Super King Type): Ultimate hits the entire field with high fixed damage, a good teammate for Longmu.
+
+- **Handling Method:** Empress/Mengpo deducts its light, make the support pets tankier, prioritize killing it.
+
+### 5. Changye Xuyuan - Zhulong (Super Dragon Type): Ultimate clears debuffs and deducts light. Try a few more times, prioritize killing it.
+
+### 6. Fanxing Yinlü - Gandharva (Super Light Type): Luanhun, Xingmeng, resistance increase
+
+- Ultimate grants Luanhun to pets, 75% chance to hit the wrong target. In 6v1, it comes with an increase in all attributes and resistance.
+- **Handling Method:** 1. Use pets that clear persistent effects. 2. Calculate the light energy. When Gandharva has enough light energy to use its ultimate, be careful when attacking. Do not attack when you have the Luanhun buff. 3. Deal direct damage to kill it.
+
+### No detailed handling methods are provided, all are recommended to be prioritized for killing, or to fight head-on, or to try a few more times.
+
+### 24. Qunxing Shouhu Huanyu Guanghui - Shen Yinhe (Annihilation Type): High fixed damage, kill combo, stat inflation
+
+- Clear persistent effects / prioritize killing. It's even more terrifying with exclusive equipment, which it usually doesn't have.
+
+### 25. Shenpan Mingyun zhi Zhan - Odin Dadi (Super God Type): Clears light energy, high fixed damage. Take medicine to accumulate light energy.
+
+### 26. Zhongmo de Canxiang - Nuoya (Complete Type): Has a thunderstrike.
+
+### 27. Duanhai Canglan - Long Taizi (Super Dragon Type): Damage is relatively high.
+
+### 28. Shenshen Llüli - Wumian zhi Wang (Super King Type): Sometimes puts people to sleep, ultimate dispels two buffs.
+
+### 29. Hanye Poxiao zhi Ren - Shizhe (Illusion Type): Has memory modification.
+
+### 30. Shenwei Dilong - Moluojia (Super God Type): Causes Nuoruo and Shiming, reducing damage and hit rate.
+
+### 31. Jingshen Lin zhi Shi - He'ermes / Shijie Kuiren - He'ermes (Super Dark Type / Complete Type)
+
+- A regular in EVP, quickly increases attributes, and deals very high damage. If there are two of them, Empress locks one and kills the other first.
+
+### 32. Linghai Jinran zhi Chao - Yeying (Illusion Type): Chenmian, execution
+
+- A regular in EVP, small skill causes Chenmian, ultimate first deducts fixed damage and then executes targets with less than 10% HP, specifically to execute Amon.
+- **Handling Method:** Use Amon King less or prioritize killing it.
+
+### 33. Yueying Ying Banlan - Yeying (Illusion Type): Small skill causes Shiming, ultimate causes Chenmian and dispels buffs.
+
+### 34. Fengyao Ying Qinghe - Liuli (Fairy Spirit Type): Passive skill clears a debuff with a remaining duration of less than 10 rounds each round.
+
+- **Handling Method:** Use Ziya/Shengling Xingnuo to apply debuffs so they won't be cleared.
+
+### 35. Heiling zhi Wangxiu Jie zhi An - Fantian (Super Dark Type): Reduces attributes relatively quickly, ultimate dispels two buffs.
+
+### 36. Tianqi Jiyuan Di Shi Shengmian - Fantian (Super Light Type): Increases attributes relatively quickly, and has a skill that clears two negative attributes.
+
+### 37. Hengji Pojun - Lü Bu (Super Dark Type): Taunts the unit that is switched in, ultimate causes fear. Use dual DPS less.
+
+### 38. Shenxing Zhizun - Xuanhuang (Super Ancient Type): Shufu, clears attribute levels. Start with a constellation pet or bring a chair.
+
+### 39. Guiying Shiye - Heiyi Wang (Super Holy Spirit Type): Small skill dispels a debuff, increases the dual defense of allies each round.
+
+### 40. Quanwei Yanhua zhi Yue - Abisi (Super Digital Type): Unique mechanism, clears attribute buffs.
+
+- In 6v1, it will pull out the last pet in the backpack; in 4v2, it will put the pet that is not in the correct position into a small black room. Boli zhi Feng will clear the highest attribute, from normal attack downwards. Ultimate dispels buffs.
+- **Handling Method:** Empress/constellation pet is in the correct position with it, don't let the output be locked up, remember to activate attribute protection.
+
+### 41. Jiangou Zhongduan - Geliya (Life Type): Ultimate clears two attributes and dispels two buffs, small skill causes Shufu.
+
+### 42. Shengyi Linshi - Lieyan Fenghuang (Super Fire Type): Zhuoshao, deducts fixed damage, the more you move, the more it deducts.
+
+### 43. Kongji Wuchen Wanfa Weixin - Alaya-vijnana (Illusion Type): Deducts fixed damage every time itself and its teammates are attacked.
+
+### 44. Yiqiao Yinuo Yixiangfeng - Meng (Dark Star): Reduces attributes relatively quickly, ultimate causes Chenmian. Even more terrifying with exclusive equipment, Meng zhi Sha is immune to attack effects, it is highly recommended to clear its persistent effects.
+
+### 45. Youquan Shizhe - Mengpo (Super Dark Type): Small skill clears PP, ultimate causes Shiming.
+
+### 46. Tuntian Heichao - Caesar (Super Dark Type): Small skill causes fear, ultimate clears two attributes.
+
+### 47. Shenting Diancang - Qiling Wang (Super Electric Type): Reduces 3 levels of attributes each time it is hit; small skill clears attributes and causes thunderstrike.
+
+### 48. Zongma Yingong Jinguo Zhi - Sun Shangxiang (Super God Type): Counterattacks when hit, small skill clears attributes, ultimate grants Xuhua once, 75% immunity to damage. If the damage is absorbed, it means it hit the Xuhua. You can try a few more times or calculate the light energy.
+
+### 49. Rihui Yueying zhi Fei - Xihe (Super God Type): Reduces attributes relatively quickly, ultimate dispels 2 buffs.
+
+### 50. Xuduo zhi Junwang - Belial (Super Fire Type): A new "birth", comes with Purgatory for 4 rounds upon entering the field, skill combos once; Shen · Liehuo Zhanma deals high fixed damage, small skill has fear and burn. Can use Sage's Counterattack to clear Purgatory.
+
+### 51. Qizui Shengcai - Yisaer (Super Dragon Type): A new "birth", starts with 2 rounds of Eternal Power, immune to debuffs. Ultimate deals high damage, small skill has execution. In 6v1, it will also blow up the backpack upon killing a target.
+
+- **Handling Method:** Start with a constellation pet with a chain and take medicine to stay on the field for two rounds, or use Sage's Counterattack to clear persistent effects. Lower its attributes as soon as possible or use Huajie-type pets to reduce the chance of support pets being killed by 132.
+
+### 52. Guangqiong Yongyao zhi Hui - Tianshi Wang (Super Flying Type): Ultimate has one Xuhua.
+
+### 53. Yuming zhi Gushang - Vashak (Super Mystic Type): Deducts fixed damage at the end of each round, the less remaining HP, the more it deducts; skill hits the entire field and also splashes to teammates. The support pets must be tanky.
+
+### 54. Guini zhi Junwang - Balam (Super Fighting Type): A new "birth", small skill will clear its own light energy and buffs, and deduct the same amount of light energy and buffs from the target; Fangzhu will settle 50% of the damage within 2 rounds as fixed damage after 2 rounds. Since immunity to non-super-effective damage will be immune to fixed damage, it is equivalent to directly eating 50% of the damage; ultimate reduces dual attack by 30%, and if the prediction is successful, it will also deduct 1 light. It is recommended to prioritize killing it and try a few more times.
+
+### 55. Zhouyu Zhongyu - Shanggu Xinglong (Super Ancient Type): Increases attributes each round, ultimate's Lingshun grants Huajie once, small skill clears 2 debuffs. With exclusive equipment, it will also grant Huajie to each pet's first skill, very "birth". Fortunately, it doesn't appear often now, but there is one in Huanxiang Shishi with over ten million HP and exclusive equipment.
+
+- **Handling Method:** Each self-destruct pet uses a small skill to attack once and then self-destructs. You can bring two attribute-reducing pets such as Empress and Mengpo to deal with the rapid increase in attributes. If it appears in 42 in the future, it is recommended to kill it as soon as possible.
+
+::: warning
+Most pets with exclusive equipment increase and decrease attributes very quickly, so be sure to lock and protect your attributes.
+
+If you encounter a strange situation, it is recommended to check the skills or level buffs.
+:::
+
+## Appendix 8: EVP "Birth" List Summary and Handling Methods
+
+- **Scope of statistics:** Common and easy to trick people in EVP. Exclusive equipment is not counted, those with exclusive equipment are even more "birth".
+
+### Old Skill Set: The skill set is often a mix of many special effects, making it easy to fail when fighting.
+
+#### 1. Huanyu Liujin Xinghe Ruhui - Yinhe (Annihilation Type): Luanhun
+
+- Ultimate grants Luanhun to pets, 60% chance to hit the wrong target.
+
+- **Handling Method:** Use My to calculate light energy, confirm that it will not use its ultimate before attacking.
+
+#### 2. Sanwei Yiti - Zhizun Jingling Wang (Super Mystic): Seal, Freeze
+
+- Gains 2 + number of pets in the target's backpack light energy upon entering the field. Ultimate forces retreat and prohibits the target from entering the field for a number of rounds equal to the number of pets in the target's backpack. Attribute skill has a chance to freeze, 20% chance to be unable to act.
+
+- **Handling Method:** Start with Ziya to dispel the seal; let the constellation pet stay on the field for a few more rounds to take the seal before sending in the main DPS.
+
+### 3. Shenyuan Anhunqu - Naiya (Complete Type): Special mechanism, Luanhun, Thunderstrike
+
+- Applies the Shenyuan mark to any target upon entering the field (can be transferred), devouring all attribute values and stat changes of itself and the target with the Shenyuan mark; ultimate causes Luanhun (50% chance to hit the wrong target); chain skill causes Thunderstrike (30% chance to stop acting).
+
+- **Handling Method:** Use pets that clear persistent effects; use Xinghui Shenling pets to let the mark be applied to the Shenling; in 4v2, try a few more times to prevent the mark from being applied to the pet that will be switched to the main DPS.
+
+### 4. Qianshan Luoying zhi Hui - Yeying (Illusion Type): High fixed damage, Chenmian, Fear
+
+- Small skill causes Chenmian once; ultimate deals extremely high damage, and also has high fixed damage and fear. Not so common recently.
+
+- **Handling Method:** In 6v1, use a righteous gang up, with the Dragon King's protection; in single challenges, use targeted pets to kill it as soon as possible. It is not common in 4v2, if you encounter it, it is recommended to try a few more times and prioritize killing it.
+
+### 5. Poxu Kongyan Qunlong - Longmu (Super Mystic Type): Huajie, High Fixed Damage, Execution
+
+- Passive Meng zhi Sha has a chance to be immune to skills based on the amount of light energy consumed, with a 70% chance to be immune to the ultimate skills of the five lights.
+- Obtains Longtan after using an attack skill for the first time: 50% chance to reflect 50% of the damage received at the end of the round, up to 20,000.
+- Ultimate deducts up to 30,000 fixed damage and executes targets with less than 20% HP after dealing damage.
+
+- **Handling Method:** Use pets that clear persistent effects / use output that does not consume light energy, such as Freya, Shen Xihe, Abisi, etc.
+
+- Longtan can be cleared by Sage's Counterattack / KK's counter. For the ultimate, just pay attention to your own HP.
+
+### 6. Shengshu Linhui Guang'an Shuangyao - Qiling Wang (Super Electric Type): Fast Attribute Reduction, Thunderstrike, HP Limit Reduction
+
+- Reduces 3 levels of attributes each time it is attacked; small skill has a 30% chance to reduce a random attribute to be the same as its own; level 3 Thunderstrike (30% chance to be unable to act) for 4 rounds; reduces HP limit by 5% for the first 3 attacks. Guangjin can absorb 20% of the HP limit and reduce 2 levels of all attributes. Small skill can deal up to 21,000 fixed damage in one round.
+
+- **Handling Method:** Empress activates attribute protection; in 4v2, you can use Shuangtian or Sheng Tianyi, Pangu, etc. to kill it quickly.
+
+### 7. Tianguo Shouhuzhe - Bai Tianshi Wang (Super King Type): High Damage
+
+- Ignores 80% of special defense, dealing true damage with every hit.
+
+- **Handling Method:** In single challenges, use Qiyuan Lai, Boxun, etc. to deal with it; in 6v1, with the Dragon King's protection, use a righteous gang up.
+
+### 8. Pini Zhongchen - Nüdi (Super Spacetime Type): Lingyou, Shenyou, Luanhun at the start of the battle
+
+- Protects level and stats at the start of the battle; first attack causes Luanhun (40%).
+
+- **Handling Method:** Empress ignores attribute protection to reduce attributes; Zhigao Rongyao needs to stay on the field for 4 rounds; wait for Luanhun to end before attacking or just try your luck.
+
+### 9. Wujue Lingtian - Mo (Complete Type): High fixed damage at the end of the round, execution
+
+- Deducts fixed damage from the entire field each round, up to (10,000 + number of non-fainted pets in our backpack / 2, max 30,000). Ultimate executes targets with less than 20,000 HP, otherwise deducts 20,000 fixed damage.
+
+- **Handling Method:** Kill it as soon as possible and pay attention to the HP of the support pets on the field.
+
+### 10. Qilin Wujian - Wumian zhi Wang (Super King Type): Huajie
+
+- Chance to be immune to attack skills, probability = [own speed base stat - target's base stat] \* 1%.
+
+- **Handling Method:** Use pets that clear persistent effects; Empress with Jingzhun Shenbing; main DPS with high speed base stat or built-in precision, such as hero pets.
+
+### 11. Qiye Pokong zhi Ren - Shizhe / Qiqi - Shizhe (Illusion / Super Spacetime Type): Memory modification, high damage
+
+- The new top pet on the "birth" list. Its first-move attribute skill, Huanhua Qingmeng, grants memory modification, causing it to use skills randomly.
+
+- **Handling Method:** In 6v1, you can use Zeus and other five-light attackers, because the Guangqi burst skill > first-move small skill, so you can ignore Huanhua Qingmeng. In 4v2, you can use pets like Du, Pandora, or deal high damage to quickly finish it off and increase fault tolerance. If you get killed, it's just bad luck, try a few more times.
+
+### 12. Wanwang Tianyu - Shengwang Qilin (Super King Type): Force retreat, thunderstrike, high fixed damage
+
+- Its "birth" force retreat skill treats people like a ball, and it also has thunderstrike and high fixed damage.
+
+- **Handling Method:** Don't bring pets that can't die to prevent being forced to retreat. If you bring a constellation pet, let it take medicine and die first. If the opponent's stats are low, you can also bring the anti-force retreat soul weapon from the domain.
+
+### 13. Tiandi Jingxian - Liulong Shengwang (Super King Type): Abnormal status, force retreat
+
+- Relies on its ultimate's abnormal status to torture people, and also has a force retreat.
+
+- **Handling Method:** Just fight through the abnormal status. Don't bring pets that can't die / let the constellation pet take medicine and die first.
+
+### 14. Shengling Miaoyin - Alaya-vijnana (Illusion Type): Counterattack, fixed damage
+
+- A must-have for Amon King. 25% counterattack, and each counterattack also deducts fixed damage.
+
+- **Handling Method:** When you can use other lineups, don't use Amon. It is recommended to kill it quickly. The support pet should take medicine when collecting energy and entering cooldown, don't move around, or try a few more times.
+
+### No detailed handling methods are provided, all are recommended to be prioritized for killing, or to fight head-on, or to try a few more times.
+
+### 15. Aofanchen Qi Xianling - Nuwa (Fairy Spirit Type): Blood ban, high fixed damage. Handling method: try a few more times.
+
+### 16. Chaoyue Jiyuan de Xinsheng - Hedy Lamarr (Super Digital Type): High damage, high fixed damage, no light
+
+- One of the dual holy souls, the holy soul execution is of the super Qiankun type, it hits hard, not recommended to use super dragon/super light attackers.
+
+- **Handling Method:** In 6v1, you can let the constellation pet stay on the field for a few more rounds and wait until it gets the Huanxiang Juxian before switching; in 4v2, try a few more times.
+
+### 17. Wanshen zhi Wang - Zeus (Super Electric Type): Stun, light deduction, buff clearing, high fixed damage
+
+- EVP god, has two abnormal statuses: magnetic field and thunderstrike (can be checked in Appendix 6), and can additionally consume the enemy's light energy. It has a shield, can clear buffs, and its ultimate has up to 60% defense penetration. A true god is born, as long as the stats are high enough, it's a nightmare.
+
+- **Handling Method:** 1. Thunderstrike can only be gambled on luck. 2. In 6v1, let the Dragon Prince Ziya go on the field first and self-destruct, the Empress uses a 1-light skill to protect attributes and then self-destructs. 3. It is recommended to use high-stat attackers such as Sheng Tianyi, Pangu, Ailin, etc. to kill it quickly.
+
+### 18. Zao Ziran Yao Wanwu - Gaia (Super Light Type): Fear, high fixed damage. Handling method can only be to try a few more times.
+
+### 19. Shenshou Zunzhu - Cangqiong Shenglong (Super Light Type): Plays with abnormal statuses, luckily no force retreat.
+
+- **Handling Method:** Fight through the abnormal statuses, you can only try a few more times. Remember to ensure your survivability and pray for fewer fears.
+
+### 2. New Skill Set: Looks like a primitive, but can be troublesome as a boss.
+
+### 3. Yijie Shishi - Du (Life Type / Immortal Type): High damage, fixed damage, fast attribute increase
+
+- Moves twice in one round, changes forms, which greatly affects the experience. Burns HP at the end of the round, and the damage is not low.
+
+- **Handling Method:** Empress self-destructs on it, prioritize killing it. Make the support pets tankier.
+
+### 21. Dadao Wuming - Tianming Wang (Super King Type): Ultimate hits the entire field with high fixed damage, a good teammate for Longmu.
+
+- **Handling Method:** Empress/Mengpo deducts its light, make the support pets tankier, prioritize killing it.
+
+### 22. Changye Xuyuan - Zhulong (Super Dragon Type): Ultimate clears debuffs and deducts light. Try a few more times, prioritize killing it.
+
+### 23. Fanxing Yinlü - Gandharva (Super Light Type): Luanhun, Xingmeng, resistance increase
+
+- Ultimate grants Luanhun to pets, 75% chance to hit the wrong target. In 6v1, it comes with an increase in all attributes and resistance.
+
+- **Handling Method:** 1. Use pets that clear persistent effects. 2. Calculate the light energy. When Gandharva has enough light energy to use its ultimate, be careful when attacking. Do not attack when you have the Luanhun buff. 3. Deal direct damage to kill it.
+
+### No detailed handling methods are provided, all are recommended to be prioritized for killing, or to fight head-on, or to try a few more times.
+
+### 24. Qunxing Shouhu Huanyu Guanghui - Shen Yinhe (Annihilation Type): High fixed damage, kill combo, stat inflation
+
+- Clear persistent effects / prioritize killing. It's even more terrifying with exclusive equipment, which it usually doesn't have.
+
+### 25. Shenpan Mingyun zhi Zhan - Odin Dadi (Super God Type): Clears light energy, high fixed damage. Take medicine to accumulate light energy.
+
+### 26. Zhongmo de Canxiang - Nuoya (Complete Type): Has a thunderstrike.
+
+### 27. Duanhai Canglan - Long Taizi (Super Dragon Type): Damage is relatively high.
+
+### 28. Shenshen Llüli - Wumian zhi Wang (Super King Type): Sometimes puts people to sleep, ultimate dispels two buffs.
+
+### 29. Hanye Poxiao zhi Ren - Shizhe (Illusion Type): Has memory modification.
+
+### 30. Shenwei Dilong - Moluojia (Super God Type): Causes Nuoruo and Shiming, reducing damage and hit rate.
+
+### 31. Jingshen Lin zhi Shi - He'ermes / Shijie Kuiren - He'ermes (Super Dark Type / Complete Type)
+
+- A regular in EVP, quickly increases attributes, and deals very high damage. If there are two of them, Empress locks one and kills the other first.
+
+### 32. Linghai Jinran zhi Chao - Yeying (Illusion Type): Chenmian, execution
+
+- A regular in EVP, small skill causes Chenmian, ultimate first deducts fixed damage and then executes targets with less than 10% HP, specifically to execute Amon.
+- **Handling Method:** Use Amon King less or prioritize killing it.
+
+### 33. Yueying Ying Banlan - Yeying (Illusion Type): Small skill causes Shiming, ultimate causes Chenmian and dispels buffs.
+
+### 34. Fengyao Ying Qinghe - Liuli (Fairy Spirit Type): Passive skill clears a debuff with a remaining duration of less than 10 rounds each round.
+
+- **Handling Method:** Use Ziya/Shengling Xingnuo to apply debuffs so they won't be cleared.
+
+### 35. Heiling zhi Wangxiu Jie zhi An - Fantian (Super Dark Type): Reduces attributes relatively quickly, ultimate dispels two buffs.
+
+### 36. Tianqi Jiyuan Di Shi Shengmian - Fantian (Super Light Type): Increases attributes relatively quickly, and has a skill that clears two negative attributes.
+
+### 37. Hengji Pojun - Lü Bu (Super Dark Type): Taunts the unit that is switched in, ultimate causes fear. Use dual DPS less.
+
+### 38. Shenxing Zhizun - Xuanhuang (Super Ancient Type): Shufu, clears attribute levels. Start with a constellation pet or bring a chair.
+
+### 39. Guiying Shiye - Heiyi Wang (Super Holy Spirit Type): Small skill dispels a debuff, increases the dual defense of allies each round.
+
+### 40. Quanwei Yanhua zhi Yue - Abisi (Super Digital Type): Unique mechanism, clears attribute buffs.
+
+- In 6v1, it will pull out the last pet in the backpack; in 4v2, it will put the pet that is not in the correct position into a small black room. Boli zhi Feng will clear the highest attribute, from normal attack downwards. Ultimate dispels buffs.
+- **Handling Method:** Empress/constellation pet is in the correct position with it, don't let the output be locked up, remember to activate attribute protection.
+
+### 41. Jiangou Zhongduan - Geliya (Life Type): Ultimate clears two attributes and dispels two buffs, small skill causes Shufu.
+
+### 42. Shengyi Linshi - Lieyan Fenghuang (Super Fire Type): Zhuoshao, deducts fixed damage, the more you move, the more it deducts.
+
+### 43. Kongji Wuchen Wanfa Weixin - Alaya-vijnana (Illusion Type): Deducts fixed damage every time itself and its teammates are attacked.
+
+### 44. Yiqiao Yinuo Yixiangfeng - Meng (Dark Star): Reduces attributes relatively quickly, ultimate causes Chenmian. Even more terrifying with exclusive equipment, Meng zhi Sha is immune to attack effects, it is highly recommended to clear its persistent effects.
+
+### 45. Youquan Shizhe - Mengpo (Super Dark Type): Small skill clears PP, ultimate causes Shiming.
+
+### 46. Tuntian Heichao - Caesar (Super Dark Type): Small skill causes fear, ultimate clears two attributes.
+
+### 47. Shenting Diancang - Qiling Wang (Super Electric Type): Reduces 3 levels of attributes each time it is hit; small skill clears attributes and causes thunderstrike.
+
+### 48. Zongma Yingong Jinguo Zhi - Sun Shangxiang (Super God Type): Counterattacks when hit, small skill clears attributes, ultimate grants Xuhua once, 75% immunity to damage. If the damage is absorbed, it means it hit the Xuhua. You can try a few more times or calculate the light energy.
+
+### 49. Rihui Yueying zhi Fei - Xihe (Super God Type): Reduces attributes relatively quickly, ultimate dispels 2 buffs.
+
+### 50. Xuduo zhi Junwang - Belial (Super Fire Type): A new "birth", comes with Purgatory for 4 rounds upon entering the field, skill combos once; Shen · Liehuo Zhanma deals high fixed damage, small skill has fear and burn. Can use Sage's Counterattack to clear Purgatory.
+
+### 51. Qizui Shengcai - Yisaer (Super Dragon Type): A new "birth", starts with 2 rounds of Eternal Power, immune to debuffs. Ultimate deals high damage, small skill has execution. In 6v1, it will also blow up the backpack upon killing a target.
+
+- **Handling Method:** Start with a constellation pet with a chain and take medicine to stay on the field for two rounds, or use Sage's Counterattack to clear persistent effects. Lower its attributes as soon as possible or use Huajie-type pets to reduce the chance of support pets being killed by 132.
+
+### 52. Guangqiong Yongyao zhi Hui - Tianshi Wang (Super Flying Type): Ultimate has one Xuhua.
+
+### 53. Yuming zhi Gushang - Vashak (Super Mystic Type): Deducts fixed damage at the end of each round, the less remaining HP, the more it deducts; skill hits the entire field and also splashes to teammates. The support pets must be tanky.
+
+### 54. Guini zhi Junwang - Balam (Super Fighting Type): A new "birth", small skill will clear its own light energy and buffs, and deduct the same amount of light energy and buffs from the target; Fangzhu will settle 50% of the damage within 2 rounds as fixed damage after 2 rounds. Since immunity to non-super-effective damage will be immune to fixed damage, it is equivalent to directly eating 50% of the damage; ultimate reduces dual attack by 30%, and if the prediction is successful, it will also deduct 1 light. It is recommended to prioritize killing it and try a few more times.
+
+### 55. Zhouyu Zhongyu - Shanggu Xinglong (Super Ancient Type): Increases attributes each round, ultimate's Lingshun grants Huajie once, small skill clears 2 debuffs. With exclusive equipment, it will also grant Huajie to each pet's first skill, very "birth". Fortunately, it doesn't appear often now, but there is one in Huanxiang Shishi with over ten million HP and exclusive equipment.
+
+- **Handling Method:** Each self-destruct pet uses a small skill to attack once and then self-destructs. You can bring two attribute-reducing pets such as Empress and Mengpo to deal with the rapid increase in attributes. If it appears in 42 in the future, it is recommended to kill it as soon as possible.
+
+::: warning
+Most pets with exclusive equipment increase and decrease attributes very quickly, so be sure to lock and protect your attributes.
+
+If you encounter a strange situation, it is recommended to check the skills or level buffs.
+:::
+
+## Appendix 9: Recommended Strategies for Some Pets
+
+### Hardware Requirements:
+
+- Summoner
+- Marks must be set first
+- Trainer should also be set up
+- Prepare soul cards and soul weapons
+
+#### Huanling Sheng Tianyi
+
+- **Small stages:** Borrow Xinghui Alai, must have Nushi. It doesn't matter if you don't have exclusive equipment or god weapons, just activate the attribute in the system.
+- **Large stages:** Borrow a Mibao 132. If you use the Xinuo F4, you will need some constellation points.
+- **Notes:** If our Sheng Tianyi is killed, it is recommended to try a few more times or self-destruct to reduce attributes first.
+
+#### Huanling Pangu
+
+- **Configuration:** All level 60
+- **Features:** Can ignore rules, almost a free win
+
+#### Must-have Lineup First Page
+
+- **Features:** Almost all can be beaten with Xinuo. If you can't win, borrow a pet.
+
+#### Zhigao Rongyao
+
+- **Features:** Very easy to beat with buffs, almost a free win
+
+#### Luoyisi
+
+- **Recommended Lineup:** Xinuo team, Xinuo team/Amon team, Xiaoyao team/Suisui, Wumian team, Fantian team/Qiling team/Lucifer/Bai Mei + Lu Long
+
+#### Heiyi Wang
+
+- **Recommended Lineup:** Amon/Qiling Wang, Hei Mei, Wumian
+- **Notes:** Control the rounds according to the rules
+
+#### Qiling Wang
+
+- **Recommended Lineup:** Huanling Sheng Tianyi can sweep through, or you can borrow Huanling Nuoma.
+- **Xinuo Lineup:** Taiyang Xinuo + Hei Xinuo + Shengling Xinuo + Huanling Xinuoma, a free win.
+
+#### Caesar
+
+- **Recommended Lineup:** Xinuo team/Amon team, Fantian team/Luoyisi team, Xinuo team/Suisui + 1314, Fantian team/Suisui
+
+#### Xihe
+
+- **Recommended Lineup:** Xinuo team + Lunhui team + Qiling Wang team
+- **Features:** Very easy to beat, pay attention to the number of rounds.
+
+#### Luoxi
+
+- **Order:** Qian, Kun, Zhen, Xun, Kan, Li, Gen, Dui
+- **Corresponding Lineup:**
+  - **Qian:** Xiaoyao team/Suisui
+  - **Kun:** Qiling team/Lucifer
+  - **Zhen:** Wumian team (pay attention to controlling HP, use ultimate to finish off, prevent Hero's Judgment from stealing the kill)
+  - **Xun:** Yongheng team
+  - **Kan:** Xihe/Freya (pay attention to taking medicine in the middle to extend the rounds, let Linlang use her ultimate a few more times)
+  - **Li:** Luoyisi
+  - **Gen:** Amon team
+  - **Dui:** Sheng Tianyi team/Ailin
+- **Final Stage:** Use Luoyisi team (kill Shenbing Luoxi first)
+- **Suggestion:** Cultivate a few more systems before challenging.
+
+#### Buxiu Long
+
+- **Recommended Boss Combination:**
+  - Abu Su + Yelan: Use Wumian to beat
+  - Abisi + Luoyisi: Use Qiling Wang to beat
+  - Zhigao Lai + Mengpo: Use Amon King to beat
+  - Yeying + Nuwa: Use Amon King to beat
+
+#### Kuanglong
+
+- **Mode:** 6v1
+- **Method:** Can borrow pets
+- **Notes:** Remember to give the "stop action" and "immune to non-super-effective" to the easy-to-beat bosses.
+
+#### Tianshi Wang
+
+- **Mode:** 6v1
+- **Features:** High stats
+- **Recommended Method:** Can borrow Adam to cheese/borrow an attacker
+- **Final Stage:** Recommended Huanling Pangu
+
+#### Huanling Xingnuoma
+
+- **Requirements:** Requires many systems, a chain is a must, it is best to prepare a second Seraph.
+- **Strategies for each Xinuo:**
+  - **Taiyang Xinuo:** Seraph with a Yu card and chain, take medicine in the second round, must release the second ultimate, constellation buff needs to be set to +5 duration.
+  - **Huo Xinuo:** Use Mipan, Wumian for Shengling Xinuo.
+  - **An Xinuo:** Use Hei Mei to stack blades and beat Tianfeng.
+  - **Long Xinuo:** Best to use Ailin to beat.
+- **Support:** For stages with high survival pressure, bring Alai/Yeying's lineup.
+
+#### Tiannü
+
+- **Recommended Method:** It is recommended to borrow a whole team to beat, such as Zhigao Rongyao.
+- **Notes:** Otherwise it's too difficult to beat.
+
+#### Liudai He
+
+- **Recommended Method:** Borrow a whole team
+- **Features:** Unlimited attempts
+- **Alternative Plan:** Can also borrow a large HP deduction team
+
+## Appendix 10: Introduction to Mibao/Annual VIP Pet PVE
+
+### Foreword
+
+- **Not recommended to buy Mibao for PVE!**
+- **Annual VIP Abisi:** Do what you can. Having a puller can reduce the configuration requirements by a lot, and it is also a good super digital attacker.
+
+### Equipment Description
+
+"Obtain all extra effects in multi-pet modes" in the equipment refers to:
+
+- Extra effects in multi-pet modes in the pet's skills
+- Extra effects in multi-pet modes in the equipment
+- These effects can also be triggered in 4v2
+
+### 1. Quanwei Yanhua zhi Yue - Abisi
+
+- **Type:** Super Digital
+- **Role:** Normal attack attacker, can also be a support
+- **Features:** A super digital attacker with very high stats
+
+#### System
+
+- **6v1:** Pulls out the last pet in the backpack, making the number of our pets on the field 2.
+  - If Abisi is the last pet in the backpack, it will pull out the last pet in the backpack other than Abisi.
+  - The pulled-out pet cannot use items on itself, cannot self-destruct, and cannot receive inherited buffs.
+  - The probability of being attacked is also generally low. Usually, support pets are pulled out.
+- **4v2:** The system is generally not used in PVE.
+
+#### As an Attacker
+
+- **Basic Lineup:** F4 + constellation pet + Abisi is enough for most situations.
+- **High Damage Lineup:** Empress + Seraph + constellation pet + Xingchen + Abisi + Ciyuan Shouhu 132 / Second Generation Heiyi
+- **Dual DPS Lineup:** When the number of pets on the field = 2, Abisi has its own super-effective multiplier, so it can be one of the dual DPS in 4v2.
+
+#### As a Support
+
+- **Condition:** When the attacker has a pet that increases the super-effective multiplier of the corresponding attribute (usually refers to a system team support).
+- **Lineup:** Empress + Ziya/Seraph/Nüdi/Mengpo + Abisi + constellation pet + attacker + corresponding support
+  - **Example:** When using Qiling Wang as an attacker, pull Caesar to increase the super-effective multiplier of the super electric type.
+- **Alternative:** If you don't have the corresponding support, you can use Alai / Ciyuan Shouhu 132 / Second Generation Heiyi / Qiyuan Xihe (new skill set).
+- **Alternative Plan:** You can also pull out the constellation pet directly. The most important thing is to get the bonus from having 2 pets on the field.
+
+### 2. Zhouyu Zhonglü - Shanggu Xinglong
+
+- **Type:** Super Ancient / Reverse Ancient
+- **Role:** Special attack attacker
+- **Features:**
+  - Can transform into Reverse Ancient, can carry super ancient type skills, has a very wide super-effective coverage.
+  - High PVE bonus, many hits, high damage.
+  - One of the top attackers, shines in the special attack island of Kevin Island.
+
+#### System
+
+- **6v1:** Pulls out the next pet in the backpack (requires a living pet in the backpack to sacrifice).
+- **4v2:** Sacrifices a teammate to summon the Star God's Body.
+  - All-attribute stats become 150%.
+  - Inherits buffs with a duration of less than 10 rounds from the teammate.
+  - Cannot be switched, and is considered as 2 pets on the field.
+  - The exclusive equipment of the Reverse Ancient attribute has a 200% critical hit rate.
+
+#### Recommended Lineup
+
+- **6v1 Lineup:** Generally, F4 + constellation pet + Xinglong is enough, no need for Abisi to pull. Just transform and attack.
+- **4v2 Lineup:** It is recommended to use Empress + Nüdi + Xinglong + Loran.
+  - Since Xinglong inherits buffs with a duration of less than 10 rounds from its teammate, both Empress and Nüdi can self-destruct in the first round.
+  - Loran activates the constellation and uses its ultimate.
+  - Xinglong waits until the 3rd round when the constellation duration is 9 to activate the system and sacrifice.
+  - Xinglong has high critical damage, so Nüdi is recommended.
+  - Loran's ultimate has a Ranshao buff that can be inherited by Xinglong.
+
+**Note:** Loran should not have the +5 duration constellation, and Nüdi should not have the Daohouzhe, as it will replace the buff of the same name.
+
+Loran can also be replaced with the super ancient type constellation pet Yu Xingli. In this case, Nüdi stays on the field normally, Empress self-destructs and is replaced by the constellation pet, which is then switched to Xinglong. You can also have the +5 duration constellation.
+
+### 3. Qizui Shengcai - Yisaer: Super Dragon Type, Normal Attack Attacker
+
+- Ultimate restores light energy, attacks 7 times, has a high PVE bonus, and has its own super-effective multiplier when the number of pets on the field = 2. The strongest super dragon type attacker, and also one of the top attackers of all types. The system sacrifices itself in 6v1, but the summoned pet has low hits, so it is generally not used in PVE (even with Abisi pulling, it still sacrifices itself). In PVE, you generally don't need to care about the three contract underlings, the attributes they provide have little impact on PVE.
+
+#### Recommended Lineup
+
+- **6v1 Lineup:** Generally, F4 + constellation pet + Yisaer is enough. For higher damage, you can bring Xingchen/Abisi.
+- **4v2 Lineup:** Empress + Seraph + constellation pet + Yisaer is enough. Since it has its own super-effective multiplier when the number of pets on the field = 2, it can form a dual DPS lineup with other DPS. Since the ultimate attacks 7 times, it can be paired with Dijeishi Kaos.
+
+### 4. Yongheng Chiyang - Shen Apolo: Super Holy Spirit Type, Special Attack Attacker
+
+- High defense penetration and 22 bonus, all skills will combo with the exclusive equipment once. The strongest super holy spirit type attacker.
+
+- **System:** In PVE, you can choose not to upgrade to Otherworldly, and you don't need to use the system. Just use the exclusive skill and ultimate, and use the ultimate whenever it's available. If you bring Xingchen (optional), you can click Shenxu three times and then use Shen · Riyao Tianqiong. In 4v2, you can use the small skill first, and use Shenxu to accumulate one Shen · Riyao Tianqiong, because it is a skill that hits the entire field.
+
+- **6v1 Lineup:** Generally, F4 + constellation pet + Boluo is enough. For higher damage, you can bring Abisi.
+- **4v2 Lineup:** Empress + Nüdi/Mengpo + constellation pet + Boluo is enough.
+
+### 5. Zhizhang Wanshi Lunhui Yinguo - Dijun: Super God Type, Special Attack Attacker
+
+- Has a PVE bonus but no 22 bonus. Does not require Abisi, but the damage is not as good as Shen Xihe with Abisi pulling. Use the new skill set, otherwise there is no PVE bonus. Requires Xingchen because the ultimate's damage is relatively high.
+
+#### Recommended Lineup
+
+- **6v1 Lineup:** Empress + Ziya + Longwang + constellation pet + Xingchen + Dijun
+- **4v2 Lineup:** I feel it's not as good as Shen Xihe.
+
+### 6. Qunxing Shouhu Huanyu Guanghui - Shen Yinhe: Annihilation Type, Normal Attack Attacker
+
+- Has a PVE bonus but no 22 bonus. The strongest annihilation type attacker, but the annihilation type's super-effective coverage is average. If you want to play it, you can. The annihilation type constellation pet should be coming soon. It can inflate its own stats to 200%. The damage mainly comes from the ultimate, so Xingchen is a must. The system predicts the opponent's actions. If the prediction is successful, the skill will be enhanced and additional light energy will be gained. In PVE, you can predict that the opponent will attack you every time.
+
+- **6v1 Lineup:** Empress + Ziya + Longwang + constellation pet + Xingchen + Shen Yinhe, not recommended for 4v2.
+
+### 7. Wu Ji Shenyuan - Lalaiye: Complete Type, Normal Attack Attacker
+
+- Has a PVE bonus but no 22 bonus. The PVE bonus is not much, mainly on the ultimate. The damage is not as good as the fifth generation He and Zhenli zhi Hou, and there is no constellation pet. If you want to play it, you must bring Xingchen, activate the true god form, and keep using the ultimate.
+
+- **6v1 Lineup:** Empress + Ziya + Longwang + constellation pet + Xingchen + Shen Yinhe, not recommended for 4v2.
+
+### 8. Wu Ji Yongheng - Abusu: Eternal Type, Normal Attack Attacker. Not recommended for PVE.
+
+### 9. Yijie Shishi - Du: Immortal Type, Special Attack Attacker / Fixed Damage Attacker
+
+- Currently no longer available, you can borrow it from experienced players. It was once very strong in PVE, did not require teammates to stay on the field, and 50% of the fixed damage dealt would splash to the target's teammates. The high fixed damage dealt to the entire field each round could beat most stages. But now there are many high-stat attackers, and there is Huanling Xingnuoma for non-super-effective targets. In addition, many stages are immune to fixed damage / non-super-effective damage, so it is not as necessary anymore. It is not recommended to get it specifically, unless you really like it or have a lot of money.
+
+- **System:** The core of Du's PVE ability. Du's own life type damage is very low, but the immortal type it transforms into has very high PVE damage. In PVE, it deducts 5% of the maximum HP of all pets (including those in the backpack) each round and converts it into immortal's HP at 50% efficiency (both deduction and conversion are capped at Du's special attack stat). The damage dealt by the ultimate to the entire field can also be converted into immortal's HP. When actively used, it transforms into the immortal form and acts again. The immortal's HP is used to cast skills, and the ultimate has a built-in combo. The hard requirement is that the special attack value in the backpack must be 30,000.
+
+- **Lineup:** In 6v1, it is generally paired with Empress, Ziya, Life type constellation pet, Zhongjie Tu, Hong Xihe, etc. You can have Aibi pull Xinghui Tongling Fantian. In 4v2, use Empress + Nüdi/Longwang + Xinghui Tongling Fantian + Du. Xinghui Tongling Fantian is best with the Wang exclusive, no need for the god weapon, but the contract beast is a must, it doesn't matter who it is. If you don't have it, you can replace it with a life constellation pet.
+- **How to use:** Use the system skill - Xukong Jianying - system skill - ultimate - system skill - take medicine cycle. In the immortal form, use Yongsheng Zhujue. For direct damage, bring the Chen card and Liuguang Zhan. For fixed damage, bring the Ming card and Deng.
+
+## Appendix 11: Jump to Scene Challenges
+
+### Leader Battle:
+
+- **Xinuoma:** Flash's jump goes to the wrong scene. H5's challenge archive allows you to get a free Xinuo team.
+- **Lu Xiaoguo** (no longer available, clicking it in the H5 challenge archive will get stuck)
+- **Yongheng Abusu** (cannot be accessed from the challenge archive, enter from the must-have lineup)
+- **Second Generation Liuli** (can be entered from the Shuguang zhi Lü)
+- **Wuhuo Nühuang** (the jump scene in the challenge archive is wrong, search for Guangnian zhi Wai on the map)
+
+### Dual Pet Battle:
+
+- **Zuo Tianshi:** Need to enter the challenge from the must-have lineup - Abusu team.
+- **Each Xinuo:** The jump scene in the challenge archive is wrong, enter directly from the must-have lineup / Quanmin Bi Guo challenge.
+
+### Other Challenges:
+
+- Both dogs are gone, clicking on them will jump to the old challenge journey.
 
 ::: tip
 
-如果有疑问或建议欢迎提Issue [Issues](https://github.com/vmoranv/aolarhapsody/issues/new)
+If you have any questions or suggestions, please feel free to open an Issue [Issues](https://github.com/vmoranv/aolarhapsody/issues/new)
 
-欢迎加入奥拉百科全书交流群!(1030312393),有疑问/意见在群里指出即可,平时也欢迎讨论pve、pvp和问问题.
+Welcome to join the Aola Encyclopedia exchange group! (1030312393). If you have any questions/opinions, you can point them out in the group. PVE, PVP discussions and questions are also welcome.
 
-bot交流群: 1058690779
+Bot exchange group: 1058690779
 :::
 
-## 更新日志
+## Update Log
 
-- 2024/8/27初版
-- 文件名称:白嫖100奥币
-- **更新内容:**
-- 添加免费亚比篇
-- 添加免费装备篇
-- 添加免费资源篇
-- 添加亚比介绍篇
+- 2024/8/27 First version
+  - File name: Free 100 Ao Coins
+  - **Update content:**
+    - Added Free Pets section
+    - Added Free Equipment section
+    - Added Free Resources section
+    - Added Pet Introduction section
 
-- 2024/9/02初版第一次修订
-- 文件名称:如何白嫖100奥币
-- **更新内容:**
-- 添加免费皮肤篇
-- 优化目录导航
+- 2024/9/02 First revision of the first version
+  - File name: How to Get 100 Ao Coins for Free
+  - **Update content:**
+    - Added Free Skins section
+    - Optimized directory navigation
 
-- 2024/9/30 第二代初版
-- 文件名:新手必看·如何白嫖100奥币初版
-- **更新内容:**
-- 添加体系讲解篇
-- 添加魂卡魂器篇
-- 添加游戏建议篇
-- 去除下架活动,修改文档结构
+- 2024/9/30 Second generation first version
+  - File name: Newbie Must-Read · How to Get 100 Ao Coins for Free First Version
+  - **Update content:**
+    - Added System Explanation section
+    - Added Soul Card and Soul Weapon section
+    - Added Game Suggestions section
+    - Removed discontinued activities, modified document structure
 
-- 2024/10/02 第二代第一次修订版
-- 文件名:必看·白嫖十奥币第一次修订版
-- **更新内容:**
-- 添加附录1 、附录2 、附录3
-- 体系讲解篇更新内容
+- 2024/10/02 Second generation first revision
+  - File name: Must-Read · Free Ten Ao Coins First Revision
+  - **Update content:**
+    - Added Appendix 1, Appendix 2, Appendix 3
+    - Updated content in the System Explanation section
 
-- 2024/10/06 第二代第二次修订版
-- 文件名:淘宝低价奥币表第二次修订版
-- **更新内容:**
-- **更新内容:**
-- 添加附录4
-- 游戏建议篇更新内容
+- 2024/10/06 Second generation second revision
+  - File name: Taobao Low-Price Ao Coin Table Second Revision
+  - **Update content:**
+    - Added Appendix 4
+    - Updated content in the Game Suggestions section
 
-- 2024/10/07第二代第三次修订版
-- 文件名: 新手回归必看攻略
-- **更新内容**:
-- 添加附录5、附录6、附录7
+- 2024/10/07 Second generation third revision
+  - File name: Newbie and Returning Player Must-Read Guide
+  - **Update content**:
+    - Added Appendix 5, Appendix 6, Appendix 7
 
-- 2024/10/09第二代第四次修订版
-- 文件名: 萌新回归必看攻略第4次修订版
-- **更新内容**:
-- 添加魂卡魂器篇内容
-- 免费装备篇增加二代小卡二代莉莉丝
-- 免费资源篇内容添加
-- 优化内容
+- 2024/10/09 Second generation fourth revision
+  - File name: Newbie and Returning Player Must-Read Guide 4th Revision
+  - **Update content**:
+    - Added content to the Soul Card and Soul Weapon section
+    - Added Second Generation Small Card and Second Generation Lilith to the Free Equipment section
+    - Added content to the Free Resources section
+    - Optimized content
 
-- 2024/10/ 第二代第五次修订版
-- 文件名:萌新回归必看攻略第5次修订版
-- **更新内容**:
-- 免费亚比篇更新星辉24节气亚比
-- 添加附录8.晴明万血培养
-- 修改一些错误
+- 2024/10/ Second generation fifth revision
+  - File name: Newbie and Returning Player Must-Read Guide 5th Revision
+  - **Update content**:
+    - Updated the Free Pets section with Xinghui 24 Solar Terms pets
+    - Added Appendix 8. Qingming 10,000 HP Cultivation
+    - Corrected some errors
 
-- 2024/11/3 第二代第六次修订版
-- 文件名:奥拉百科全书第六版
-- **更新内容**:
-- 添加附录9.亚当梦想精灵体系速成
-- 添加附录10.某些亚比打法推荐
-- 七.游戏建议篇增加5.如何伤害最大化
-- 四.亚比介绍篇增加2.全光烬亚比自身增伤分析
-- 五.体系讲解篇增加9.逍遥体系队
-- 添加一些萌新常见问题
-- 补充部分内容修改错误
-- 附录6异常状态标注常见亚比
-- 优化文档部分UI显示,特征更加鲜明
-- 四.亚比介绍篇亚比技能优先度增加**真抗假抗**说明
+- 2024/11/3 Second generation sixth revision
+  - File name: Aola Encyclopedia Sixth Edition
+  - **Update content**:
+    - Added Appendix 9. Adam Mengxiang Jingling System Quick Guide
+    - Added Appendix 10. Recommended Strategies for Some Pets
+    - Added 5. How to Maximize Damage to VII. Game Suggestions section
+    - Added 2. Analysis of All Guangjin Pets' Own Damage Increase to IV. Pet Introduction section
+    - Added 9. Xiaoyao System Team to V. System Explanation section
+    - Added some common questions for newbies
+    - Supplemented some content and corrected errors
+    - Appendix 6 Abnormal Status Annotation for Common Pets
+    - Optimized the UI display of some parts of the document, making features more distinct
+    - Added **True Resistance and False Resistance** explanation to the priority of pet skills in IV. Pet Introduction section
 
-- 2025/ / 第二代第七次修订版
-- 文件名:奥拉百科全书第七版2025
-- **更新内容**:略
+- 2025/ / Second generation seventh revision
+  - File name: Aola Encyclopedia Seventh Edition 2025
+  - **Update content**: Omitted
 
-- 2025/ / 第二代第八次修订版
-- 文件名:奥拉百科全书第八版
-- 修改了一些细节
+- 2025/ / Second generation eighth revision
+  - File name: Aola Encyclopedia Eighth Edition
+  - Modified some details
 
-- 2025/ / 第二代第九次修订版
-- 文件名:奥拉百科全书第九版
-- 增加了很多新内容,策划四月五月改的一堆东西都加进去了
+- 2025/ / Second generation ninth revision
+  - File name: Aola Encyclopedia Ninth Edition
+  - Added a lot of new content, including all the things the developers changed in April and May
 
-- 2025/ / 第三代第一版
-- 文件名:第十版奥拉百科全书
-- 大修,更适合新手小奥拉体质.更新了什么自己看吧,后面还会出一个pvp入门教程.
+- 2025/ / Third generation first version
+  - File name: Tenth Edition Aola Encyclopedia
+  - Major revision, more suitable for new Aola players. See for yourself what has been updated. A PVP introductory tutorial will be released later.
 
-- 2025/10/8 第四代第一版
-- 转markdown格式部署在vitepress上
-- 新增战斗力计算
-- 新增My抓包与语法分析
-- 彻底重构前人的docx
+- 2025/10/8 Fourth generation first version
+  - Converted to markdown format and deployed on VitePress
+  - Added combat power calculation
+  - Added My packet capture and syntax analysis
+  - Completely refactored the predecessors' docx
 
-## 特别鸣谢
+## Special Thanks
 
-- 奥拉星大王(浇筑)
-- 繁星夜屿
-- 至臻萌新(梦影)
-- 时怀晋国(小时)
-- 清风
-- 428魔奇
-- 竺语雪世德
-- 传奇机长肘巴羊
-- 白夜
-- 唯惑
-- 君子之殇
-- 群最大光烬黑子
-- 齐先生
+- Aola Star Da Wang (Jiaozhu)
+- Fanxing Yeyu
+- Zhizhen Mengxin (Mengying)
+- Shihuai Jinguo (Xiaoshi)
+- Qingfeng
+- 428 Moqi
+- Zhuyu Xueshide
+- Chuanqi Jizhang Zhoubayang
+- Baiye
+- Weihuo
+- Junzi zhi Shang
+- Qun Zui Da Guangjin Heizi
+- Qi Xiansheng
 - vmoranv

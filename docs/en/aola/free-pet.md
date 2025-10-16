@@ -155,7 +155,7 @@ If not recommended, check [Packet Parsing](./packets.md) to make your own
     - Pet Entrance: Extra-dimensional Core
     - Acquisition Method: Mini-game to get pet
 
-15. [King of Oni - Sakuya龙泉]
+15. [King of Oni - Sakuya Longquan]
     - Pet Entrance: Extra-dimensional Core
     - Acquisition Method: Mini-game to get pet
 
@@ -191,7 +191,7 @@ If not recommended, check [Packet Parsing](./packets.md) to make your own
 
 6. [Login to Receive Pet Formation]
    - Pet Entrance: Must-claim Benefits → Soul Weapon Elementary School → Login to Receive Pet Formation
-   - Acquisition Method: Select four specified pets异界full battle
+   - Acquisition Method: Select four specified petsOtherworldfull battle
    - Most are not very useful, recommend Black Wing, or choose pets you like
 
 7. [Heaven and Earth With Me Free - Xiaoyao]
@@ -200,7 +200,7 @@ If not recommended, check [Packet Parsing](./packets.md) to make your own
 
 8. [Moon Shadow Night Splendor - Yeying] Normal Attack Damage Boosting Support
    - Pet Entrance: Gift Center → Light Initiation Combat Power
-   - Acquisition Method: Reach target light initiation total combat power to get pet and异界
+   - Acquisition Method: Reach target light initiation total combat power to get pet and Otherworld
 
 9. [Flame Soul Eternal Burning - Moyan Jila]
    - Pet Entrance: Monthly Dungeon → Reward Exchange → Reincarnation Gifts
@@ -256,7 +256,7 @@ If not recommended, check [Packet Parsing](./packets.md) to make your own
 
 22. [Creation Shaping Spirit - Nuwa]
     - Pet Entrance: Anniversary Benefits → Sign-in to Send Full Battle Nuwa
-    - Acquisition Method: Sign in for 10 days to get异界full battle
+    - Acquisition Method: Sign in for 10 days to get Otherworld full battle
 
 23. [Mountain and River Rich Soil - Suisuiqi]
     - Pet Entrance: Time Domain

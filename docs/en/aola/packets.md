@@ -96,7 +96,7 @@ Activity path packet, refer to:
 
 ## 6. Practical Case Analysis
 
-[Qiling Shenshu Moon副本 Case](<https://github.com/vmoranv/aolamya/blob/master/%E5%A5%87%E7%81%B5%E7%A5%9E%E6%A0%91/%E5%A5%87%E7%81%B5%E7%A5%9E%E6%A0%91%E6%9C%88%E5%89%AF%E6%9C%AC(%E7%99%BE%E7%94%B0%E5%BC%B1%E6%99%BA%E7%A8%8B%E5%BA%8F%E7%8C%BFindex%E5%92%8Ctype%E6%95%B0%E5%AD%97%E9%83%BD%E4%B8%8D%E4%BC%9A%E5%A1%AB%E8%8D%89%2C%E8%87%B3%E5%B0%911500%E4%B8%AA%E5%8C%85%E5%85%B3%E6%88%98%E6%96%97%E5%8A%A8%E7%94%BB).mya>)
+[Qiling Shenshu Moon Case](<https://github.com/vmoranv/aolamya/blob/master/%E5%A5%87%E7%81%B5%E7%A5%9E%E6%A0%91/%E5%A5%87%E7%81%B5%E7%A5%9E%E6%A0%91%E6%9C%88%E5%89%AF%E6%9C%AC(%E7%99%BE%E7%94%B0%E5%BC%B1%E6%99%BA%E7%A8%8B%E5%BA%8F%E7%8C%BFindex%E5%92%8Ctype%E6%95%B0%E5%AD%97%E9%83%BD%E4%B8%8D%E4%BC%9A%E5%A1%AB%E8%8D%89%2C%E8%87%B3%E5%B0%911500%E4%B8%AA%E5%8C%85%E5%85%B3%E6%88%98%E6%96%97%E5%8A%A8%E7%94%BB).mya>)
 
 ```json
 |#auto=true|

@@ -102,16 +102,16 @@ Quick access - most challenges are here.
 
 ![](/aola/getstarted_018.png)
 
-- **Otherworld Fantasy** mainly obtains refinement materials (flowers and grasses) for Soul Weapons, also has Soul Card resources. Low stats, most levels can be cleared with Xinuo. For levels that reflect 50k damage, bring Giant Form summoner; for 20% damage reflection, use缔界Xinuoma.
+- **Otherworld Fantasy** mainly obtains refinement materials (flowers and grasses) for Soul Weapons, also has Soul Card resources. Low stats, most levels can be cleared with Xinuo. For levels that reflect 50k damage, bring Giant Form summoner; for 20% damage reflection, use Otherworld Xinuoma.
 - **Domain Descent** can obtain Constellation pet bodies and their King exclusives, limited Soul Weapons and cute skins, and Light Initiation pet collections. **Current week's Domain has extra rewards**. Small levels are very simple, can be cleared casually; if really can't, can use Master Coins to pass. Big levels usually feature the current month's promoted formation + an old formation, new players can try their luck. Note that big levels have two sections that lock pets - if you use a pet in one section and clear it, you can't use it in the other.
-- **Myth Trial** updates monthly. Can obtain Meteor Fragments, some miscellaneous rewards, and Twelve Palaces limited Soul Cards. The biggest value is +3 Normal Attack/Special Attack/Dual Attack for building entry combinations. Palace Master Battle can be skipped, solo levels are very simple, just choose克制ones. Remember to get more free cultivation pets.
+- **Myth Trial** updates monthly. Can obtain Meteor Fragments, some miscellaneous rewards, and Twelve Palaces limited Soul Cards. The biggest value is +3 Normal Attack/Special Attack/Dual Attack for building entry combinations. Palace Master Battle can be skipped, solo levels are very simple, just choose Restrained ones. Remember to get more free cultivation pets.
 - **Time Dungeons** can obtain current month's Version Child pets and their King exclusives, generally not difficult, but the given pets are for collection or entertainment only. Also gives some miscellaneous resources. Cumulative progress rewards can farm full battle reincarnation team for free.
-- **Fantasy Epic**: High-difficulty challenge, not recommended for early stages. If you can clear it, your PvE level is pretty good. Don't worry if you don't have many female皇子牙, there are usually casual strategies, but still need to cultivate many pets and require some luck. About once every three months, can obtain a full set of random King exclusives. After 40 random attempts, can choose.
+- **Fantasy Epic**: High-difficulty challenge, not recommended for early stages. If you can clear it, your PvE level is pretty good. Don't worry if you don't have many female Teeth, there are usually casual strategies, but still need to cultivate many pets and require some luck. About once every three months, can obtain a full set of random King exclusives. After 40 random attempts, can choose.
 - **Challenge Archives** almost includes all challenge pets, just fight backwards from the end.
   ![](/aola/getstarted_019.png)
 
-- **Kevin Island** gives summoning coupons. Can get rewards just by clearing, passing is enough. Most Physical Islands can use Evoked Holy Tianyi to push through, Magic Islands can use Evoked Xinuoma to push through. Later may need many克制attackers or even Secret Treasures.
-- **Valley of Despair** except Silent Soul Tower are all simple, but rewards are also few, only consider if bored. Silent Soul Tower is very difficult, requires high Constellation points, absolute克制attackers and luck.
+- **Kevin Island** gives summoning coupons. Can get rewards just by clearing, passing is enough. Most Physical Islands can use Evoked Holy Tianyi to push through, Magic Islands can use Evoked Xinuoma to push through. Later may need many Restrained attackers or even Secret Treasures.
+- **Valley of Despair** except Silent Soul Tower are all simple, but rewards are also few, only consider if bored. Silent Soul Tower is very difficult, requires high Constellation points, absolute Restrained attackers and luck.
 - **New Peak Tower** rewards are average, but very tricky. Starlight pets inside are considered PvP units and have type restrictions. Need many old skill group pets and exclusives, not recommended for early stages.
 - **Old Peak Tower** gives considerable experience and Soul Sand, low difficulty, can fight when resources are scarce.
   ::: tip
@@ -159,13 +159,13 @@ Apprentice first before fighting, otherwise can't apprentice and lose badly
 
 ## PvE Introduction
 
-- **Early Game Opening** The main gameplay of the game is **PvE**, through challenges, mini-games, and Summoning Arrays, you can get **most pets for free**. Light Initiation era challenges are quite **formulaic**, mainly divided into 6v1 and 4v2 types. The core is to **weaken enemy attributes with support pets applying debuffs while applying buffs to our side, then switch to克制attackers for output**. Generally, as long as your setup and technique are adequate, most challenges are not difficult.
+- **Early Game Opening** The main gameplay of the game is **PvE**, through challenges, mini-games, and Summoning Arrays, you can get **most pets for free**. Light Initiation era challenges are quite **formulaic**, mainly divided into 6v1 and 4v2 types. The core is to **weaken enemy attributes with support pets applying debuffs while applying buffs to our side, then switch to Restrained attackers for output**. Generally, as long as your setup and technique are adequate, most challenges are not difficult.
 - Several important points when challenging:
 - **Attribute Levels**: Mouse over pet to view. Ensure enemy attribute level is -6, our attribute level is +6. Changed attribute levels are one reason for abnormal damage. 6v1 generally uses **Ice and Snow Empress** or **Sun Xinuo** to weaken enemy attributes, preventing their attribute increase while increasing our attributes. For bosses with strong attribute weakening abilities, need to protect our attributes with small skills.
 - **Stat Values** Light Initiation bosses' stats can be reduced to a minimum of **50%** of **on-field value**. Generally 6v1 uses Jiang Ziya or Sacred Spirit Xinuo to weaken enemy stats while increasing our stats, 4v2 generally uses Empress, Mengpo and Fire Angel, Ace Team for weakening, reducing boss attributes.
 - **Critical Hits** Light Initiation bosses have 50% **critical resistance**, understood as halving pet critical rate. Therefore, the 100% crit provided by Ice and Snow Empress/Sun Xinuo is not guaranteed crit, sometimes need **Soul Cards** for further increase, or **multiple attempts**. Additionally, supports like Alai, Yeying, Monkey, Suisuiqi can also provide crit rate, often used in 4v2.
 - **Damage Boost/Power Blessing/Crit Damage Increase** Literal meaning, all increase damage. Many methods provide these boosts. Besides support self-destructs, also pet innate abilities, out-of-battle factors, etc. Note that similar boosts dilute each other, so ensure your pets have buffs from different categories.
-- **Restraint Multiplier** Since restraint multiplier sources are few, rarely diluted, thus greatly increases damage, almost always used. Currently mainly provided by Constellation Feather pets, stand-in supports and Star Ring Masters. Additionally,缔界师can also provide, some attackers have innate restraint multipliers. Skills attacking dual-type enemy units add restraint multipliers.
+- **Restraint Multiplier** Since restraint multiplier sources are few, rarely diluted, thus greatly increases damage, almost always used. Currently mainly provided by Constellation Feather pets, stand-in supports and Star Ring Masters. Additionally, Otherworld Masters can also provide, some attackers have innate restraint multipliers. Skills attacking dual-type enemy units add restraint multipliers.
 - Additionally, must pay attention to **round counts** of various buffs, Light Initiation buffs mostly last around 10 rounds, when your buffs disappear damage drops sharply and then get killed by boss.
 
 :::tip
@@ -185,7 +185,7 @@ Abys pulling method: King exclusive required, otherwise too few rounds. Place pe
 - **Xinuo Team: Sun Xinuo + Fire Xinuo/Ancient Xinuo/Little Xinuo + Sacred Spirit Xinuo + Xinuoma/Moon Xinuo**
 - **Evoker Team: Empress + Fire Angel + (Emperor Card/Star Ring Empress + Evoked Holy Tianyi)**
 - **Empress + Fire Angel + (Emperor Card/Star Ring Nuwa + Evoked Holy Tianyi)**
-- **Note** Xinuo Team applies to most low-stat challenges, while Holy Tianyi/Pangu with extremely high stats can clear most challenges, even without克制. Star Ring Master can start with Otherworld in early game.
+- **Note** Xinuo Team applies to most low-stat challenges, while Holy Tianyi/Pangu with extremely high stats can clear most challenges, even without Restrained. Star Ring Master can start with Otherworld in early game.
 
 Additionally, pay attention to **out-of-battle boosts**:
 
@@ -207,7 +207,7 @@ Go to [Damage Calculation Document](./damage.md) to view Aola damage calculation
 
 (2) Obtain universal supports. Small spend or save Star Coins to get Empress, Ziya. Exchange for Constellation pets through Master King, new player rewards, various events (system selects Constellation Feather); get Fire Angel and King Exclusive through Master King tasks. Get Empress, Alai King Exclusive through sign-in. Also check recent weeks' events for selections. **Summoner and Imprint hardware must be upgraded. Also Trainer.**
 
-(3) Borrow a Starlight Alai (just Rage Awareness needed, no equipment requirements) to clear Evoked Holy Tianyi small levels; borrow a Secret Treasure Yisaer to clear Evoked Holy Tianyi big levels (need certain Constellation points). After cultivating Evoked Holy Tianyi, fight Evoked Pangu, there's a bug never fixed, all select level 60, these two pets are very powerful, can fight even without克制.
+(3) Borrow a Starlight Alai (just Rage Awareness needed, no equipment requirements) to clear Evoked Holy Tianyi small levels; borrow a Secret Treasure Yisaer to clear Evoked Holy Tianyi big levels (need certain Constellation points). After cultivating Evoked Holy Tianyi, fight Evoked Pangu, there's a bug never fixed, all select level 60, these two pets are very powerful, can fight even without Restrained.
 
 (4) Get a reincarnation team through Time Dungeons, fight Black Mei, then follow Essential Formation one by one.
 
