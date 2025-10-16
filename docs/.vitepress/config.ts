@@ -185,13 +185,6 @@ export default defineConfig({
           ],
         },
         {
-          text: '社区支持',
-          items: [
-            { text: '社区支持', link: '/community/community' },
-            { text: '技术支持', link: '/community/technical-support' },
-          ],
-        },
-        {
           text: '奥拉星',
           items: [
             { text: '封包解析', link: '/aola/packets' },
@@ -214,6 +207,7 @@ export default defineConfig({
           items: [
             { text: '常见问题', link: '/other/faq' },
             { text: '贡献指南', link: '/other/contribution' },
+            { text: '社区支持', link: '/community/community' },
             { text: '赞助', link: '/community/sponsor' },
           ],
         },
@@ -257,13 +251,6 @@ export default defineConfig({
           ],
         },
         {
-          text: 'Community',
-          items: [
-            { text: 'Community Support', link: '/en/community/community' },
-            { text: 'Technical Support', link: '/en/community/technical-support' },
-          ],
-        },
-        {
           text: 'Aola',
           items: [
             { text: 'Packet Parsing', link: '/en/aola/packets' },
@@ -286,6 +273,7 @@ export default defineConfig({
           items: [
             { text: 'FAQ', link: '/en/other/faq' },
             { text: 'Contribution', link: '/en/other/contribution' },
+            { text: 'Community Support', link: '/en/community/community' },
             { text: 'Sponsorship', link: '/en/community/sponsor' },
           ],
         },
