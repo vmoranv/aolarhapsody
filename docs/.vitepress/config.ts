@@ -174,6 +174,7 @@ export default defineConfig({
             { text: '目录结构', link: '/project/directory-structure' },
             { text: '模块设计', link: '/project/modular-design' },
             { text: '开发规范', link: '/project/development-specs' },
+            { text: '编码规范', link: '/project/coding-standards' },
           ],
         },
         {
@@ -240,6 +241,7 @@ export default defineConfig({
             { text: 'Directory Structure', link: '/en/project/directory-structure' },
             { text: 'Modular Design', link: '/en/project/modular-design' },
             { text: 'Development Specifications', link: '/en/project/development-specs' },
+            { text: 'Coding Standards', link: '/en/project/coding-standards' },
           ],
         },
         {

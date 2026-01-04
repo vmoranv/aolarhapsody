@@ -61,7 +61,7 @@ Where:
 
 - $S$ is shown damage bonus
 - $A$ is actual damage bonus
-- $level \in [0, 5]$，$star \in [1, 10]$ (when $level = 0$, $star \in [1, 5]$)
+- $level \in [0, 5]$,$star \in [1, 10]$ (when $level = 0$, $star \in [1, 5]$)
 
 ## Restraint Multiplier
 

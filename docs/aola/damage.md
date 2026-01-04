@@ -40,13 +40,13 @@ X＝龙神/天堂之剑具体数值.
 
 ## 印记等级与增伤效果
 
-通过查看 _StampConfig.STAMP_VALUE_2_LEVEL_MAP_ 和 _StampSysData.data_ 中的数据，我们可以确定每级印记的实际增伤效果。
+通过查看 _StampConfig.STAMP_VALUE_2_LEVEL_MAP_ 和 _StampSysData.data_ 中的数据,我们可以确定每级印记的实际增伤效果。
 
 ### 实际增伤效果计算
 
 强攻印记增伤计算公式：
 
-设印记等级为 $level$，印记星级为 $star$，则：
+设印记等级为 $level$,印记星级为 $star$,则：
 
 $$S = (level \times 5 + star + 5)\%$$
 
@@ -56,7 +56,7 @@ $$A = S \times 0.4 = (level \times 5 + star + 5)\% \times 0.4$$
 
 - $S$ 为显示增伤 (Shown Damage Bonus)
 - $A$ 为实际增伤 (Actual Damage Bonus)
-- $level \in [0, 5]$，$star \in [1, 10]$（当 $level = 0$ 时，$star \in [1, 5]$）
+- $level \in [0, 5]$,$star \in [1, 10]$（当 $level = 0$ 时,$star \in [1, 5]$）
 
 ## 克制倍率
 
