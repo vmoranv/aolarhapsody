@@ -43,7 +43,7 @@ If you would like to sponsor this project, please contact us through the followi
 
 ### Payment QR Codes
 
-WeChat Pay QR Code: ![wechat](./community/wechat-pay-qrcode.png)
-Alipay QR Code: ![alipay](./community/apipay-qrcode.jpg)
+WeChat Pay QR Code: ![wechat](/community/wechat-pay-qrcode.png)
+Alipay QR Code: ![alipay](/community/alipay-qrcode.jpg)
 
 Thank you for your support!
