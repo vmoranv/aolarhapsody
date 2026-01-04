@@ -43,7 +43,7 @@ Aolarhapsody 是一个开源项目,您的赞助将帮助我们：
 
 ### 付款码
 
-微信收款码: ./wechat-pay-qrcode.png (占位符)
-支付宝收款码: ./alipay-qrcode.png (占位符)
+微信收款码: ![WeChat Pay](./community/wechat-pay-qrcode.png)
+支付宝收款码: ![Alipay](./community/alipay-qrcode.jpg)
 
 感谢您的支持!
